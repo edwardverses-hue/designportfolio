@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="play-page">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,8 +21,6 @@
 
   <main class="gallery-stage" id="stage">
     <div class="gallery-pin">
-      <p class="gallery-title">Play</p>
-
       <div class="gallery-viewport">
         <div class="gallery-ring" id="ring">
           <figure class="panel" style="--i:0">
@@ -112,40 +110,31 @@
     </div>
   </main>
 
-  <footer class="footer">
-    <p>Made with love</p>
-    <p>© 2026 Edward Chen</p>
-  </footer>
 
   <script>
     (function () {
+      var ring = document.getElementById('ring');
+      var hint = document.getElementById('hint');
       var stage = document.getElementById('stage');
-      var ring  = document.getElementById('ring');
-      var hint  = document.getElementById('hint');
-      if (!stage || !ring) return;
+      if (!ring || !stage) return;
 
       var panels = ring.querySelectorAll('.panel');
       var count  = panels.length;
-      var step   = 360 / count;            // a closed ring, so the motion never runs out
-      var turns  = 2;                      // full revolutions across the scroll range
-      var cutoff = 50;                     // only four unique works, so never show a fifth slot: it would repeat one
-      var ticking = false;
+      var step   = 360 / count;   // a closed ring, so the motion never runs out
+      var cutoff = 50;            // past this a panel is beside or behind the eye
+      var ease   = 0.09;          // how quickly the ring catches up to the gesture
+      var perPx  = 0.10;          // degrees per pixel of scroll or swipe
+
+      var still  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var target = 0, current = 0, frame = null, touched = false;
 
       ring.style.setProperty('--step', step);
 
-      function apply() {
-        ticking = false;
-        var box   = stage.getBoundingClientRect();
-        var range = stage.offsetHeight - window.innerHeight;
-        var p     = range > 0 ? (-box.top) / range : 0;
-        p = p < 0 ? 0 : (p > 1 ? 1 : p);
-
-        var rot = -p * turns * 360;
+      function draw(rot) {
         ring.style.setProperty('--rot', rot.toFixed(3) + 'deg');
-
         for (var i = 0; i < count; i++) {
           var ang = i * step + rot;
-          ang = ((ang % 360) + 540) % 360 - 180;   // normalise to -180..180
+          ang = ((ang % 360) + 540) % 360 - 180;
           var away = Math.abs(ang);
           if (away > cutoff) {
             panels[i].style.visibility = 'hidden';
@@ -154,16 +143,59 @@
             panels[i].style.setProperty('--dim', (1 - (away / cutoff) * 0.3).toFixed(3));
           }
         }
-        if (hint) hint.style.opacity = p > 0.03 ? '0' : '';
       }
 
-      function onScroll() {
-        if (!ticking) { ticking = true; window.requestAnimationFrame(apply); }
+      function tick() {
+        current += (target - current) * ease;
+        if (Math.abs(target - current) < 0.02) current = target;
+        draw(current);
+        frame = (current === target) ? null : window.requestAnimationFrame(tick);
       }
 
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      apply();
+      function turn(degrees) {
+        target += degrees;
+        if (!touched && hint) { touched = true; hint.style.opacity = '0'; }
+        if (still) { current = target; draw(current); return; }
+        if (!frame) frame = window.requestAnimationFrame(tick);
+      }
+
+      // The page itself never scrolls, so every wheel gesture, up, down, left
+      // or right, is spent turning the room instead.
+      stage.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        turn(-d * perPx);
+      }, { passive: false });
+
+      var lastX = null, lastY = null;
+      stage.addEventListener('touchstart', function (e) {
+        if (e.touches.length !== 1) return;
+        lastX = e.touches[0].clientX;
+        lastY = e.touches[0].clientY;
+      }, { passive: true });
+
+      stage.addEventListener('touchmove', function (e) {
+        if (lastX === null || e.touches.length !== 1) return;
+        e.preventDefault();
+        var x = e.touches[0].clientX, y = e.touches[0].clientY;
+        var dx = x - lastX, dy = y - lastY;
+        var d = Math.abs(dx) > Math.abs(dy) ? dx : -dy;
+        turn(d * perPx * 1.6);
+        lastX = x; lastY = y;
+      }, { passive: false });
+
+      stage.addEventListener('touchend', function () { lastX = null; lastY = null; }, { passive: true });
+
+      // With the page locked there is nothing for the keyboard to scroll, so
+      // the arrow keys and page keys drive the ring directly.
+      window.addEventListener('keydown', function (e) {
+        var k = e.key;
+        if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown') { e.preventDefault(); turn(-step / 2); }
+        else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); turn(step / 2); }
+      });
+
+      window.addEventListener('resize', function () { draw(current); });
+      draw(current);
     })();
   </script>
 </body>

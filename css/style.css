@@ -613,29 +613,28 @@ h1, h2, h3, h4, h5, h6 {
    The camera sits at the centre of a closed ring of works, so pieces at the
    edge of vision are close to the viewer and get stretched by the wide field
    of view, while the wall straight ahead reads small and flat. */
+/* The Play page is locked to the viewport: the gallery is the whole page and
+   nothing scrolls, so the room stays put however far the wheel is spun. */
+.play-page,
+.play-page body {
+  height: 100%;
+  overflow: hidden;
+}
+
 .gallery-stage {
   position: relative;
-  height: 400vh;
+  height: 100vh;
+  overflow: hidden;
+  touch-action: none;
 }
 
 .gallery-pin {
-  position: sticky;
-  top: 0;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
-
-.gallery-title {
-  position: absolute;
-  top: 96px;
-  font-size: 16px;
-  font-weight: 300;
-  letter-spacing: -0.01em;
-  z-index: 2;
 }
 
 .gallery-viewport {
@@ -721,7 +720,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 600px) {
-  .gallery-stage { height: 340vh; }
   .gallery-viewport { perspective: 380px; }
   .gallery-ring { --radius: 360px; --cam: 380px; }
   .panel { width: 140px; }
