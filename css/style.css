@@ -42,21 +42,44 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ---------- NAV ---------- */
+/* A three column grid rather than space-between, so Work and Play sit on the
+   true centre of the page instead of being pushed off it by the difference in
+   width between the wordmark and About. */
 .nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 28px 56px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: transparent;
   z-index: 100;
   font-size: 15px;
   font-weight: 300;
+}
+
+.nav-logo   { justify-self: start; }
+.nav-center { justify-self: center; }
+.nav-right  { justify-self: end; }
+
+/* Every link is a pill. It carries no glass until nav-lit is set, which the
+   header script does once there is something behind the bar worth frosting. */
+.nav a {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: background 0.35s ease, border-color 0.35s ease,
+              -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease;
+}
+
+.nav-lit a {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  backdrop-filter: blur(14px) saturate(170%);
 }
 
 .nav-logo {
@@ -707,10 +730,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Active nav pill for Play */
-.nav-pill-active {
-  border: 1px solid #1A1A1A;
-  border-radius: 999px;
-  padding: 6px 18px;
+/* The current page keeps its outline whether or not the glass is showing. */
+.nav .nav-pill-active {
+  border-color: #1A1A1A;
 }
 
 @media (max-width: 900px) {
