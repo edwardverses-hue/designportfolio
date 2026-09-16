@@ -138,6 +138,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .project {
   margin-bottom: 120px;
+  /* clears the fixed nav when the Work link jumps here */
+  scroll-margin-top: 110px;
 }
 
 .project-label {
@@ -200,9 +202,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .about-text p {
-  font-size: 18px;
-  margin-bottom: 20px;
-  line-height: 1.55;
+  font-size: 15px;
+  margin-bottom: 18px;
+  line-height: 1.6;
 }
 
 .about-buttons {
@@ -444,7 +446,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .full-image img {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 82vh;
+  margin-inline: auto;
   border-radius: 24px;
   background: #FBFEFF;
 }
@@ -467,7 +472,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .phone-grid img {
-  width: 100%;
+  /* Sized by height so a whole phone fits on screen at once rather than
+     overflowing the viewport: these renders are 1312x2656, ratio 0.494. */
+  height: auto;
+  max-height: 76vh;
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
   border-radius: 24px;
   background: transparent;
 }
@@ -595,4 +606,122 @@ h1, h2, h3, h4, h5, h6 {
   .case-section {
     padding: 60px 24px;
   }
+}
+
+/* ---------- PLAY PAGE: gallery room ----------
+   The camera sits at the centre of a closed ring of works, so pieces at the
+   edge of vision are close to the viewer and get stretched by the wide field
+   of view, while the wall straight ahead reads small and flat. */
+.gallery-stage {
+  position: relative;
+  height: 400vh;
+}
+
+.gallery-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.gallery-title {
+  position: absolute;
+  top: 96px;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  z-index: 2;
+}
+
+.gallery-viewport {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 760px;
+  perspective-origin: 50% 50%;
+}
+
+.gallery-ring {
+  --step: 22.5;
+  --radius: 560px;
+  --cam: 760px;                  /* must match the perspective so the eye sits at the ring centre */
+  --rot: 0deg;
+  position: relative;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(var(--cam)) rotateY(var(--rot));
+}
+
+.panel {
+  --dim: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(160px, 16vw, 225px);
+  margin: 0;
+  opacity: var(--dim);
+  backface-visibility: hidden;
+  transform:
+    translate(-50%, -50%)
+    rotateY(calc(var(--i) * var(--step) * 1deg))
+    translateZ(calc(-1 * var(--radius)));
+}
+
+.panel-art {
+  width: 100%;
+}
+
+.panel-art img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.panel figcaption {
+  padding-top: 10px;
+}
+
+.panel-meta {
+  font-size: 10px;
+  font-weight: 300;
+  color: #6C848E;
+}
+
+.gallery-hint {
+  position: absolute;
+  bottom: 48px;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6C848E;
+  transition: opacity 0.4s ease;
+  z-index: 2;
+}
+
+/* Active nav pill for Play */
+.nav-pill-active {
+  border: 1px solid #1A1A1A;
+  border-radius: 999px;
+  padding: 6px 18px;
+}
+
+@media (max-width: 900px) {
+  .gallery-viewport { perspective: 480px; }
+  .gallery-ring { --radius: 460px; --cam: 480px; }
+  .panel { width: clamp(140px, 30vw, 190px); }
+}
+
+@media (max-width: 600px) {
+  .gallery-stage { height: 340vh; }
+  .gallery-viewport { perspective: 380px; }
+  .gallery-ring { --radius: 360px; --cam: 380px; }
+  .panel { width: 140px; }
 }

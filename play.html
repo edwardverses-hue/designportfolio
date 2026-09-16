@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play — Edward Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Edward Chen</a>
+    <div class="nav-center">
+      <a href="index.html#work">Work</a>
+      <a href="play.html" class="nav-pill-active">Play</a>
+    </div>
+    <a href="about.html" class="nav-right">About</a>
+  </nav>
+
+  <main class="gallery-stage" id="stage">
+    <div class="gallery-pin">
+      <p class="gallery-title">Play</p>
+
+      <div class="gallery-viewport">
+        <div class="gallery-ring" id="ring">
+          <figure class="panel" style="--i:0">
+            <div class="panel-art"><img src="images/play/War.png" alt="War, poster" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:1">
+            <div class="panel-art"><img src="images/play/VAN.png" alt="VAN, Vancouver transit branding" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:2">
+            <div class="panel-art"><img src="images/play/Fade_Vicki_Feedback.png" alt="Pittsburgh Taco Festival poster" /></div>
+            <figcaption><span class="panel-meta">2026</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:3">
+            <div class="panel-art"><img src="images/play/Peace.png" alt="Peace, poster" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:4">
+            <div class="panel-art"><img src="images/play/War.png" alt="War, poster" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:5">
+            <div class="panel-art"><img src="images/play/VAN.png" alt="VAN, Vancouver transit branding" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:6">
+            <div class="panel-art"><img src="images/play/Fade_Vicki_Feedback.png" alt="Pittsburgh Taco Festival poster" /></div>
+            <figcaption><span class="panel-meta">2026</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:7">
+            <div class="panel-art"><img src="images/play/Peace.png" alt="Peace, poster" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:8">
+            <div class="panel-art"><img src="images/play/War.png" alt="War, poster" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:9">
+            <div class="panel-art"><img src="images/play/VAN.png" alt="VAN, Vancouver transit branding" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:10">
+            <div class="panel-art"><img src="images/play/Fade_Vicki_Feedback.png" alt="Pittsburgh Taco Festival poster" /></div>
+            <figcaption><span class="panel-meta">2026</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:11">
+            <div class="panel-art"><img src="images/play/Peace.png" alt="Peace, poster" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:12">
+            <div class="panel-art"><img src="images/play/War.png" alt="War, poster" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:13">
+            <div class="panel-art"><img src="images/play/VAN.png" alt="VAN, Vancouver transit branding" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:14">
+            <div class="panel-art"><img src="images/play/Fade_Vicki_Feedback.png" alt="Pittsburgh Taco Festival poster" /></div>
+            <figcaption><span class="panel-meta">2026</span></figcaption>
+          </figure>
+
+          <figure class="panel" style="--i:15">
+            <div class="panel-art"><img src="images/play/Peace.png" alt="Peace, poster" /></div>
+            <figcaption><span class="panel-meta">2024</span></figcaption>
+          </figure>
+
+        </div>
+      </div>
+
+      <p class="gallery-hint" id="hint">Scroll to rotate</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Made with love</p>
+    <p>© 2026 Edward Chen</p>
+  </footer>
+
+  <script>
+    (function () {
+      var stage = document.getElementById('stage');
+      var ring  = document.getElementById('ring');
+      var hint  = document.getElementById('hint');
+      if (!stage || !ring) return;
+
+      var panels = ring.querySelectorAll('.panel');
+      var count  = panels.length;
+      var step   = 360 / count;            // a closed ring, so the motion never runs out
+      var turns  = 2;                      // full revolutions across the scroll range
+      var cutoff = 50;                     // only four unique works, so never show a fifth slot: it would repeat one
+      var ticking = false;
+
+      ring.style.setProperty('--step', step);
+
+      function apply() {
+        ticking = false;
+        var box   = stage.getBoundingClientRect();
+        var range = stage.offsetHeight - window.innerHeight;
+        var p     = range > 0 ? (-box.top) / range : 0;
+        p = p < 0 ? 0 : (p > 1 ? 1 : p);
+
+        var rot = -p * turns * 360;
+        ring.style.setProperty('--rot', rot.toFixed(3) + 'deg');
+
+        for (var i = 0; i < count; i++) {
+          var ang = i * step + rot;
+          ang = ((ang % 360) + 540) % 360 - 180;   // normalise to -180..180
+          var away = Math.abs(ang);
+          if (away > cutoff) {
+            panels[i].style.visibility = 'hidden';
+          } else {
+            panels[i].style.visibility = 'visible';
+            panels[i].style.setProperty('--dim', (1 - (away / cutoff) * 0.3).toFixed(3));
+          }
+        }
+        if (hint) hint.style.opacity = p > 0.03 ? '0' : '';
+      }
+
+      function onScroll() {
+        if (!ticking) { ticking = true; window.requestAnimationFrame(apply); }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      apply();
+    })();
+  </script>
+</body>
+</html>
