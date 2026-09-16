@@ -91,11 +91,11 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(14px) saturate(170%);
 }
 
-/* Work and Play share one pill with a thumb that slides between them. */
+/* Work and Play sit in one glass pill; the current one carries its own mark. */
 .nav-center {
   position: relative;
   padding: 4px;
-  gap: 0;
+  gap: 4px;
 }
 
 .nav-center a {
@@ -103,42 +103,73 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1;
   padding: 6px 16px;
   border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
   white-space: nowrap;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-/* The current section is marked with a thin black outline that slides
-   between Work and Play. Stroke only, no fill, so it reads the same on white
-   as it does over a picture. */
-.nav-thumb {
+/* Which section is current is written into the markup, so the pill is drawn
+   from the very first frame with no measuring involved. */
+.nav-center a.is-current {
+  border-color: #1A1A1A;
+}
+
+/* Only once a picture is actually behind the pill does the stroke give way to a
+   white fill. Scrolling over body copy keeps the stroke, since a white fill on
+   a white page is invisible. */
+.nav-art .nav-center a.is-current {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: transparent;
+}
+
+/* Once the script is up it hands the pill over to a single element that can
+   actually travel between the two links. Swapping a class from one link to the
+   other can only switch one border off and another on, which is a jump; a lone
+   element has a position to animate. The static pill above is what shows until
+   this takes over, so nothing flashes on load. */
+.nav-js .nav-center a.is-current,
+.nav-js.nav-art .nav-center a.is-current {
+  border-color: transparent;
+  background: transparent;
+}
+
+.nav-marker {
   position: absolute;
   top: 3px;
   left: 0;
   height: calc(100% - 6px);
   width: 0;
   border-radius: 999px;
-  background: transparent;
   border: 1px solid #1A1A1A;
-  transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
-              width 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
-              background 0.35s ease, opacity 0.2s ease;
+  background: transparent;
+  opacity: 0;
   pointer-events: none;
+  transition: transform 0.34s cubic-bezier(0.22, 0.61, 0.36, 1),
+              width 0.34s cubic-bezier(0.22, 0.61, 0.36, 1),
+              background 0.3s ease, border-color 0.3s ease, opacity 0.2s ease;
 }
 
-/* Over artwork the outline is no use, so it fades out and a solid white fill
-   becomes the marker instead. */
-.nav-lit .nav-thumb {
+.nav-marker.is-set {
+  opacity: 1;
+}
+
+/* Placing it for the first time, or after a resize, must not animate. */
+.nav-marker.no-anim {
+  transition: none;
+}
+
+.nav-art .nav-marker {
   background: rgba(255, 255, 255, 0.92);
   border-color: transparent;
 }
 
-/* Before the script has measured anything, keep the thumb out of sight. */
-.nav-thumb:not(.is-set) { opacity: 0; }
-
-/* No slide on first paint, only when the reader actually picks something. */
-.nav-thumb.no-anim { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .nav-marker { transition: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-thumb { transition: none; }
+  .nav-center a { transition: none; }
 }
 
 .nav-logo {
@@ -823,19 +854,10 @@ h1, h2, h3, h4, h5, h6 {
    the outgoing page until the incoming one is ready to paint, so there is no
    gap at all, and it is quick.
 
-   Naming the header and its marker pulls them out of the crossfade and gives
-   them their own animation, so the outline slides from Work to Play across the
-   navigation rather than dissolving and reappearing somewhere else. */
+   The marker's own travel is animated in script rather than here, so that it
+   is the same movement whether or not the browser supports this. */
 @view-transition {
   navigation: auto;
-}
-
-.nav {
-  view-transition-name: site-nav;
-}
-
-.nav-thumb {
-  view-transition-name: nav-marker;
 }
 
 ::view-transition-group(root) {
@@ -846,23 +868,6 @@ h1, h2, h3, h4, h5, h6 {
 ::view-transition-new(root) {
   animation-duration: 160ms;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* The header is identical either side, so it should hold still rather than
-   crossfade into a copy of itself. */
-::view-transition-old(site-nav),
-::view-transition-new(site-nav) {
-  animation: none;
-}
-
-::view-transition-group(nav-marker) {
-  animation-duration: 300ms;
-  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-::view-transition-old(nav-marker),
-::view-transition-new(nav-marker) {
-  animation-duration: 300ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -34,71 +34,111 @@
     return false;
   }
 
+  var onArt = null;
+
   function check() {
     var height = nav.getBoundingClientRect().height;
     var next = window.scrollY > 4 || overlapsBar(height);
-    if (next === lit) return;
-    lit = next;
-    nav.classList.toggle('nav-lit', next);
-  }
-
-  /* ---------- sliding thumb ---------- */
-
-  var centre = nav.querySelector('.nav-center');
-  var links  = centre ? centre.querySelectorAll('a') : [];
-  var thumb  = null;
-  var here   = null;
-
-  function currentLink() {
-    var path = location.pathname.replace(/\/+$/, '');
-    var file = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
-    for (var i = 0; i < links.length; i++) {
-      var href = links[i].getAttribute('href') || '';
-      var leaf = href.split('#')[0].split('/').pop();
-      if (file === 'play.html' && leaf === 'play.html') return links[i];
-      // Anything under work/ is still the Work section of the site.
-      if (file !== 'play.html' && file !== 'about.html' &&
-          (leaf === 'index.html' || leaf === '')) return links[i];
+    if (next !== lit) {
+      lit = next;
+      nav.classList.toggle('nav-lit', next);
     }
-    return null;
+    var art = artBehindMarker();
+    if (art !== onArt) {
+      onArt = art;
+      nav.classList.toggle('nav-art', art);
+    }
   }
+
+  /* ---------- the sliding marker ---------- */
+
+  // The pill is handed over to one element that can travel between the links,
+  // because a class moving from one link to the other can only jump. The
+  // marker animates to the clicked link first and the page follows once it has
+  // arrived, so the movement is seen rather than cut off by the navigation.
+  var centre  = nav.querySelector('.nav-center');
+  var current = centre ? centre.querySelector('a.is-current') : null;
+  var marker  = null;
 
   function place(link, animate) {
-    if (!thumb) return;
-    if (!link) { thumb.classList.remove('is-set'); return; }
-    var cs = getComputedStyle(centre);
-    var c  = centre.getBoundingClientRect();
-    var r  = link.getBoundingClientRect();
-    var inset = parseFloat(cs.borderLeftWidth) || 0;
-    if (!animate) thumb.classList.add('no-anim');
-    thumb.style.width = r.width + 'px';
-    thumb.style.transform = 'translateX(' + (r.left - c.left - inset) + 'px)';
-    thumb.classList.add('is-set');
+    if (!marker || !link) return;
+    var box = centre.getBoundingClientRect();
+    var r = link.getBoundingClientRect();
+    var inset = parseFloat(getComputedStyle(centre).borderLeftWidth) || 0;
+    if (!animate) marker.classList.add('no-anim');
+    marker.style.width = r.width.toFixed(2) + 'px';
+    marker.style.transform = 'translateX(' + (r.left - box.left - inset).toFixed(2) + 'px)';
+    marker.classList.add('is-set');
     if (!animate) {
-      void thumb.offsetWidth;          // flush, so the next move does animate
-      thumb.classList.remove('no-anim');
+      void marker.offsetWidth;            // flush, so the next move does animate
+      marker.classList.remove('no-anim');
     }
   }
 
-  if (centre && links.length) {
-    thumb = document.createElement('span');
-    thumb.className = 'nav-thumb';
-    centre.insertBefore(thumb, centre.firstChild);
+  if (centre && current) {
+    marker = document.createElement('span');
+    marker.className = 'nav-marker';
+    centre.insertBefore(marker, centre.firstChild);
+    nav.classList.add('nav-js');
+    place(current, false);
 
-    here = currentLink();
-    place(here, false);
+    centre.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a') : null;
+      if (!a || !centre.contains(a) || a === current) return;
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var href = a.getAttribute('href') || '';
+      if (!href || href.charAt(0) === '#') return;
 
-    // Nothing to do on click. The outline is not nudged here on purpose: the
-    // browser snapshots this page as it leaves, so moving it now would put it
-    // at the destination before the picture is taken and there would be nothing
-    // left to slide. The view transition carries it across instead.
+      e.preventDefault();
+      if (still) { window.location.href = href; return; }
+
+      place(a, true);
+
+      var gone = false;
+      function follow() {
+        if (gone) return;
+        gone = true;
+        window.location.href = href;
+      }
+      // Leave once the marker has arrived, with a timer in reserve in case the
+      // transition never reports finishing.
+      marker.addEventListener('transitionend', function (ev) {
+        if (ev.propertyName === 'transform') follow();
+      }, { once: true });
+      window.setTimeout(follow, 460);
+    });
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { place(current, false); });
+    }
+  }
+
+  /* ---------- is a picture behind the marker? ---------- */
+
+  // The pill swaps its black stroke for a white fill only when a picture is
+  // genuinely behind it, not merely because the page has been scrolled.
+  function artBehindMarker() {
+    if (!current) return false;
+    var m = current.getBoundingClientRect();
+    var art = document.querySelectorAll(ART);
+    for (var i = 0; i < art.length; i++) {
+      var el = art[i];
+      if (nav.contains(el)) continue;
+      var r = el.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
+      if (r.right <= m.left || r.left >= m.right) continue;
+      if (r.bottom <= m.top || r.top >= m.bottom) continue;
+      if (getComputedStyle(el).visibility === 'hidden') continue;
+      return true;
+    }
+    return false;
   }
 
   /* ---------- wiring ---------- */
 
   function onResize() {
     check();
-    place(here, false);
+    place(current, false);
   }
 
   window.addEventListener('scroll', check, { passive: true });
@@ -111,7 +151,4 @@
   }
 
   check();
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(function () { place(here, false); });
-  }
 })();
