@@ -106,26 +106,33 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
 }
 
+/* The current section is marked with a thin black outline that slides
+   between Work and Play. Stroke only, no fill, so it reads the same on white
+   as it does over a picture. */
 .nav-thumb {
   position: absolute;
-  top: 4px;
+  top: 3px;
   left: 0;
-  height: calc(100% - 8px);
+  height: calc(100% - 6px);
   width: 0;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.06);
+  background: transparent;
+  border: 1px solid #1A1A1A;
   transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
               width 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
               background 0.35s ease, opacity 0.2s ease;
   pointer-events: none;
 }
 
+/* Over artwork the outline is no use, so it fades out and a solid white fill
+   becomes the marker instead. */
+.nav-lit .nav-thumb {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: transparent;
+}
+
 /* Before the script has measured anything, keep the thumb out of sight. */
 .nav-thumb:not(.is-set) { opacity: 0; }
-
-.nav-lit .nav-thumb {
-  background: rgba(255, 255, 255, 0.75);
-}
 
 /* No slide on first paint, only when the reader actually picks something. */
 .nav-thumb.no-anim { transition: none; }
@@ -806,4 +813,62 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   -webkit-mask-image: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
   mask-image: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
+}
+
+/* Page transitions.
+
+   The browser runs these itself, which is the whole point: a hand-rolled fade
+   has to empty the old page before the new one has loaded, and that gap is the
+   dead moment where nothing is on screen. A view transition holds a picture of
+   the outgoing page until the incoming one is ready to paint, so there is no
+   gap at all, and it is quick.
+
+   Naming the header and its marker pulls them out of the crossfade and gives
+   them their own animation, so the outline slides from Work to Play across the
+   navigation rather than dissolving and reappearing somewhere else. */
+@view-transition {
+  navigation: auto;
+}
+
+.nav {
+  view-transition-name: site-nav;
+}
+
+.nav-thumb {
+  view-transition-name: nav-marker;
+}
+
+::view-transition-group(root) {
+  animation-duration: 160ms;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 160ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The header is identical either side, so it should hold still rather than
+   crossfade into a copy of itself. */
+::view-transition-old(site-nav),
+::view-transition-new(site-nav) {
+  animation: none;
+}
+
+::view-transition-group(nav-marker) {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+::view-transition-old(nav-marker),
+::view-transition-new(nav-marker) {
+  animation-duration: 300ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }

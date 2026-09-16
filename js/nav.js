@@ -88,21 +88,10 @@
     here = currentLink();
     place(here, false);
 
-    centre.addEventListener('click', function (e) {
-      var a = e.target && e.target.closest ? e.target.closest('a') : null;
-      if (!a || !centre.contains(a)) return;
-      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-
-      var href = a.getAttribute('href') || '';
-      // A fragment scrolls this same page; leave it alone.
-      if (href.charAt(0) === '#') return;
-      if (a === here) return;
-
-      e.preventDefault();
-      place(a, true);
-      if (still) { window.location.href = href; return; }
-      window.setTimeout(function () { window.location.href = href; }, 300);
-    });
+    // Nothing to do on click. The outline is not nudged here on purpose: the
+    // browser snapshots this page as it leaves, so moving it now would put it
+    // at the destination before the picture is taken and there would be nothing
+    // left to slide. The view transition carries it across instead.
   }
 
   /* ---------- wiring ---------- */
