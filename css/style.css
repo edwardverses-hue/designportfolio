@@ -50,17 +50,17 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 56px;
+  padding: 28px 56px;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: 100;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 15px;
+  font-weight: 300;
 }
 
 .nav-logo {
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .nav-center {
@@ -75,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-right {
-  font-weight: 400;
+  font-weight: 300;
 }
 
 /* ---------- HOME PAGE ---------- */
@@ -90,25 +90,31 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-headline {
-  font-size: 22px;
-  font-weight: 400;
-  max-width: 720px;
-  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 300;
+  max-width: 440px;
+  line-height: 1.5;
+  text-wrap: balance;
+  margin-bottom: 18px;
   letter-spacing: -0.01em;
 }
 
 .hero-sub {
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 300;
   color: #6C848E;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
 }
 
 .pill-button {
   display: inline-block;
-  padding: 14px 28px;
+  padding: 14px 20px;
   background: #F5F5F5;
   border-radius: 999px;
   font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
   transition: background 0.2s ease;
 }
 
@@ -118,15 +124,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .divider {
-  max-width: 1400px;
+  max-width: 1312px;
   margin: 0 auto;
   border-top: 1px solid #E5E5E5;
 }
 
 /* ---------- WORK SECTION (Home) ---------- */
 .work-section {
-  padding: 120px 56px;
-  max-width: 1400px;
+  padding: 120px 64px;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
@@ -136,18 +142,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .project-label {
   text-align: center;
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 16px;
+  font-weight: 300;
   margin-bottom: 40px;
 }
 
 .project-card {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   background: #D9D9D9;
-  border-radius: 32px;
+  border-radius: 48px;
   overflow: hidden;
+  position: relative;
   transition: transform 0.3s ease;
 }
 
@@ -157,9 +164,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .project-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 89%;
+  height: auto;
+  max-width: none;
+  /* Render_2_phones.png is transparent; its opaque phone content is centred
+     at 38.4% x / 47.9% y, not 50/50. Translating by those figures puts the
+     phones dead centre and pushes the empty right-hand shadow out of frame. */
+  transform: translate(-38.4%, -47.9%);
 }
 
 /* ---------- ABOUT PAGE ---------- */
@@ -223,12 +237,17 @@ h1, h2, h3, h4, h5, h6 {
   background: #FBFEFF;
   border-radius: 32px;
   overflow: hidden;
+  position: relative;
 }
 
 .case-hero-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 86%;
+  height: auto;
+  max-width: none;
+  transform: translate(-38.4%, -47.9%);
 }
 
 .case-intro {
@@ -495,6 +514,29 @@ h1, h2, h3, h4, h5, h6 {
   .nav {
     padding: 20px 24px;
     font-size: 14px;
+  }
+
+  .hero-headline {
+    font-size: 15px;
+    max-width: 340px;
+  }
+
+  .hero-sub {
+    font-size: 12px;
+  }
+
+  .pill-button {
+    font-size: 15px;
+    padding: 13px 18px;
+  }
+
+  .project-label {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .project-card {
+    border-radius: 28px;
   }
 
   .case-title {
