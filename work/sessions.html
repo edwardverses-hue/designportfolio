@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sessions — Edward Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Edward Chen</a>
+    <div class="nav-center">
+      <a href="../index.html">Work</a>
+      <span class="nav-divider">|</span>
+      <a href="../index.html#play">Play</a>
+    </div>
+    <a href="../about.html" class="nav-right">About</a>
+  </nav>
+
+  <!-- HERO IMAGE -->
+  <section class="case-hero">
+    <div class="case-hero-image">
+      <img src="../images/sessions/Render_1_tilte.png" alt="Sessions hero" />
+    </div>
+  </section>
+
+  <!-- TITLE + INTRO -->
+  <section class="case-intro">
+    <h1 class="case-title">Sessions</h1>
+    <p class="case-description">
+      A social study accountability app that helps students stay locked in together. Sessions lets friends see each other studying in real time on a campus map, join public or private study sessions, and build streaks that keep momentum going.
+    </p>
+
+    <div class="case-meta">
+      <div class="meta-block">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">6 weeks</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">Independent</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Product Designer</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Focus</div>
+        <div class="meta-value">Mobile Design<br/>Interaction Design<br/>Visual Identity</div>
+      </div>
+    </div>
+
+    <!-- Section jump links -->
+    <div class="case-toc">
+      <a href="#problem">The Problem</a>
+      <a href="#reframe">The Reframe</a>
+      <a href="#research">Research</a>
+      <a href="#principles">Principles</a>
+      <a href="#process">Process</a>
+      <a href="#system">System</a>
+      <a href="#walkthrough">Walkthrough</a>
+      <a href="#reflections">Reflections</a>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section id="problem" class="case-section">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Studying alone is quiet. Staying accountable is loud.</h2>
+    <p class="section-body">
+      College students often struggle to stay consistent. Existing study apps rely on solo timers, gamified streaks, or leaderboards that quickly lose meaning. What's missing is a way to feel the presence of others — the ambient motivation of knowing your friends are locked in too.
+    </p>
+
+    <div class="pain-points">
+      <div class="pain-point">
+        <h3>Isolation</h3>
+        <p>Solo focus apps feel lonely and easy to abandon.</p>
+      </div>
+      <div class="pain-point">
+        <h3>Empty gamification</h3>
+        <p>Streaks and points without social meaning stop mattering.</p>
+      </div>
+      <div class="pain-point">
+        <h3>No shared context</h3>
+        <p>Study groups happen ad hoc — there's no place to see who's studying now.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE REFRAME -->
+  <section id="reframe" class="case-section">
+    <div class="section-label">The Reframe</div>
+    <h2 class="section-title">From solo timer to social presence</h2>
+    <p class="section-body">
+      I reframed the question from <em>"How do we help students focus longer?"</em> to <em>"How do we make studying feel like a shared act?"</em> — turning the timer into a visible, joinable moment on a map.
+    </p>
+
+    <div class="before-after">
+      <div class="ba-column">
+        <div class="ba-tag">Before</div>
+        <div class="ba-headline">"Focus for 25 minutes."</div>
+        <div class="ba-sub">Solo timer, no context</div>
+      </div>
+      <div class="ba-column">
+        <div class="ba-tag">After</div>
+        <div class="ba-headline">"7 friends studying now."</div>
+        <div class="ba-sub">Ambient presence, real accountability</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research" class="case-section">
+    <div class="section-label">Research</div>
+    <h2 class="section-title">Why solo study apps don't stick</h2>
+    <p class="section-body">
+      I looked at how peers actually study on campus and what makes them show up. Three patterns emerged that shaped the product.
+    </p>
+
+    <div class="insights">
+      <div class="insight">
+        <div class="insight-number">01</div>
+        <h3>Location is motivation</h3>
+        <p>Students already choose libraries and cafés because being near others in the same mindset helps them focus.</p>
+      </div>
+      <div class="insight">
+        <div class="insight-number">02</div>
+        <h3>Streaks need witnesses</h3>
+        <p>A streak means nothing if no one knows. Public streaks with friends create real stakes.</p>
+      </div>
+      <div class="insight">
+        <div class="insight-number">03</div>
+        <h3>Joining beats scheduling</h3>
+        <p>Coordinating a study session is friction. Seeing one already happening removes it entirely.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT PRINCIPLES -->
+  <section id="principles" class="case-section">
+    <div class="section-label">Product Principles</div>
+    <h2 class="section-title">Designing for calm, social focus</h2>
+
+    <div class="principles">
+      <div class="principle">
+        <h3>Presence over pressure</h3>
+        <p>Show who's studying, but never guilt anyone into starting. Motivation should come from wanting to join in.</p>
+      </div>
+      <div class="principle">
+        <h3>Craft over gamification</h3>
+        <p>Streaks, milestones, and challenges are meaningful moments — not noisy notifications. Every celebration is earned.</p>
+      </div>
+      <div class="principle">
+        <h3>Privacy by default</h3>
+        <p>Every session is either public or private. Users control who sees them, where, and when.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" class="case-section">
+    <div class="section-label">Process</div>
+    <h2 class="section-title">Mapping the end-to-end journey</h2>
+    <p class="section-body">
+      I mapped every path a user could take — from onboarding, to starting a solo timer, to joining a group session on the map. This flow anchored every screen decision that followed.
+    </p>
+    <div class="full-image">
+      <img src="../images/sessions/Flow.png" alt="User flow" />
+    </div>
+  </section>
+
+  <!-- SYSTEM DESIGN -->
+  <section id="system" class="case-section">
+    <div class="section-label">System Design</div>
+    <h2 class="section-title">A quiet, iOS-native visual language</h2>
+    <p class="section-body">
+      Sessions uses Helvetica Neue with a restrained palette of soft blues, warm off-whites, and near-black text. The interface leans on glassmorphism, gentle gradients, and pill-shaped controls to feel native to iOS while keeping its own identity.
+    </p>
+    <div class="full-image">
+      <img src="../images/sessions/Identity.png" alt="Visual identity" />
+    </div>
+  </section>
+
+  <!-- FINAL WALKTHROUGH -->
+  <section id="walkthrough" class="case-section">
+    <div class="section-label">Final Walkthrough</div>
+    <h2 class="section-title">Set a timer, get to work</h2>
+    <p class="section-body">
+      Every session starts the same way: pick public or private, dial in a duration, and go. The screen quiets down as the timer starts — the focus is the work, not the app.
+    </p>
+    <div class="phone-grid two-col">
+      <img src="../images/sessions/Timer.png" alt="Timer setup" />
+      <img src="../images/sessions/Timer_Running.png" alt="Timer running" />
+    </div>
+
+    <h2 class="section-title">See who else is studying</h2>
+    <p class="section-body">
+      The map is the heart of Sessions. Friends appear as pins with the time left in their session. Group sessions surface as joinable moments — just tap and go.
+    </p>
+    <div class="phone-grid two-col">
+      <img src="../images/sessions/Location.png" alt="Map view" />
+      <img src="../images/sessions/Friends.png" alt="Friends list" />
+    </div>
+
+    <h2 class="section-title">Build a circle</h2>
+    <p class="section-body">
+      Sessions is only as good as who you study with. Adding friends is intentional — search, invite, or accept suggestions based on mutual friends.
+    </p>
+    <div class="phone-grid two-col">
+      <img src="../images/sessions/Add_Friends.png" alt="Add friends" />
+      <img src="../images/sessions/Profie.png" alt="Profile" />
+    </div>
+
+    <h2 class="section-title">Celebrate the work, mourn the streak</h2>
+    <p class="section-body">
+      Completing a session, hitting a milestone, or losing a streak are all moments of feedback. The tone stays honest — never mocking, never over-eager. "You went cold" hits harder than a red X ever could.
+    </p>
+    <div class="phone-grid three-col">
+      <img src="../images/sessions/Streak.png" alt="Session complete" />
+      <img src="../images/sessions/Milestone.png" alt="Milestone reached" />
+      <img src="../images/sessions/Streak_Frozen.png" alt="Streak lost" />
+    </div>
+
+    <h2 class="section-title">Weekly challenges & session history</h2>
+    <p class="section-body">
+      Group challenges give friends a shared goal for the week. Session history gives you a quiet, honest look at what you actually put in.
+    </p>
+    <div class="phone-grid two-col">
+      <img src="../images/sessions/Weekly_Challenge_1.png" alt="Weekly challenge" />
+      <img src="../images/sessions/Session_History.png" alt="Session history" />
+    </div>
+
+    <h2 class="section-title">Onboarding & study preferences</h2>
+    <p class="section-body">
+      Onboarding sets up who you are and how you study — subjects, times, style, and setting. These preferences quietly shape session suggestions later.
+    </p>
+    <div class="phone-grid two-col">
+      <img src="../images/sessions/Study_Preferences.png" alt="Study preferences" />
+      <img src="../images/sessions/Title_box.png" alt="Session name" />
+    </div>
+
+    <div class="full-image">
+      <img src="../images/sessions/Render_2_phones.png" alt="Sessions renders" />
+    </div>
+    <div class="full-image">
+      <img src="../images/sessions/Render_hand.png" alt="Sessions in hand" />
+    </div>
+  </section>
+
+  <!-- REFLECTIONS -->
+  <section id="reflections" class="case-section">
+    <div class="section-label">Reflections</div>
+    <p class="section-body">
+      Sessions taught me that <strong>ambient presence is a design material.</strong> Showing that other people are studying — quietly, without demand — is more motivating than any streak counter or notification.
+    </p>
+    <p class="section-body">
+      The hardest decisions were about restraint: what to leave off the screen, when to celebrate, and how to make losing a streak feel meaningful without being punishing. The design system had to feel calm enough to sit next to your notes, but alive enough to make you want to check back in.
+    </p>
+    <p class="section-body">
+      If I built this again, I'd spend more time on the map's ambient states — a heat map of study hotspots, quiet hours, or friends about to finish. There's a whole layer of social choreography still to design.
+    </p>
+  </section>
+
+  <!-- NEXT PROJECT -->
+  <section class="case-next">
+    <a href="../index.html" class="next-link">
+      <span class="next-label">Back to Work</span>
+      <span class="next-arrow">←</span>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Edward Chen</p>
+  </footer>
+
+</body>
+</html>

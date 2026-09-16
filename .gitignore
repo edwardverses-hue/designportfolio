@@ -1,0 +1,18 @@
+# Duplicate image source — identical PNGs already committed under images/sessions/
+# (kept on disk locally, just not tracked, to avoid doubling repo size)
+# Leading slash anchors to repo root so it does NOT also match images/sessions/
+/Sessions/
+
+# Source folders not referenced by the site yet
+/Google Gemini/
+/Play/
+
+# Stray root-level assets not wired into any page yet
+/About.png
+/Home 2.png
+
+# OS / editor cruft
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
