@@ -165,6 +165,10 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
+/* Render_2_phones.png is transparent. Its opaque phone bodies are centred at
+   38.4% x / 47.9% y, not 50/50, and the soft shadow runs out to about 94% of
+   the width. Translating past the 38.4% figure shifts the render left so that
+   shadow stays in frame, which reads better than centring the bodies alone. */
 .project-card img {
   position: absolute;
   left: 50%;
@@ -172,10 +176,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 89%;
   height: auto;
   max-width: none;
-  /* Render_2_phones.png is transparent; its opaque phone content is centred
-     at 38.4% x / 47.9% y, not 50/50. Translating by those figures puts the
-     phones dead centre and pushes the empty right-hand shadow out of frame. */
-  transform: translate(-38.4%, -47.9%);
+  transform: translate(-43%, -47.9%);
 }
 
 /* ---------- ABOUT PAGE ---------- */
@@ -249,7 +250,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 86%;
   height: auto;
   max-width: none;
-  transform: translate(-38.4%, -47.9%);
+  transform: translate(-43%, -47.9%);
 }
 
 .case-intro {
