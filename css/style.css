@@ -64,10 +64,12 @@ h1, h2, h3, h4, h5, h6 {
 .nav-center { justify-self: center; }
 .nav-right  { justify-self: end; }
 
-/* Every link is a pill. It carries no glass until nav-lit is set, which the
-   header script does once there is something behind the bar worth frosting. */
-.nav a {
-  padding: 6px 16px;
+/* The wordmark and About are single pills. They carry no glass until nav-lit
+   is set, which the header script does once there is something behind the bar
+   worth frosting. */
+.nav-logo,
+.nav-right,
+.nav-center {
   border-radius: 999px;
   border: 1px solid transparent;
   background: transparent;
@@ -75,11 +77,61 @@ h1, h2, h3, h4, h5, h6 {
               -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease;
 }
 
-.nav-lit a {
+.nav-logo,
+.nav-right {
+  padding: 6px 16px;
+}
+
+.nav-lit .nav-logo,
+.nav-lit .nav-right,
+.nav-lit .nav-center {
   background: rgba(255, 255, 255, 0.55);
   border-color: rgba(255, 255, 255, 0.65);
   -webkit-backdrop-filter: blur(14px) saturate(170%);
   backdrop-filter: blur(14px) saturate(170%);
+}
+
+/* Work and Play share one pill with a thumb that slides between them. */
+.nav-center {
+  position: relative;
+  padding: 4px;
+  gap: 0;
+}
+
+.nav-center a {
+  position: relative;
+  z-index: 1;
+  padding: 6px 16px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.nav-thumb {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  height: calc(100% - 8px);
+  width: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+              width 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+              background 0.35s ease, opacity 0.2s ease;
+  pointer-events: none;
+}
+
+/* Before the script has measured anything, keep the thumb out of sight. */
+.nav-thumb:not(.is-set) { opacity: 0; }
+
+.nav-lit .nav-thumb {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+/* No slide on first paint, only when the reader actually picks something. */
+.nav-thumb.no-anim { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-thumb { transition: none; }
 }
 
 .nav-logo {
@@ -115,9 +167,9 @@ h1, h2, h3, h4, h5, h6 {
 .hero-headline {
   font-size: 16px;
   font-weight: 300;
-  max-width: 440px;
+  /* wide enough to hold the sentence on a single line, as in the reference */
+  max-width: 560px;
   line-height: 1.5;
-  text-wrap: balance;
   margin-bottom: 18px;
   letter-spacing: -0.01em;
 }
@@ -632,12 +684,14 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* ---------- PLAY PAGE: gallery room ----------
-   The camera sits at the centre of a closed ring of works, so pieces at the
-   edge of vision are close to the viewer and get stretched by the wide field
-   of view, while the wall straight ahead reads small and flat. */
-/* The Play page is locked to the viewport: the gallery is the whole page and
-   nothing scrolls, so the room stays put however far the wheel is spun. */
+/* ---------- PLAY PAGE: the room ----------
+   The page is locked to the viewport and the gallery is the whole page, so the
+   room stays put however far the wheel is spun.
+
+   The camera in the reference sits 2000px from the origin with the field of
+   view set so that one world unit equals one pixel at that distance. A CSS
+   perspective of 2000px on the viewport reproduces exactly that, which is why
+   the room can be laid out in plain pixels. */
 .play-page,
 .play-page body {
   height: 100%;
@@ -651,75 +705,70 @@ h1, h2, h3, h4, h5, h6 {
   touch-action: none;
 }
 
-.gallery-pin {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.gallery-viewport {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 760px;
+.room-viewport {
+  position: absolute;
+  inset: 0;
+  perspective: 2000px;
   perspective-origin: 50% 50%;
 }
 
-.gallery-ring {
-  --step: 22.5;
-  --radius: 560px;
-  --cam: 760px;                  /* must match the perspective so the eye sits at the ring centre */
-  --rot: 0deg;
-  position: relative;
+/* Origin of the room sits at the centre of the viewport; every facet is then
+   placed at its own coordinates in the room. */
+.room {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: 0;
   height: 0;
   transform-style: preserve-3d;
-  transform: translateZ(var(--cam)) rotateY(var(--rot));
 }
 
-.panel {
-  --dim: 1;
+.work {
   position: absolute;
   left: 0;
   top: 0;
-  width: clamp(160px, 16vw, 225px);
   margin: 0;
-  opacity: var(--dim);
+  transform-style: preserve-3d;
+}
+
+.work-art {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+}
+
+/* Each facet is one narrow upright slice of a picture, sat on the wall at the
+   angle the path has reached. */
+.facet {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-repeat: no-repeat;
   backface-visibility: hidden;
-  transform:
-    translate(-50%, -50%)
-    rotateY(calc(var(--i) * var(--step) * 1deg))
-    translateZ(calc(-1 * var(--radius)));
+  will-change: transform;
 }
 
-.panel-art {
-  width: 100%;
+.work-art img {
+  display: none;
 }
 
-.panel-art img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.panel figcaption {
-  padding-top: 10px;
-}
-
-.panel-meta {
-  font-size: 10px;
+.work-cap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  font-size: 13px;
   font-weight: 300;
   color: #6C848E;
+  transform-origin: 0 0;
 }
 
 .gallery-hint {
   position: absolute;
   bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 11px;
   font-weight: 300;
   letter-spacing: 0.08em;
@@ -729,20 +778,32 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 2;
 }
 
-/* Active nav pill for Play */
-/* The current page keeps its outline whether or not the glass is showing. */
-.nav .nav-pill-active {
-  border-color: #1A1A1A;
+/* Glass down either edge of the room. The strip carries a real backdrop blur,
+   and a mask fades that blur out quickly as it travels towards the middle, so
+   works soften as they sweep past the edges while the centre stays sharp.
+   Masking a backdrop-filtered element scales the effect with the mask alpha,
+   which is what gives the falloff rather than a flat band of blur. */
+.edge-glass {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 17vw;
+  min-width: 90px;
+  max-width: 260px;
+  pointer-events: none;
+  z-index: 3;
+  -webkit-backdrop-filter: blur(16px) saturate(105%);
+  backdrop-filter: blur(16px) saturate(105%);
 }
 
-@media (max-width: 900px) {
-  .gallery-viewport { perspective: 480px; }
-  .gallery-ring { --radius: 460px; --cam: 480px; }
-  .panel { width: clamp(140px, 30vw, 190px); }
+.edge-glass-left {
+  left: 0;
+  -webkit-mask-image: linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
+  mask-image: linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
 }
 
-@media (max-width: 600px) {
-  .gallery-viewport { perspective: 380px; }
-  .gallery-ring { --radius: 360px; --cam: 380px; }
-  .panel { width: 140px; }
+.edge-glass-right {
+  right: 0;
+  -webkit-mask-image: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
+  mask-image: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
 }
