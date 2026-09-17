@@ -69,27 +69,27 @@
     <div class="section-label">Overview</div>
     <h2 class="section-title">Gemini has the intelligence. The interface needs to catch up.</h2>
     <p class="section-body">
-      Google Gemini is one of the most capable AI assistants available, but its iOS app leaves a lot of friction on the table. The feedback system is buried, the home screen feels generic, and the chat experience lacks the visual clarity that helps users trust and learn from AI responses. This redesign targets three specific interaction gaps.
+      Google Gemini is one of the most capable AI assistants available, and its iOS app spends that capability carefully everywhere except the moment you open it. I rebuilt the app screen by screen, from signing in through to rating an answer, because redesigning something you have not drawn yourself is guesswork. Doing that is what showed me where the opening was thin, and the home screen is what I then redesigned.
     </p>
   </section>
 
   <!-- THE PROBLEM -->
   <section id="problem" class="case-section">
     <div class="section-label">The Problem</div>
-    <h2 class="section-title">Three friction points that break the experience</h2>
+    <h2 class="section-title">Three things I noticed while rebuilding it</h2>
 
     <div class="pain-points">
       <div class="pain-point">
-        <h3>Feedback is an afterthought</h3>
-        <p>The thumbs-down flow buries context options in a modal with no clear affordance. Users who want to report bad output have to hunt for it.</p>
+        <h3>The opening asks nothing and offers nothing</h3>
+        <p>You are greeted by name and then handed the same suggestions as everyone else. The app already knows the time, the place and what you were last doing, and uses none of it.</p>
       </div>
       <div class="pain-point">
-        <h3>Home screen is impersonal</h3>
-        <p>"Let's jump in" with generic suggestion cards doesn't reflect what the user actually cares about. It misses a chance to be genuinely useful on open.</p>
+        <h3>An answer ends in a blank field</h3>
+        <p>The moment a long answer finishes is the moment you are most likely to have a follow-up, and it is exactly when the interface stops helping.</p>
       </div>
       <div class="pain-point">
-        <h3>Long responses lose structure</h3>
-        <p>Code blocks, headers, and lists render inconsistently, making complex answers hard to parse on a small screen.</p>
+        <h3>Telling it something is wrong is a detour</h3>
+        <p>Rating an answer badly should take a few seconds and return you to where you were, not send you somewhere you have to find your way back from.</p>
       </div>
     </div>
   </section>
@@ -97,27 +97,34 @@
   <!-- THE REDESIGN -->
   <section id="redesign" class="case-section">
     <div class="section-label">The Redesign</div>
-    <h2 class="section-title">Smarter feedback. Warmer home. Clearer chat.</h2>
+    <h2 class="section-title">The opening screen should already know something about you</h2>
+    <p class="section-body">
+      I rebuilt the app screen by screen first, so that anything I changed would be measured against the real thing rather than against a memory of it. The home screen is where I then made the case for something different: the greeting stays, and the two suggestion columns beneath it do the work.
+    </p>
 
     <div class="before-after">
       <div class="ba-column">
         <div class="ba-tag">Before</div>
-        <div class="ba-headline">"Feedback is hidden behind a thumbs icon"</div>
+        <div class="ba-headline">"The same prompts, whatever the time of day"</div>
+        <div class="ba-sub">Suggestions that could belong to anyone</div>
       </div>
       <div class="ba-column">
         <div class="ba-tag">After</div>
-        <div class="ba-headline">"Contextual feedback sheet surfaces immediately on tap"</div>
+        <div class="ba-headline">"For your evening" and "Pick up where you left off"</div>
+        <div class="ba-sub">Two labelled columns, each answering a different question</div>
       </div>
     </div>
 
     <div class="before-after">
       <div class="ba-column">
         <div class="ba-tag">Before</div>
-        <div class="ba-headline">"Generic 'Let's jump in' cards"</div>
+        <div class="ba-headline">"One fixed set of cards"</div>
+        <div class="ba-sub">The same screen on every open</div>
       </div>
       <div class="ba-column">
         <div class="ba-tag">After</div>
-        <div class="ba-headline">"Personalized cards tied to time of day and recent sessions"</div>
+        <div class="ba-headline">"Cards that cycle through what is relevant"</div>
+        <div class="ba-sub">Late-night coffee, then dinner nearby, then the project still open</div>
       </div>
     </div>
   </section>
@@ -125,74 +132,77 @@
   <!-- FINAL SCREENS -->
   <section id="screens" class="case-section">
     <div class="section-label">Final Screens</div>
-
-    <h2 class="section-title">Onboarding</h2>
     <p class="section-body">
-      The splash screen sets the tone: clean, dark, centered. One action.
+      These run in the order a session actually happens, from signing in to giving feedback on an answer. It is one continuous thread: a beginner asking about Python, then asking for something longer, then telling the assistant the answer was not formatted well.
+    </p>
+
+    <h2 class="section-title">Signing in</h2>
+    <p class="section-body">
+      The first screen does one thing. The account is already known, so the only decision left is whether to continue as yourself.
     </p>
     <div class="phone-single">
-      <img src="../images/gemini/1.png" alt="Onboarding splash screen" />
+      <img src="../images/gemini/1.png" alt="Sign-in screen reading Meet Gemini, your personal AI assistant" />
     </div>
 
-    <h2 class="section-title">Home screen, personalized suggestions</h2>
+    <h2 class="section-title">Home, with the suggestions in context</h2>
     <p class="section-body">
-      Cards adapt to context: time of day, location, and recent sessions. "For your evening" and "Pick up where you left off" give users two clear entry points every time.
+      The redesigned opening, and the three frames show it cycling. Two labelled columns sit under the greeting: one reads the time and the place, offering late-night coffee in Oakland and then dinner near campus, while the other picks up the work already in progress, moving from the Python chat to a study app project with open questions. Because the cards rotate, the screen has something different to say each time it opens rather than repeating one generic set.
     </p>
     <div class="phone-grid three-col">
-      <img src="../images/gemini/6.png" alt="Home screen with personalized cards" />
-      <img src="../images/gemini/7.png" alt="Home screen suggestions" />
-      <img src="../images/gemini/8.png" alt="Home screen entry points" />
+      <img src="../images/gemini/2.png" alt="Home screen suggesting late-night coffee shops and a Python chat to resume" />
+      <img src="../images/gemini/3.png" alt="Home screen cycled to dinner spots near campus" />
+      <img src="../images/gemini/4.png" alt="Home screen cycled to an open study app design project" />
     </div>
 
-    <h2 class="section-title">Side drawer &amp; search</h2>
+    <h2 class="section-title">Drawer and search</h2>
     <p class="section-body">
-      Navigation stays minimal. The drawer surfaces core actions (new chat, search, images, library) without overwhelming. Chat search is fast and clean.
+      Navigation stays at four items with recent chats listed beneath them, and the account sits at the bottom where it is out of the way. Search is the same list narrowed, with the keyboard already up.
     </p>
     <div class="phone-grid two-col">
-      <img src="../images/gemini/9.png" alt="Side drawer navigation" />
-      <img src="../images/gemini/10.png" alt="Chat search" />
+      <img src="../images/gemini/5.png" alt="Side drawer with new chat, search, images and library" />
+      <img src="../images/gemini/6.png" alt="Chat search with the keyboard open" />
     </div>
 
-    <h2 class="section-title">Chat, simple response</h2>
+    <h2 class="section-title">A short answer</h2>
     <p class="section-body">
-      Short answers are presented cleanly. No extra chrome. The input bar stays fixed and accessible at the bottom.
+      The first exchange. A beginner asks what a Python if statement does and gets two sentences and an everyday analogy back, with the response actions sitting directly beneath the text rather than behind a menu.
     </p>
     <div class="phone-single">
-      <img src="../images/gemini/11.png" alt="Chat with a short response" />
+      <img src="../images/gemini/7.png" alt="A short chat answer explaining a Python if statement" />
     </div>
 
-    <h2 class="section-title">Chat, composing a long prompt</h2>
+    <h2 class="section-title">Composing a long prompt</h2>
     <p class="section-body">
-      The input expands as the user types, giving the prompt room to breathe before sending. The send button is always visible.
+      The field grows with the prompt instead of scrolling inside three lines, so a long instruction can be read back in full before it is sent, and the send button stays where it was.
     </p>
     <div class="phone-single">
-      <img src="../images/gemini/12.png" alt="Composing a long prompt" />
+      <img src="../images/gemini/8.png" alt="The input expanded to hold a long multi-paragraph prompt" />
     </div>
 
-    <h2 class="section-title">Chat, structured long response</h2>
+    <h2 class="section-title">Structure in a long answer</h2>
     <p class="section-body">
-      Headers and lists break up long answers. Code keywords are visually distinguished inline. A scroll-to-bottom affordance prevents users from getting lost.
+      Headings, bold labels and an inline code chip break a long answer into parts that can be scanned rather than read start to finish. The prompt above it collapses to three lines with a chevron to reopen it, and a floating control drops back to the newest text.
     </p>
     <div class="phone-single">
-      <img src="../images/gemini/13.png" alt="Structured long response" />
+      <img src="../images/gemini/9.png" alt="A structured long answer with headings and a bulleted list" />
     </div>
 
-    <h2 class="section-title">Code block response + next steps</h2>
+    <h2 class="section-title">Code, and where to go next</h2>
     <p class="section-body">
-      After a code response, Gemini surfaces two contextual next-step prompts. This keeps the learning momentum going without the user needing to think of what to ask next.
+      After the code block the assistant asks where to take the learning next and offers two specific moves, both about the script just written. That is the difference between a thread continuing and a reader having to invent the next question in front of an empty field.
     </p>
     <div class="phone-single">
-      <img src="../images/gemini/2.png" alt="Code block response with next steps" />
+      <img src="../images/gemini/10.png" alt="A code block followed by two suggested next steps" />
     </div>
 
-    <h2 class="section-title">Feedback system redesign</h2>
+    <h2 class="section-title">Feedback in three taps</h2>
     <p class="section-body">
-      Tapping thumbs down immediately surfaces a bottom sheet with clear categories. Users can add freeform context, then submit. The confirmation state is subtle: a toast message, not a disruptive modal.
+      Thumbs down opens the sheet straight away, with the common reasons as chips and a field for anything they do not cover, here a note about formatting. Submitting returns to the chat with the rating still showing and a toast at the bottom, rather than a modal that has to be dismissed.
     </p>
     <div class="phone-grid three-col">
-      <img src="../images/gemini/3.png" alt="Feedback bottom sheet" />
-      <img src="../images/gemini/4.png" alt="Freeform feedback context" />
-      <img src="../images/gemini/5.png" alt="Feedback confirmation toast" />
+      <img src="../images/gemini/11.png" alt="Feedback sheet asking why this rating was chosen" />
+      <img src="../images/gemini/12.png" alt="Feedback sheet with a written reason about formatting" />
+      <img src="../images/gemini/13.png" alt="Back in the chat with the rating held and a thank you toast" />
     </div>
   </section>
 
