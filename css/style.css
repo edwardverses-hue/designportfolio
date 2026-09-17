@@ -357,6 +357,19 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(-43%, -47.9%);
 }
 
+/* The percentages above are for a render that bleeds past the frame and is
+   nudged off centre on purpose. A preview that is a whole composition instead
+   has to sit inside the frame complete, so it is fitted to whichever side runs
+   out first and centred on both axes rather than cropped by either. */
+.project-card img.art-fit,
+.case-hero-image img.art-fit {
+  width: auto;
+  height: auto;
+  max-width: 96%;
+  max-height: 96%;
+  transform: translate(-50%, -50%);
+}
+
 /* ---------- ABOUT PAGE ---------- */
 .about-page {
   min-height: 100vh;
