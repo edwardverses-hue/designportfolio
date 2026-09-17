@@ -82,9 +82,18 @@ h1, h2, h3, h4, h5, h6 {
   padding: 6px 16px;
 }
 
+/* The Play page is lit from the start rather than on the script's say-so. That
+   page is a full bleed gallery, so there is always artwork under the bar, and
+   its works are drawn as facets rather than as anything the header counts as a
+   picture: teaching it to recognise them would mean measuring a couple of
+   hundred of them on every check, to answer a question whose answer never
+   changes. */
 .nav-lit .nav-logo,
 .nav-lit .nav-right,
-.nav-lit .nav-center {
+.nav-lit .nav-center,
+.play-page .nav-logo,
+.play-page .nav-right,
+.play-page .nav-center {
   background: rgba(255, 255, 255, 0.55);
   border-color: rgba(255, 255, 255, 0.65);
   -webkit-backdrop-filter: blur(14px) saturate(170%);
@@ -841,36 +850,6 @@ h1, h2, h3, h4, h5, h6 {
   color: #6C848E;
   transition: opacity 0.4s ease;
   z-index: 2;
-}
-
-/* Glass down either edge of the room. The strip carries a real backdrop blur,
-   and a mask fades that blur out quickly as it travels towards the middle, so
-   works soften as they sweep past the edges while the centre stays sharp.
-   Masking a backdrop-filtered element scales the effect with the mask alpha,
-   which is what gives the falloff rather than a flat band of blur. */
-.edge-glass {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 17vw;
-  min-width: 90px;
-  max-width: 260px;
-  pointer-events: none;
-  z-index: 3;
-  -webkit-backdrop-filter: blur(16px) saturate(105%);
-  backdrop-filter: blur(16px) saturate(105%);
-}
-
-.edge-glass-left {
-  left: 0;
-  -webkit-mask-image: linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
-  mask-image: linear-gradient(to right, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
-}
-
-.edge-glass-right {
-  right: 0;
-  -webkit-mask-image: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
-  mask-image: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0.55) 34%, rgba(0, 0, 0, 0.12) 64%, transparent 100%);
 }
 
 /* Page transitions.
