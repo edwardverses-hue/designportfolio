@@ -192,15 +192,42 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ---------- HOME PAGE ---------- */
+
+/* The first screen is a field rather than a blank page. The dandelions are
+   drawn into a canvas that fills the section, and the copy sits over it. The
+   canvas takes no pointer events, so the button and the header above it stay
+   clickable; it reads the cursor from the window instead. */
 .hero {
+  position: relative;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 120px 24px 80px;
+  overflow: hidden;
+  background: #FFFFFF;
 }
+
+.dandelion-field {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Held a little above the middle, which leaves the lower half of the screen to
+   the heads. */
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 7vh;
+}
+
 
 .hero-headline {
   font-size: 16px;
@@ -215,7 +242,7 @@ h1, h2, h3, h4, h5, h6 {
 .hero-sub {
   font-size: 13px;
   font-weight: 300;
-  color: #6C848E;
+  color: #1A1A1A;
   margin-bottom: 28px;
 }
 
