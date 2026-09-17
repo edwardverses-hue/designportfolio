@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Gemini Redesign — Edward Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Edward Chen</a>
+    <div class="nav-center">
+      <a href="../index.html#work" class="is-current">Work</a>
+      <a href="../play.html">Play</a>
+    </div>
+    <a href="../about.html" class="nav-right">About</a>
+  </nav>
+
+  <!-- HERO IMAGE -->
+  <section class="case-hero">
+    <div class="case-hero-image">
+      <img src="../images/gemini/Google_Gemini_Preview.png" alt="Google Gemini Redesign hero" />
+    </div>
+  </section>
+
+  <!-- TITLE + INTRO -->
+  <section class="case-intro">
+    <h1 class="case-title">Google Gemini Redesign</h1>
+    <p class="case-description">
+      A redesign of Google Gemini's iOS app focused on improving the feedback experience, home screen personalization, and chat interaction clarity.
+    </p>
+
+    <div class="case-meta">
+      <div class="meta-block">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">4 weeks</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">Independent</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Product Designer</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Focus</div>
+        <div class="meta-value">Mobile Design<br/>Interaction Design<br/>UX Research</div>
+      </div>
+    </div>
+
+    <!-- Section jump links -->
+    <div class="case-toc">
+      <a href="#overview">Overview</a>
+      <a href="#problem">Problem</a>
+      <a href="#redesign">Redesign</a>
+      <a href="#screens">Screens</a>
+      <a href="#reflections">Reflections</a>
+    </div>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="case-section">
+    <div class="section-label">Overview</div>
+    <h2 class="section-title">Gemini has the intelligence. The interface needs to catch up.</h2>
+    <p class="section-body">
+      Google Gemini is one of the most capable AI assistants available, but its iOS app leaves a lot of friction on the table. The feedback system is buried, the home screen feels generic, and the chat experience lacks the visual clarity that helps users trust and learn from AI responses. This redesign targets three specific interaction gaps.
+    </p>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section id="problem" class="case-section">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">Three friction points that break the experience</h2>
+
+    <div class="pain-points">
+      <div class="pain-point">
+        <h3>Feedback is an afterthought</h3>
+        <p>The thumbs-down flow buries context options in a modal with no clear affordance. Users who want to report bad output have to hunt for it.</p>
+      </div>
+      <div class="pain-point">
+        <h3>Home screen is impersonal</h3>
+        <p>"Let's jump in" with generic suggestion cards doesn't reflect what the user actually cares about. It misses a chance to be genuinely useful on open.</p>
+      </div>
+      <div class="pain-point">
+        <h3>Long responses lose structure</h3>
+        <p>Code blocks, headers, and lists render inconsistently, making complex answers hard to parse on a small screen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE REDESIGN -->
+  <section id="redesign" class="case-section">
+    <div class="section-label">The Redesign</div>
+    <h2 class="section-title">Smarter feedback. Warmer home. Clearer chat.</h2>
+
+    <div class="before-after">
+      <div class="ba-column">
+        <div class="ba-tag">Before</div>
+        <div class="ba-headline">"Feedback is hidden behind a thumbs icon"</div>
+      </div>
+      <div class="ba-column">
+        <div class="ba-tag">After</div>
+        <div class="ba-headline">"Contextual feedback sheet surfaces immediately on tap"</div>
+      </div>
+    </div>
+
+    <div class="before-after">
+      <div class="ba-column">
+        <div class="ba-tag">Before</div>
+        <div class="ba-headline">"Generic 'Let's jump in' cards"</div>
+      </div>
+      <div class="ba-column">
+        <div class="ba-tag">After</div>
+        <div class="ba-headline">"Personalized cards tied to time of day and recent sessions"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL SCREENS -->
+  <section id="screens" class="case-section">
+    <div class="section-label">Final Screens</div>
+
+    <h2 class="section-title">Onboarding</h2>
+    <p class="section-body">
+      The splash screen sets the tone: clean, dark, centered. One action.
+    </p>
+    <div class="phone-single">
+      <img src="../images/gemini/1.png" alt="Onboarding splash screen" />
+    </div>
+
+    <h2 class="section-title">Home screen, personalized suggestions</h2>
+    <p class="section-body">
+      Cards adapt to context: time of day, location, and recent sessions. "For your evening" and "Pick up where you left off" give users two clear entry points every time.
+    </p>
+    <div class="phone-grid three-col">
+      <img src="../images/gemini/6.png" alt="Home screen with personalized cards" />
+      <img src="../images/gemini/7.png" alt="Home screen suggestions" />
+      <img src="../images/gemini/8.png" alt="Home screen entry points" />
+    </div>
+
+    <h2 class="section-title">Side drawer &amp; search</h2>
+    <p class="section-body">
+      Navigation stays minimal. The drawer surfaces core actions (new chat, search, images, library) without overwhelming. Chat search is fast and clean.
+    </p>
+    <div class="phone-grid two-col">
+      <img src="../images/gemini/9.png" alt="Side drawer navigation" />
+      <img src="../images/gemini/10.png" alt="Chat search" />
+    </div>
+
+    <h2 class="section-title">Chat, simple response</h2>
+    <p class="section-body">
+      Short answers are presented cleanly. No extra chrome. The input bar stays fixed and accessible at the bottom.
+    </p>
+    <div class="phone-single">
+      <img src="../images/gemini/11.png" alt="Chat with a short response" />
+    </div>
+
+    <h2 class="section-title">Chat, composing a long prompt</h2>
+    <p class="section-body">
+      The input expands as the user types, giving the prompt room to breathe before sending. The send button is always visible.
+    </p>
+    <div class="phone-single">
+      <img src="../images/gemini/12.png" alt="Composing a long prompt" />
+    </div>
+
+    <h2 class="section-title">Chat, structured long response</h2>
+    <p class="section-body">
+      Headers and lists break up long answers. Code keywords are visually distinguished inline. A scroll-to-bottom affordance prevents users from getting lost.
+    </p>
+    <div class="phone-single">
+      <img src="../images/gemini/13.png" alt="Structured long response" />
+    </div>
+
+    <h2 class="section-title">Code block response + next steps</h2>
+    <p class="section-body">
+      After a code response, Gemini surfaces two contextual next-step prompts. This keeps the learning momentum going without the user needing to think of what to ask next.
+    </p>
+    <div class="phone-single">
+      <img src="../images/gemini/2.png" alt="Code block response with next steps" />
+    </div>
+
+    <h2 class="section-title">Feedback system redesign</h2>
+    <p class="section-body">
+      Tapping thumbs down immediately surfaces a bottom sheet with clear categories. Users can add freeform context, then submit. The confirmation state is subtle: a toast message, not a disruptive modal.
+    </p>
+    <div class="phone-grid three-col">
+      <img src="../images/gemini/3.png" alt="Feedback bottom sheet" />
+      <img src="../images/gemini/4.png" alt="Freeform feedback context" />
+      <img src="../images/gemini/5.png" alt="Feedback confirmation toast" />
+    </div>
+  </section>
+
+  <!-- REFLECTIONS -->
+  <section id="reflections" class="case-section">
+    <div class="section-label">Reflections</div>
+    <p class="section-body">
+      This project pushed me to think about AI interfaces differently, not just as chat windows, but as adaptive surfaces that should respond to who you are and what you're doing.
+    </p>
+    <p class="section-body">
+      The feedback redesign was the most constrained problem: how do you make reporting feel frictionless without making the UI feel paranoid or over-engineered? The answer was reducing steps, not adding options.
+    </p>
+    <p class="section-body">
+      If I continued this project, I'd explore how Gemini's home screen could learn across sessions, surfacing the right context before the user even has to ask.
+    </p>
+  </section>
+
+  <!-- BACK -->
+  <section class="case-next">
+    <a href="../index.html" class="next-link">
+      <span class="next-label">Back to Work</span>
+      <span class="next-arrow">←</span>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Edward Chen</p>
+  </footer>
+
+  <script src="../js/nav.js" defer></script>
+</body>
+</html>

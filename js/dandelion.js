@@ -1,4 +1,10 @@
-/* The dandelion field behind the headline on the home page.
+/* NOT CURRENTLY LOADED. Kept for reference. index.html no longer includes this
+   script and the home page is back to plain white; the note at the bottom of
+   index.html and the one under HOME PAGE in css/style.css say what to put back
+   to switch it on again. The part worth coming back for is release(), step()
+   and paintFlyer(): the seeds leaving, drifting and receding.
+
+   The dandelion field behind the headline on the home page.
 
    Three heads sit in the first screen, each a ring of glass panes around a
    bloom of light, on a stem that fades out into the paper before it reaches

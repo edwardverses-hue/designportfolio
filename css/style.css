@@ -9,6 +9,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* The one grey the page fills a surface with. The Get in touch button and the
+   work previews are meant to read as the same material, so they take it from
+   here rather than each carrying their own copy of the value. */
+:root {
+  --surface: #F5F5F5;
+}
+
 body {
   font-family: 'Helvetica Neue', 'HelveticaNeue', 'Helvetica', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;
@@ -202,40 +209,28 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ---------- HOME PAGE ---------- */
 
-/* The first screen is a field rather than a blank page. The dandelions are
-   drawn into a canvas that fills the section, and the copy sits over it. The
-   canvas takes no pointer events, so the button and the header above it stay
-   clickable; it reads the cursor from the window instead. */
 .hero {
-  position: relative;
   min-height: 100vh;
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 120px 24px 80px;
-  overflow: hidden;
-  background: #FFFFFF;
 }
 
-.dandelion-field {
-  position: absolute;
-  inset: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
+/* The dandelion field is off the home page for now, and js/dandelion.js is
+   kept for later. Putting it back needs the canvas and the .hero-copy wrapper
+   in the markup, the script loaded, and these four rules live again:
 
-/* Held a little above the middle, which leaves the lower half of the screen to
-   the heads. */
-.hero-copy {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 7vh;
-}
+   .hero        { position: relative; overflow: hidden; background: #FFFFFF;
+                  min-height: 100svh; }
+   .dandelion-field { position: absolute; inset: 0; display: block;
+                  width: 100%; height: 100%; pointer-events: none; }
+   .hero-copy   { position: relative; z-index: 1; margin-bottom: 7vh; }
+
+   The overflow and the relative position are what hold the canvas to the
+   section; the margin on the copy is what lifts it clear of the heads. */
 
 
 .hero-headline {
@@ -258,7 +253,7 @@ h1, h2, h3, h4, h5, h6 {
 .pill-button {
   display: inline-block;
   padding: 14px 20px;
-  background: #F5F5F5;
+  background: var(--surface);
   border-radius: 999px;
   font-size: 16px;
   font-weight: 500;
@@ -336,7 +331,7 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #D9D9D9;
+  background: var(--surface);
   border-radius: 48px;
   overflow: hidden;
   position: relative;
@@ -653,6 +648,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .phone-grid.three-col {
   grid-template-columns: repeat(3, 1fr);
+}
+
+/* A single screen on its own, narrower than a grid of one would be so it reads
+   as one phone held up rather than a column that lost its neighbours. */
+.phone-single {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+
+.phone-single img {
+  width: 100%;
+  border-radius: 24px;
 }
 
 .phone-grid img {

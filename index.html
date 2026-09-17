@@ -23,13 +23,12 @@
 
   <!-- HERO -->
   <section class="hero">
-    <canvas class="dandelion-field" aria-hidden="true"></canvas>
-    <div class="hero-copy">
-      <p class="hero-headline">Edward Chen is a systems designer driven by the belief that craft is care.</p>
-      <p class="hero-sub">Studying Design &amp; HCI @ Carnegie Mellon University</p>
-      <a href="mailto:your-email@example.com" class="pill-button">Get in touch</a>
-    </div>
+    <p class="hero-headline">Edward Chen is a systems designer driven by the belief that craft is care.</p>
+    <p class="hero-sub">Studying Design &amp; HCI @ Carnegie Mellon University</p>
+    <a href="mailto:your-email@example.com" class="pill-button">Get in touch</a>
   </section>
+
+  <div class="divider"></div>
 
   <!-- WORK -->
   <section class="work-section">
@@ -43,9 +42,11 @@
     </div>
 
     <div class="project">
-      <p class="project-label">Google Gemini Smart Context</p>
+      <p class="project-label">Google Gemini Redesign</p>
       <div class="project-frame">
-        <a href="#" class="project-card"></a>
+        <a href="work/gemini.html" class="project-card">
+          <img src="images/gemini/Google_Gemini_Preview.png" alt="Google Gemini Redesign" />
+        </a>
       </div>
     </div>
   </section>
@@ -55,6 +56,10 @@
   </footer>
 
   <script src="js/nav.js" defer></script>
-  <script src="js/dandelion.js" defer></script>
+  <!-- The dandelion field lives in js/dandelion.js and is kept for later. To
+       put it back: load the script here, and add
+       <canvas class="dandelion-field" aria-hidden="true"></canvas> as the
+       first child of .hero with the copy wrapped in a .hero-copy div. The
+       styles it needs are commented out in css/style.css under HOME PAGE. -->
 </body>
 </html>
