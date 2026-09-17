@@ -298,6 +298,40 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 40px;
 }
 
+/* Each card comes in smaller and opens out to its full size as it rises up the
+   screen. The scroll itself is the timeline rather than a clock, so the box
+   tracks the wheel exactly and holds wherever the reader stops, and the
+   browser runs it off the main thread.
+
+   The scaling sits on this wrapper rather than on the card so that the two do
+   not fight: the card's own transform is its hover lift, and an animation on a
+   property beats a rule for it. The wrapper also keeps the full size reserved
+   in the layout while the card is small, so nothing below it moves. */
+.project-frame {
+  transform-origin: 50% 50%;
+}
+
+@keyframes project-open {
+  from { transform: scale(0.78); }
+  to   { transform: scale(1); }
+}
+
+/* A browser without scroll-driven animations gets the card at full size, which
+   is the end of this animation anyway, so nothing is lost but the movement. */
+@supports (animation-timeline: view()) {
+  .project-frame {
+    animation: project-open linear both;
+    animation-timeline: view();
+    /* From the moment its top edge appears until the whole card is in frame. */
+    animation-range: entry 0% entry 90%;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-frame { animation: none; }
+  }
+}
+
 .project-card {
   display: block;
   width: 100%;
