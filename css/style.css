@@ -19,7 +19,7 @@ html {
 body {
   font-family: 'Helvetica Neue', 'HelveticaNeue', 'Helvetica', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;
-  color: #1A1A1A;
+  color: #000000;
   background: #FFFFFF;
   line-height: 1.5;
   letter-spacing: -0.015em;
@@ -128,7 +128,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Which section is current is written into the markup, so the pill is drawn
    from the very first frame with no measuring involved. */
 .nav-center a.is-current {
-  border-color: #1A1A1A;
+  border-color: #000000;
 }
 
 /* Only once a picture is actually behind the pill does the stroke give way to a
@@ -157,7 +157,7 @@ h1, h2, h3, h4, h5, h6 {
   height: calc(100% - 6px);
   width: 0;
   border-radius: 999px;
-  border: 1px solid #1A1A1A;
+  border: 1px solid #000000;
   background: transparent;
   opacity: 0;
   pointer-events: none;
@@ -246,7 +246,7 @@ h1, h2, h3, h4, h5, h6 {
 .hero-sub {
   font-size: 13px;
   font-weight: 300;
-  color: #1A1A1A;
+  color: #000000;
   margin-bottom: 28px;
 }
 
@@ -407,14 +407,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .about-pill {
   padding: 8px 20px;
-  border: 1px solid #1A1A1A;
+  border: 1px solid #000000;
   border-radius: 999px;
   font-size: 14px;
   transition: background 0.2s ease;
 }
 
 .about-pill:hover {
-  background: #1A1A1A;
+  background: #000000;
   color: #FFFFFF;
   opacity: 1;
 }
@@ -459,7 +459,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .case-description {
   font-size: 20px;
-  color: #1A1A1A;
+  color: #000000;
   line-height: 1.5;
   margin-bottom: 64px;
   max-width: 780px;
@@ -506,7 +506,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .case-toc a:hover {
-  color: #1A1A1A;
+  color: #000000;
   opacity: 1;
 }
 
@@ -541,7 +541,7 @@ h1, h2, h3, h4, h5, h6 {
 .section-body {
   font-size: 18px;
   line-height: 1.6;
-  color: #1A1A1A;
+  color: #000000;
   margin-bottom: 24px;
   max-width: 780px;
 }
@@ -876,6 +876,163 @@ h1, h2, h3, h4, h5, h6 {
   background-repeat: no-repeat;
   backface-visibility: hidden;
   will-change: transform;
+}
+
+/* A piece is clickable, so say so. */
+.work-art {
+  cursor: zoom-in;
+}
+
+/* ---------- PLAY: A CLOSER LOOK ---------- */
+
+/* One piece on its own, over the room. It is sized to the frame rather than to
+   the file, so the whole of it is visible at once however tall or wide it is:
+   that is the point of opening it. */
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 24px 24px;
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  backdrop-filter: blur(18px) saturate(120%);
+  cursor: zoom-out;
+  outline: none;
+  animation: viewer-in 0.34s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Closing is its own animation rather than the element simply disappearing.
+   The script holds the overlay on screen for the length of it and only then
+   sets hidden, so the way out is as considered as the way in. */
+.viewer.is-closing {
+  animation: viewer-out 0.26s cubic-bezier(0.4, 0, 0.7, 1) both;
+  pointer-events: none;
+}
+
+@keyframes viewer-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.viewer.is-closing .viewer-frame {
+  animation: viewer-sink 0.26s cubic-bezier(0.4, 0, 0.7, 1) both;
+}
+
+@keyframes viewer-sink {
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to   { opacity: 0; transform: scale(0.975) translateY(4px); }
+}
+
+/* This has to be here, and it has to be more specific than the rule above.
+   The hidden attribute hides an element through a user agent rule, and any
+   author rule setting display beats it, so .viewer { display: flex } alone
+   leaves the overlay on screen permanently whatever the attribute says. */
+.viewer[hidden] {
+  display: none;
+}
+
+@keyframes viewer-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.viewer-frame {
+  margin: 0;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: viewer-rise 0.44s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* It settles rather than snapping: it comes up a little, grows the last of the
+   way, and fades in over a slightly longer run than the ground behind it, so
+   the picture arrives after the room has softened rather than with it. */
+@keyframes viewer-rise {
+  from { opacity: 0; transform: scale(0.94) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Held at its fitted size rather than left to flex: as a shrinkable item it
+   gave up height it did not need to, and opened smaller than the frame
+   allowed. The subtraction covers the padding above and the caption below. */
+.viewer-frame img {
+  flex: 0 0 auto;
+  max-width: 100%;
+  max-height: calc(100vh - 170px);
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  cursor: default;
+}
+
+.viewer-cap {
+  font-size: 13px;
+  font-weight: 300;
+  color: #6C848E;
+}
+
+/* Two strokes and nothing else. No disc behind it: the page draws its other
+   controls as hairlines on the paper, and a filled circle read as a different
+   kit. The 44px box is hit area rather than anything you can see, and it dims
+   on hover the way every other link on the site does.
+
+   The outline is turned off because the script moves focus into the overlay
+   when it opens, and the browser's own focus ring was drawing a box around the
+   X the moment it appeared. focus-visible puts the ring back for anyone
+   actually navigating by keyboard, which is who it is for. */
+.viewer-close {
+  position: absolute;
+  top: 22px;
+  right: 26px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #000000;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.viewer-close:hover {
+  opacity: 0.6;
+}
+
+.viewer-close:focus-visible {
+  outline: 1px solid #000000;
+  outline-offset: 2px;
+  border-radius: 999px;
+}
+
+.viewer-close svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.viewer-close path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .viewer,
+  .viewer-frame,
+  .viewer.is-closing,
+  .viewer.is-closing .viewer-frame {
+    animation: none;
+  }
 }
 
 .work-art img {

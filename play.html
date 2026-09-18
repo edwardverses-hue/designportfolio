@@ -77,6 +77,20 @@
     <p class="gallery-hint" id="hint">Scroll to rotate</p>
   </main>
 
+  <!-- A closer look at one piece. Empty until something is opened, so the full
+       size file is only fetched when it is actually asked for. -->
+  <div class="viewer" id="viewer" hidden tabindex="-1" role="dialog" aria-modal="true" aria-label="Enlarged view">
+    <button class="viewer-close" id="viewer-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <path d="M4.5 4.5 L15.5 15.5 M15.5 4.5 L4.5 15.5" />
+      </svg>
+    </button>
+    <figure class="viewer-frame">
+      <img id="viewer-img" alt="" />
+      <figcaption class="viewer-cap" id="viewer-cap"></figcaption>
+    </figure>
+  </div>
+
   <script src="js/nav.js" defer></script>
   <script>
     /* A gallery built as a rounded rectangle rather than a circle.
@@ -109,6 +123,7 @@
       var PAD       = 1.25;   // overlap between neighbouring facets, in pixels
 
       var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var viewerOpen = false;
       var works = [];
       var geom  = null;
       var cycle = 0;
@@ -284,6 +299,7 @@
           works.push({
             el: fig, cap: fig.querySelector('.work-cap'), facets: facets,
             aspect: img.naturalWidth / img.naturalHeight,
+            src: src, alt: img.getAttribute('alt') || '',
             shown: true, w: 0, h: 0, centre: 0
           });
         }
@@ -299,9 +315,70 @@
         else imgs[k].addEventListener('load', ready, { once: true });
       }
 
+      /* ---------- a closer look ---------- */
+
+      /* The room is a room: at that size and angle a piece is something you
+         notice rather than something you can read. Clicking one lifts it out
+         flat and fits it to the frame, so the whole of it is visible at once
+         whatever shape it is. */
+      var viewer = document.getElementById('viewer');
+      var vImg = document.getElementById('viewer-img');
+      var vCap = document.getElementById('viewer-cap');
+      var lastFocus = null;
+      var closingIn = null;
+
+      function openViewer(work) {
+        if (!work) return;
+        window.clearTimeout(closingIn);
+        viewer.classList.remove('is-closing');
+        vImg.setAttribute('src', work.src);
+        vImg.setAttribute('alt', work.alt);
+        // Years only, as on the wall.
+        vCap.textContent = work.cap ? work.cap.textContent.trim() : '';
+        viewer.hidden = false;
+        viewerOpen = true;
+        lastFocus = document.activeElement;
+        viewer.focus();
+      }
+
+      // The overlay is left on screen for the length of its closing animation
+      // and only then hidden, so it fades out rather than blinking off.
+      function closeViewer() {
+        if (!viewerOpen) return;
+        viewerOpen = false;
+        if (still) { endClose(); return; }
+        viewer.classList.add('is-closing');
+        closingIn = window.setTimeout(endClose, 270);
+      }
+
+      function endClose() {
+        window.clearTimeout(closingIn);
+        viewer.classList.remove('is-closing');
+        viewer.hidden = true;
+        // Letting the src go lets the browser drop the full size decode too.
+        vImg.removeAttribute('src');
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+
+      // One listener on the room rather than one per facet. There are twenty
+      // two facets to a piece and they are rebuilt on every resize.
+      room.addEventListener('click', function (e) {
+        var fig = e.target && e.target.closest ? e.target.closest('.work') : null;
+        if (!fig) return;
+        for (var i = 0; i < works.length; i++) {
+          if (works[i].el === fig) { openViewer(works[i]); return; }
+        }
+      });
+
+      // Anywhere but the picture closes it, which includes the ground around it.
+      viewer.addEventListener('click', function (e) {
+        if (e.target !== vImg) closeViewer();
+      });
+
       // The page itself never scrolls, so every gesture turns the room instead.
       stage.addEventListener('wheel', function (e) {
         e.preventDefault();
+        if (viewerOpen) return;
         var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         turn(d * PER_PX);
       }, { passive: false });
@@ -313,6 +390,7 @@
       }, { passive: true });
 
       stage.addEventListener('touchmove', function (e) {
+        if (viewerOpen) return;
         if (lastX === null || e.touches.length !== 1) return;
         e.preventDefault();
         var x = e.touches[0].clientX, y = e.touches[0].clientY;
@@ -325,6 +403,8 @@
 
       window.addEventListener('keydown', function (e) {
         var k = e.key;
+        if (k === 'Escape') { closeViewer(); return; }
+        if (viewerOpen) return;
         if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown') { e.preventDefault(); turn(240); }
         else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') { e.preventDefault(); turn(-240); }
       });
