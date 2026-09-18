@@ -124,7 +124,6 @@
 
     <div class="widget-demo">
       <div class="widget-col" data-widget>
-        <p class="widget-head">For your evening</p>
         <div class="widget-view">
           <div class="widget-track">
             <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-coffee.png" alt="Card suggesting late-night coffee shops near Oakland, naming Shibam Coffee on Centre Ave, open till 11 pm" />
@@ -135,7 +134,6 @@
       </div>
 
       <div class="widget-col" data-widget>
-        <p class="widget-head">Pick up where you left off</p>
         <div class="widget-view">
           <div class="widget-track">
             <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-python.png" alt="Card resuming a chat called Python Script Help, suggesting elif chains or nested if statements next" />
@@ -183,7 +181,7 @@
       Before designing anything I recreated the existing app, from signing in through to rating an answer. Redrawing an interface at full size is the quickest way to find out where it is thin, and it meant every later decision was argued against the real product instead of a screenshot in my head.
     </p>
     <p class="section-body">
-      The flow below runs left to right in the order a session actually happens. It is one continuous thread: a beginner asks what a Python if statement does, asks for something longer, gets a structured answer with code, and then tells the assistant the formatting was wrong.
+      The flow below runs left to right in the order a session actually happens, with the redesigned home screen sitting in its place so the whole thing reads as one product rather than a rebuild and a proposal kept apart. It follows a single thread: a beginner asks what a Python if statement does, gets a structured answer with working code, and then tells the assistant the formatting was wrong. I kept the screens that carry the argument and left out the ones that only showed a stock pattern working normally.
     </p>
 
     <div class="flow-strip" tabindex="0" role="group" aria-label="Recreated screens in order">
@@ -192,36 +190,36 @@
         <figcaption class="flow-cap"><span class="flow-num">01</span><span>Signing in. The account is already known, so the only decision left is whether to continue as yourself.</span></figcaption>
       </figure>
       <figure class="flow-item">
-        <img loading="lazy" decoding="async" src="../images/gemini/5.png" alt="Side drawer with new chat, search, images and library" />
-        <figcaption class="flow-cap"><span class="flow-num">02</span><span>The drawer holds four destinations, recent chats beneath them, and the account at the bottom.</span></figcaption>
+        <img loading="lazy" decoding="async" src="../images/gemini/2.png" alt="Redesigned home screen showing late-night coffee and the Python chat" />
+        <figcaption class="flow-cap"><span class="flow-num">02</span><span>The redesigned home screen. Late-night coffee on one side, the Python thread waiting on the other.</span></figcaption>
       </figure>
       <figure class="flow-item">
-        <img loading="lazy" decoding="async" src="../images/gemini/6.png" alt="Chat search with the keyboard open" />
-        <figcaption class="flow-cap"><span class="flow-num">03</span><span>Search is the same list narrowed, with the keyboard already up.</span></figcaption>
+        <img loading="lazy" decoding="async" src="../images/gemini/3.png" alt="Home screen with the evening column moved on to dinner spots" />
+        <figcaption class="flow-cap"><span class="flow-num">03</span><span>The evening column has moved on to dinner near campus while the work column stays where it was.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/4.png" alt="Home screen with the work column moved on to the study app project" />
+        <figcaption class="flow-cap"><span class="flow-num">04</span><span>Now the work column moves too, on to the study app project and its open questions.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/5.png" alt="Side drawer with new chat, search, images and library" />
+        <figcaption class="flow-cap"><span class="flow-num">05</span><span>The drawer holds four destinations, recent chats beneath them, and the account at the bottom.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/7.png" alt="A short chat answer explaining a Python if statement" />
-        <figcaption class="flow-cap"><span class="flow-num">04</span><span>A short answer, with the response actions under the text rather than behind a menu.</span></figcaption>
-      </figure>
-      <figure class="flow-item">
-        <img loading="lazy" decoding="async" src="../images/gemini/8.png" alt="The input expanded to hold a long multi-paragraph prompt" />
-        <figcaption class="flow-cap"><span class="flow-num">05</span><span>The field grows with a long prompt instead of scrolling inside three lines.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">06</span><span>A short answer, with the response actions under the text rather than behind a menu.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/9.png" alt="A structured long answer with headings and a bulleted list" />
-        <figcaption class="flow-cap"><span class="flow-num">06</span><span>Headings and lists break a long answer into parts that can be scanned.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">07</span><span>Headings and lists break a long answer into parts that can be scanned rather than read straight through.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/10.png" alt="A code block followed by two suggested next steps" />
-        <figcaption class="flow-cap"><span class="flow-num">07</span><span>After the code block, two next steps about the script just written.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">08</span><span>After the code block, two next steps about the script just written.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/11.png" alt="Feedback sheet asking why this rating was chosen" />
-        <figcaption class="flow-cap"><span class="flow-num">08</span><span>Thumbs down opens the feedback sheet straight away.</span></figcaption>
-      </figure>
-      <figure class="flow-item">
-        <img loading="lazy" decoding="async" src="../images/gemini/12.png" alt="Feedback sheet with a written reason about formatting" />
-        <figcaption class="flow-cap"><span class="flow-num">09</span><span>Common reasons sit as chips, with a field for anything they do not cover.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">09</span><span>Thumbs down opens the feedback sheet straight away, with the common reasons as chips.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/13.png" alt="Back in the chat with the rating held and a thank you toast" />

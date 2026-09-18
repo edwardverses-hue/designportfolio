@@ -1098,38 +1098,48 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ---------- WIDGET CAROUSEL (Gemini case study) ---------- */
 /* The two suggestion columns from the redesigned home screen, lifted off the
-   phone so the cycling can actually be tried. The cards were cut straight out
-   of the home screen renders, so everything around them is the app's own black
-   and the panel below has to match it exactly or the seam shows. */
+   phone so the cycling can actually be tried. It sits in the same grey bubble
+   the work previews use, at the same 16/9 and the same corner, so the case
+   study and the home page are visibly the same kit.
+
+   The slides are Edward's exports dropped in untouched, byte for byte, which
+   is how he wants them. They are portrait and carry their own heading and page
+   dots, so the column supplies no heading of its own and the slide is held to
+   a width that lets the whole export fit the 16/9 box. */
 .widget-demo {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 36px;
-  max-width: 840px;
-  margin: 48px auto 20px;
-  padding: 40px 40px 34px;
-  /* The cards were cut out of the phone screen, so each one carries the blue
-     glow that sits behind the bottom of the home screen. Left on a flat black
-     panel that glow ends in a hard rectangle. The panel runs the same ramp so
-     the crop edge blends instead of drawing a box. */
-  background: #000000 linear-gradient(to bottom,
-    #000000 0%, #000000 74%, #050B1C 84%, #09122E 93%, #09122E 100%);
-  border-radius: 28px;
+  align-content: center;
+  max-width: 980px;
+  width: calc(100% - 48px);
+  aspect-ratio: 16 / 9;
+  margin: 48px auto 18px;
+  padding: 0 56px;
+  background: var(--surface);
+  border-radius: 48px;
+  overflow: hidden;
 }
 
 .widget-col {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .widget-head {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
   text-align: center;
-  color: rgba(255, 255, 255, 0.62);
-  margin-bottom: 14px;
+  color: #000000;
+  margin-bottom: 16px;
 }
 
 .widget-view {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
   overflow: hidden;
   touch-action: pan-y;
   cursor: grab;
@@ -1173,23 +1183,23 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
   border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(0, 0, 0, 0.20);
   cursor: pointer;
   transition: background 0.25s ease, width 0.25s ease;
 }
 
 .widget-dot.is-on {
   width: 18px;
-  background: rgba(255, 255, 255, 0.85);
+  background: #000000;
 }
 
 .widget-dot:focus-visible {
-  outline: 1px solid rgba(255, 255, 255, 0.8);
+  outline: 1px solid #000000;
   outline-offset: 3px;
 }
 
 .widget-cap {
-  max-width: 840px;
+  max-width: 980px;
   margin: 0 auto 48px;
   padding: 0 24px;
   font-size: 12px;
@@ -1199,16 +1209,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 720px) {
+  /* Stacked, 16/9 would crush the cards, so the bubble takes its height from
+     what is in it. */
   .widget-demo {
     grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 30px 26px 26px;
-    margin-inline: 24px;
-    /* Stacked, the panel is two column bands instead of one, so the same ramp
-       is tiled at half height to sit under each of them. */
-    background: #000000 linear-gradient(to bottom,
-      #000000 0%, #000000 72%, #050B1C 83%, #09122E 92%, #09122E 97%,
-      #000000 100%) 0 0 / 100% 50% repeat-y;
+    aspect-ratio: auto;
+    gap: 38px;
+    padding: 38px 30px;
+    border-radius: 32px;
   }
 }
 
