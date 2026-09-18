@@ -32,7 +32,7 @@
   <section class="case-intro">
     <h1 class="case-title">Google Gemini Smart Context</h1>
     <p class="case-description">
-      A redesign of the Google Gemini home screen for iOS. I rebuilt the existing app screen by screen so I was working against the real thing, watched students open it, and replaced the generic prompt row with two suggestion columns that read the time of day and the work already in progress.
+      A redesign of the Google Gemini home screen for iOS, built on top of a full recreation of the app. Rebuilding it first is what let me tell Gemini's deliberate constraints apart from its unused space, and the redesign replaces the generic prompt row with two suggestion stacks that read the time of day and the work already in progress.
     </p>
 
     <div class="case-meta">
@@ -50,16 +50,18 @@
       </div>
       <div class="meta-block">
         <div class="meta-label">Focus</div>
-        <div class="meta-value">Mobile Design<br/>Interaction Design<br/>UX Research</div>
+        <div class="meta-value">Mobile Design<br/>Interaction Design<br/>Interface Analysis</div>
       </div>
     </div>
 
     <!-- Section jump links -->
     <div class="case-toc">
       <a href="#overview">Overview</a>
+      <a href="#recreation">The Recreation</a>
+      <a href="#reading">Reading the Original</a>
+      <a href="#setaside">An Idea I Set Aside</a>
       <a href="#research">Research</a>
       <a href="#redesign">The Redesign</a>
-      <a href="#recreation">The Recreation</a>
       <a href="#reflections">Reflections</a>
     </div>
   </section>
@@ -72,116 +74,35 @@
       Gemini can hold a long technical conversation, read a photograph, and write working code. Then you open it and get your first name, a text field, and a row of suggested prompts that would look identical on anyone else's phone. The assistant is genuinely capable. The screen you meet first uses none of that capability.
     </p>
     <p class="section-body">
-      This project is a redesign of that screen. I recreated the existing app end to end before changing anything, so that the comparison was against the real product rather than my memory of it, and the recreation is what made the gap on the home screen obvious.
+      I recreated the app end to end before changing anything. That turned out to matter more than I expected, and not because it made the mockups accurate. Redrawing an interface at full size forces you to work out what every decision is buying, and several of the things I had listed as problems turned out to be trades Gemini had already made on purpose. The redesign is what was left once those were off the table.
     </p>
-  </section>
-
-  <!-- RESEARCH -->
-  <section id="research" class="case-section">
-    <div class="section-label">Research</div>
-    <h2 class="section-title">What people do in the first ten seconds</h2>
-    <p class="section-body">
-      I spoke with classmates who use an AI assistant most days and asked them to open the app in front of me rather than describe how they use it. Watching the first ten seconds turned out to be more useful than anything they said about features afterwards.
-    </p>
-    <p class="section-body">
-      The behaviour was consistent enough to design against. Almost nobody read the suggested prompts. People either went straight to the text field and typed, or went into the chat history to find a conversation they had already started. The suggestions occupied the most valuable space on the screen and were being scrolled past on the way to somewhere else.
-    </p>
-
-    <!-- If you have counts from the interviews, such as how many students you sat
-         with or how many went straight past the prompts, they belong here as a
-         short stat row above the insights. Send me the numbers and I will add it. -->
-
-    <div class="insights">
-      <div class="insight">
-        <div class="insight-number">01</div>
-        <h3>The prompts get skipped</h3>
-        <p>The suggestions are general enough that reading them costs more attention than typing the question already in your head.</p>
-      </div>
-      <div class="insight">
-        <div class="insight-number">02</div>
-        <h3>Most opens are continuations</h3>
-        <p>People came back to a thread they had already started, but resuming one meant remembering it existed and then going to look for it.</p>
-      </div>
-      <div class="insight">
-        <div class="insight-number">03</div>
-        <h3>The context is there and unused</h3>
-        <p>The app already knows the hour, the location, and the last conversation. None of that reaches the first screen.</p>
-      </div>
-    </div>
-
-    <p class="section-body">
-      That is what moved the project to the home screen rather than the chat. The conversation itself works. The problem sits in the ten seconds before it starts.
-    </p>
-  </section>
-
-  <!-- THE REDESIGN -->
-  <section id="redesign" class="case-section">
-    <div class="section-label">The Redesign</div>
-    <h2 class="section-title">Two columns answering two different questions</h2>
-    <p class="section-body">
-      The greeting stays. Underneath it, instead of one row of generic prompts, there are two labelled columns. The left column reads the moment, meaning the time of day and where you are. The right column picks up work already in progress. Each column holds a small stack of cards and cycles through them, so the screen has something different to say at eleven at night than it does on a Tuesday morning.
-    </p>
-
-    <div class="widget-demo">
-      <div class="widget-col" data-widget>
-        <div class="widget-view">
-          <div class="widget-track">
-            <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-coffee.png" alt="Card suggesting late-night coffee shops near Oakland, naming Shibam Coffee on Centre Ave, open till 11 pm" />
-            <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-dinner.png" alt="Card suggesting dinner spots near campus that are open now, on Forbes and in Squirrel Hill" />
-          </div>
-        </div>
-        <div class="widget-dots" role="group" aria-label="Evening suggestions"></div>
-      </div>
-
-      <div class="widget-col" data-widget>
-        <div class="widget-view">
-          <div class="widget-track">
-            <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-python.png" alt="Card resuming a chat called Python Script Help, suggesting elif chains or nested if statements next" />
-            <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-study.png" alt="Card resuming a study app design project, noting that streak logic and push notification timing are still open" />
-          </div>
-        </div>
-        <div class="widget-dots" role="group" aria-label="Work in progress"></div>
-      </div>
-    </div>
-    <p class="widget-cap">Drag a card sideways, or use the dots. The two columns run on their own timing, the way they do on the phone.</p>
-
-    <p class="section-body">
-      Both columns had to earn the space they took from the text field, so each card carries a reason rather than a category. The evening card does not say "restaurants near you", it names Shibam Coffee on Centre Avenue and tells you it closes at eleven. The work card does not say "recent chats", it names the Python thread and the specific thing left to learn in it. A suggestion is only worth reading if it is more specific than the question you were already going to type.
-    </p>
-
-    <h2 class="section-title">The columns move independently</h2>
-    <p class="section-body">
-      These three states are the same screen at three moments. The evening column moves from late-night coffee to dinner nearby while the work column stays on the Python thread, and then the work column moves on to the study app project with its open questions. Neither column waits for the other, which keeps the screen from feeling like a slideshow with one hand on the controls.
-    </p>
-    <div class="phone-grid three-col">
-      <img loading="lazy" decoding="async" src="../images/gemini/2.png" alt="Home screen showing late-night coffee and the Python chat" />
-      <img loading="lazy" decoding="async" src="../images/gemini/3.png" alt="Home screen with the evening column moved on to dinner spots" />
-      <img loading="lazy" decoding="async" src="../images/gemini/4.png" alt="Home screen with the work column moved on to the study app project" />
-    </div>
-
-    <div class="before-after">
-      <div class="ba-column">
-        <div class="ba-tag">Before</div>
-        <div class="ba-headline">A row of suggested prompts</div>
-        <div class="ba-sub">The same set whatever the hour and whatever you were last doing</div>
-      </div>
-      <div class="ba-column">
-        <div class="ba-tag">After</div>
-        <div class="ba-headline">Two labelled columns</div>
-        <div class="ba-sub">One reads the moment, the other reads the work</div>
-      </div>
-    </div>
   </section>
 
   <!-- THE RECREATION -->
   <section id="recreation" class="case-section">
     <div class="section-label">The Recreation</div>
-    <h2 class="section-title">Rebuilding the app before changing it</h2>
+    <h2 class="section-title">Rebuilding the parts that do not come in a kit</h2>
     <p class="section-body">
-      Before designing anything I recreated the existing app, from signing in through to rating an answer. Redrawing an interface at full size is the quickest way to find out where it is thin, and it meant every later decision was argued against the real product instead of a screenshot in my head.
+      Gemini does not follow Material Design. It runs on its own design kit, which meant almost nothing could be pulled from a library and the recreation became the largest single piece of work in the project. None of it appears in the redesign. All of it had to exist before the redesign could be measured against anything real.
     </p>
+
+    <div class="pain-points">
+      <div class="pain-point">
+        <h3>A custom typeface</h3>
+        <p>Gemini uses Google Sans Flex, which has rounded terminals rather than sharp ones. It reads as Google's answer to SF Pro Rounded. I drew the characters I needed as vectors instead of substituting something close, because a near miss on the type is the first thing that makes a recreation look like a recreation.</p>
+      </div>
+      <div class="pain-point">
+        <h3>Every icon as a vector</h3>
+        <p>The icon set is Gemini's own. I rebuilt each one rather than swapping in a standard equivalent, since the corner rounding and the stroke weight are most of what makes the interface feel like this product and not a generic one.</p>
+      </div>
+      <div class="pain-point">
+        <h3>The keyboard and the status bar</h3>
+        <p>Apple's materials kit does not carry either of the ones actually on my phone, so both were built from scratch. They are the furniture nobody looks at, and they are also the reason a screenshot of the recreation passes for a screenshot of the app.</p>
+      </div>
+    </div>
+
     <p class="section-body">
-      The flow below runs left to right in the order a session actually happens, with the redesigned home screen sitting in its place so the whole thing reads as one product rather than a rebuild and a proposal kept apart. It follows a single thread: a beginner asks what a Python if statement does, gets a structured answer with working code, and then tells the assistant the formatting was wrong. I kept the screens that carry the argument and left out the ones that only showed a stock pattern working normally.
+      The flow below runs left to right in the order a session happens, with the redesigned home screen sitting in its place so the whole thing reads as one product rather than a rebuild and a proposal kept apart. It follows a single thread: a beginner asks what a Python if statement does, gets a structured answer with working code, and then tells the assistant the formatting was wrong.
     </p>
 
     <div class="flow-strip" tabindex="0" role="group" aria-label="Recreated screens in order">
@@ -229,14 +150,179 @@
     <p class="flow-hint">Scroll or drag sideways to follow the flow</p>
   </section>
 
+  <!-- READING THE ORIGINAL -->
+  <section id="reading" class="case-section">
+    <div class="section-label">Reading the Original</div>
+    <h2 class="section-title">Three decisions I argued with, then understood</h2>
+    <p class="section-body">
+      These are the three places where my first reading was wrong. In each case I had written down a problem, and in each case working out what the alternative would actually cost turned the problem into a trade I would have made the same way.
+    </p>
+
+    <h2 class="section-title">The input bar never moves</h2>
+    <p class="section-body">
+      The bar is pinned to the bottom at all times, and it is opaque, so it permanently covers a strip of whatever is behind it. In a long code block the last lines sit underneath it. That looked like a straightforward cost paid on every screen for no visible return.
+    </p>
+    <p class="section-body">
+      The alternative is a bar that scrolls away with the conversation, and that means every follow-up starts by scrolling to the bottom to find the field again. Asking a follow-up is the single most common thing a person does after reading an answer. Gemini is trading a permanent small occlusion against a step removed from the most frequent action in the product, and on those terms the fixed bar is clearly the cheaper of the two.
+    </p>
+
+    <h2 class="section-title">Dismissing the keyboard is a gesture with nothing to announce it</h2>
+    <p class="section-body">
+      Nothing on screen says the keyboard can be pushed away. There is no handle, no chevron, no label. Judged purely on discoverability it fails, because a first-time user has no way to learn the gesture from the interface itself.
+    </p>
+    <p class="section-body">
+      The keyboard covers close to half the display, and any visible control for dismissing it would have to live in exactly the space the dismissal is trying to give back. A permanent affordance would be paid for in every session in order to help the first one. The gesture is also carried in from the rest of iOS rather than taught here, since Mail and Messages behave the same way, and because it tracks the finger continuously it doubles as a way to peek at what is behind the keyboard without committing to closing it.
+    </p>
+
+    <h2 class="section-title">Code runs off the side of the screen</h2>
+    <p class="section-body">
+      A code block that needs horizontal scrolling looked like an obvious failure. You cannot read a line without dragging it into view, and the line you want is often the one furthest off screen.
+    </p>
+    <p class="section-body">
+      The alternatives are wrapping and shrinking, and both damage the code. Indentation carries meaning in Python, so a wrapped line stops being safe to read as written. Shrinking to fit runs into the minimum text sizes accessibility guidelines set, which is a floor you cannot design underneath. Gemini is choosing to keep the code honest and make the reader work for it, which for code is the right way round.
+    </p>
+  </section>
+
+  <!-- AN IDEA I SET ASIDE -->
+  <section id="setaside" class="case-section">
+    <div class="section-label">An Idea I Set Aside</div>
+    <h2 class="section-title">A fullscreen code view, and why it did not become the project</h2>
+    <p class="section-body">
+      The overflow was the first thing I wanted to fix, and I built the fix before I questioned it. A control on the code block opens it fullscreen, where the same script gets the whole width of the phone, the chat input is still reachable underneath, and the reader can zoom into a particular part of the script.
+    </p>
+    <p class="section-body">
+      It helps, and it does not solve the problem. A long line is still a long line. Past a certain length you are panning again, only now with more of the line visible at once. That is a better version of the same compromise rather than a different answer to it.
+    </p>
+    <div class="phone-grid three-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge, with a new expand control at its top right" />
+      <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, with the whole width of the phone and the chat input still reachable" />
+      <img loading="lazy" decoding="async" src="../images/gemini/code-3.png" alt="The fullscreen view zoomed in, with lines running past both edges again" />
+    </div>
+
+    <h2 class="section-title">Then rotating the phone, which I liked and still dropped</h2>
+    <p class="section-body">
+      The next thing I explored was letting the phone turn. Landscape gives a long line the wide edge of the display, so the eye travels down the script instead of sweeping left to right and back again on every line. I built it, and I still think it is the better way to read code on a phone.
+    </p>
+    <div class="phone-grid">
+      <img loading="lazy" decoding="async" src="../images/gemini/code-landscape.png" alt="The code view rotated to landscape, with full lines fitting across the wide edge of the screen" />
+    </div>
+    <p class="section-body">
+      I did not keep it. The question I had not asked was who reads code on a phone in the first place. Almost nobody does it by choice. People write and review code at a desk, and the mobile case is checking a snippet or looking something up, not reading a script end to end. Rotation is a real improvement to a situation that hardly arises.
+    </p>
+    <p class="section-body">
+      Spending the redesign there would have meant solving the problem I happened to notice rather than the problem the product actually has. Setting it aside is the decision I am most confident about in this project, and it is the one that pointed me at the screen everybody sees instead of the one a few people reach.
+    </p>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research" class="case-section">
+    <div class="section-label">Research</div>
+    <h2 class="section-title">What the opening screen is actually doing</h2>
+    <p class="section-body">
+      So I went back to the screen people see most, which is the one before any conversation exists. The greeting sits in the middle of the display and almost everything around it is empty. A first-time user is being asked what they want from a product whose range they have no way to judge, and the suggestions offered to help are general enough to apply to anyone.
+    </p>
+    <p class="section-body">
+      I also watched classmates open their assistants rather than asking them how they use them. Almost nobody read the suggested prompts. People went straight to the field and typed, or into the chat history to find a thread they had already started. The most valuable space on the screen was being scrolled past on the way somewhere else.
+    </p>
+
+    <div class="insights">
+      <div class="insight">
+        <div class="insight-number">01</div>
+        <h3>The prompts get skipped</h3>
+        <p>The suggestions are general enough that reading them costs more attention than typing the question already in your head.</p>
+      </div>
+      <div class="insight">
+        <div class="insight-number">02</div>
+        <h3>Most opens are continuations</h3>
+        <p>People came back to a thread they had already started, but resuming one meant remembering it existed and then going to look for it.</p>
+      </div>
+      <div class="insight">
+        <div class="insight-number">03</div>
+        <h3>The context is there and unused</h3>
+        <p>The app already knows the hour, the location, and the last conversation. None of that reaches the first screen.</p>
+      </div>
+    </div>
+
+    <p class="section-body">
+      The dead space is the opportunity. It is the one part of the app where nothing is being traded away for anything, which is what made it worth redesigning when the code view was not.
+    </p>
+  </section>
+
+  <!-- THE REDESIGN -->
+  <section id="redesign" class="case-section">
+    <div class="section-label">The Redesign</div>
+    <h2 class="section-title">Two stacks answering two different questions</h2>
+    <p class="section-body">
+      The greeting stays. Underneath it, instead of one row of generic prompts, there are two labelled stacks. The left stack reads the moment, meaning the time of day, the weather and where you are. The right stack picks up work already in progress and offers a way back into it. Each stack holds four cards and you swipe through them, with dot indicators showing your position in the set.
+    </p>
+
+    <div class="widget-demo">
+      <div class="widget-col" data-widget>
+        <div class="widget-view">
+          <div class="widget-track">
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-coffee.png" alt="Card suggesting late-night coffee shops near Oakland, naming Shibam Coffee on Centre Ave, open till 11 pm" />
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-dinner.png" alt="Card suggesting dinner spots near campus that are open now, on Forbes and in Squirrel Hill" />
+          </div>
+        </div>
+        <div class="widget-dots" role="group" aria-label="Evening suggestions"></div>
+      </div>
+
+      <div class="widget-col" data-widget>
+        <div class="widget-view">
+          <div class="widget-track">
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-python.png" alt="Card resuming a chat called Python Script Help, suggesting elif chains or nested if statements next" />
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-study.png" alt="Card resuming a study app design project, noting that streak logic and push notification timing are still open" />
+          </div>
+        </div>
+        <div class="widget-dots" role="group" aria-label="Work in progress"></div>
+      </div>
+    </div>
+    <p class="widget-cap">Two of the four cards in each stack. Drag sideways or use the dots. The stacks run on their own timing, the way they do on the phone.</p>
+
+    <p class="section-body">
+      Both stacks had to earn the space they took from the text field, so each card carries a reason rather than a category. The evening card does not say "restaurants near you", it names Shibam Coffee on Centre Avenue and tells you it closes at eleven. The work card does not say "recent chats", it names the Python thread and the specific thing left to learn in it. A suggestion is only worth reading if it is more specific than the question you were already going to type.
+    </p>
+
+    <h2 class="section-title">Glass rather than a flat fill</h2>
+    <p class="section-body">
+      The decision I went back and forth on longest was the surface of the cards themselves. A flat fill would have been easier to read and would have sat unambiguously on top of the screen. It also fought with the gradient Gemini already runs behind the home screen, and it made the cards look like objects pasted onto the interface rather than part of it.
+    </p>
+    <p class="section-body">
+      The glass treatment lets that gradient stay visible through the card, so the stack reads as a layer of the screen it is sitting on. It is the harder of the two to keep legible, and it is the one that makes the addition feel like it belongs to Gemini rather than to me.
+    </p>
+
+    <h2 class="section-title">The stacks move independently</h2>
+    <p class="section-body">
+      These three states are the same screen at three moments. The evening stack moves from late-night coffee to dinner nearby while the work stack stays on the Python thread, and then the work stack moves on to the study app project with its open questions. Neither waits for the other, which keeps the screen from reading as a slideshow with one hand on the controls.
+    </p>
+    <div class="phone-grid three-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/2.png" alt="Home screen showing late-night coffee and the Python chat" />
+      <img loading="lazy" decoding="async" src="../images/gemini/3.png" alt="Home screen with the evening stack moved on to dinner spots" />
+      <img loading="lazy" decoding="async" src="../images/gemini/4.png" alt="Home screen with the work stack moved on to the study app project" />
+    </div>
+
+    <div class="before-after">
+      <div class="ba-column">
+        <div class="ba-tag">Before</div>
+        <div class="ba-headline">A row of suggested prompts</div>
+        <div class="ba-sub">The same set whatever the hour and whatever you were last doing</div>
+      </div>
+      <div class="ba-column">
+        <div class="ba-tag">After</div>
+        <div class="ba-headline">Two labelled stacks</div>
+        <div class="ba-sub">One reads the moment, the other reads the work</div>
+      </div>
+    </div>
+  </section>
+
   <!-- REFLECTIONS -->
   <section id="reflections" class="case-section">
     <div class="section-label">Reflections</div>
     <p class="section-body">
-      Rebuilding the app first was the most useful decision in the project. I had opinions about Gemini's interface before I started, and drawing the screens at full size is what sorted the ones that held up from the ones that were really just unfamiliarity.
+      The most useful thing this project taught me was how to argue against myself. The fullscreen code view was a real improvement, I liked it, and it was still the wrong thing to spend a redesign on. Noticing a problem and establishing that the problem is worth solving are two separate tests, and I had been treating them as one.
     </p>
     <p class="section-body">
-      Watching people open the app taught me more than asking them about it did. What someone says they want from a home screen and what they do in the first five seconds are not the same thing, and only one of those is worth designing for.
+      Rebuilding the app first is what made that judgement possible at all. Until I had drawn the input bar, the keyboard and the code block at full size, I was reacting to Gemini's decisions rather than understanding what each one had bought. Three of the things on my original list of problems came off it that way, which is a better outcome than three more features would have been.
     </p>
     <p class="section-body">
       If I kept going I would work on what happens when the context is wrong. A suggestion that misreads the moment is worse than no suggestion at all, and I never designed the case where a card is simply unhelpful, or how someone would say so and have the screen learn from it.
@@ -257,13 +343,13 @@
 
   <script src="../js/nav.js" defer></script>
   <script>
-    /* The two suggestion columns, and the sideways run of recreated screens.
+    /* The two suggestion stacks, and the sideways run of recreated screens.
        Both are here rather than in js/ because nothing else on the site uses
        them. */
     (function () {
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      /* ---------- suggestion columns ---------- */
+      /* ---------- suggestion stacks ---------- */
       var cols = [].slice.call(document.querySelectorAll('[data-widget]'));
 
       cols.forEach(function (col, colIndex) {
@@ -280,9 +366,9 @@
         var startX = 0;
         var dx = 0;
         var held = 0;
-        /* The columns are deliberately out of step with each other. On the
-           phone they cycle on their own schedules, and matching them here
-           would read as one animation rather than two. */
+        /* The stacks are deliberately out of step with each other. On the phone
+           they cycle on their own schedules, and matching them here would read
+           as one animation rather than two. */
         var delay = 4200 + colIndex * 1500;
         var due = Date.now() + delay;
 
@@ -333,7 +419,7 @@
         }
 
         /* Hover only pauses for a mouse. A touch fires pointerenter and then
-           never leaves, which would stop the column for good. */
+           never leaves, which would stop the stack for good. */
         col.addEventListener('pointerenter', function (e) {
           if (e.pointerType === 'mouse') hovered = true;
         });
