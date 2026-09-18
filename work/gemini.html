@@ -32,7 +32,7 @@
   <section class="case-intro">
     <h1 class="case-title">Google Gemini Smart Context</h1>
     <p class="case-description">
-      A redesign of Google Gemini's iOS app focused on improving the feedback experience, home screen personalization, and chat interaction clarity.
+      A redesign of the Google Gemini home screen for iOS. I rebuilt the existing app screen by screen so I was working against the real thing, watched students open it, and replaced the generic prompt row with two suggestion columns that read the time of day and the work already in progress.
     </p>
 
     <div class="case-meta">
@@ -57,9 +57,9 @@
     <!-- Section jump links -->
     <div class="case-toc">
       <a href="#overview">Overview</a>
-      <a href="#problem">Problem</a>
-      <a href="#redesign">Redesign</a>
-      <a href="#screens">Screens</a>
+      <a href="#research">Research</a>
+      <a href="#redesign">The Redesign</a>
+      <a href="#recreation">The Recreation</a>
       <a href="#reflections">Reflections</a>
     </div>
   </section>
@@ -67,156 +67,181 @@
   <!-- OVERVIEW -->
   <section id="overview" class="case-section">
     <div class="section-label">Overview</div>
-    <h2 class="section-title">Gemini has the intelligence. The interface needs to catch up.</h2>
+    <h2 class="section-title">The app knows a great deal and opens with none of it</h2>
     <p class="section-body">
-      Google Gemini is one of the most capable AI assistants available, and its iOS app spends that capability carefully everywhere except the moment you open it. I rebuilt the app screen by screen, from signing in through to rating an answer, because redesigning something you have not drawn yourself is guesswork. Doing that is what showed me where the opening was thin, and the home screen is what I then redesigned.
+      Gemini can hold a long technical conversation, read a photograph, and write working code. Then you open it and get your first name, a text field, and a row of suggested prompts that would look identical on anyone else's phone. The assistant is genuinely capable. The screen you meet first uses none of that capability.
+    </p>
+    <p class="section-body">
+      This project is a redesign of that screen. I recreated the existing app end to end before changing anything, so that the comparison was against the real product rather than my memory of it, and the recreation is what made the gap on the home screen obvious.
     </p>
   </section>
 
-  <!-- THE PROBLEM -->
-  <section id="problem" class="case-section">
-    <div class="section-label">The Problem</div>
-    <h2 class="section-title">Three things I noticed while rebuilding it</h2>
+  <!-- RESEARCH -->
+  <section id="research" class="case-section">
+    <div class="section-label">Research</div>
+    <h2 class="section-title">What people do in the first ten seconds</h2>
+    <p class="section-body">
+      I spoke with classmates who use an AI assistant most days and asked them to open the app in front of me rather than describe how they use it. Watching the first ten seconds turned out to be more useful than anything they said about features afterwards.
+    </p>
+    <p class="section-body">
+      The behaviour was consistent enough to design against. Almost nobody read the suggested prompts. People either went straight to the text field and typed, or went into the chat history to find a conversation they had already started. The suggestions occupied the most valuable space on the screen and were being scrolled past on the way to somewhere else.
+    </p>
 
-    <div class="pain-points">
-      <div class="pain-point">
-        <h3>The opening asks nothing and offers nothing</h3>
-        <p>You are greeted by name and then handed the same suggestions as everyone else. The app already knows the time, the place and what you were last doing, and uses none of it.</p>
+    <!-- If you have counts from the interviews, such as how many students you sat
+         with or how many went straight past the prompts, they belong here as a
+         short stat row above the insights. Send me the numbers and I will add it. -->
+
+    <div class="insights">
+      <div class="insight">
+        <div class="insight-number">01</div>
+        <h3>The prompts get skipped</h3>
+        <p>The suggestions are general enough that reading them costs more attention than typing the question already in your head.</p>
       </div>
-      <div class="pain-point">
-        <h3>An answer ends in a blank field</h3>
-        <p>The moment a long answer finishes is the moment you are most likely to have a follow-up, and it is exactly when the interface stops helping.</p>
+      <div class="insight">
+        <div class="insight-number">02</div>
+        <h3>Most opens are continuations</h3>
+        <p>People came back to a thread they had already started, but resuming one meant remembering it existed and then going to look for it.</p>
       </div>
-      <div class="pain-point">
-        <h3>Telling it something is wrong is a detour</h3>
-        <p>Rating an answer badly should take a few seconds and return you to where you were, not send you somewhere you have to find your way back from.</p>
+      <div class="insight">
+        <div class="insight-number">03</div>
+        <h3>The context is there and unused</h3>
+        <p>The app already knows the hour, the location, and the last conversation. None of that reaches the first screen.</p>
       </div>
     </div>
+
+    <p class="section-body">
+      That is what moved the project to the home screen rather than the chat. The conversation itself works. The problem sits in the ten seconds before it starts.
+    </p>
   </section>
 
   <!-- THE REDESIGN -->
   <section id="redesign" class="case-section">
     <div class="section-label">The Redesign</div>
-    <h2 class="section-title">The opening screen should already know something about you</h2>
+    <h2 class="section-title">Two columns answering two different questions</h2>
     <p class="section-body">
-      I rebuilt the app screen by screen first, so that anything I changed would be measured against the real thing rather than against a memory of it. The home screen is where I then made the case for something different: the greeting stays, and the two suggestion columns beneath it do the work.
+      The greeting stays. Underneath it, instead of one row of generic prompts, there are two labelled columns. The left column reads the moment, meaning the time of day and where you are. The right column picks up work already in progress. Each column holds a small stack of cards and cycles through them, so the screen has something different to say at eleven at night than it does on a Tuesday morning.
     </p>
 
-    <div class="before-after">
-      <div class="ba-column">
-        <div class="ba-tag">Before</div>
-        <div class="ba-headline">"The same prompts, whatever the time of day"</div>
-        <div class="ba-sub">Suggestions that could belong to anyone</div>
+    <div class="widget-demo">
+      <div class="widget-col" data-widget>
+        <p class="widget-head">For your evening</p>
+        <div class="widget-view">
+          <div class="widget-track">
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-coffee.png" alt="Card suggesting late-night coffee shops near Oakland, naming Shibam Coffee on Centre Ave, open till 11 pm" />
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-dinner.png" alt="Card suggesting dinner spots near campus that are open now, on Forbes and in Squirrel Hill" />
+          </div>
+        </div>
+        <div class="widget-dots" role="group" aria-label="Evening suggestions"></div>
       </div>
-      <div class="ba-column">
-        <div class="ba-tag">After</div>
-        <div class="ba-headline">"For your evening" and "Pick up where you left off"</div>
-        <div class="ba-sub">Two labelled columns, each answering a different question</div>
+
+      <div class="widget-col" data-widget>
+        <p class="widget-head">Pick up where you left off</p>
+        <div class="widget-view">
+          <div class="widget-track">
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-python.png" alt="Card resuming a chat called Python Script Help, suggesting elif chains or nested if statements next" />
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-study.png" alt="Card resuming a study app design project, noting that streak logic and push notification timing are still open" />
+          </div>
+        </div>
+        <div class="widget-dots" role="group" aria-label="Work in progress"></div>
       </div>
+    </div>
+    <p class="widget-cap">Drag a card sideways, or use the dots. The two columns run on their own timing, the way they do on the phone.</p>
+
+    <p class="section-body">
+      Both columns had to earn the space they took from the text field, so each card carries a reason rather than a category. The evening card does not say "restaurants near you", it names Shibam Coffee on Centre Avenue and tells you it closes at eleven. The work card does not say "recent chats", it names the Python thread and the specific thing left to learn in it. A suggestion is only worth reading if it is more specific than the question you were already going to type.
+    </p>
+
+    <h2 class="section-title">The columns move independently</h2>
+    <p class="section-body">
+      These three states are the same screen at three moments. The evening column moves from late-night coffee to dinner nearby while the work column stays on the Python thread, and then the work column moves on to the study app project with its open questions. Neither column waits for the other, which keeps the screen from feeling like a slideshow with one hand on the controls.
+    </p>
+    <div class="phone-grid three-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/2.png" alt="Home screen showing late-night coffee and the Python chat" />
+      <img loading="lazy" decoding="async" src="../images/gemini/3.png" alt="Home screen with the evening column moved on to dinner spots" />
+      <img loading="lazy" decoding="async" src="../images/gemini/4.png" alt="Home screen with the work column moved on to the study app project" />
     </div>
 
     <div class="before-after">
       <div class="ba-column">
         <div class="ba-tag">Before</div>
-        <div class="ba-headline">"One fixed set of cards"</div>
-        <div class="ba-sub">The same screen on every open</div>
+        <div class="ba-headline">A row of suggested prompts</div>
+        <div class="ba-sub">The same set whatever the hour and whatever you were last doing</div>
       </div>
       <div class="ba-column">
         <div class="ba-tag">After</div>
-        <div class="ba-headline">"Cards that cycle through what is relevant"</div>
-        <div class="ba-sub">Late-night coffee, then dinner nearby, then the project still open</div>
+        <div class="ba-headline">Two labelled columns</div>
+        <div class="ba-sub">One reads the moment, the other reads the work</div>
       </div>
     </div>
   </section>
 
-  <!-- FINAL SCREENS -->
-  <section id="screens" class="case-section">
-    <div class="section-label">Final Screens</div>
+  <!-- THE RECREATION -->
+  <section id="recreation" class="case-section">
+    <div class="section-label">The Recreation</div>
+    <h2 class="section-title">Rebuilding the app before changing it</h2>
     <p class="section-body">
-      These run in the order a session actually happens, from signing in to giving feedback on an answer. It is one continuous thread: a beginner asking about Python, then asking for something longer, then telling the assistant the answer was not formatted well.
+      Before designing anything I recreated the existing app, from signing in through to rating an answer. Redrawing an interface at full size is the quickest way to find out where it is thin, and it meant every later decision was argued against the real product instead of a screenshot in my head.
+    </p>
+    <p class="section-body">
+      The flow below runs left to right in the order a session actually happens. It is one continuous thread: a beginner asks what a Python if statement does, asks for something longer, gets a structured answer with code, and then tells the assistant the formatting was wrong.
     </p>
 
-    <h2 class="section-title">Signing in</h2>
-    <p class="section-body">
-      The first screen does one thing. The account is already known, so the only decision left is whether to continue as yourself.
-    </p>
-    <div class="phone-single">
-      <img src="../images/gemini/1.png" alt="Sign-in screen reading Meet Gemini, your personal AI assistant" />
+    <div class="flow-strip" tabindex="0" role="group" aria-label="Recreated screens in order">
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/1.png" alt="Sign-in screen reading Meet Gemini, your personal AI assistant" />
+        <figcaption class="flow-cap"><span class="flow-num">01</span><span>Signing in. The account is already known, so the only decision left is whether to continue as yourself.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/5.png" alt="Side drawer with new chat, search, images and library" />
+        <figcaption class="flow-cap"><span class="flow-num">02</span><span>The drawer holds four destinations, recent chats beneath them, and the account at the bottom.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/6.png" alt="Chat search with the keyboard open" />
+        <figcaption class="flow-cap"><span class="flow-num">03</span><span>Search is the same list narrowed, with the keyboard already up.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/7.png" alt="A short chat answer explaining a Python if statement" />
+        <figcaption class="flow-cap"><span class="flow-num">04</span><span>A short answer, with the response actions under the text rather than behind a menu.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/8.png" alt="The input expanded to hold a long multi-paragraph prompt" />
+        <figcaption class="flow-cap"><span class="flow-num">05</span><span>The field grows with a long prompt instead of scrolling inside three lines.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/9.png" alt="A structured long answer with headings and a bulleted list" />
+        <figcaption class="flow-cap"><span class="flow-num">06</span><span>Headings and lists break a long answer into parts that can be scanned.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/10.png" alt="A code block followed by two suggested next steps" />
+        <figcaption class="flow-cap"><span class="flow-num">07</span><span>After the code block, two next steps about the script just written.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/11.png" alt="Feedback sheet asking why this rating was chosen" />
+        <figcaption class="flow-cap"><span class="flow-num">08</span><span>Thumbs down opens the feedback sheet straight away.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/12.png" alt="Feedback sheet with a written reason about formatting" />
+        <figcaption class="flow-cap"><span class="flow-num">09</span><span>Common reasons sit as chips, with a field for anything they do not cover.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/13.png" alt="Back in the chat with the rating held and a thank you toast" />
+        <figcaption class="flow-cap"><span class="flow-num">10</span><span>Submitting returns to the chat with the rating still showing and a toast at the bottom.</span></figcaption>
+      </figure>
     </div>
-
-    <h2 class="section-title">Home, with the suggestions in context</h2>
-    <p class="section-body">
-      The redesigned opening, and the three frames show it cycling. Two labelled columns sit under the greeting: one reads the time and the place, offering late-night coffee in Oakland and then dinner near campus, while the other picks up the work already in progress, moving from the Python chat to a study app project with open questions. Because the cards rotate, the screen has something different to say each time it opens rather than repeating one generic set.
-    </p>
-    <div class="phone-grid three-col">
-      <img src="../images/gemini/2.png" alt="Home screen suggesting late-night coffee shops and a Python chat to resume" />
-      <img src="../images/gemini/3.png" alt="Home screen cycled to dinner spots near campus" />
-      <img src="../images/gemini/4.png" alt="Home screen cycled to an open study app design project" />
-    </div>
-
-    <h2 class="section-title">Drawer and search</h2>
-    <p class="section-body">
-      Navigation stays at four items with recent chats listed beneath them, and the account sits at the bottom where it is out of the way. Search is the same list narrowed, with the keyboard already up.
-    </p>
-    <div class="phone-grid two-col">
-      <img src="../images/gemini/5.png" alt="Side drawer with new chat, search, images and library" />
-      <img src="../images/gemini/6.png" alt="Chat search with the keyboard open" />
-    </div>
-
-    <h2 class="section-title">A short answer</h2>
-    <p class="section-body">
-      The first exchange. A beginner asks what a Python if statement does and gets two sentences and an everyday analogy back, with the response actions sitting directly beneath the text rather than behind a menu.
-    </p>
-    <div class="phone-single">
-      <img src="../images/gemini/7.png" alt="A short chat answer explaining a Python if statement" />
-    </div>
-
-    <h2 class="section-title">Composing a long prompt</h2>
-    <p class="section-body">
-      The field grows with the prompt instead of scrolling inside three lines, so a long instruction can be read back in full before it is sent, and the send button stays where it was.
-    </p>
-    <div class="phone-single">
-      <img src="../images/gemini/8.png" alt="The input expanded to hold a long multi-paragraph prompt" />
-    </div>
-
-    <h2 class="section-title">Structure in a long answer</h2>
-    <p class="section-body">
-      Headings, bold labels and an inline code chip break a long answer into parts that can be scanned rather than read start to finish. The prompt above it collapses to three lines with a chevron to reopen it, and a floating control drops back to the newest text.
-    </p>
-    <div class="phone-single">
-      <img src="../images/gemini/9.png" alt="A structured long answer with headings and a bulleted list" />
-    </div>
-
-    <h2 class="section-title">Code, and where to go next</h2>
-    <p class="section-body">
-      After the code block the assistant asks where to take the learning next and offers two specific moves, both about the script just written. That is the difference between a thread continuing and a reader having to invent the next question in front of an empty field.
-    </p>
-    <div class="phone-single">
-      <img src="../images/gemini/10.png" alt="A code block followed by two suggested next steps" />
-    </div>
-
-    <h2 class="section-title">Feedback in three taps</h2>
-    <p class="section-body">
-      Thumbs down opens the sheet straight away, with the common reasons as chips and a field for anything they do not cover, here a note about formatting. Submitting returns to the chat with the rating still showing and a toast at the bottom, rather than a modal that has to be dismissed.
-    </p>
-    <div class="phone-grid three-col">
-      <img src="../images/gemini/11.png" alt="Feedback sheet asking why this rating was chosen" />
-      <img src="../images/gemini/12.png" alt="Feedback sheet with a written reason about formatting" />
-      <img src="../images/gemini/13.png" alt="Back in the chat with the rating held and a thank you toast" />
-    </div>
+    <p class="flow-hint">Scroll or drag sideways to follow the flow</p>
   </section>
 
   <!-- REFLECTIONS -->
   <section id="reflections" class="case-section">
     <div class="section-label">Reflections</div>
     <p class="section-body">
-      This project pushed me to think about AI interfaces differently, not just as chat windows, but as adaptive surfaces that should respond to who you are and what you're doing.
+      Rebuilding the app first was the most useful decision in the project. I had opinions about Gemini's interface before I started, and drawing the screens at full size is what sorted the ones that held up from the ones that were really just unfamiliarity.
     </p>
     <p class="section-body">
-      The feedback redesign was the most constrained problem: how do you make reporting feel frictionless without making the UI feel paranoid or over-engineered? The answer was reducing steps, not adding options.
+      Watching people open the app taught me more than asking them about it did. What someone says they want from a home screen and what they do in the first five seconds are not the same thing, and only one of those is worth designing for.
     </p>
     <p class="section-body">
-      If I continued this project, I'd explore how Gemini's home screen could learn across sessions, surfacing the right context before the user even has to ask.
+      If I kept going I would work on what happens when the context is wrong. A suggestion that misreads the moment is worse than no suggestion at all, and I never designed the case where a card is simply unhelpful, or how someone would say so and have the screen learn from it.
     </p>
   </section>
 
@@ -233,5 +258,166 @@
   </footer>
 
   <script src="../js/nav.js" defer></script>
+  <script>
+    /* The two suggestion columns, and the sideways run of recreated screens.
+       Both are here rather than in js/ because nothing else on the site uses
+       them. */
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---------- suggestion columns ---------- */
+      var cols = [].slice.call(document.querySelectorAll('[data-widget]'));
+
+      cols.forEach(function (col, colIndex) {
+        var view = col.querySelector('.widget-view');
+        var track = col.querySelector('.widget-track');
+        var dotBox = col.querySelector('.widget-dots');
+        var slides = [].slice.call(track.querySelectorAll('img'));
+        if (slides.length < 2) return;
+
+        var index = 0;
+        var visible = false;
+        var hovered = false;
+        var dragging = false;
+        var startX = 0;
+        var dx = 0;
+        var held = 0;
+        /* The columns are deliberately out of step with each other. On the
+           phone they cycle on their own schedules, and matching them here
+           would read as one animation rather than two. */
+        var delay = 4200 + colIndex * 1500;
+        var due = Date.now() + delay;
+
+        var dots = slides.map(function (slide, i) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'widget-dot' + (i === 0 ? ' is-on' : '');
+          b.setAttribute('aria-label', 'Show card ' + (i + 1) + ' of ' + slides.length);
+          b.addEventListener('click', function () {
+            go(i);
+            hold();
+          });
+          dotBox.appendChild(b);
+          return b;
+        });
+
+        function go(i) {
+          index = (i + slides.length) % slides.length;
+          track.classList.remove('no-ease');
+          track.style.transform = 'translateX(' + (-index * 100) + '%)';
+          dots.forEach(function (d, n) {
+            d.classList.toggle('is-on', n === index);
+          });
+        }
+
+        function hold() {
+          held = Date.now() + 7000;
+        }
+
+        window.setInterval(function () {
+          var now = Date.now();
+          if (reduce || !visible || hovered || dragging || now < held) {
+            due = now + delay;
+            return;
+          }
+          if (now >= due) {
+            go(index + 1);
+            due = now + delay;
+          }
+        }, 200);
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (entries) {
+            visible = entries[0].isIntersecting;
+          }, { threshold: 0.35 }).observe(col);
+        } else {
+          visible = true;
+        }
+
+        /* Hover only pauses for a mouse. A touch fires pointerenter and then
+           never leaves, which would stop the column for good. */
+        col.addEventListener('pointerenter', function (e) {
+          if (e.pointerType === 'mouse') hovered = true;
+        });
+        col.addEventListener('pointerleave', function (e) {
+          if (e.pointerType === 'mouse') hovered = false;
+        });
+
+        view.addEventListener('pointerdown', function (e) {
+          if (e.pointerType === 'mouse' && e.button !== 0) return;
+          dragging = true;
+          startX = e.clientX;
+          dx = 0;
+          view.classList.add('is-dragging');
+          track.classList.add('no-ease');
+          if (view.setPointerCapture) view.setPointerCapture(e.pointerId);
+        });
+
+        view.addEventListener('pointermove', function (e) {
+          if (!dragging) return;
+          dx = e.clientX - startX;
+          track.style.transform = 'translateX(calc(' + (-index * 100) + '% + ' + dx + 'px))';
+        });
+
+        function endDrag() {
+          if (!dragging) return;
+          dragging = false;
+          view.classList.remove('is-dragging');
+          var threshold = Math.max(34, view.clientWidth * 0.14);
+          if (dx <= -threshold) go(index + 1);
+          else if (dx >= threshold) go(index - 1);
+          else go(index);
+          dx = 0;
+          hold();
+        }
+
+        view.addEventListener('pointerup', endDrag);
+        view.addEventListener('pointercancel', endDrag);
+        view.addEventListener('dragstart', function (e) { e.preventDefault(); });
+
+        dotBox.addEventListener('keydown', function (e) {
+          if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+          e.preventDefault();
+          go(index + (e.key === 'ArrowRight' ? 1 : -1));
+          hold();
+          dots[index].focus();
+        });
+
+        go(0);
+      });
+
+      /* ---------- the sideways run of screens ---------- */
+      var strip = document.querySelector('.flow-strip');
+      if (!strip) return;
+
+      var down = false;
+      var sx = 0;
+      var sl = 0;
+
+      strip.addEventListener('pointerdown', function (e) {
+        /* Touch already scrolls this natively and does it better. */
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        down = true;
+        sx = e.clientX;
+        sl = strip.scrollLeft;
+        strip.classList.add('is-dragging');
+      });
+
+      strip.addEventListener('pointermove', function (e) {
+        if (!down) return;
+        e.preventDefault();
+        strip.scrollLeft = sl - (e.clientX - sx);
+      });
+
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (type) {
+        strip.addEventListener(type, function () {
+          down = false;
+          strip.classList.remove('is-dragging');
+        });
+      });
+
+      strip.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    }());
+  </script>
 </body>
 </html>

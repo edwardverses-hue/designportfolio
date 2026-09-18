@@ -1095,3 +1095,207 @@ h1, h2, h3, h4, h5, h6 {
     animation: none !important;
   }
 }
+
+/* ---------- WIDGET CAROUSEL (Gemini case study) ---------- */
+/* The two suggestion columns from the redesigned home screen, lifted off the
+   phone so the cycling can actually be tried. The cards were cut straight out
+   of the home screen renders, so everything around them is the app's own black
+   and the panel below has to match it exactly or the seam shows. */
+.widget-demo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  max-width: 840px;
+  margin: 48px auto 20px;
+  padding: 40px 40px 34px;
+  /* The cards were cut out of the phone screen, so each one carries the blue
+     glow that sits behind the bottom of the home screen. Left on a flat black
+     panel that glow ends in a hard rectangle. The panel runs the same ramp so
+     the crop edge blends instead of drawing a box. */
+  background: #000000 linear-gradient(to bottom,
+    #000000 0%, #000000 74%, #050B1C 84%, #09122E 93%, #09122E 100%);
+  border-radius: 28px;
+}
+
+.widget-col {
+  min-width: 0;
+}
+
+.widget-head {
+  font-size: 13px;
+  font-weight: 300;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.62);
+  margin-bottom: 14px;
+}
+
+.widget-view {
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.widget-view.is-dragging {
+  cursor: grabbing;
+}
+
+.widget-track {
+  display: flex;
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+
+.widget-track.no-ease {
+  transition: none;
+}
+
+.widget-track img {
+  flex: 0 0 100%;
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0;
+  background: transparent;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.widget-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 18px;
+}
+
+.widget-dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.24);
+  cursor: pointer;
+  transition: background 0.25s ease, width 0.25s ease;
+}
+
+.widget-dot.is-on {
+  width: 18px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.widget-dot:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 3px;
+}
+
+.widget-cap {
+  max-width: 840px;
+  margin: 0 auto 48px;
+  padding: 0 24px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #6C848E;
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .widget-demo {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 30px 26px 26px;
+    margin-inline: 24px;
+    /* Stacked, the panel is two column bands instead of one, so the same ramp
+       is tiled at half height to sit under each of them. */
+    background: #000000 linear-gradient(to bottom,
+      #000000 0%, #000000 72%, #050B1C 83%, #09122E 92%, #09122E 97%,
+      #000000 100%) 0 0 / 100% 50% repeat-y;
+  }
+}
+
+/* ---------- FLOW STRIP ---------- */
+/* The recreated screens, read left to right in the order a session happens.
+   They are supporting evidence rather than the argument, so they sit in one
+   scrolling line instead of taking a full screen height each. */
+.flow-strip {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  max-width: 1400px;
+  margin: 40px auto 0;
+  padding: 4px 24px 24px;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #D6D6D6 transparent;
+}
+
+.flow-strip.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.flow-strip::-webkit-scrollbar {
+  height: 6px;
+}
+
+.flow-strip::-webkit-scrollbar-thumb {
+  background: #D6D6D6;
+  border-radius: 999px;
+}
+
+.flow-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.flow-item {
+  flex: 0 0 auto;
+  width: 246px;
+  scroll-snap-align: center;
+}
+
+.flow-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+  background: transparent;
+  -webkit-user-drag: none;
+}
+
+.flow-cap {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #6C848E;
+}
+
+.flow-num {
+  flex: 0 0 auto;
+  color: #000000;
+}
+
+.flow-hint {
+  max-width: 1400px;
+  margin: 0 auto 48px;
+  padding: 0 24px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6C848E;
+}
+
+@media (max-width: 720px) {
+  .flow-item {
+    width: 200px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .widget-track {
+    transition: none;
+  }
+}

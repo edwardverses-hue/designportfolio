@@ -32,7 +32,7 @@
   <section class="case-intro">
     <h1 class="case-title">Sessions</h1>
     <p class="case-description">
-      A social study accountability app that helps students stay locked in together. Sessions lets friends see each other studying in real time on a campus map, join public or private study sessions, and build streaks that keep momentum going.
+      A social study app for college students that makes the focus timer something other people can see. Sessions puts friends on a campus map while they work, lets anyone join a public or private session already in progress, and keeps streaks in front of the people who would actually notice them.
     </p>
 
     <div class="case-meta">
@@ -57,8 +57,8 @@
     <!-- Section jump links -->
     <div class="case-toc">
       <a href="#problem">The Problem</a>
-      <a href="#reframe">The Reframe</a>
       <a href="#research">Research</a>
+      <a href="#reframe">The Reframe</a>
       <a href="#principles">Principles</a>
       <a href="#process">Process</a>
       <a href="#system">System</a>
@@ -70,45 +70,23 @@
   <!-- THE PROBLEM -->
   <section id="problem" class="case-section">
     <div class="section-label">The Problem</div>
-    <h2 class="section-title">Studying alone is quiet. Staying accountable is loud.</h2>
+    <h2 class="section-title">Focus apps are built for one person</h2>
     <p class="section-body">
-      College students often struggle to stay consistent. Existing study apps rely on solo timers, gamified streaks, or leaderboards that quickly lose meaning. What's missing is a way to feel the presence of others: the ambient motivation of knowing your friends are locked in too.
+      Most study apps give you a timer, a streak counter, and sometimes a leaderboard full of strangers. None of them account for why a student walks to the library at ten at night instead of working at their desk, which is that being near other people doing the same thing makes it easier to start and easier to keep going. That part of studying has no place in the software.
     </p>
 
     <div class="pain-points">
       <div class="pain-point">
-        <h3>Isolation</h3>
-        <p>Solo focus apps feel lonely and easy to abandon.</p>
+        <h3>Studying alone</h3>
+        <p>A timer running on a phone by itself is easy to cancel and easy to forget.</p>
       </div>
       <div class="pain-point">
-        <h3>Empty gamification</h3>
-        <p>Streaks and points without social meaning stop mattering.</p>
+        <h3>Streaks nobody sees</h3>
+        <p>A counter only the user knows about stops carrying weight after a week or two.</p>
       </div>
       <div class="pain-point">
-        <h3>No shared context</h3>
-        <p>Study groups happen ad hoc. There's no place to see who's studying now.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- THE REFRAME -->
-  <section id="reframe" class="case-section">
-    <div class="section-label">The Reframe</div>
-    <h2 class="section-title">From solo timer to social presence</h2>
-    <p class="section-body">
-      I reframed the question from <em>"How do we help students focus longer?"</em> to <em>"How do we make studying feel like a shared act?"</em>, turning the timer into a visible, joinable moment on a map.
-    </p>
-
-    <div class="before-after">
-      <div class="ba-column">
-        <div class="ba-tag">Before</div>
-        <div class="ba-headline">"Focus for 25 minutes."</div>
-        <div class="ba-sub">Solo timer, no context</div>
-      </div>
-      <div class="ba-column">
-        <div class="ba-tag">After</div>
-        <div class="ba-headline">"7 friends studying now."</div>
-        <div class="ba-sub">Ambient presence, real accountability</div>
+        <h3>No way to find each other</h3>
+        <p>Study groups get arranged over text, and there is nowhere to check who is already working.</p>
       </div>
     </div>
   </section>
@@ -116,47 +94,72 @@
   <!-- RESEARCH -->
   <section id="research" class="case-section">
     <div class="section-label">Research</div>
-    <h2 class="section-title">Why solo study apps don't stick</h2>
+    <h2 class="section-title">How students already study on campus</h2>
     <p class="section-body">
-      I looked at how peers actually study on campus and what makes them show up. Three patterns emerged that shaped the product.
+      I talked to classmates about where they study, who they go with, and what makes them actually show up. Almost none of their answers were about focus technique. They were about other people: who was there, who would notice if they left, and whether there was something already happening they could walk into.
     </p>
 
     <div class="insights">
       <div class="insight">
         <div class="insight-number">01</div>
-        <h3>Location is motivation</h3>
-        <p>Students already choose libraries and cafés because being near others in the same mindset helps them focus.</p>
+        <h3>Place is already the strategy</h3>
+        <p>Students pick a library or a café for the room and the people in it, not the desk. Choosing where to sit is the thing a focus app is trying to replace.</p>
       </div>
       <div class="insight">
         <div class="insight-number">02</div>
-        <h3>Streaks need witnesses</h3>
-        <p>A streak means nothing if no one knows. Public streaks with friends create real stakes.</p>
+        <h3>Streaks need an audience</h3>
+        <p>Everyone I asked had abandoned a streak in some app, and none of them could remember a single person noticing.</p>
       </div>
       <div class="insight">
         <div class="insight-number">03</div>
-        <h3>Joining beats scheduling</h3>
-        <p>Coordinating a study session is friction. Seeing one already happening removes it entirely.</p>
+        <h3>Joining is easier than planning</h3>
+        <p>Agreeing on a time and a place over text is enough friction to kill a study session. Walking into one that has already started is not.</p>
       </div>
     </div>
   </section>
 
-  <!-- PRODUCT PRINCIPLES -->
+  <!-- THE REFRAME -->
+  <section id="reframe" class="case-section">
+    <div class="section-label">The Reframe</div>
+    <h2 class="section-title">From a private timer to a visible one</h2>
+    <p class="section-body">
+      I started by asking how to help someone focus for longer, and that question kept producing the same solo features every other app already ships. The more useful question was what changes when a timer is visible to other people. Once a session is something friends can see and join, it stops being a private promise and becomes a small event happening on campus.
+    </p>
+
+    <div class="before-after">
+      <div class="ba-column">
+        <div class="ba-tag">Before</div>
+        <div class="ba-headline">"Focus for 25 minutes."</div>
+        <div class="ba-sub">A countdown with nothing behind it</div>
+      </div>
+      <div class="ba-column">
+        <div class="ba-tag">After</div>
+        <div class="ba-headline">"7 friends studying now."</div>
+        <div class="ba-sub">A session other people can see and join</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
   <section id="principles" class="case-section">
-    <div class="section-label">Product Principles</div>
-    <h2 class="section-title">Designing for calm, social focus</h2>
+    <div class="section-label">Principles</div>
+    <h2 class="section-title">Rules I set before drawing screens</h2>
+    <p class="section-body">
+      A social layer on top of studying can go wrong quickly. It turns competitive, or it gets noisy, or it shows more than a student meant to share. I wrote down three constraints early and used them to settle arguments with myself later.
+    </p>
 
     <div class="principles">
       <div class="principle">
-        <h3>Presence over pressure</h3>
-        <p>Show who's studying, but never guilt anyone into starting. Motivation should come from wanting to join in.</p>
+        <h3>The app never asks you to start</h3>
+        <p>Friends and their sessions are visible on the map, but nothing about seeing them is framed as a prompt. There are no notifications telling a student that someone else is ahead of them.</p>
       </div>
       <div class="principle">
-        <h3>Craft over gamification</h3>
-        <p>Streaks, milestones, and challenges are meaningful moments, not noisy notifications. Every celebration is earned.</p>
+        <h3>Celebrate less than feels natural</h3>
+        <p>Streaks, milestones, and challenges only interrupt when something real happened. If every finished session ends in confetti, none of it registers.</p>
       </div>
       <div class="principle">
-        <h3>Privacy by default</h3>
-        <p>Every session is either public or private. Users control who sees them, where, and when.</p>
+        <h3>Public or private, decided up front</h3>
+        <p>Every session is one or the other, chosen before the timer starts. Visibility is never a default a user has to go find and undo.</p>
       </div>
     </div>
   </section>
@@ -164,9 +167,9 @@
   <!-- PROCESS -->
   <section id="process" class="case-section">
     <div class="section-label">Process</div>
-    <h2 class="section-title">Mapping the end-to-end journey</h2>
+    <h2 class="section-title">Mapping every path through the app</h2>
     <p class="section-body">
-      I mapped every path a user could take: from onboarding, to starting a solo timer, to joining a group session on the map. This flow anchored every screen decision that followed.
+      Before drawing any screens I laid the whole product out as a flow: onboarding, starting a timer alone, finding a session on the map, joining one, and what happens when it ends. Writing it out this way made the gaps obvious, particularly around what a session looks like to everyone who is not in it. That question shaped most of the screens that followed.
     </p>
     <div class="full-image">
       <img src="../images/sessions/Flow.png" alt="User flow" />
@@ -176,9 +179,9 @@
   <!-- SYSTEM DESIGN -->
   <section id="system" class="case-section">
     <div class="section-label">System Design</div>
-    <h2 class="section-title">A quiet, iOS-native visual language</h2>
+    <h2 class="section-title">A visual language borrowed from iOS</h2>
     <p class="section-body">
-      Sessions uses Helvetica Neue with a restrained palette of soft blues, warm off-whites, and near-black text. The interface leans on glassmorphism, gentle gradients, and pill-shaped controls to feel native to iOS while keeping its own identity.
+      Sessions uses Helvetica Neue with soft blues, warm off-whites, and near-black text. Glass surfaces, gentle gradients, and pill-shaped controls keep it close enough to iOS that the first open feels familiar. The restraint is the point. This is an app students leave running next to their notes for hours, so it had to be quiet enough to live there.
     </p>
     <div class="full-image">
       <img src="../images/sessions/Identity.png" alt="Visual identity" />
@@ -188,53 +191,53 @@
   <!-- FINAL WALKTHROUGH -->
   <section id="walkthrough" class="case-section">
     <div class="section-label">Final Walkthrough</div>
-    <h2 class="section-title">Set a timer, get to work</h2>
+    <h2 class="section-title">Starting a session</h2>
     <p class="section-body">
-      Every session starts the same way: pick public or private, dial in a duration, and go. The screen quiets down as the timer starts. The focus is the work, not the app.
+      Every session begins the same way. You pick public or private, set a length, and start. Once the timer is running the screen gives most of its interface back, which is deliberate: there should be nothing to check or adjust during the part where you are supposed to be working.
     </p>
     <div class="phone-grid two-col">
       <img src="../images/sessions/Timer.png" alt="Timer setup" />
       <img src="../images/sessions/Timer_Running.png" alt="Timer running" />
     </div>
 
-    <h2 class="section-title">See who else is studying</h2>
+    <h2 class="section-title">Seeing who is already studying</h2>
     <p class="section-body">
-      The map is the heart of Sessions. Friends appear as pins with the time left in their session. Group sessions surface as joinable moments. Just tap and go.
+      The map carries most of the app. Friends appear as pins with the time left on their timer, and group sessions show up as something you can join in a single tap. It answers a question students are already asking each other over text, which is whether anyone is out right now.
     </p>
     <div class="phone-grid two-col">
       <img src="../images/sessions/Location.png" alt="Map view" />
       <img src="../images/sessions/Friends.png" alt="Friends list" />
     </div>
 
-    <h2 class="section-title">Build a circle</h2>
+    <h2 class="section-title">Adding friends</h2>
     <p class="section-body">
-      Sessions is only as good as who you study with. Adding friends is intentional: search, invite, or accept suggestions based on mutual friends.
+      The map is empty without people on it, so adding friends needed to be quick without turning into a follower count. You can search, invite someone directly, or accept a suggestion built from mutual friends. There is no discovery feed and no public profile to maintain.
     </p>
     <div class="phone-grid two-col">
       <img src="../images/sessions/Add_Friends.png" alt="Add friends" />
       <img src="../images/sessions/Profie.png" alt="Profile" />
     </div>
 
-    <h2 class="section-title">Mourn the streak</h2>
+    <h2 class="section-title">When a streak breaks</h2>
     <p class="section-body">
-      Losing a streak is feedback too, and it is the moment the tone matters most. It stays honest, never mocking, never over-eager. "You went cold" hits harder than a red X ever could.
+      This is where an app's tone shows most clearly. The usual options are to scold the user or to quietly hide the loss, and neither one is honest. The screen states what happened, holds the number, and stops there.
     </p>
     <div class="phone-grid">
       <img src="../images/sessions/Streak_Frozen.png" alt="Streak lost" />
     </div>
 
-    <h2 class="section-title">Weekly challenges & session history</h2>
+    <h2 class="section-title">Challenges and history</h2>
     <p class="section-body">
-      Group challenges give friends a shared goal for the week. Session history gives you a quiet, honest look at what you actually put in.
+      Weekly challenges give a group something to work toward together, which is what gives the streak a reason to exist beyond a number going up. Session history is the opposite of that. It is a plain record of what a student actually put in, with no encouragement attached to it.
     </p>
     <div class="phone-grid two-col">
       <img src="../images/sessions/Weekly_Challenge_1.png" alt="Weekly challenge" />
       <img src="../images/sessions/Session_History.png" alt="Session history" />
     </div>
 
-    <h2 class="section-title">Onboarding & study preferences</h2>
+    <h2 class="section-title">Onboarding</h2>
     <p class="section-body">
-      Onboarding sets up who you are and how you study: subjects, times, style, and setting. These preferences quietly shape session suggestions later.
+      Setup asks what a student is taking, when they usually work, and what kind of room they prefer. None of it is framed as a personality quiz. The answers feed the session suggestions later, so the two minutes spent here pay for themselves inside the first week.
     </p>
     <div class="phone-grid two-col">
       <img src="../images/sessions/Study_Preferences.png" alt="Study preferences" />
@@ -253,13 +256,13 @@
   <section id="reflections" class="case-section">
     <div class="section-label">Reflections</div>
     <p class="section-body">
-      Sessions taught me that <strong>ambient presence is a design material.</strong> Showing that other people are studying, quietly and without demand, is more motivating than any streak counter or notification.
+      I underestimated how much work presence does on its own. Showing that other people are studying, with no message attached and nothing asked of the user, turned out to motivate more reliably than any counter or notification I designed around it.
     </p>
     <p class="section-body">
-      The hardest decisions were about restraint: what to leave off the screen, when to celebrate, and how to make losing a streak feel meaningful without being punishing. The design system had to feel calm enough to sit next to your notes, but alive enough to make you want to check back in.
+      Most of the difficult decisions were about restraint: what to leave off the timer screen, how often to celebrate, and how to handle a broken streak without punishing anyone for it. The app had to stay calm enough to sit open next to someone's notes for three hours and still be worth returning to the next day.
     </p>
     <p class="section-body">
-      If I built this again, I'd spend more time on the map's ambient states: a heat map of study hotspots, quiet hours, or friends about to finish. There's a whole layer of social choreography still to design.
+      If I picked this up again I would spend the time on the map's quieter states. Study hotspots over the course of a day, quiet hours, friends who are about to finish. There is a layer of social information there that I only sketched.
     </p>
   </section>
 
