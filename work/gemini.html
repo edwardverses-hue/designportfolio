@@ -258,23 +258,25 @@
 
     <div class="widget-demo">
       <div class="widget-col" data-widget>
+        <img class="widget-head" loading="lazy" decoding="async" src="../images/gemini/widgets/head-evening.png" alt="For your evening" />
         <div class="widget-view">
           <div class="widget-track">
             <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-coffee.png" alt="Card suggesting late-night coffee shops near Oakland, naming Shibam Coffee on Centre Ave, open till 11 pm" />
             <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-dinner.png" alt="Card suggesting dinner spots near campus that are open now, on Forbes and in Squirrel Hill" />
           </div>
         </div>
-        <div class="widget-dots" role="group" aria-label="Evening suggestions"></div>
+        <div class="widget-dots" data-dots="4" role="group" aria-label="Evening suggestions"></div>
       </div>
 
       <div class="widget-col" data-widget>
+        <img class="widget-head" loading="lazy" decoding="async" src="../images/gemini/widgets/head-resume.png" alt="Pick up where you left off" />
         <div class="widget-view">
           <div class="widget-track">
             <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-python.png" alt="Card resuming a chat called Python Script Help, suggesting elif chains or nested if statements next" />
             <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-study.png" alt="Card resuming a study app design project, noting that streak logic and push notification timing are still open" />
           </div>
         </div>
-        <div class="widget-dots" role="group" aria-label="Work in progress"></div>
+        <div class="widget-dots" data-dots="4" role="group" aria-label="Work in progress"></div>
       </div>
     </div>
     <p class="widget-cap">Two of the four cards in each stack. Drag sideways or use the dots. The stacks run on their own timing, the way they do on the phone.</p>
@@ -359,6 +361,30 @@
         var slides = [].slice.call(track.querySelectorAll('img'));
         if (slides.length < 2) return;
 
+        var count = slides.length;
+        /* How far a card travels while it fades. Deliberately small: the fade
+           is doing the work and the movement is only there so the change still
+           reads as a swipe rather than a dissolve. */
+        /* A card moves one full stack width on a change, which is what paging
+           on a phone does. The mask on the view is what hides it once it has
+           gone, so the movement can be the whole effect rather than a hint
+           underneath a cross-fade. */
+        function travel() {
+          return view.clientWidth;
+        }
+
+        /* Quick off the mark then a long settle, which is the shape of an iOS
+           page change. Opacity is only bookkeeping here: a card is behind the
+           mask long before its opacity is touched, so the fades are late and
+           short and exist to park the card rather than to be seen. The _NOW
+           pair is for a release from a drag, where the cards are already part
+           way across and the longer curve would feel like a stall. */
+        var CURVE = 'cubic-bezier(0.32, 0.72, 0, 1)';
+        var OUT = 'opacity 0.18s linear 0.44s, transform 0.62s ' + CURVE;
+        var IN = 'opacity 0.18s linear, transform 0.62s ' + CURVE;
+        var OUT_NOW = 'opacity 0.16s linear 0.34s, transform 0.52s ' + CURVE;
+        var IN_NOW = 'opacity 0.16s linear, transform 0.52s ' + CURVE;
+
         var index = 0;
         var visible = false;
         var hovered = false;
@@ -372,30 +398,110 @@
         var delay = 4200 + colIndex * 1500;
         var due = Date.now() + delay;
 
-        var dots = slides.map(function (slide, i) {
-          var b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'widget-dot' + (i === 0 ? ' is-on' : '');
-          b.setAttribute('aria-label', 'Show card ' + (i + 1) + ' of ' + slides.length);
-          b.addEventListener('click', function () {
-            go(i);
-            hold();
-          });
-          dotBox.appendChild(b);
-          return b;
-        });
+        /* The stack is four deep in the design, so the indicator shows four.
+           Only the first two have an exported card behind them, so the rest are
+           drawn but inert rather than pretending to lead somewhere. */
+        var dotCount = parseInt(dotBox.getAttribute('data-dots'), 10) || count;
+        if (dotCount < count) dotCount = count;
 
-        function go(i) {
-          index = (i + slides.length) % slides.length;
-          track.classList.remove('no-ease');
-          track.style.transform = 'translateX(' + (-index * 100) + '%)';
-          dots.forEach(function (d, n) {
-            d.classList.toggle('is-on', n === index);
+        var dots = [];
+        for (var di = 0; di < dotCount; di++) {
+          (function (i) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'widget-dot' + (i === 0 ? ' is-on' : '');
+            if (i < count) {
+              b.setAttribute('aria-label', 'Show card ' + (i + 1) + ' of ' + count);
+              b.addEventListener('click', function () {
+                goTo(i);
+                hold();
+              });
+            } else {
+              b.setAttribute('aria-disabled', 'true');
+              b.setAttribute('aria-label', 'Card ' + (i + 1) + ', not included here');
+              b.tabIndex = -1;
+            }
+            dotBox.appendChild(b);
+            dots.push(b);
+          }(di));
+        }
+
+        /* trans: omitted for the stylesheet's own timing, 'none' to jump, or an
+           explicit string. Reduced motion wins over all three, which it has to
+           do here because an inline transition would beat the media query. */
+        function place(el, opacity, tx, trans) {
+          el.style.transition = reduce ? 'none' : (trans || '');
+          el.style.opacity = opacity;
+          el.style.transform = 'translateX(' + tx + 'px)';
+        }
+
+        function lightDots() {
+          dots.forEach(function (d, i) { d.classList.toggle('is-on', i === index); });
+        }
+
+        /* Everything back where it belongs. Also how a drag that did not travel
+           far enough gets undone. */
+        /* At rest the card on show sits square and the others are parked a full
+           width away, outside the mask. Parking them out there rather than
+           underneath means a cancelled drag slides them back off instead of
+           dissolving them in place. */
+        function settle(animate) {
+          var t = travel();
+          slides.forEach(function (s, i) {
+            if (i === index) place(s, 1, 0, animate ? null : 'none');
+            else place(s, 0, t, animate ? null : 'none');
           });
+          lightDots();
+        }
+
+        function goTo(i, dir, continuing) {
+          i = (i + count) % count;
+          if (i === index) { settle(true); return; }
+          if (dir === undefined) dir = (i > index) ? 1 : -1;
+
+          var from = slides[index];
+          index = i;
+          var to = slides[index];
+
+          slides.forEach(function (s) {
+            if (s !== from && s !== to) place(s, 0, 0, 'none');
+          });
+
+          var t = travel();
+          place(from, 0, -dir * t, continuing ? OUT_NOW : OUT);
+          if (!continuing) {
+            /* Start the arriving card off to the side and invisible, then let
+               it come in. Committing that jump first is what makes the second
+               call animate rather than being collapsed into one style change. */
+            place(to, 0, dir * t, 'none');
+            void to.offsetWidth;
+          }
+          place(to, 1, 0, continuing ? IN_NOW : IN);
+          lightDots();
+        }
+
+        function step(dir, continuing) {
+          goTo(index + dir, dir, continuing);
         }
 
         function hold() {
           held = Date.now() + 7000;
+        }
+
+        /* Live under the finger, one to one, the way a page follows a thumb.
+           Both cards stay fully opaque and travel together, a stack width
+           apart, and the mask decides how much of each you can see. */
+        function paintDrag() {
+          var t = travel();
+          var d = Math.max(-t, Math.min(t, dx));
+          var dir = d < 0 ? 1 : -1;
+          var cur = slides[index];
+          var other = slides[(index + dir + count) % count];
+          slides.forEach(function (s) {
+            if (s !== cur && s !== other) place(s, 0, t, 'none');
+          });
+          place(cur, 1, d, 'none');
+          if (other !== cur) place(other, 1, dir * t + d, 'none');
         }
 
         window.setInterval(function () {
@@ -405,7 +511,7 @@
             return;
           }
           if (now >= due) {
-            go(index + 1);
+            step(1);
             due = now + delay;
           }
         }, 200);
@@ -433,25 +539,26 @@
           startX = e.clientX;
           dx = 0;
           view.classList.add('is-dragging');
-          track.classList.add('no-ease');
           if (view.setPointerCapture) view.setPointerCapture(e.pointerId);
         });
 
         view.addEventListener('pointermove', function (e) {
           if (!dragging) return;
           dx = e.clientX - startX;
-          track.style.transform = 'translateX(calc(' + (-index * 100) + '% + ' + dx + 'px))';
+          paintDrag();
         });
 
         function endDrag() {
           if (!dragging) return;
           dragging = false;
           view.classList.remove('is-dragging');
-          var threshold = Math.max(34, view.clientWidth * 0.14);
-          if (dx <= -threshold) go(index + 1);
-          else if (dx >= threshold) go(index - 1);
-          else go(index);
+          var p = dx / travel();
           dx = 0;
+          /* Carrying on from where the drag left the cards, rather than
+             restarting them, is what stops the release from flicking back. */
+          if (p <= -0.28) step(1, true);
+          else if (p >= 0.28) step(-1, true);
+          else settle(true);
           hold();
         }
 
@@ -462,12 +569,12 @@
         dotBox.addEventListener('keydown', function (e) {
           if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
           e.preventDefault();
-          go(index + (e.key === 'ArrowRight' ? 1 : -1));
+          step(e.key === 'ArrowRight' ? 1 : -1);
           hold();
           dots[index].focus();
         });
 
-        go(0);
+        settle(false);
       });
 
       /* ---------- the sideways run of screens ---------- */

@@ -7,6 +7,11 @@
 
 html {
   scroll-behavior: smooth;
+  /* Paired with the same on body. A full-bleed section is sized in vw, which
+     counts the scrollbar, so it overhangs the page by that much on each side.
+     clip is the one overflow value that leaves the other axis visible, so
+     vertical scrolling is untouched. */
+  overflow-x: clip;
 }
 
 /* The one grey the page fills a surface with. The Get in touch button and the
@@ -25,6 +30,11 @@ body {
   letter-spacing: -0.015em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* A full-bleed section is sized in vw, and vw includes the scrollbar, so
+     without this the page gains a horizontal scrollbar the width of it. Clip
+     rather than hidden, so this does not become a scroll container and the
+     fixed nav is left alone. */
+  overflow-x: clip;
 }
 
 a {
@@ -1098,9 +1108,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ---------- WIDGET CAROUSEL (Gemini case study) ---------- */
 /* The two suggestion columns from the redesigned home screen, lifted off the
-   phone so the cycling can actually be tried. It sits in the same grey bubble
-   the work previews use, at the same 16/9 and the same corner, so the case
-   study and the home page are visibly the same kit.
+   phone so the cycling can actually be tried. It keeps the work previews'
+   16/9 and corner radius, but takes the page's own white rather than the grey
+   surface, so the cards read as sitting on the page instead of on a panel.
 
    The slides are Edward's exports dropped in untouched, byte for byte, which
    is how he wants them. They are portrait and carry their own heading and page
@@ -1108,93 +1118,195 @@ h1, h2, h3, h4, h5, h6 {
    a width that lets the whole export fit the 16/9 box. */
 .widget-demo {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 36px;
-  align-content: center;
-  max-width: 980px;
-  width: calc(100% - 48px);
-  aspect-ratio: 16 / 9;
-  margin: 48px auto 18px;
-  padding: 0 56px;
-  background: var(--surface);
-  border-radius: 48px;
-  overflow: hidden;
+  grid-template-columns: repeat(2, minmax(0, 330px));
+  justify-content: center;
+  gap: 30px;
+  /* Full bleed, so the glow has somewhere to end. Confined to the text column
+     it would have to stop somewhere a reader can see, which is the boundary
+     Edward did not want. */
+  width: 100vw;
+  max-width: none;
+  position: relative;
+  margin: 22px 0 12px;
+  margin-inline: calc(50% - 50vw);
+  padding: 150px 24px 132px;
+  /* Gemini's light mode, matched to the reference: a pale blue bloom sitting
+     low and a little left of centre on a near-white ground, with a second,
+     fainter one up and to the right, and a cool off-white filling the corners
+     rather than pure page white. Low saturation throughout. Still stepped down
+     in small increments, because the shoulder is what makes one of these read
+     as an object rather than as light. */
+  /* Every one of these has to finish at nothing inside its own box, which means
+     a vertical radius no greater than the distance from its centre to the
+     nearer edge. The previous set did not, which is why it ended in a straight
+     line top and bottom. The box is also taller now, so the wash has somewhere
+     to end, and the main one is wide enough to carry the labels rather than
+     stopping below them. */
+  background:
+    radial-gradient(ellipse 30% 26% at 45% 58%,
+      rgba(148, 196, 240, 0.62) 0%,
+      rgba(160, 203, 242, 0.40) 40%,
+      rgba(182, 216, 245, 0.16) 72%,
+      rgba(255, 255, 255, 0) 100%),
+    radial-gradient(ellipse 48% 50% at 48% 50%,
+      rgba(164, 205, 242, 0.78) 0%,
+      rgba(168, 208, 243, 0.72) 20%,
+      rgba(176, 213, 244, 0.62) 34%,
+      rgba(188, 219, 246, 0.48) 48%,
+      rgba(202, 227, 248, 0.33) 62%,
+      rgba(216, 234, 250, 0.20) 74%,
+      rgba(229, 241, 251, 0.10) 85%,
+      rgba(242, 248, 253, 0.03) 94%,
+      rgba(255, 255, 255, 0) 100%),
+    radial-gradient(ellipse 40% 34% at 74% 26%,
+      rgba(198, 224, 247, 0.42) 0%,
+      rgba(212, 232, 249, 0.26) 38%,
+      rgba(228, 240, 251, 0.11) 68%,
+      rgba(255, 255, 255, 0) 100%),
+    radial-gradient(ellipse 50% 50% at 50% 50%,
+      rgba(246, 249, 252, 0.85) 0%,
+      rgba(246, 249, 252, 0.55) 50%,
+      rgba(248, 250, 252, 0.20) 78%,
+      rgba(255, 255, 255, 0) 100%);
+  /* Gemini's own blue, sampled off the renders rather than guessed: the core of
+     the glow behind the input bar reads #14296B, the body of it #0D1940 down
+     into #091331, and it is black well before the edge of the screen. Two
+     ellipses rather than one, a broad navy cloud with the brighter core sitting
+     low inside it the way it sits low on the phone. Every stop finishes fully
+     transparent, so there is no edge to find. */
 }
+
 
 .widget-col {
   min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* So the indicator below can be sized in cqi and stay in proportion to the
+     card at every width, the way it is in the export. */
+  container-type: inline-size;
 }
 
+/* The label, cut from the export rather than re-typeset, so it keeps the size,
+   the face and the weight the original has instead of my approximation of it.
+   It is the same 2796 wide as the card strip and is shown at the same width,
+   which means the label sits at exactly the scale it does in the file. The gap
+   beneath it is carried inside the image for the same reason. It lives outside
+   the draggable area, so it does not travel when a card is swiped. */
 .widget-head {
-  font-size: 14px;
-  font-weight: 300;
-  text-align: center;
-  color: #000000;
-  margin-bottom: 16px;
+  display: block;
+  width: 84%;
+  height: auto;
+  margin: 0 auto;
+  background: transparent;
+  -webkit-user-drag: none;
 }
 
+/* A card travels a full stack width on a change, which is what makes it read
+   as paging rather than a nudge, and that means it has to leave the frame.
+   Clipping it with overflow puts a hard edge across the card's soft shadow,
+   which is the thing Edward objected to. A mask does the same job with a
+   gradient instead of a cut: the card thins out as it goes rather than being
+   sliced, and it can never stray into the column next door. mask-size and
+   no-repeat matter, because without them the gradient tiles and everything
+   outside the box stays visible. */
 .widget-view {
+  position: relative;
   width: 100%;
-  max-width: 350px;
   margin: 0 auto;
-  overflow: hidden;
   touch-action: pan-y;
   cursor: grab;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  /* The mask hides a departed card but does not stop it counting towards the
+     page's scrollable width, and a card parked a full width to the right would
+     otherwise put a horizontal scrollbar on the document. Clipping at the same
+     boundary costs nothing visually, because the mask has already taken those
+     pixels to zero before the clip edge is reached. */
+  overflow: hidden;
+  overflow: clip;
 }
 
 .widget-view.is-dragging {
   cursor: grabbing;
 }
 
+/* The cards cross-fade in place rather than sliding through a window. A track
+   that slides needs an overflow clip to hide the card coming next, and that
+   clip is a hard vertical edge cutting through the card's soft shadow every
+   time one moves. Nothing is clipped here, so there is no edge to see: each
+   card fades and drifts a little, and the one arriving fades up underneath it.
+   The ratio is the exports' own, which gives the stack its height since the
+   cards are positioned out of flow. */
+/* Narrower than the view it sits in, so the mask's soft edge falls on empty
+   space either side of the resting card rather than eating into it. */
 .widget-track {
-  display: flex;
-  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
-  will-change: transform;
-}
-
-.widget-track.no-ease {
-  transition: none;
+  position: relative;
+  width: 84%;
+  margin: 0 auto;
+  /* The card band of the export, once the heading and page dots are off it. */
+  aspect-ratio: 2796 / 2906;
 }
 
 .widget-track img {
-  flex: 0 0 100%;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
   border-radius: 0;
   background: transparent;
+  will-change: opacity, transform;
+  /* iOS-ish: off the mark quickly, then a long settle. The script overrides
+     this per card so the two halves of a swipe can be timed separately. */
+  transition: opacity 0.40s ease, transform 0.62s cubic-bezier(0.32, 0.72, 0, 1);
   -webkit-user-drag: none;
   user-select: none;
+  pointer-events: none;
 }
 
+/* Edward's own indicator rather than an invented one. Measured off the export:
+   four dots 40px across on 112px centres, sitting 60px below the card, all in
+   the file's 2796px space. Expressed against the column so the whole thing
+   holds its proportions to the card at any width. The active dot does not grow,
+   it only comes up to full strength while the others sit at half, which is
+   what the exports do as the card changes. */
 .widget-dots {
   display: flex;
   justify-content: center;
-  gap: 7px;
-  margin-top: 18px;
+  gap: 2.163cqi;
+  margin-top: 1.803cqi;
 }
 
 .widget-dot {
-  width: 6px;
-  height: 6px;
+  width: 1.202cqi;
+  height: 1.202cqi;
   padding: 0;
   border: 0;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.20);
+  /* The export's own tone is a light grey, which was right on a black screen
+     and disappears on this one. The size, spacing and the half-to-full
+     relationship are his; only the hue is pitched for a light ground. */
+  background: rgba(95, 99, 104, 0.45);
   cursor: pointer;
-  transition: background 0.25s ease, width 0.25s ease;
+  transition: background 0.3s ease;
 }
 
 .widget-dot.is-on {
-  width: 18px;
-  background: #000000;
+  background: rgba(95, 99, 104, 1);
+}
+
+.widget-dot[aria-disabled='true'] {
+  cursor: default;
 }
 
 .widget-dot:focus-visible {
-  outline: 1px solid #000000;
+  outline: 1px solid rgba(24, 35, 54, 0.7);
   outline-offset: 3px;
 }
 
@@ -1209,14 +1321,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 720px) {
-  /* Stacked, 16/9 would crush the cards, so the bubble takes its height from
-     what is in it. */
   .widget-demo {
-    grid-template-columns: 1fr;
-    aspect-ratio: auto;
-    gap: 38px;
-    padding: 38px 30px;
-    border-radius: 32px;
+    grid-template-columns: minmax(0, 320px);
+    gap: 46px;
+    padding: 76px 24px 64px;
   }
 }
 
@@ -1303,7 +1411,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .widget-track {
+  .widget-track img {
     transition: none;
   }
 }
