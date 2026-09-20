@@ -640,6 +640,280 @@ h1, h2, h3, h4, h5, h6 {
   color: #6C848E;
 }
 
+/* ---------- SCANNABLE SUB-BLOCKS ---------- */
+/* A section headline is 40px and carries the section. These carry an item
+   inside it, so they sit well below that and well above body copy, which is
+   what lets a reader skim the headings alone and still follow the argument. */
+.sub-title {
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 56px 0 20px;
+}
+
+.sub-title:first-child {
+  margin-top: 0;
+}
+
+/* Labelled pairs. The label names what the line is doing, so the claim and
+   the answer to it can each be read on their own without the paragraph
+   underneath. The label column is fixed so the text lines up down the page. */
+.notes {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  column-gap: 24px;
+  row-gap: 16px;
+  max-width: 780px;
+  margin: 0 0 28px;
+}
+
+.note-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6C848E;
+  line-height: 1.5;
+  padding-top: 5px;
+  margin: 0;
+}
+
+.note-text {
+  font-size: 17px;
+  line-height: 1.5;
+  color: #000000;
+  margin: 0;
+}
+
+/* The one line a section comes down to, set apart so it survives skimming. */
+.takeaway {
+  max-width: 780px;
+  margin: 44px 0 0;
+  padding: 30px 34px;
+  background: #FBFEFF;
+  border-radius: 24px;
+}
+
+.takeaway-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6C848E;
+  margin-bottom: 14px;
+}
+
+.takeaway p {
+  font-size: 18px;
+  line-height: 1.55;
+  color: #000000;
+  margin: 0;
+  max-width: none;
+}
+
+/* The question the project moved from and the one it ended up answering. */
+.reframe {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  column-gap: 24px;
+  row-gap: 20px;
+  max-width: 780px;
+  margin: 0 0 34px;
+}
+
+.reframe-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6C848E;
+  line-height: 1.5;
+  padding-top: 7px;
+  margin: 0;
+}
+
+.reframe-text {
+  font-size: 21px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.reframe-text.is-from {
+  color: #6C848E;
+}
+
+/* ---------- SPLIT ROWS ---------- */
+/* A screen beside the paragraph that argues about it, alternating sides down
+   the page. The point is that the evidence and the claim are in the eye at the
+   same time, so neither has to be held in memory while reading the other. The
+   art keeps its DOM position and moves with `order`, so when the row collapses
+   on a narrow screen the picture always comes first. */
+.split-row {
+  display: flex;
+  align-items: center;
+  gap: 52px;
+  margin: 64px 0;
+  max-width: 900px;
+}
+
+.split-art {
+  flex: 0 0 290px;
+  max-width: 290px;
+  min-width: 0;
+}
+
+.split-art.is-wide {
+  flex-basis: 400px;
+  max-width: 400px;
+}
+
+.split-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.split-text {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.split-row.is-flipped .split-art {
+  order: 2;
+}
+
+/* Inside a split row the heading and notes are already tight against the art,
+   so they lose the margins they carry when they sit on their own. */
+.split-text .sub-title {
+  margin: 0 0 18px;
+}
+
+.split-text .notes {
+  margin-bottom: 20px;
+}
+
+.split-text .section-body {
+  margin-bottom: 0;
+}
+
+/* ---------- DESIGN KIT PANEL ---------- */
+/* Black rather than near-black, because every specimen in here is a rectangle
+   cut straight out of Edward's own dark-mode renders and their ground is
+   #000000. Matching it exactly means the crops have no visible edge and the
+   panel reads as one surface. */
+.case-section.is-wide {
+  max-width: 1160px;
+}
+
+.kit {
+  background: #000000;
+  border-radius: 28px;
+  padding: 46px;
+  margin-top: 44px;
+  color: #E8EAED;
+}
+
+.kit-block + .kit-block {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid #1E1E1E;
+}
+
+.kit-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9AA0A6;
+  margin-bottom: 26px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.kit-label span:last-child {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: #6C6F73;
+}
+
+/* Type specimens. Each is shown at the same scale factor off its own source
+   crop, so the sizes here are the real ratios between them rather than four
+   pictures set to whatever width looked balanced. */
+.kit-type {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+}
+
+.kit-type + .kit-type {
+  margin-top: 18px;
+}
+
+.kit-type-role {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6C6F73;
+}
+
+.kit-type img {
+  display: block;
+  height: auto;
+}
+
+.kit-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+}
+
+.kit-swatches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 16px;
+}
+
+/* The screen colour is pure black on a pure black panel, so the border is what
+   draws that chip at all. It is set high enough to read on its own. */
+.kit-chip {
+  height: 52px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 10px;
+}
+
+.kit-hex {
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+
+.kit-use {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #6C6F73;
+  margin-top: 3px;
+}
+
+.kit-icons img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.kit-icons img + img {
+  margin-top: 26px;
+}
+
+.kit-note {
+  max-width: 780px;
+  margin: 22px auto 0;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #6C848E;
+  text-align: center;
+}
+
 /* Full-width image blocks */
 .full-image {
   max-width: 1400px;
@@ -654,6 +928,14 @@ h1, h2, h3, h4, h5, h6 {
   margin-inline: auto;
   border-radius: 24px;
   background: #FBFEFF;
+}
+
+/* For an export with its own transparency, where the usual tinted plate would
+   draw a rounded rectangle behind artwork that has no edges of its own. */
+.full-image.is-bare img {
+  background: transparent;
+  border-radius: 0;
+  max-height: none;
 }
 
 /* Phone screenshot grids */
@@ -787,6 +1069,86 @@ h1, h2, h3, h4, h5, h6 {
 
   .before-after {
     grid-template-columns: 1fr;
+  }
+
+  /* The label column stops paying for itself once it is wider than the text
+     beside it, so below this width the label sits on its own line instead. */
+  .notes,
+  .reframe {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+  }
+
+  .note-label,
+  .reframe-label {
+    padding-top: 0;
+  }
+
+  .notes .note-text {
+    margin-bottom: 14px;
+  }
+
+  .reframe {
+    row-gap: 4px;
+  }
+
+  .reframe .reframe-text {
+    margin-bottom: 16px;
+  }
+
+  .sub-title {
+    font-size: 22px;
+    margin: 44px 0 16px;
+  }
+
+  /* Stacked, with the screen above the text it belongs to in every row,
+     whichever side it took on the wide layout. */
+  .split-row {
+    display: block;
+    margin: 48px 0;
+  }
+
+  .split-art,
+  .split-art.is-wide,
+  .split-row.is-flipped .split-art {
+    order: 0;
+    max-width: 250px;
+    margin: 0 0 26px;
+  }
+
+  .split-art.is-wide {
+    max-width: 100%;
+  }
+
+  .kit {
+    padding: 28px 22px;
+    border-radius: 22px;
+  }
+
+  .kit-type {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .kit-type + .kit-type {
+    margin-top: 22px;
+  }
+
+  .kit-cols {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .kit-swatches {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reframe-text {
+    font-size: 19px;
+  }
+
+  .takeaway {
+    padding: 26px 24px;
   }
 
   .phone-grid.two-col,
@@ -1114,66 +1476,30 @@ h1, h2, h3, h4, h5, h6 {
 
    The slides are Edward's exports dropped in untouched, byte for byte, which
    is how he wants them. They are portrait and carry their own heading and page
-   dots, so the column supplies no heading of its own and the slide is held to
-   a width that lets the whole export fit the 16/9 box. */
+/* ---------- WIDGET CAROUSEL (Gemini case study) ---------- */
+/* The two suggestion columns from the redesigned home screen, lifted off the
+   phone so the cycling can actually be tried.
+
+   The panel is black, which is the ground these were drawn for. The cards are
+   a ten per cent white glass and the labels are white at just over half
+   opacity, so they only resolve on a dark surface. Every lighter ground this
+   sat on before had to be argued into legibility and none of them fully got
+   there. The radius is the page's own 24px, the same as the screenshot grids
+   and the comparison blocks.
+
+   The slides are Edward's exports dropped in untouched, byte for byte, which
+   is how he wants them. They carry their own heading and page dots, so the
+   column supplies no heading of its own. */
 .widget-demo {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 330px));
   justify-content: center;
+  align-content: center;
   gap: 30px;
-  /* Full bleed, so the glow has somewhere to end. Confined to the text column
-     it would have to stop somewhere a reader can see, which is the boundary
-     Edward did not want. */
-  width: 100vw;
-  max-width: none;
-  position: relative;
-  margin: 22px 0 12px;
-  margin-inline: calc(50% - 50vw);
-  padding: 150px 24px 132px;
-  /* Gemini's light mode, matched to the reference: a pale blue bloom sitting
-     low and a little left of centre on a near-white ground, with a second,
-     fainter one up and to the right, and a cool off-white filling the corners
-     rather than pure page white. Low saturation throughout. Still stepped down
-     in small increments, because the shoulder is what makes one of these read
-     as an object rather than as light. */
-  /* Every one of these has to finish at nothing inside its own box, which means
-     a vertical radius no greater than the distance from its centre to the
-     nearer edge. The previous set did not, which is why it ended in a straight
-     line top and bottom. The box is also taller now, so the wash has somewhere
-     to end, and the main one is wide enough to carry the labels rather than
-     stopping below them. */
-  background:
-    radial-gradient(ellipse 30% 26% at 45% 58%,
-      rgba(148, 196, 240, 0.62) 0%,
-      rgba(160, 203, 242, 0.40) 40%,
-      rgba(182, 216, 245, 0.16) 72%,
-      rgba(255, 255, 255, 0) 100%),
-    radial-gradient(ellipse 48% 50% at 48% 50%,
-      rgba(164, 205, 242, 0.78) 0%,
-      rgba(168, 208, 243, 0.72) 20%,
-      rgba(176, 213, 244, 0.62) 34%,
-      rgba(188, 219, 246, 0.48) 48%,
-      rgba(202, 227, 248, 0.33) 62%,
-      rgba(216, 234, 250, 0.20) 74%,
-      rgba(229, 241, 251, 0.10) 85%,
-      rgba(242, 248, 253, 0.03) 94%,
-      rgba(255, 255, 255, 0) 100%),
-    radial-gradient(ellipse 40% 34% at 74% 26%,
-      rgba(198, 224, 247, 0.42) 0%,
-      rgba(212, 232, 249, 0.26) 38%,
-      rgba(228, 240, 251, 0.11) 68%,
-      rgba(255, 255, 255, 0) 100%),
-    radial-gradient(ellipse 50% 50% at 50% 50%,
-      rgba(246, 249, 252, 0.85) 0%,
-      rgba(246, 249, 252, 0.55) 50%,
-      rgba(248, 250, 252, 0.20) 78%,
-      rgba(255, 255, 255, 0) 100%);
-  /* Gemini's own blue, sampled off the renders rather than guessed: the core of
-     the glow behind the input bar reads #14296B, the body of it #0D1940 down
-     into #091331, and it is black well before the edge of the screen. Two
-     ellipses rather than one, a broad navy cloud with the brighter core sitting
-     low inside it the way it sits low on the phone. Every stop finishes fully
-     transparent, so there is no edge to find. */
+  margin: 26px 0 14px;
+  padding: 68px 32px 58px;
+  background: #000000;
+  border-radius: 24px;
 }
 
 
@@ -1324,7 +1650,8 @@ h1, h2, h3, h4, h5, h6 {
   .widget-demo {
     grid-template-columns: minmax(0, 320px);
     gap: 46px;
-    padding: 76px 24px 64px;
+    padding: 44px 20px 36px;
+    border-radius: 20px;
   }
 }
 
