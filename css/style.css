@@ -805,12 +805,23 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 1160px;
 }
 
+/* Two columns, so the type sits beside the colour and the icons beside the
+   components rather than the four stacking into a long scroll. The rule
+   between blocks is drawn inside a column, which is what keeps the two sides
+   reading as their own runs. */
 .kit {
   background: #000000;
   border-radius: 28px;
   padding: 46px;
   margin-top: 44px;
   color: #E8EAED;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 52px;
+}
+
+.kit-side {
+  min-width: 0;
 }
 
 .kit-block + .kit-block {
@@ -862,12 +873,6 @@ h1, h2, h3, h4, h5, h6 {
   height: auto;
 }
 
-.kit-cols {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 48px;
-}
-
 .kit-swatches {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -912,6 +917,67 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.02em;
   color: #6C848E;
   text-align: center;
+}
+
+/* ---------- SIGNALS FIGURE ---------- */
+/* The research section's one piece of evidence that can be checked rather than
+   taken on trust: what the app demonstrably has against what it puts on the
+   first screen. The imbalance is the whole point, so the two columns are the
+   same size and one of them is nearly empty. */
+.signals {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  max-width: 780px;
+  margin: 44px 0 8px;
+}
+
+.signal-col {
+  padding: 30px 28px 32px;
+  border-radius: 24px;
+  background: #FBFEFF;
+  min-width: 0;
+}
+
+.signal-count {
+  font-size: 46px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.signal-head {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6C848E;
+  margin: 14px 0 20px;
+}
+
+.signal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.signal-list li {
+  font-size: 13px;
+  line-height: 1.35;
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+}
+
+.signal-cap {
+  max-width: 780px;
+  margin: 16px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #6C848E;
 }
 
 /* Full-width image blocks */
@@ -1134,13 +1200,26 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 22px;
   }
 
-  .kit-cols {
+  .kit {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 0;
+  }
+
+  /* Once the panel is a single column the two sides run on, so the first block
+     of the second side needs the same rule above it as any other. */
+  .kit-side + .kit-side .kit-block:first-child {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #1E1E1E;
   }
 
   .kit-swatches {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .signals {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .reframe-text {

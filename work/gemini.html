@@ -59,7 +59,6 @@
       <a href="#overview">Overview</a>
       <a href="#reframe">Reframe</a>
       <a href="#recreation">Recreation</a>
-      <a href="#reading">Reading the Original</a>
       <a href="#setaside">Set Aside</a>
       <a href="#research">Research</a>
       <a href="#principles">Principles</a>
@@ -197,75 +196,7 @@
 
     <div class="takeaway">
       <div class="takeaway-label">Takeaway</div>
-      <p>Drawing the app at full size turned my opinions about it into arguments I could check. Three of them did not survive the check.</p>
-    </div>
-  </section>
-
-  <!-- READING THE ORIGINAL -->
-  <section id="reading" class="case-section">
-    <div class="section-label">Reading the Original</div>
-    <h2 class="section-title">Three decisions I argued with, then understood</h2>
-    <p class="section-body">
-      In each case I had written down a problem. Working out what the alternative would cost turned it into a trade I would have made the same way.
-    </p>
-
-    <div class="split-row">
-      <div class="split-art">
-        <img loading="lazy" decoding="async" src="../images/gemini/9.png" alt="A long structured answer with the opaque input bar sitting over the bottom of the text" />
-      </div>
-      <div class="split-text">
-        <h3 class="sub-title">The input bar never moves</h3>
-        <div class="notes">
-          <p class="note-label">First reading</p>
-          <p class="note-text">An opaque bar pinned to the bottom, permanently covering a strip of whatever sits behind it.</p>
-          <p class="note-label">What it buys</p>
-          <p class="note-text">A follow-up never begins by scrolling to find the field again.</p>
-        </div>
-        <p class="section-body">
-          The alternative is a bar that scrolls away with the conversation. Asking a follow-up is the most common thing a person does after reading an answer, so that trades a small permanent occlusion for a step added to the most frequent action in the product.
-        </p>
-      </div>
-    </div>
-
-    <div class="split-row is-flipped">
-      <div class="split-art">
-        <img loading="lazy" decoding="async" src="../images/gemini/8.png" alt="The chat with the keyboard raised, covering close to half the display" />
-      </div>
-      <div class="split-text">
-        <h3 class="sub-title">Dismissing the keyboard has nothing to announce it</h3>
-        <div class="notes">
-          <p class="note-label">First reading</p>
-          <p class="note-text">No handle, no chevron, no label. Judged on discoverability alone the gesture fails.</p>
-          <p class="note-label">What it buys</p>
-          <p class="note-text">Half the display back, with nothing permanent sitting in the space being returned.</p>
-        </div>
-        <p class="section-body">
-          Any visible control would have to live in exactly the space the dismissal is trying to give back. The gesture is carried in from the rest of iOS rather than taught here, and because it tracks the finger it doubles as a way to peek behind the keyboard without closing it.
-        </p>
-      </div>
-    </div>
-
-    <div class="split-row">
-      <div class="split-art">
-        <img loading="lazy" decoding="async" src="../images/gemini/10.png" alt="A code block in the chat with its lines running off the right edge of the screen" />
-      </div>
-      <div class="split-text">
-        <h3 class="sub-title">Code runs off the side of the screen</h3>
-        <div class="notes">
-          <p class="note-label">First reading</p>
-          <p class="note-text">A line cannot be read without dragging it into view, and the line you want is often furthest off screen.</p>
-          <p class="note-label">What it buys</p>
-          <p class="note-text">Code that stays exactly as written, at a size that can still be read.</p>
-        </div>
-        <p class="section-body">
-          Wrapping breaks Python, where indentation carries meaning. Shrinking to fit runs into the minimum text sizes accessibility guidelines set. Gemini keeps the code honest and makes the reader work for it, which for code is the right way round.
-        </p>
-      </div>
-    </div>
-
-    <div class="takeaway">
-      <div class="takeaway-label">Takeaway</div>
-      <p>All three looked like oversights and all three turned out to be trades. The test I had been skipping is what the alternative costs on the screens where the decision is not the problem.</p>
+      <p>Drawing the app at full size is what turned my opinions about it into arguments I could actually check, rather than things I had noticed and written down.</p>
     </div>
   </section>
 
@@ -274,21 +205,29 @@
     <div class="section-label">An Idea I Set Aside</div>
     <h2 class="section-title">A fullscreen code view, and why it did not become the project</h2>
 
-    <div class="split-row is-flipped">
-      <div class="split-art">
-        <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The script opened fullscreen, with the whole width of the phone and the chat input still reachable" />
-      </div>
-      <div class="split-text">
-        <div class="notes">
-          <p class="note-label">The idea</p>
-          <p class="note-text">A control on the code block opens the script fullscreen, with the chat input still reachable underneath.</p>
-          <p class="note-label">Why it stayed out</p>
-          <p class="note-text">A long line is still a long line. Past a certain length you are panning again.</p>
-        </div>
-        <p class="section-body">
-          I built the fix before I questioned it. It helps, and it does not solve the problem, which makes it a better version of the same compromise rather than a different answer to it.
-        </p>
-      </div>
+    <div class="notes">
+      <p class="note-label">The idea</p>
+      <p class="note-text">A control on the code block opens the script fullscreen, with the chat input still reachable underneath.</p>
+      <p class="note-label">Why it stayed out</p>
+      <p class="note-text">A long line is still a long line. Past a certain length you are panning again.</p>
+    </div>
+    <p class="section-body">
+      I built the fix before I questioned it. It helps, and it does not solve the problem, which makes it a better version of the same compromise rather than a different answer to it.
+    </p>
+
+    <div class="flow-strip" tabindex="0" role="group" aria-label="The fullscreen code view, in order">
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge, with a new expand control at its top right" />
+        <figcaption class="flow-cap"><span class="flow-num">01</span><span>The block as it is, running off the edge, with the expand control added at its top right.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, with the whole width of the phone and the chat input still reachable" />
+        <figcaption class="flow-cap"><span class="flow-num">02</span><span>Opened fullscreen. The script gets the whole width and the input is still reachable underneath.</span></figcaption>
+      </figure>
+      <figure class="flow-item">
+        <img loading="lazy" decoding="async" src="../images/gemini/code-3.png" alt="The fullscreen view zoomed in, with lines running past both edges again" />
+        <figcaption class="flow-cap"><span class="flow-num">03</span><span>Zoomed in on one part, and the lines run past both edges again.</span></figcaption>
+      </figure>
     </div>
 
     <div class="split-row">
@@ -325,6 +264,28 @@
     <p class="section-body">
       I watched classmates open their assistants rather than asking them how they use them. Almost nobody read the suggested prompts. People went straight to the field and typed, or into the history to find a thread they had already started.
     </p>
+
+    <div class="signals">
+      <div class="signal-col">
+        <div class="signal-count">5</div>
+        <div class="signal-head">Signals the app already holds</div>
+        <ul class="signal-list">
+          <li>The hour</li>
+          <li>Where the phone is</li>
+          <li>The weather there</li>
+          <li>The last conversation</li>
+          <li>Where that conversation stopped</li>
+        </ul>
+      </div>
+      <div class="signal-col">
+        <div class="signal-count">1</div>
+        <div class="signal-head">Signals the first screen uses</div>
+        <ul class="signal-list">
+          <li>Your first name</li>
+        </ul>
+      </div>
+    </div>
+    <p class="signal-cap">Counted off the product rather than from a study. Everything on the left is something Gemini demonstrably has somewhere else in the app. The right is what the opening screen does with any of it.</p>
 
     <div class="insights">
       <div class="insight">
@@ -386,90 +347,90 @@
     </p>
 
     <div class="kit">
-      <div class="kit-block">
-        <div class="kit-label"><span>Typography</span><span>Google Sans Flex</span></div>
-        <div class="kit-type">
-          <div class="kit-type-role">Display</div>
-          <img loading="lazy" decoding="async" style="max-width: 340px" src="../images/gemini/kit/display.png" alt="The home screen greeting, Let's jump in, Edward" />
+      <div class="kit-side">
+        <div class="kit-block">
+          <div class="kit-label"><span>Typography</span><span>Google Sans Flex</span></div>
+          <div class="kit-type">
+            <div class="kit-type-role">Display</div>
+            <img loading="lazy" decoding="async" style="max-width: 340px" src="../images/gemini/kit/display.png" alt="The home screen greeting, Let's jump in, Edward" />
+          </div>
+          <div class="kit-type">
+            <div class="kit-type-role">Title</div>
+            <img loading="lazy" decoding="async" style="max-width: 191px" src="../images/gemini/kit/title.png" alt="A chat title, Python Script Help" />
+          </div>
+          <div class="kit-type">
+            <div class="kit-type-role">Label</div>
+            <img loading="lazy" decoding="async" style="max-width: 113px" src="../images/gemini/kit/label.png" alt="A section label reading Recents" />
+          </div>
+          <div class="kit-type">
+            <div class="kit-type-role">Mono</div>
+            <img loading="lazy" decoding="async" style="max-width: 242px" src="../images/gemini/kit/mono.png" alt="A line of Python from a code block" />
+          </div>
         </div>
-        <div class="kit-type">
-          <div class="kit-type-role">Title</div>
-          <img loading="lazy" decoding="async" style="max-width: 191px" src="../images/gemini/kit/title.png" alt="A chat title, Python Script Help" />
-        </div>
-        <div class="kit-type">
-          <div class="kit-type-role">Label</div>
-          <img loading="lazy" decoding="async" style="max-width: 113px" src="../images/gemini/kit/label.png" alt="A section label reading Recents" />
-        </div>
-        <div class="kit-type">
-          <div class="kit-type-role">Mono</div>
-          <img loading="lazy" decoding="async" style="max-width: 242px" src="../images/gemini/kit/mono.png" alt="A line of Python from a code block" />
-        </div>
-      </div>
 
-      <div class="kit-block">
-        <div class="kit-cols">
-          <div>
-            <div class="kit-label"><span>Colour</span><span>Sampled from the renders</span></div>
-            <div class="kit-swatches">
-              <div>
-                <div class="kit-chip" style="background: #000000"></div>
-                <div class="kit-hex">#000000</div>
-                <div class="kit-use">Screen</div>
-              </div>
-              <div>
-                <div class="kit-chip" style="background: #141414"></div>
-                <div class="kit-hex">#141414</div>
-                <div class="kit-use">Code surface</div>
-              </div>
-              <div>
-                <div class="kit-chip" style="background: #1E1E1E"></div>
-                <div class="kit-hex">#1E1E1E</div>
-                <div class="kit-use">Raised surface</div>
-              </div>
-              <div>
-                <div class="kit-chip" style="background: #1F212A"></div>
-                <div class="kit-hex">#1F212A</div>
-                <div class="kit-use">Suggestion card</div>
-              </div>
-              <div>
-                <div class="kit-chip" style="background: #14296B"></div>
-                <div class="kit-hex">#14296B</div>
-                <div class="kit-use">Glow core</div>
-              </div>
-              <div>
-                <div class="kit-chip" style="background: #0F1F50"></div>
-                <div class="kit-hex">#0F1F50</div>
-                <div class="kit-use">Glow body</div>
-              </div>
-              <div>
-                <div class="kit-chip" style="background: #3186FF"></div>
-                <div class="kit-hex">#3186FF</div>
-                <div class="kit-use">Sparkle blue</div>
-              </div>
-              <div>
-                <div class="kit-chip" style="background: #FF237A"></div>
-                <div class="kit-hex">#FF237A</div>
-                <div class="kit-use">Account</div>
-              </div>
-              <div>
-                <div class="kit-chip" style="background: #007AFF"></div>
-                <div class="kit-hex">#007AFF</div>
-                <div class="kit-use">System blue, keyboard</div>
-              </div>
+        <div class="kit-block">
+          <div class="kit-label"><span>Colour</span><span>Sampled from the renders</span></div>
+          <div class="kit-swatches">
+            <div>
+              <div class="kit-chip" style="background: #000000"></div>
+              <div class="kit-hex">#000000</div>
+              <div class="kit-use">Screen</div>
+            </div>
+            <div>
+              <div class="kit-chip" style="background: #141414"></div>
+              <div class="kit-hex">#141414</div>
+              <div class="kit-use">Code surface</div>
+            </div>
+            <div>
+              <div class="kit-chip" style="background: #1E1E1E"></div>
+              <div class="kit-hex">#1E1E1E</div>
+              <div class="kit-use">Raised surface</div>
+            </div>
+            <div>
+              <div class="kit-chip" style="background: #1F212A"></div>
+              <div class="kit-hex">#1F212A</div>
+              <div class="kit-use">Suggestion card</div>
+            </div>
+            <div>
+              <div class="kit-chip" style="background: #14296B"></div>
+              <div class="kit-hex">#14296B</div>
+              <div class="kit-use">Glow core</div>
+            </div>
+            <div>
+              <div class="kit-chip" style="background: #0F1F50"></div>
+              <div class="kit-hex">#0F1F50</div>
+              <div class="kit-use">Glow body</div>
+            </div>
+            <div>
+              <div class="kit-chip" style="background: #3186FF"></div>
+              <div class="kit-hex">#3186FF</div>
+              <div class="kit-use">Sparkle blue</div>
+            </div>
+            <div>
+              <div class="kit-chip" style="background: #FF237A"></div>
+              <div class="kit-hex">#FF237A</div>
+              <div class="kit-use">Account</div>
+            </div>
+            <div>
+              <div class="kit-chip" style="background: #007AFF"></div>
+              <div class="kit-hex">#007AFF</div>
+              <div class="kit-use">System blue, keyboard</div>
             </div>
           </div>
-
-          <div class="kit-icons">
-            <div class="kit-label"><span>Iconography</span><span>Redrawn as vectors</span></div>
-            <img loading="lazy" decoding="async" src="../images/gemini/kit/icons.png" alt="The response action icons: copy, share, read aloud, thumbs up, thumbs down, more" />
-            <img loading="lazy" decoding="async" src="../images/gemini/kit/drawer.png" alt="The drawer destinations: new chat, search chats, images, library" />
-          </div>
         </div>
       </div>
 
-      <div class="kit-block">
-        <div class="kit-label"><span>Components</span><span>Assembled from the same parts</span></div>
-        <img loading="lazy" decoding="async" style="display: block; width: 100%; height: auto" src="../images/gemini/kit/topbar.png" alt="The chat top bar, with the drawer control, the model name, and the compose and overflow controls" />
+      <div class="kit-side">
+        <div class="kit-block kit-icons">
+          <div class="kit-label"><span>Iconography</span><span>Redrawn as vectors</span></div>
+          <img loading="lazy" decoding="async" src="../images/gemini/kit/icons.png" alt="The response action icons: copy, share, read aloud, thumbs up, thumbs down, more" />
+          <img loading="lazy" decoding="async" src="../images/gemini/kit/drawer.png" alt="The drawer destinations: new chat, search chats, images, library" />
+        </div>
+
+        <div class="kit-block kit-icons">
+          <div class="kit-label"><span>Components</span><span>Assembled from the same parts</span></div>
+          <img loading="lazy" decoding="async" src="../images/gemini/kit/topbar.png" alt="The chat top bar, with the drawer control, the model name, and the compose and overflow controls" />
+        </div>
       </div>
     </div>
     <p class="kit-note">Every specimen above is a crop of the recreation, shown at the size it is drawn.</p>
