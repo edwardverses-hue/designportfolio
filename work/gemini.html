@@ -32,7 +32,7 @@
   <section class="case-intro">
     <h1 class="case-title">Google Gemini Smart Context</h1>
     <p class="case-description">
-      A redesign of the Google Gemini home screen for iOS, built on top of a full recreation of the app. Rebuilding it first is what let me tell Gemini's deliberate constraints apart from its unused space, and the redesign replaces the generic prompt row with two suggestion stacks that read the time of day and the work already in progress.
+      A redesign of the Gemini home screen for iOS, built on a full recreation of the app. The generic prompt row becomes two suggestion stacks that read the time of day and the work already in progress.
     </p>
 
     <div class="case-meta">
@@ -71,23 +71,23 @@
   <!-- OVERVIEW -->
   <section id="overview" class="case-section">
     <div class="section-label">Overview</div>
-    <h2 class="section-title">The app knows a great deal and opens with none of it</h2>
+    <h2 class="section-title">A greeting, a text field, and a row of generic prompts</h2>
     <p class="section-body">
-      Gemini can hold a long technical conversation, read a photograph, and write working code. Then you open it and get your first name, a text field, and a row of prompts that would look identical on anyone else's phone.
+      That is the whole opening screen. The prompts are the same set on every phone.
     </p>
 
     <div class="pain-points">
       <div class="pain-point">
         <h3>A screen that could be anyone's</h3>
-        <p>The greeting uses your first name and nothing else about you.</p>
+        <p>The greeting uses your first name and nothing else.</p>
       </div>
       <div class="pain-point">
         <h3>Capability that never surfaces</h3>
-        <p>Nothing before you type suggests the app can read a photograph or write working code.</p>
+        <p>Nothing here suggests the app can read a photograph or write working code.</p>
       </div>
       <div class="pain-point">
         <h3>The busiest space, sitting empty</h3>
-        <p>Every session passes through this screen, and most of it is blank.</p>
+        <p>Every session passes through this screen. Most of it is blank.</p>
       </div>
     </div>
   </section>
@@ -105,7 +105,7 @@
     </div>
 
     <p class="section-body">
-      The first question takes the prompt row as given. The second asks what the screen is for.
+      One takes the prompt row as given. The other asks what the screen is for.
     </p>
 
     <div class="before-after">
@@ -127,27 +127,27 @@
     <div class="section-label">The Recreation</div>
     <h2 class="section-title">Rebuilding the parts that do not come in a kit</h2>
     <p class="section-body">
-      Gemini does not follow Material Design. It runs on its own kit, so almost nothing could be pulled from a library and the recreation became the largest single piece of work in the project. None of it appears in the redesign, and all of it had to exist before the redesign could be measured against anything real.
+      Gemini runs on its own kit rather than Material Design, so almost nothing came from a library. None of it shows in the redesign, and all of it had to exist first.
     </p>
 
     <div class="pain-points">
       <div class="pain-point">
         <h3>A custom typeface</h3>
-        <p>Gemini runs on Google Sans Flex, rounded where SF Pro Rounded is rounded. I drew the characters as vectors rather than substitute something close.</p>
+        <p>Google Sans Flex. I drew the characters as vectors rather than substitute something close.</p>
       </div>
       <div class="pain-point">
         <h3>Every icon as a vector</h3>
-        <p>The set is Gemini's own. Corner rounding and stroke weight are most of what makes the interface feel like this product.</p>
+        <p>Corner rounding and stroke weight are most of what makes it feel like this product.</p>
       </div>
       <div class="pain-point">
-        <h3>The keyboard and the status bar</h3>
-        <p>Apple's kit does not carry the ones actually on my phone, so both were built from scratch.</p>
+        <h3>The keyboard and status bar</h3>
+        <p>Apple's kit does not carry the ones on my phone. Both built from scratch.</p>
       </div>
     </div>
 
     <h3 class="sub-title">The flow, end to end</h3>
     <p class="section-body">
-      Left to right in the order a session happens, with the redesigned home screen in its place. A beginner asks what a Python if statement does, gets a structured answer with working code, then says the formatting was wrong.
+      Left to right in the order a session happens, with the redesigned home screen in place.
     </p>
 
     <div class="flow-strip" tabindex="0" role="group" aria-label="Recreated screens in order">
@@ -157,46 +157,46 @@
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/2.png" alt="Redesigned home screen showing late-night coffee and the Python chat" />
-        <figcaption class="flow-cap"><span class="flow-num">02</span><span>The redesigned home screen. Late-night coffee on one side, the Python thread on the other.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">02</span><span>The redesigned home screen.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/3.png" alt="Home screen with the evening column moved on to dinner spots" />
-        <figcaption class="flow-cap"><span class="flow-num">03</span><span>The evening column moves to dinner near campus. The work column stays put.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">03</span><span>Evening moves to dinner. Work holds.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/4.png" alt="Home screen with the work column moved on to the study app project" />
-        <figcaption class="flow-cap"><span class="flow-num">04</span><span>Now the work column moves, on to the study app project.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">04</span><span>Now work moves, to the study app project.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/5.png" alt="Side drawer with new chat, search, images and library" />
-        <figcaption class="flow-cap"><span class="flow-num">05</span><span>Four destinations, recent chats beneath them, the account at the bottom.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">05</span><span>The drawer. Four destinations, then recents.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/7.png" alt="A short chat answer explaining a Python if statement" />
-        <figcaption class="flow-cap"><span class="flow-num">06</span><span>A short answer, with the response actions under the text rather than behind a menu.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">06</span><span>A short answer, actions under the text.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/9.png" alt="A structured long answer with headings and a bulleted list" />
-        <figcaption class="flow-cap"><span class="flow-num">07</span><span>Headings and lists break a long answer into parts that can be scanned.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">07</span><span>Headings and lists break up a long answer.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/10.png" alt="A code block followed by two suggested next steps" />
-        <figcaption class="flow-cap"><span class="flow-num">08</span><span>After the code block, two next steps about the script just written.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">08</span><span>Code, then two next steps about it.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/11.png" alt="Feedback sheet asking why this rating was chosen" />
-        <figcaption class="flow-cap"><span class="flow-num">09</span><span>Thumbs down opens the feedback sheet straight away.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">09</span><span>Thumbs down opens the feedback sheet.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/13.png" alt="Back in the chat with the rating held and a thank you toast" />
-        <figcaption class="flow-cap"><span class="flow-num">10</span><span>Submitting returns to the chat with the rating still showing.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">10</span><span>Back to the chat, rating held.</span></figcaption>
       </figure>
     </div>
     <p class="flow-hint">Scroll or drag sideways to follow the flow</p>
 
     <div class="takeaway">
       <div class="takeaway-label">Takeaway</div>
-      <p>Drawing the app at full size is what turned my opinions about it into arguments I could actually check, rather than things I had noticed and written down.</p>
+      <p>Drawing it at full size turned my opinions into arguments I could check.</p>
     </div>
   </section>
 
@@ -207,26 +207,26 @@
 
     <div class="notes">
       <p class="note-label">The idea</p>
-      <p class="note-text">A control on the code block opens the script fullscreen, with the chat input still reachable underneath.</p>
+      <p class="note-text">A control opens the code block fullscreen, with the chat input still reachable.</p>
       <p class="note-label">Why it stayed out</p>
-      <p class="note-text">A long line is still a long line. Past a certain length you are panning again.</p>
+      <p class="note-text">A long line is still a long line. Past a point you are panning again.</p>
     </div>
     <p class="section-body">
-      I built the fix before I questioned it. It helps, and it does not solve the problem, which makes it a better version of the same compromise rather than a different answer to it.
+      I built the fix before I questioned it. It is a better version of the same compromise, not a different answer to it.
     </p>
 
     <div class="flow-strip" tabindex="0" role="group" aria-label="The fullscreen code view, in order">
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge, with a new expand control at its top right" />
-        <figcaption class="flow-cap"><span class="flow-num">01</span><span>The block as it is, running off the edge, with the expand control added at its top right.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">01</span><span>The block as it is, with the expand control added.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, with the whole width of the phone and the chat input still reachable" />
-        <figcaption class="flow-cap"><span class="flow-num">02</span><span>Opened fullscreen. The script gets the whole width and the input is still reachable underneath.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">02</span><span>Fullscreen. Whole width, input still reachable.</span></figcaption>
       </figure>
       <figure class="flow-item">
         <img loading="lazy" decoding="async" src="../images/gemini/code-3.png" alt="The fullscreen view zoomed in, with lines running past both edges again" />
-        <figcaption class="flow-cap"><span class="flow-num">03</span><span>Zoomed in on one part, and the lines run past both edges again.</span></figcaption>
+        <figcaption class="flow-cap"><span class="flow-num">03</span><span>Zoomed in, and the lines run past both edges again.</span></figcaption>
       </figure>
     </div>
 
@@ -238,19 +238,19 @@
         <h3 class="sub-title">Then rotating the phone, which I liked and still dropped</h3>
         <div class="notes">
           <p class="note-label">The idea</p>
-          <p class="note-text">Landscape gives a long line the wide edge of the display, so the eye travels down the script.</p>
+          <p class="note-text">Landscape gives a long line the wide edge, so the eye travels down the script.</p>
           <p class="note-label">Why it stayed out</p>
           <p class="note-text">Almost nobody reads code on a phone by choice.</p>
         </div>
         <p class="section-body">
-          I still think it is the better way to read code on a phone. The question I had not asked was who does that in the first place. People write and review code at a desk.
+          I still think it is the better way to read code on a phone. I had not asked who does that. People review code at a desk.
         </p>
       </div>
     </div>
 
     <div class="takeaway">
       <div class="takeaway-label">Takeaway</div>
-      <p>Noticing a problem and establishing that the problem is worth solving are two separate tests, and I had been treating them as one. Setting this aside is what pointed me at the screen everybody sees.</p>
+      <p>Noticing a problem and proving it is worth solving are two separate tests. I had been treating them as one.</p>
     </div>
   </section>
 
@@ -259,10 +259,7 @@
     <div class="section-label">Research</div>
     <h2 class="section-title">What the opening screen is actually doing</h2>
     <p class="section-body">
-      I went back to the screen people see most, the one before any conversation exists. The greeting sits in the middle of the display and almost everything around it is empty.
-    </p>
-    <p class="section-body">
-      I watched classmates open their assistants rather than asking them how they use them. Almost nobody read the suggested prompts. People went straight to the field and typed, or into the history to find a thread they had already started.
+      I watched classmates open their assistants instead of asking them how they use them. Almost nobody read the prompts.
     </p>
 
     <div class="signals">
@@ -274,7 +271,7 @@
           <li>Where the phone is</li>
           <li>The weather there</li>
           <li>The last conversation</li>
-          <li>Where that conversation stopped</li>
+          <li>Where it stopped</li>
         </ul>
       </div>
       <div class="signal-col">
@@ -285,29 +282,29 @@
         </ul>
       </div>
     </div>
-    <p class="signal-cap">Counted off the product rather than from a study. Everything on the left is something Gemini demonstrably has somewhere else in the app. The right is what the opening screen does with any of it.</p>
+    <p class="signal-cap">Counted off the product, not from a study.</p>
 
     <div class="insights">
       <div class="insight">
         <div class="insight-number">01</div>
         <h3>The prompts get skipped</h3>
-        <p>Reading them costs more attention than typing the question already in your head.</p>
+        <p>Reading them costs more than typing the question already in your head.</p>
       </div>
       <div class="insight">
         <div class="insight-number">02</div>
         <h3>Most opens are continuations</h3>
-        <p>People came back to a thread they had started, but resuming meant remembering it existed and going to look for it.</p>
+        <p>People return to a thread, but finding it means remembering it exists.</p>
       </div>
       <div class="insight">
         <div class="insight-number">03</div>
         <h3>The context is there and unused</h3>
-        <p>The app already knows the hour, the location, and the last conversation. None of it reaches the first screen.</p>
+        <p>The hour, the place, the last conversation. None of it reaches the first screen.</p>
       </div>
     </div>
 
     <div class="takeaway">
       <div class="takeaway-label">Takeaway</div>
-      <p>The most valuable space on the screen was being scrolled past on the way somewhere else. It is the one part of the app where nothing is being traded away for anything.</p>
+      <p>The most valuable space on the screen was being scrolled past on the way somewhere else.</p>
     </div>
   </section>
 
@@ -316,21 +313,21 @@
     <div class="section-label">Principles</div>
     <h2 class="section-title">Rules the stacks had to hold to</h2>
     <p class="section-body">
-      Whatever replaced the prompt row was going to take more space than the prompt row did. Three rules decided what was allowed to fill it.
+      Whatever replaced the prompt row would take more space than it did. Three rules decided what could fill it.
     </p>
 
     <div class="principles">
       <div class="principle">
         <h3>Specific or not at all</h3>
-        <p>A suggestion is only worth reading if it is more specific than the question you were already going to type.</p>
+        <p>Only worth reading if it beats the question you were already going to type.</p>
       </div>
       <div class="principle">
         <h3>Belong to Gemini, not to me</h3>
-        <p>Anything that looked pasted on top would have been a redesign in my own voice rather than a change to this product.</p>
+        <p>Anything pasted on top would be a redesign in my voice, not a change to this product.</p>
       </div>
       <div class="principle">
         <h3>Earn the space it takes</h3>
-        <p>The stacks take room from the text field. Every card has to carry a reason for being there rather than a category.</p>
+        <p>The stacks take room from the text field. Every card needs a reason to be there.</p>
       </div>
     </div>
   </section>
@@ -340,31 +337,28 @@
     <div class="section-label">Design Kit</div>
     <h2 class="section-title">Extending Google's design kit for Gemini</h2>
     <p class="section-body">
-      Gemini has its own design language and no public kit, so before the redesign could add anything I had to rebuild what was already there. I redrew the type, the colour, the icons and the components in Figma, then extended that same system with the pieces the suggestion stacks needed.
-    </p>
-    <p class="section-body">
-      Everything below is taken off the recreation rather than approximated. The colour values are sampled from the screens, the icons are the vectors I drew, and the four type specimens are shown at one shared scale, so the sizes here are the real ratios between them.
+      Gemini has no public kit, so I rebuilt its type, colour, icons and components in Figma before adding anything, then extended that system for the stacks.
     </p>
 
-    <div class="kit">
-      <div class="kit-side">
+    <div class="kit-pair">
+      <div class="kit">
         <div class="kit-block">
           <div class="kit-label"><span>Typography</span><span>Google Sans Flex</span></div>
           <div class="kit-type">
             <div class="kit-type-role">Display</div>
-            <img loading="lazy" decoding="async" style="max-width: 340px" src="../images/gemini/kit/display.png" alt="The home screen greeting, Let's jump in, Edward" />
+            <img loading="lazy" decoding="async" style="max-width: 238px" src="../images/gemini/kit/display.png" alt="The home screen greeting, Let's jump in, Edward" />
           </div>
           <div class="kit-type">
             <div class="kit-type-role">Title</div>
-            <img loading="lazy" decoding="async" style="max-width: 191px" src="../images/gemini/kit/title.png" alt="A chat title, Python Script Help" />
+            <img loading="lazy" decoding="async" style="max-width: 134px" src="../images/gemini/kit/title.png" alt="A chat title, Python Script Help" />
           </div>
           <div class="kit-type">
             <div class="kit-type-role">Label</div>
-            <img loading="lazy" decoding="async" style="max-width: 113px" src="../images/gemini/kit/label.png" alt="A section label reading Recents" />
+            <img loading="lazy" decoding="async" style="max-width: 79px" src="../images/gemini/kit/label.png" alt="A section label reading Recents" />
           </div>
           <div class="kit-type">
             <div class="kit-type-role">Mono</div>
-            <img loading="lazy" decoding="async" style="max-width: 242px" src="../images/gemini/kit/mono.png" alt="A line of Python from a code block" />
+            <img loading="lazy" decoding="async" style="max-width: 169px" src="../images/gemini/kit/mono.png" alt="A line of Python from a code block" />
           </div>
         </div>
 
@@ -414,34 +408,15 @@
             <div>
               <div class="kit-chip" style="background: #007AFF"></div>
               <div class="kit-hex">#007AFF</div>
-              <div class="kit-use">System blue, keyboard</div>
+              <div class="kit-use">System blue</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="kit-side">
-        <div class="kit-block kit-icons">
-          <div class="kit-label"><span>Iconography</span><span>Redrawn as vectors</span></div>
-          <img loading="lazy" decoding="async" src="../images/gemini/kit/icons.png" alt="The response action icons: copy, share, read aloud, thumbs up, thumbs down, more" />
-          <img loading="lazy" decoding="async" src="../images/gemini/kit/drawer.png" alt="The drawer destinations: new chat, search chats, images, library" />
-        </div>
-
-        <div class="kit-block kit-icons">
-          <div class="kit-label"><span>Components</span><span>Assembled from the same parts</span></div>
-          <img loading="lazy" decoding="async" src="../images/gemini/kit/topbar.png" alt="The chat top bar, with the drawer control, the model name, and the compose and overflow controls" />
-        </div>
-      </div>
+      <img class="kit-canvas" loading="lazy" decoding="async" src="../images/gemini/kit/canvas.png" alt="The Figma canvas holding every recreated Gemini component, including phone frames, chat bubbles, two keyboards, the side drawer, the feedback sheets and the suggestion cards" />
     </div>
-    <p class="kit-note">Every specimen above is a crop of the recreation, shown at the size it is drawn.</p>
-
-    <h3 class="sub-title">The file it all comes out of</h3>
-    <p class="section-body">
-      One canvas holds the whole kit: the phone frames, the chat bubbles, the keyboards built from scratch, the drawer, the feedback sheets, and the suggestion cards the redesign added. Every screen in this case study is assembled from these parts rather than drawn once and thrown away.
-    </p>
-    <div class="full-image is-bare">
-      <img loading="lazy" decoding="async" src="../images/gemini/kit/canvas.png" alt="The Figma canvas holding every recreated Gemini component, including phone frames, chat bubbles, two keyboards, the side drawer, the feedback sheets and the suggestion cards" />
-    </div>
+    <p class="kit-note">Left, the type and colour of the recreation, every specimen a crop of it at one shared scale. Right, the Figma file the whole kit comes out of.</p>
   </section>
 
   <!-- THE REDESIGN -->
@@ -449,7 +424,7 @@
     <div class="section-label">The Redesign</div>
     <h2 class="section-title">Two stacks answering two different questions</h2>
     <p class="section-body">
-      The greeting stays. Instead of one row of generic prompts there are two labelled stacks. The left reads the moment, meaning the hour, the weather and where you are. The right picks up work already in progress. Each holds four cards.
+      The greeting stays. Below it, two labelled stacks instead of one prompt row. The left reads the moment, the right picks up work in progress. Four cards each.
     </p>
 
     <div class="widget-demo">
@@ -475,10 +450,10 @@
         <div class="widget-dots" data-dots="4" role="group" aria-label="Work in progress"></div>
       </div>
     </div>
-    <p class="widget-cap">Two of the four cards in each stack. Drag sideways or use the dots.</p>
+    <p class="widget-cap">Two of the four in each stack. Drag sideways or use the dots.</p>
 
     <p class="section-body">
-      Each card carries a reason rather than a category. The evening card names Shibam Coffee on Centre Avenue and tells you it closes at eleven. The work card names the Python thread and the thing left to learn in it.
+      Each card carries a reason, not a category. Shibam Coffee on Centre Avenue, closing at eleven. The Python thread and the thing left to learn in it.
     </p>
 
     <div class="split-row is-flipped">
@@ -489,19 +464,19 @@
         <h3 class="sub-title">Glass rather than a flat fill</h3>
         <div class="notes">
           <p class="note-label">The option</p>
-          <p class="note-text">A flat fill would have been easier to read and would have sat unambiguously on top of the screen.</p>
+          <p class="note-text">A flat fill would have been easier to read and sat plainly on top of the screen.</p>
           <p class="note-label">The decision</p>
-          <p class="note-text">Glass, so the gradient Gemini already runs behind the home screen stays visible through the card.</p>
+          <p class="note-text">Glass, so the gradient Gemini already runs stays visible through the card.</p>
         </div>
         <p class="section-body">
-          This is the decision I went back and forth on longest. A flat fill fought with that gradient and made the cards look pasted onto the interface. Glass is harder to keep legible and it is what makes the addition belong to Gemini rather than to me.
+          A flat fill fought that gradient and made the cards look pasted on. Glass is harder to keep legible and it is what makes the addition belong here.
         </p>
       </div>
     </div>
 
     <h3 class="sub-title">The stacks move independently</h3>
     <p class="section-body">
-      The same screen at three moments. The evening stack moves from coffee to dinner while the work stack holds, then the work stack moves on. Neither waits for the other, which keeps the screen from reading as a slideshow with one hand on the controls.
+      The same screen at three moments. Neither stack waits for the other.
     </p>
     <div class="phone-grid three-col">
       <img loading="lazy" decoding="async" src="../images/gemini/2.png" alt="Home screen showing late-night coffee and the Python chat" />
@@ -515,10 +490,10 @@
     <div class="section-label">Reflections</div>
     <h2 class="section-title">Learning to argue against myself</h2>
     <p class="section-body">
-      The fullscreen code view was a real improvement, I liked it, and it was still the wrong thing to spend a redesign on. Rebuilding the app first is what made that judgement possible. Until I had drawn the input bar, the keyboard and the code block at full size, I was reacting to Gemini's decisions rather than understanding what each one had bought.
+      The fullscreen code view was a real improvement and still the wrong thing to spend a redesign on. Rebuilding the app first is what let me tell Gemini's decisions apart from its unused space.
     </p>
     <p class="section-body">
-      If I kept going I would work on what happens when the context is wrong. A suggestion that misreads the moment is worse than no suggestion at all, and I never designed the case where a card is simply unhelpful, or how someone would say so and have the screen learn from it.
+      If I kept going I would design for when the context is wrong. A suggestion that misreads the moment is worse than none.
     </p>
   </section>
 

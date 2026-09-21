@@ -755,15 +755,18 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 900px;
 }
 
+/* Weighted toward the picture, the way the Capsule case study runs: the screen
+   carries the row and the text beside it is a caption with a heading on top,
+   not a column of its own. */
 .split-art {
-  flex: 0 0 290px;
-  max-width: 290px;
+  flex: 0 0 370px;
+  max-width: 370px;
   min-width: 0;
 }
 
 .split-art.is-wide {
-  flex-basis: 400px;
-  max-width: 400px;
+  flex-basis: 430px;
+  max-width: 430px;
 }
 
 .split-art img {
@@ -788,8 +791,25 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 18px;
 }
 
+/* Beside a picture the text column is narrow, so the label sits above its line
+   rather than taking a third of the width from it. This is also how the
+   reference lays out a caption: a short label, then the sentences under it. */
 .split-text .notes {
-  margin-bottom: 20px;
+  grid-template-columns: 1fr;
+  row-gap: 4px;
+  margin-bottom: 22px;
+}
+
+.split-text .note-label {
+  padding-top: 0;
+}
+
+.split-text .note-text {
+  margin-bottom: 12px;
+}
+
+.split-text .note-text:last-child {
+  margin-bottom: 0;
 }
 
 .split-text .section-body {
@@ -801,23 +821,71 @@ h1, h2, h3, h4, h5, h6 {
    cut straight out of Edward's own dark-mode renders and their ground is
    #000000. Matching it exactly means the crops have no visible edge and the
    panel reads as one surface. */
+/* Wide enough to carry the kit and the Figma canvas side by side. The running
+   text inside keeps its own measure, since a 1300px line is unreadable. */
 .case-section.is-wide {
-  max-width: 1160px;
+  max-width: 1360px;
+}
+
+.case-section.is-wide .section-title {
+  max-width: 900px;
 }
 
 /* Two columns, so the type sits beside the colour and the icons beside the
    components rather than the four stacking into a long scroll. The rule
    between blocks is drawn inside a column, which is what keeps the two sides
    reading as their own runs. */
+/* The specimen panel and the Figma canvas, read together. The kit is the wider
+   of the two because it carries four labelled blocks and the canvas is one
+   picture. */
+/* The specimen panel and the Figma canvas, read as one row. The canvas is the
+   larger of the two because it is the evidence and the panel is the index of
+   it. `stretch` is what makes the two the same height: the panel sets the row
+   from its own content and the canvas is fitted into whatever that comes to. */
+.kit-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 0.618fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: stretch;
+  margin-top: 44px;
+}
+
+.kit-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  object-fit: contain;
+  object-position: center;
+}
+
 .kit {
   background: #000000;
   border-radius: 28px;
-  padding: 46px;
-  margin-top: 44px;
+  padding: 38px;
+  margin-top: 0;
   color: #E8EAED;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 52px;
+}
+
+/* Beside the canvas each of the kit's own columns is only about 290px, so the
+   role labels move above their specimens rather than taking a third of the
+   width from them. */
+.kit .kit-type {
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+
+.kit .kit-type + .kit-type {
+  margin-top: 20px;
+}
+
+/* The pair needs roughly 1200px to hold both. Below that the canvas drops
+   under the panel rather than either of them being squeezed. */
+@media (max-width: 1180px) {
+  .kit-pair {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
 }
 
 .kit-side {
@@ -873,10 +941,12 @@ h1, h2, h3, h4, h5, h6 {
   height: auto;
 }
 
+/* Five across rather than three, so nine swatches take two rows instead of
+   three and the panel comes down to the height of the canvas beside it. */
 .kit-swatches {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px 16px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px 12px;
 }
 
 /* The screen colour is pure black on a pure black panel, so the border is what
