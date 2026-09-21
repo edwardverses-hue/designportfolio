@@ -640,6 +640,533 @@ h1, h2, h3, h4, h5, h6 {
   color: #6C848E;
 }
 
+/* ---------- CAPSULE-STYLE CASE LAYOUT ---------- */
+/* A second layout for case studies, used by the Gemini page. The Sessions page
+   keeps the older one, so none of these names are shared.
+
+   The reference is wendyyudesign.com/capsule, and what makes it work is that
+   the type never competes with the pictures: headings sit at about body size
+   in medium weight, copy is small and short, and every screen is shown large
+   on a tinted plate. The column is left-aligned rather than centred, which is
+   what leaves the rail its margin. */
+.cap-page .case-intro,
+.cap-section {
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+.cap-section {
+  padding: 78px 24px 0;
+}
+
+.cap-section:last-of-type {
+  padding-bottom: 96px;
+}
+
+/* Both case studies shift right of the rail at the same width the rail appears
+   at. The column is capped against the viewport as well as its own maximum, so
+   at the narrow end of the range it gives up width rather than running off the
+   right edge. */
+@media (min-width: 1200px) {
+  .cap-page .case-intro,
+  .cap-section {
+    max-width: min(1060px, calc(100vw - 250px));
+    margin-left: max(210px, calc((100vw - 1060px) / 2));
+    margin-right: auto;
+  }
+
+  body:not(.cap-page) .case-intro,
+  .case-section {
+    margin-left: max(210px, calc((100vw - 900px) / 2));
+    margin-right: auto;
+  }
+}
+
+.cap-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #6C848E;
+  margin-bottom: 10px;
+}
+
+.cap-title {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin: 0 0 12px;
+  max-width: 740px;
+}
+
+.cap-body {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #000000;
+  margin: 0 0 8px;
+  max-width: 700px;
+}
+
+.cap-moment {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 58px 0 8px;
+}
+
+.cap-cap {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6C848E;
+  margin: 12px 0 0;
+  max-width: 700px;
+}
+
+/* Screens sit on the page's own white. The renders carry their own shadow, so
+   a tinted panel behind them only adds an edge Edward does not want. The class
+   survives as the row that lays them out and spaces them. */
+.plate {
+  margin: 24px 0 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 34px;
+  flex-wrap: wrap;
+}
+
+.plate img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.plate.is-phones img {
+  width: 238px;
+}
+
+.plate.is-phone-single img {
+  width: 300px;
+}
+
+/* The whole flow at once, rather than a strip that has to be dragged. Eight
+   screens across two rows, each keeping its number and its line. */
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px 26px;
+  margin: 24px 0 0;
+}
+
+.flow-grid figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.flow-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.flow-grid figcaption {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #6C848E;
+}
+
+.flow-grid .flow-num {
+  color: #BCBDBF;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 860px) {
+  .flow-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 18px;
+  }
+
+  .spec-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Small bordered cards: the tensions in the premise, the steps in the system
+   overview, and the openings at the end. */
+.cap-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 26px;
+}
+
+.cap-cards.is-pair {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 720px;
+}
+
+.cap-card {
+  border: 1px solid #E5E5E5;
+  border-radius: 14px;
+  padding: 18px 20px 20px;
+}
+
+.cap-card-num {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #6C848E;
+  margin-bottom: 9px;
+}
+
+.cap-card h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+
+.cap-card p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #6C848E;
+  margin: 0;
+}
+
+/* The question the project turns on, set as the only large type on the page. */
+.cap-pull {
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  max-width: 720px;
+  margin: 46px 0 0;
+}
+
+@media (max-width: 720px) {
+  .cap-section {
+    padding: 56px 20px 0;
+  }
+
+  .cap-cards,
+  .cap-cards.is-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .plate {
+    padding: 24px 18px;
+    gap: 18px;
+  }
+
+  .plate.is-phones img {
+    width: 180px;
+  }
+
+  .cap-pull {
+    font-size: 19px;
+  }
+}
+
+/* ---------- DESIGN SYSTEM SPEC ---------- */
+/* The type and colour sheet, following the frame Edward built in Figma. Its
+   surfaces are sampled from that file rather than matched by eye: the ground
+   is #F5F5F5, the cards sit on it in white, and the tables inside them are
+   #F6F7F8. */
+/* Three panels of one size: type, colour, and the file they come out of. Equal
+   columns and a stretched row, so the Figma canvas is a card of the same size
+   as the other two rather than a thumbnail beside them. */
+.spec {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+  background: #F5F5F5;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 20px 0 0;
+}
+
+.spec-canvas-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.spec-canvas-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.spec-col {
+  min-width: 0;
+}
+
+.spec-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #BCBDBF;
+  margin: 2px 0 12px 4px;
+}
+
+.spec-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 22px;
+  height: calc(100% - 41px);
+}
+
+.spec-card-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #2E2F33;
+  margin-bottom: 22px;
+}
+
+/* Face specimens. The primary stack names Google Sans Flex first, so it sets
+   correctly on a machine that has it and falls back elsewhere. */
+.face-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 22px;
+}
+
+.face-role {
+  font-size: 9px;
+  color: #999999;
+  margin-bottom: 3px;
+}
+
+.face-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #010101;
+  margin-bottom: 8px;
+  font-family: 'Google Sans Flex', 'Google Sans', 'Product Sans', Inter, system-ui, sans-serif;
+}
+
+.face-row.is-secondary .face-name {
+  font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', BlinkMacSystemFont, Inter, system-ui, sans-serif;
+}
+
+.face-set {
+  font-size: 8.5px;
+  line-height: 1.7;
+  color: #2E2F33;
+  letter-spacing: 0.01em;
+  font-family: 'Google Sans Flex', 'Google Sans', 'Product Sans', Inter, system-ui, sans-serif;
+}
+
+.face-row.is-secondary .face-set {
+  font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', BlinkMacSystemFont, Inter, system-ui, sans-serif;
+}
+
+.weights {
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
+}
+
+.weight {
+  text-align: center;
+}
+
+.weight .aa {
+  display: block;
+  font-size: 22px;
+  line-height: 1.1;
+  color: #010101;
+  font-family: 'Google Sans Flex', 'Google Sans', 'Product Sans', Inter, system-ui, sans-serif;
+}
+
+.face-row.is-secondary .weight .aa {
+  font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', BlinkMacSystemFont, Inter, system-ui, sans-serif;
+}
+
+.weight span:last-child {
+  display: block;
+  font-size: 8px;
+  color: #999999;
+  margin-top: 5px;
+}
+
+/* The three tables: headlines, body, buttons. */
+/* At a third of the row the typography card is about 300px wide, so its three
+   tables run down the card rather than across it. */
+.spec-tables {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.spec-table h4 {
+  font-size: 11px;
+  font-weight: 500;
+  color: #010101;
+  margin: 0 0 8px;
+}
+
+.spec-table-box {
+  background: #F6F7F8;
+  border-radius: 8px;
+  padding: 14px 12px;
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 7px;
+  align-items: baseline;
+}
+
+.spec-row + .spec-row {
+  margin-top: 14px;
+}
+
+.spec-row-key {
+  font-size: 9px;
+  color: #999999;
+}
+
+.spec-row-sample {
+  font-size: 11px;
+  font-weight: 500;
+  color: #010101;
+  line-height: 1.3;
+  font-family: 'Google Sans Flex', 'Google Sans', 'Product Sans', Inter, system-ui, sans-serif;
+}
+
+.spec-row-sample.is-sf {
+  font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', BlinkMacSystemFont, Inter, system-ui, sans-serif;
+}
+
+.spec-row-meta {
+  font-size: 7.5px;
+  color: #999999;
+  margin-top: 2px;
+  letter-spacing: 0.01em;
+}
+
+/* Colour groups. */
+.spec-group + .spec-group {
+  margin-top: 18px;
+}
+
+.spec-group h4 {
+  font-size: 11px;
+  font-weight: 500;
+  color: #010101;
+  margin: 0 0 8px;
+}
+
+.spec-swatches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.spec-chip {
+  height: 52px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.spec-name {
+  font-size: 9px;
+  font-weight: 500;
+  color: #010101;
+  margin-top: 7px;
+}
+
+.spec-hex {
+  font-size: 8px;
+  color: #999999;
+  margin-top: 1px;
+}
+
+@media (max-width: 860px) {
+  .spec {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .spec-card {
+    height: auto;
+  }
+
+  .spec-tables {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- SECTION RAIL ---------- */
+/* Where you are in the case study, kept in the left margin. Only shown once
+   the window is wide enough that it sits clear of the 900px text column, which
+   needs about 1300px; below that the jump links under the title are the whole
+   of the navigation. The active item is a rounded outline rather than a fill or
+   a bar, which is the form Edward asked for. */
+.case-rail {
+  display: none;
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 150px;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 40;
+  transition: opacity 0.3s ease;
+}
+
+.case-rail.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.case-rail a {
+  display: block;
+  padding: 9px 15px;
+  font-size: 14px;
+  line-height: 1.3;
+  color: #6C848E;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.case-rail a:hover {
+  color: #000000;
+}
+
+.case-rail a.is-here {
+  color: #000000;
+  border-color: #1A1A1A;
+}
+
+.case-rail a:focus-visible {
+  outline: 1px solid #1A1A1A;
+  outline-offset: 2px;
+}
+
+@media (min-width: 1200px) {
+  .case-rail {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-rail,
+  .case-rail a {
+    transition: none;
+  }
+}
+
 /* ---------- SCANNABLE SUB-BLOCKS ---------- */
 /* A section headline is 40px and carries the section. These carry an item
    inside it, so they sit well below that and well above body copy, which is
@@ -861,10 +1388,27 @@ h1, h2, h3, h4, h5, h6 {
 
 .kit {
   background: #000000;
-  border-radius: 28px;
-  padding: 38px;
-  margin-top: 0;
+  border-radius: 22px;
+  padding: 40px;
+  margin: 20px 0 0;
   color: #E8EAED;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+}
+
+@media (max-width: 860px) {
+  .kit {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .kit-side + .kit-side .kit-block:first-child,
+  .kit > .kit-block + .kit-block {
+    margin-top: 36px;
+    padding-top: 36px;
+    border-top: 1px solid #1E1E1E;
+  }
 }
 
 /* Beside the canvas each of the kit's own columns is only about 290px, so the
@@ -941,12 +1485,10 @@ h1, h2, h3, h4, h5, h6 {
   height: auto;
 }
 
-/* Five across rather than three, so nine swatches take two rows instead of
-   three and the panel comes down to the height of the canvas beside it. */
 .kit-swatches {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 18px 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 16px;
 }
 
 /* The screen colour is pure black on a pure black panel, so the border is what
