@@ -2036,7 +2036,6 @@ h1, h2, h3, h4, h5, h6 {
 .viewer-cap {
   font-size: 13px;
   font-weight: 300;
-  color: #6C848E;
 }
 
 /* Two strokes and nothing else. No disc behind it: the page draws its other
@@ -2109,7 +2108,6 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   font-size: 13px;
   font-weight: 300;
-  color: #6C848E;
   transform-origin: 0 0;
 }
 
@@ -2128,14 +2126,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .gallery-welcome-title {
   font-size: 17px;
-  font-weight: 400;
 }
 
 .gallery-welcome-sub {
   margin-top: 8px;
   font-size: 13px;
   font-weight: 300;
-  color: #6C848E;
 }
 
 .gallery-hint {
