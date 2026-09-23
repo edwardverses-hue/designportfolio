@@ -16,3 +16,9 @@ Thumbs.db
 desktop.ini
 .DS_Store
 .vscode/
+
+# Tooling installed into the repo by npx, not part of the site
+/.claude/
+/.agents/
+/package-lock.json
+/skills-lock.json

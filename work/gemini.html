@@ -28,7 +28,333 @@
     </div>
   </section>
 
-  <!-- PAGE CONTENT GOES HERE -->
+  <!-- TITLE + INTRO -->
+  <section class="case-intro">
+    <h1 class="case-title">Google Gemini Smart Context</h1>
+    <p class="case-description">
+      A redesign of the Google Gemini home screen for iOS, built on top of a full recreation of the app. Rebuilding it first is what let me tell Gemini's deliberate constraints apart from its unused space. The redesign replaces the generic prompt row with two suggestion stacks, one that reads the time of day and one that picks up the work already in progress.
+    </p>
+
+    <div class="case-meta">
+      <div class="meta-block">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">4 weeks</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">Independent</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Product Designer</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Focus</div>
+        <div class="meta-value">Mobile Design<br/>Interaction Design<br/>Design Systems</div>
+      </div>
+    </div>
+
+    <!-- Section jump links -->
+    <div class="case-toc">
+      <a href="#problem">The Problem</a>
+      <a href="#research">Research</a>
+      <a href="#reframe">The Reframe</a>
+      <a href="#principles">Principles</a>
+      <a href="#recreation">Recreation</a>
+      <a href="#setaside">Set Aside</a>
+      <a href="#system">Design Kit</a>
+      <a href="#redesign">The Redesign</a>
+      <a href="#reflections">Reflections</a>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section id="problem" class="case-section">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">A greeting, a text field, and a row of generic prompts</h2>
+    <p class="section-body">
+      That is the whole opening screen. The prompts are the same set on every phone, and they say nothing about what the app can do or what you were doing the last time you opened it. Every session passes through this screen, and most of it is blank.
+    </p>
+
+    <div class="pain-points">
+      <div class="pain-point">
+        <h3>A screen that could be anyone's</h3>
+        <p>The greeting uses your first name and nothing else.</p>
+      </div>
+      <div class="pain-point">
+        <h3>Capability that never surfaces</h3>
+        <p>Nothing here suggests the app can read a photograph or write working code.</p>
+      </div>
+      <div class="pain-point">
+        <h3>The busiest space, sitting empty</h3>
+        <p>The area under the greeting is the first thing every user sees and the least used part of the app.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research" class="case-section">
+    <div class="section-label">Research</div>
+    <h2 class="section-title">What the opening screen is actually doing</h2>
+    <p class="section-body">
+      I watched classmates open their assistants instead of asking them how they use them. Almost nobody read the prompts. They tapped the field and typed the question they had walked in with, which means the row of suggestions costs space and returns nothing.
+    </p>
+
+    <div class="insights">
+      <div class="insight">
+        <div class="insight-number">01</div>
+        <h3>The prompts get skipped</h3>
+        <p>Reading them costs more than typing the question already in your head.</p>
+      </div>
+      <div class="insight">
+        <div class="insight-number">02</div>
+        <h3>Most opens are continuations</h3>
+        <p>People come back to a thread, but finding it means remembering it exists and remembering what it was called.</p>
+      </div>
+      <div class="insight">
+        <div class="insight-number">03</div>
+        <h3>The context is there and unused</h3>
+        <p>The hour, the place, the weather, the last conversation and where it stopped. None of it reaches the first screen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE REFRAME -->
+  <section id="reframe" class="case-section">
+    <div class="section-label">The Reframe</div>
+    <h2 class="section-title">The question I ended up answering</h2>
+    <p class="section-body">
+      I started out asking how the home screen could offer better suggested prompts. That question takes the prompt row as given and only ever produces a different list. The more useful question was what the screen is for, and the app already holds five signals it never puts on it.
+    </p>
+
+    <div class="before-after">
+      <div class="ba-column">
+        <div class="ba-tag">Before</div>
+        <div class="ba-headline">A row of suggested prompts</div>
+        <div class="ba-sub">The same set whatever the hour and whatever you were last doing</div>
+      </div>
+      <div class="ba-column">
+        <div class="ba-tag">After</div>
+        <div class="ba-headline">Two labelled stacks</div>
+        <div class="ba-sub">One reads the moment, the other reads the work</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
+  <section id="principles" class="case-section">
+    <div class="section-label">Principles</div>
+    <h2 class="section-title">Rules the stacks had to hold to</h2>
+    <p class="section-body">
+      Whatever replaced the prompt row was going to take more space than the row did. I wrote down three rules before drawing anything, and used them to throw out most of what I drew afterwards.
+    </p>
+
+    <div class="principles">
+      <div class="principle">
+        <h3>Specific or not at all</h3>
+        <p>A card is only worth reading if it beats the question you were already going to type.</p>
+      </div>
+      <div class="principle">
+        <h3>Belong to Gemini, not to me</h3>
+        <p>Anything pasted on top would be a redesign in my own voice rather than a change to this product.</p>
+      </div>
+      <div class="principle">
+        <h3>Earn the space it takes</h3>
+        <p>The stacks take room from the text field, so every card needs a reason to be there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECREATION -->
+  <section id="recreation" class="case-section">
+    <div class="section-label">Recreation</div>
+    <h2 class="section-title">Rebuilding the app before changing it</h2>
+    <p class="section-body">
+      Gemini runs on its own kit rather than Material Design, so almost nothing came out of a library. I drew the typeface, the icons, the status bar and two keyboards as vectors, then rebuilt every screen a session passes through. None of that work shows up in the redesign, and all of it had to exist first.
+    </p>
+
+    <div class="pain-points">
+      <div class="pain-point">
+        <h3>A custom typeface</h3>
+        <p>Google Sans Flex. I drew the characters rather than substitute something close to them.</p>
+      </div>
+      <div class="pain-point">
+        <h3>Every icon as a vector</h3>
+        <p>Corner rounding and stroke weight are most of what makes an icon feel like this product.</p>
+      </div>
+      <div class="pain-point">
+        <h3>The keyboard and status bar</h3>
+        <p>Apple's kit does not carry the ones on my phone, so both were built from scratch.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Signing in, and getting around</h2>
+    <p class="section-body">
+      The account is already known by the time the app opens, so signing in is one button. The drawer behind it holds four destinations and then recents, which is where a returning conversation has to be found.
+    </p>
+    <div class="phone-grid two-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/1.png" alt="Sign-in screen reading Meet Gemini, your personal AI assistant, with a Google account sheet and a Continue as Edward button" />
+      <img loading="lazy" decoding="async" src="../images/gemini/5.png" alt="Side drawer with new chat, search chats, images and library, then a recents list holding one conversation" />
+    </div>
+
+    <h2 class="section-title">Finding an old thread</h2>
+    <p class="section-body">
+      Search is the only route back to a conversation once it has dropped out of recents, and it asks you to remember that the conversation exists before you can look for it. The thread it opens here is the short answer this project started from.
+    </p>
+    <div class="phone-grid two-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/6.png" alt="Search chats screen with the keyboard up and one recent result, Python Script Help, dated today" />
+      <img loading="lazy" decoding="async" src="../images/gemini/7.png" alt="A short chat answer explaining a Python if statement with an umbrella analogy, with copy, share, read aloud and rating controls beneath it" />
+    </div>
+
+    <h2 class="section-title">Asking for something longer</h2>
+    <p class="section-body">
+      The second question is deliberately long, because a long answer is where a chat interface has to work hardest. Headings and a bulleted list carry it, and the prompt itself collapses to one line once it has been sent.
+    </p>
+    <div class="phone-grid two-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/8.png" alt="The composer holding a long typed prompt asking for a beginner-friendly guide to checking password security in Python" />
+      <img loading="lazy" decoding="async" src="../images/gemini/9.png" alt="The answer to that prompt, broken up by a heading and a bulleted list of four password criteria" />
+    </div>
+
+    <h2 class="section-title">Code, and the two next steps under it</h2>
+    <p class="section-body">
+      A script comes back inside a code block, and under it Gemini offers two ways to keep going with the thing it has just written. The block is also where the recreation ran into a problem I spent longer on than I should have.
+    </p>
+    <div class="phone-grid">
+      <img loading="lazy" decoding="async" src="../images/gemini/10.png" alt="The foot of the code answer, with two suggested next steps and the row of rating controls" />
+    </div>
+
+    <h2 class="section-title">Rating an answer</h2>
+    <p class="section-body">
+      Thumbs down opens a sheet with six reasons and a free text field. Submitting it returns you to the conversation with the rating held and one line of acknowledgement, which is the whole of the feedback loop.
+    </p>
+    <div class="phone-grid three-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/11.png" alt="Feedback sheet asking why this rating was chosen, with six reason chips and an empty comment field" />
+      <img loading="lazy" decoding="async" src="../images/gemini/12.png" alt="The same sheet with Formatting issues typed into the comment field and the keyboard up" />
+      <img loading="lazy" decoding="async" src="../images/gemini/13.png" alt="Back in the conversation with the thumbs down held and a thank you for your feedback message" />
+    </div>
+  </section>
+
+  <!-- AN IDEA I SET ASIDE -->
+  <section id="setaside" class="case-section">
+    <div class="section-label">An Idea I Set Aside</div>
+    <h2 class="section-title">A fullscreen code view, and why it did not become the project</h2>
+    <p class="section-body">
+      A code block in a chat clips long lines, and the comments Gemini writes into its own code are full sentences. I built a fix for that before I asked whether the fix was worth building.
+    </p>
+
+    <h2 class="section-title">Opening the block fullscreen</h2>
+    <p class="section-body">
+      A control at the top right of the block opens it on a screen of its own, with the chat input still reachable underneath. Whole lines fit, and the comments read as sentences again.
+    </p>
+    <div class="phone-grid two-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge, with an expand control added at its top right" />
+      <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, every line complete, with the chat input still reachable" />
+    </div>
+
+    <h2 class="section-title">Zoom in and the lines run off again</h2>
+    <p class="section-body">
+      Any text size past the default puts the ends of the lines back outside the screen. The fullscreen view is a better version of the same compromise rather than a different answer to it.
+    </p>
+    <div class="phone-grid">
+      <img loading="lazy" decoding="async" src="../images/gemini/code-3.png" alt="The fullscreen code view zoomed in, with lines running past both edges of the screen" />
+    </div>
+
+    <h2 class="section-title">Turning the phone, which I liked and still dropped</h2>
+    <p class="section-body">
+      Landscape gives a long line the wide edge of the screen, so the eye travels down the script instead of across it. I still think it is the best way to read code on a phone. What I had not asked is who reads code on a phone, and the answer is that almost nobody does it by choice. People review code at a desk.
+    </p>
+    <div class="full-image is-bare">
+      <img loading="lazy" decoding="async" src="../images/gemini/code-landscape.png" alt="The code view rotated to landscape, with full lines fitting across the wide edge of the screen" />
+    </div>
+    <p class="section-body">
+      Noticing a problem and proving it is worth solving are two separate tests, and I had been treating them as one. The code view went back in the file and the home screen became the project.
+    </p>
+  </section>
+
+  <!-- DESIGN KIT -->
+  <section id="system" class="case-section">
+    <div class="section-label">Design Kit</div>
+    <h2 class="section-title">Extending Google's design kit for Gemini</h2>
+    <p class="section-body">
+      Gemini has no public kit, so its type, colour and components had to be documented before anything could be added to them. I built the system out of the recreation, sampling values off my own renders rather than guessing at them, and then extended it for the stacks.
+    </p>
+
+    <h2 class="section-title">Typography</h2>
+    <p class="section-body">
+      Google Sans Flex carries the product, with SF Pro behind it for anything the operating system draws. The scale runs from the home screen greeting down to the small print under a rating, and every size is recorded at the point it appears rather than as a ratio.
+    </p>
+    <div class="full-image">
+      <img loading="lazy" decoding="async" src="../images/gemini/kit/typography.png" alt="Typography sheet for the kit, showing Google Sans Flex as the primary face and SF Pro as the secondary, with weight specimens and a scale of headline, text and button sizes" />
+    </div>
+
+    <h2 class="section-title">Colour</h2>
+    <p class="section-body">
+      Three families, each one sampled from the renders. The blue belongs to the glow behind the composer, the blacks are the surfaces the screen is built out of, and the greys are where secondary text and inactive controls sit.
+    </p>
+    <div class="full-image">
+      <img loading="lazy" decoding="async" src="../images/gemini/kit/colors.png" alt="Colour sheet for the kit, showing the main blue, black and grey, then three steps within each family with their hex values" />
+    </div>
+
+    <h2 class="section-title">Components</h2>
+    <p class="section-body">
+      Everything a session touches, drawn as components in one Figma file. The phone frames and background gradients, the chat bubbles, two keyboards, the side drawer, the search screen, the feedback sheets and the suggestion cards. The stacks were built as an extension of this file, which is what kept them in Gemini's voice instead of mine.
+    </p>
+    <div class="full-image is-bare">
+      <img loading="lazy" decoding="async" src="../images/gemini/kit/canvas.png" alt="The Figma canvas holding every recreated Gemini component, including phone frames, chat bubbles, two keyboards, the side drawer, the feedback sheets and the suggestion cards" />
+    </div>
+  </section>
+
+  <!-- THE REDESIGN -->
+  <section id="redesign" class="case-section">
+    <div class="section-label">The Redesign</div>
+    <h2 class="section-title">Two stacks answering two different questions</h2>
+    <p class="section-body">
+      The greeting stays. Below it, two labelled stacks instead of one prompt row. The left one reads the moment, the right one picks up work already in progress. Four cards in each, and every card carries a reason rather than a category: Shibam Coffee on Centre Avenue closing at eleven, or the Python thread and the thing still left to learn in it.
+    </p>
+
+    <div class="widget-demo">
+      <div class="widget-col">
+        <img class="widget-head" loading="lazy" decoding="async" src="../images/gemini/widgets/head-evening.png" alt="For your evening" />
+        <img class="widget-still" loading="lazy" decoding="async" src="../images/gemini/widgets/evening-coffee.png" alt="Card suggesting late-night coffee shops near Oakland, naming Shibam Coffee on Centre Ave, open till 11 pm" />
+        <img class="widget-still" loading="lazy" decoding="async" src="../images/gemini/widgets/evening-dinner.png" alt="Card suggesting dinner spots near campus that are open now, on Forbes and in Squirrel Hill" />
+      </div>
+      <div class="widget-col">
+        <img class="widget-head" loading="lazy" decoding="async" src="../images/gemini/widgets/head-resume.png" alt="Pick up where you left off" />
+        <img class="widget-still" loading="lazy" decoding="async" src="../images/gemini/widgets/resume-python.png" alt="Card resuming a chat called Python Script Help, suggesting elif chains or nested if statements next" />
+        <img class="widget-still" loading="lazy" decoding="async" src="../images/gemini/widgets/resume-study.png" alt="Card resuming a study app design project, noting that streak logic and push notification timing are still open" />
+      </div>
+    </div>
+    <p class="widget-cap">Two of the four cards in each stack, on the black they were drawn against</p>
+
+    <h2 class="section-title">Glass rather than a flat fill</h2>
+    <p class="section-body">
+      A flat fill would have been easier to keep legible, and it would have looked pasted on top of the screen. Gemini already runs a blue gradient up from the composer, and glass lets that gradient stay visible through the card. It is the harder of the two to read and it is what makes the addition belong to the product.
+    </p>
+
+    <h2 class="section-title">The stacks move independently</h2>
+    <p class="section-body">
+      The same screen at three moments. The evening column moves from late-night coffee to dinner spots while the work column holds, and then the work column moves on its own from the Python thread to the study app project. Neither one waits for the other.
+    </p>
+    <div class="phone-grid three-col">
+      <img loading="lazy" decoding="async" src="../images/gemini/2.png" alt="Redesigned home screen showing late-night coffee and the Python chat" />
+      <img loading="lazy" decoding="async" src="../images/gemini/3.png" alt="Home screen with the evening stack moved on to dinner spots near campus" />
+      <img loading="lazy" decoding="async" src="../images/gemini/4.png" alt="Home screen with the work stack moved on to the study app design project" />
+    </div>
+  </section>
+
+  <!-- REFLECTIONS -->
+  <section id="reflections" class="case-section">
+    <div class="section-label">Reflections</div>
+    <p class="section-body">
+      Rebuilding the app first is the decision I would make again. Until the screens existed at full size I could not tell which parts of Gemini were restraint and which were space nobody had got to yet, and every opinion I had about it stayed an opinion.
+    </p>
+    <p class="section-body">
+      The fullscreen code view was a real improvement to a real problem and still the wrong thing to spend a redesign on. Learning to separate those two judgements, whether something is better and whether it is worth doing, was most of what this project taught me.
+    </p>
+    <p class="section-body">
+      If I picked it up again I would design for the times the context is wrong. A suggestion that misreads the moment is worse than no suggestion at all, and nothing in the current design says what happens when the app guesses badly.
+    </p>
+  </section>
 
   <!-- BACK -->
   <section class="case-next">

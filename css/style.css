@@ -2113,6 +2113,31 @@ h1, h2, h3, h4, h5, h6 {
   transform-origin: 0 0;
 }
 
+/* The room's own label, standing on the empty floor between the two walls of
+   work. It sits low, clear of the nearest posters at either side, and stays
+   put while the room turns behind it. */
+.gallery-welcome {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(460px, calc(100vw - 48px));
+  text-align: center;
+  z-index: 2;
+}
+
+.gallery-welcome-title {
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.gallery-welcome-sub {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 300;
+  color: #6C848E;
+}
+
 .gallery-hint {
   position: absolute;
   bottom: 48px;
@@ -2215,6 +2240,18 @@ h1, h2, h3, h4, h5, h6 {
   width: 84%;
   height: auto;
   margin: 0 auto;
+  background: transparent;
+  -webkit-user-drag: none;
+}
+
+/* The cards shown still, one under the other, rather than in the paging stack
+   they were built for. Same width as .widget-track, so a card sits at exactly
+   the scale its heading above it is drawn for. */
+.widget-still {
+  display: block;
+  width: 84%;
+  height: auto;
+  margin: 16px auto 0;
   background: transparent;
   -webkit-user-drag: none;
 }
