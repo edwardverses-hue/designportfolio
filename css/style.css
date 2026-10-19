@@ -639,10 +639,12 @@ h1, h2, h3, h4, h5, h6 {
    keeps the older one, so none of these names are shared.
 
    The reference is wendyyudesign.com/capsule, and what makes it work is that
-   the type never competes with the pictures: headings sit at about body size
-   in medium weight, copy is small and short, and every screen is shown large
-   on a tinted plate. The column is left-aligned rather than centred, which is
-   what leaves the rail its margin. */
+   the type never competes with the pictures: headings are set apart by size
+   alone, in the same light weight as the body, copy is short, and every screen
+   is shown large. Light rather than regular because Helvetica Neue is often
+   installed without a Regular cut, and then 400 is drawn in Medium. The
+   column is left-aligned rather than centred, which is what leaves the rail
+   its margin. */
 .cap-page .case-intro,
 .cap-section {
   max-width: 1060px;
@@ -676,40 +678,44 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* Sizes are the reference's, measured: 15px is the floor for anything meant to
+   be read, titles are 24px and subheads 20px. Its labels are capitals at 15px
+   with no extra tracking, so these keep only a trace of it. */
 .cap-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.09em;
+  font-size: 15px;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: #6C848E;
   margin-bottom: 10px;
 }
 
 .cap-title {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 300;
   letter-spacing: -0.01em;
-  line-height: 1.35;
-  margin: 0 0 12px;
+  line-height: 1.25;
+  margin: 0 0 14px;
   max-width: 740px;
 }
 
 .cap-body {
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: 15px;
+  line-height: 1.6;
   color: #000000;
   margin: 0 0 8px;
   max-width: 700px;
 }
 
 .cap-moment {
-  font-size: 17px;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 300;
   letter-spacing: -0.01em;
-  margin: 58px 0 8px;
+  line-height: 1.25;
+  margin: 58px 0 10px;
 }
 
 .cap-cap {
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.5;
   color: #6C848E;
   margin: 12px 0 0;
@@ -809,30 +815,33 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cap-card-num {
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 15px;
+  letter-spacing: 0.02em;
   color: #6C848E;
-  margin-bottom: 9px;
+  margin-bottom: 10px;
 }
 
 .cap-card h3 {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.25;
+  margin: 0 0 8px;
 }
 
+/* Black like the body, as the reference sets its card text. */
 .cap-card p {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #6C848E;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #000000;
   margin: 0;
 }
 
-/* The question the project turns on, set as the only large type on the page. */
+/* The question the project turns on. The reference sets it at title size and
+   lets the space around it single it out. */
 .cap-pull {
-  font-size: 23px;
-  font-weight: 500;
-  line-height: 1.4;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.3;
   letter-spacing: -0.015em;
   max-width: 720px;
   margin: 46px 0 0;
@@ -855,10 +864,6 @@ h1, h2, h3, h4, h5, h6 {
 
   .plate.is-phones img {
     width: 180px;
-  }
-
-  .cap-pull {
-    font-size: 19px;
   }
 }
 
@@ -2556,7 +2561,7 @@ mark.draft {
    per-figure control: the page carries one Pause motion for all of them. */
 .proto-cap {
   margin-top: 16px;
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.02em;
   color: #6C848E;
   text-align: center;
@@ -2592,7 +2597,7 @@ mark.draft {
 
 .pos-path {
   font: inherit;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
   padding: 9px 15px;
   border-radius: 999px;
@@ -2639,7 +2644,7 @@ mark.draft {
   gap: 4px 22px;
   margin: 20px 0 0;
   padding: 0;
-  font-size: 13px;
+  font-size: 15px;
   color: #6C848E;
 }
 
@@ -2658,8 +2663,7 @@ mark.draft {
 
 .pos-steps .pos-num {
   margin-right: 6px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2685,12 +2689,12 @@ mark.draft {
 /* The reference sets the title as a sentence at about twice body size, not as
    a display headline, and keeps the description and the facts under it small. */
 .cap-page .case-title {
-  font-size: 26px;
-  font-weight: 500;
-  line-height: 1.3;
-  letter-spacing: -0.015em;
-  max-width: 640px;
-  margin-bottom: 14px;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  max-width: 720px;
+  margin-bottom: 16px;
 }
 
 .cap-page .case-description {
@@ -2700,9 +2704,38 @@ mark.draft {
   margin-bottom: 44px;
 }
 
+/* The facts and labels shared with the other case studies, raised to the
+   reference's 15px on this page only. */
+.cap-page .meta-label,
+.cap-page .reframe-label {
+  font-size: 15px;
+  letter-spacing: 0.02em;
+}
+
 .cap-page .meta-value {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.cap-page .case-toc {
+  font-size: 15px;
+}
+
+@media (max-width: 720px) {
+  .cap-page .case-title {
+    font-size: 28px;
+  }
+}
+
+/* At these sizes a title can leave one word alone on its second line, so the
+   lines are evened out where the browser supports it. */
+.cap-page .case-title,
+.cap-title,
+.cap-moment,
+.cap-note,
+.cap-card h3,
+.cap-pull {
+  text-wrap: balance;
 }
 
 /* Edge to edge, the way the reference opens. The render is transparent, so it
@@ -2722,9 +2755,10 @@ mark.draft {
 /* A short label over the sentences beside a screen, as the reference does
    beside each of its moments. */
 .cap-note {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.25;
+  margin: 0 0 8px;
 }
 
 .cap-note + .cap-body + .cap-note {
@@ -2783,7 +2817,7 @@ mark.draft {
 
 .cap-pair figcaption {
   margin-top: 12px;
-  font-size: 13px;
+  font-size: 15px;
   text-align: center;
 }
 
@@ -2803,8 +2837,10 @@ mark.draft {
   margin: 28px 0 0;
 }
 
+/* The one thing left under 15px: citations are fine print. */
 .cap-page .case-sources {
   margin-top: 26px;
+  font-size: 13px;
 }
 
 @media (max-width: 900px) {
@@ -3026,8 +3062,8 @@ mark.draft {
   bottom: 20px;
   z-index: 90;
   font: inherit;
-  font-size: 12px;
-  letter-spacing: 0.02em;
+  font-size: 14px;
+  letter-spacing: 0.01em;
   color: #000000;
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid #E5E5E5;
@@ -3135,7 +3171,7 @@ mark.draft {
 }
 
 .handoff__label {
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 0.02em;
   color: #6C848E;
   text-align: center;
@@ -3153,7 +3189,7 @@ mark.draft {
 .pos-note {
   max-width: 720px;
   margin: 16px auto 0;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.55;
   text-align: center;
   min-height: 3.1em;
