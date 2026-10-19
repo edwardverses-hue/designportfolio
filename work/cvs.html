@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CVS Benefits — Edward Chen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body class="cap-page">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Edward Chen</a>
+    <div class="nav-center">
+      <a href="../index.html#work" class="is-current">Work</a>
+      <a href="../play.html">Play</a>
+    </div>
+    <a href="../about.html" class="nav-right">About</a>
+  </nav>
+
+  <!-- HERO IMAGE -->
+  <section class="case-hero">
+    <div class="case-hero-image">
+      <img src="../images/cvs/Render_3_phones.png" alt="CVS Benefits on three phones: the Benefits intro, the FSA balance, and orders filtered to FSA and HSA" class="art-fit" />
+    </div>
+  </section>
+
+  <!-- TITLE + INTRO -->
+  <section class="case-intro">
+    <h1 class="case-title">CVS Benefits, a split payment for FSA and HSA purchases in the app and at the register</h1>
+    <p class="case-description">
+      The app shows your balance and deadline, checks products before you buy, and splits the cart so eligible items go on the FSA first. The register shows the same split.
+    </p>
+
+    <div class="case-meta">
+      <div class="meta-block">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value"><mark class="draft">Add timeline</mark></div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Team</div>
+        <div class="meta-value"><mark class="draft">Independent</mark></div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Role</div>
+        <div class="meta-value"><mark class="draft">Product Designer</mark></div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Focus</div>
+        <div class="meta-value">Mobile Design<br/>Interaction Design<br/>Point of Sale</div>
+      </div>
+    </div>
+
+    <!-- Section jump links -->
+    <div class="case-toc">
+      <a href="#premise">The Premise</a>
+      <a href="#opportunity">The Opportunity</a>
+      <a href="#system">System Overview</a>
+      <a href="#breakdown">Design Breakdown</a>
+      <a href="#register">The Register</a>
+      <a href="#future">Future Opportunities</a>
+      <a href="#reflections">Reflections</a>
+    </div>
+  </section>
+
+  <!-- THE PREMISE -->
+  <section id="premise" class="cap-section">
+    <div class="cap-eyebrow">The Premise</div>
+    <h2 class="cap-title">FSA money has a deadline, and what it can buy is decided item by item</h2>
+    <p class="cap-body">
+      A health FSA is pre-tax money for medical costs, and most of it must be spent by the end of the plan year. In 2022, 52% of accountholders forfeited part of theirs, $441 on average.
+    </p>
+
+    <h3 class="cap-moment">Key tensions</h3>
+    <div class="cap-cards">
+      <div class="cap-card">
+        <h3>It expires</h3>
+        <p>Unused money is lost unless the plan allows a carryover, capped at $680 for 2026.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Eligibility is item by item</h3>
+        <p>Pain relievers count without a prescription. The chocolate bar in the same basket does not.</p>
+      </div>
+      <div class="cap-card">
+        <h3>The split happens out of sight</h3>
+        <p>The register charges the FSA only for eligible items, <mark class="draft">often without saying which ones.</mark></p>
+      </div>
+    </div>
+
+    <p class="cap-pull"><mark class="draft">What if the split the register already works out were visible before anyone pays?</mark></p>
+
+    <p class="case-sources">
+      Sources:
+      <a href="https://investmentnews.com/industry-news/half-of-fsa-holders-forfeited-funds-to-their-employers-ebri-report/253246" target="_blank" rel="noopener">EBRI forfeiture analysis, reported May 2024</a>;
+      <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32, section .15</a>;
+      <a href="https://en.wikipedia.org/wiki/Inventory_Information_Approval_System" target="_blank" rel="noopener">Inventory Information Approval System</a>;
+      <a href="https://www.opm.gov/retirement-services/publications-forms/benefits-administration-letters/2020/20-802.pdf" target="_blank" rel="noopener">OPM on the CARES Act changes</a>.
+    </p>
+  </section>
+
+  <!-- THE OPPORTUNITY -->
+  <section id="opportunity" class="cap-section">
+    <div class="cap-eyebrow">The Opportunity</div>
+    <h2 class="cap-title">The register already knows the answer</h2>
+    <p class="cap-body">
+      Chain pharmacies must run IIAS, a system that tags every product eligible or not and charges the FSA only the eligible total. <mark class="draft">That answer never reaches the shopper before checkout.</mark>
+    </p>
+    <p class="cap-body">
+      <mark class="draft">I started out designing an eligibility checker. The better question was who already has the answer, and the register always does.</mark>
+    </p>
+
+    <div class="reframe">
+      <p class="reframe-label">From</p>
+      <p class="reframe-text is-from">"Is this eligible?"</p>
+      <p class="reframe-label">To</p>
+      <p class="reframe-text">"$31.48 can go on your FSA"</p>
+    </div>
+  </section>
+
+  <!-- SYSTEM OVERVIEW -->
+  <section id="system" class="cap-section">
+    <div class="cap-eyebrow">System Overview</div>
+    <h2 class="cap-title">Connect, check, split</h2>
+
+    <div class="cap-cards">
+      <div class="cap-card">
+        <div class="cap-card-num">01</div>
+        <h3>Connect</h3>
+        <p>Log in with the benefits provider once to bring in each balance and deadline.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-num">02</div>
+        <h3>Check</h3>
+        <p>Search or scan any product for a verdict, with a reason whenever it is no.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-num">03</div>
+        <h3>Split</h3>
+        <p>The cart, the barcode and the register all put eligible items on the FSA first.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN BREAKDOWN -->
+  <section id="breakdown" class="cap-section">
+    <div class="cap-eyebrow">Design Breakdown</div>
+    <h2 class="cap-title">Six moments, from connecting to the receipt</h2>
+    <p class="cap-body">Each phone is the working prototype, looping one step of the flow.</p>
+    <p class="proto-open">
+      <a href="cvs-prototype.html" class="pill-button" target="_blank" rel="noopener">Open the full prototype</a>
+      <button type="button" class="motion-toggle" aria-pressed="false">Pause motion</button>
+    </p>
+
+    <h3 class="cap-moment">Moment 1: Connecting a benefits account</h3>
+    <div class="split-row">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <img class="proto-poster" src="../images/cvs/intro.png" alt="" aria-hidden="true" />
+            <div class="proto-screen">
+              <iframe data-src="cvs-prototype.html?embed&amp;scene=connect" title="Prototype: connecting a WEX account" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Choosing WEX and logging in</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <p class="cap-note">Take only what the feature needs</p>
+        <p class="cap-body">Logging in happens on the provider's own page. CVS receives balances and plan dates, never the password.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Moment 2: The balance, and the part that expires</h3>
+    <div class="split-row is-flipped">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <img class="proto-poster" src="../images/cvs/home.png" alt="" aria-hidden="true" />
+            <div class="proto-screen">
+              <iframe data-src="cvs-prototype.html?embed&amp;scene=home" title="Prototype: switching between the FSA and the HSA" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Switching between the FSA and the HSA</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <p class="cap-note">The deadline next to the number</p>
+        <p class="cap-body">Under the balance sits what expires on December 31 and how much can roll into 2027. The HSA tab says its money never expires.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Moment 3: Checking a product before buying it</h3>
+    <div class="split-row">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <img class="proto-poster" src="../images/cvs/home.png" alt="" aria-hidden="true" />
+            <div class="proto-screen">
+              <iframe data-src="cvs-prototype.html?embed&amp;scene=scan" title="Prototype: scanning reading glasses, then a chocolate bar" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Scanning reading glasses, then a chocolate bar</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <p class="cap-note">Every no comes with a reason</p>
+        <p class="cap-body">Glasses come back eligible. Chocolate comes back not eligible, with why: food is not a medical expense. <mark class="draft">The shopper learns the rule, not just the product.</mark></p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Moment 4: The split, while you shop</h3>
+    <div class="split-row is-flipped">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <img class="proto-poster" src="../images/cvs/cart.png" alt="" aria-hidden="true" />
+            <div class="proto-screen">
+              <iframe data-src="cvs-prototype.html?embed&amp;scene=cart" title="Prototype: adding bandages, then removing the chocolate" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Adding bandages, then removing the chocolate</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <p class="cap-note">Show the split before the register does</p>
+        <p class="cap-body">Every change to the cart redraws the bar between the FSA and the other card.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Moment 5: From the phone to the register</h3>
+    <p class="cap-body">
+      The checkout barcode is the whole handoff. The register reads it, takes the FSA card for the eligible items, and the app's balance counts down after.
+    </p>
+    <div class="handoff">
+      <figure class="proto-demo">
+        <div class="proto-phone">
+          <img class="proto-poster" src="../images/cvs/checkout.png" alt="" aria-hidden="true" />
+          <div class="proto-screen">
+            <iframe data-src="cvs-prototype.html?embed&amp;scene=handoff" title="Prototype: the checkout barcode being scanned, then the FSA balance after" loading="lazy"></iframe>
+          </div>
+          <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+        </div>
+      </figure>
+      <div class="handoff__link" aria-hidden="true"></div>
+      <div class="handoff__pos">
+        <img class="is-on" data-step="1" src="../images/cvs/pos/panel-1.png" alt="Register screen asking the shopper to scan their ExtraCare card" />
+        <img data-step="2" src="../images/cvs/pos/panel-2.png" alt="Register screen after the barcode is read: Hi, Edward, $31.48 can go on your FSA" aria-hidden="true" />
+        <img data-step="3" src="../images/cvs/pos/panel-3.png" alt="Step 1 of 2: tap or insert the FSA card for $31.48" aria-hidden="true" />
+        <img data-step="4" src="../images/cvs/pos/panel-4.png" alt="FSA paid $31.48. Step 2 of 2: pay the remaining $2.49 with another card" aria-hidden="true" />
+        <img data-step="5" src="../images/cvs/pos/panel-5.png" alt="You're all set: $31.48 on WEX FSA and $2.49 on Visa" aria-hidden="true" />
+      </div>
+      <p class="handoff__label">The shopper's phone</p>
+      <span aria-hidden="true"></span>
+      <p class="handoff__label">The register's customer screen</p>
+    </div>
+
+    <h3 class="cap-moment">Moment 6: A receipt that holds up as proof</h3>
+    <div class="split-row">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <img class="proto-poster" src="../images/cvs/orders.png" alt="" aria-hidden="true" />
+            <div class="proto-screen">
+              <iframe data-src="cvs-prototype.html?embed&amp;scene=receipt" title="Prototype: opening an FSA order and downloading its receipt" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Opening an FSA order and downloading its receipt</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <p class="cap-note">Itemized with eligibility</p>
+        <p class="cap-body">Orders filter to FSA and HSA purchases. Each receipt marks every item's eligibility, so WEX can verify a claim.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE REGISTER -->
+  <section id="register" class="cap-section">
+    <div class="cap-eyebrow">The Register</div>
+    <h2 class="cap-title">Four ways checkout can end</h2>
+    <p class="cap-body">
+      <mark class="draft">The app only helps people who open it.</mark> The customer screen carries the same split for everyone else, one card at a time.
+    </p>
+
+    <figure class="pos-demo">
+      <div class="pos-paths" role="group" aria-label="Ways checkout can end">
+        <button type="button" class="pos-path" aria-pressed="true" data-steps="1 2 3 4 5" data-note="The FSA card pays for the eligible items first, then a second card pays for the rest.">Paid in two steps</button>
+        <button type="button" class="pos-path" aria-pressed="false" data-steps="3 6 7" data-note="The FSA covers $20.00 of $31.48. The screen says so, and the other $11.48 moves to the second card.">FSA balance too low</button>
+        <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 9" data-note="After the FSA has paid, the shopper can drop the one item that needed a second card.">Remove an item</button>
+        <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 10" data-note="Cancelling after the FSA has paid reverses that payment rather than leaving it behind.">Cancel the order</button>
+      </div>
+      <div class="pos-stage">
+        <img class="is-on" data-step="1" data-label="Scan prompt" src="../images/cvs/pos/1-scan-prompt.png" alt="Customer screen asking the shopper to scan their ExtraCare card while the item list is still empty" />
+        <img data-step="2" data-label="Recognized" src="../images/cvs/pos/2-recognized.png" alt="Customer screen greeting Edward, with two of three items FSA/HSA eligible and $31.48 able to go on the FSA" aria-hidden="true" />
+        <img data-step="3" data-label="Pay with FSA" src="../images/cvs/pos/3-pay-fsa.png" alt="Step 1 of 2: tap or insert the FSA card for $31.48 covering the two eligible items" aria-hidden="true" />
+        <img data-step="4" data-label="FSA paid, pay the rest" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48 for 2 items. Step 2 of 2: pay the remaining $2.49 with another card" aria-hidden="true" />
+        <img data-step="5" data-label="Done" src="../images/cvs/pos/5-done.png" alt="All set: WEX FSA paid $31.48 for eligible items and Visa paid $2.49 for everything else, total $33.97" aria-hidden="true" />
+        <img data-step="6" data-label="FSA balance too low" src="../images/cvs/pos/6-balance-low.png" alt="Alert that the FSA covered $20.00 of $31.48, the rest of its balance, leaving $13.97 to pay: $11.48 eligible plus $2.49 other" aria-hidden="true" />
+        <img data-step="7" data-label="Done" src="../images/cvs/pos/7-done-low.png" alt="All set: WEX FSA paid $20.00, all of its balance, and Visa paid the remaining $13.97" aria-hidden="true" />
+        <img data-step="8" data-label="Cancel the rest?" src="../images/cvs/pos/8-cancel-rest.png" alt="Cancel the rest? The FSA already paid $31.48, with options to pay $2.49 now, remove the Hershey's bar, or cancel the whole order" aria-hidden="true" />
+        <img data-step="9" data-label="Item removed, done" src="../images/cvs/pos/9-item-removed.png" alt="The Hershey's bar is struck through as removed, and the order is complete at $31.48 paid by the FSA" aria-hidden="true" />
+        <img data-step="10" data-label="Order canceled" src="../images/cvs/pos/10-order-canceled.png" alt="Order canceled, with the FSA payment of $31.48 reversed" aria-hidden="true" />
+      </div>
+      <ol class="pos-steps"></ol>
+      <p class="pos-note">The FSA card pays for the eligible items first, then a second card pays for the rest.</p>
+    </figure>
+  </section>
+
+  <!-- FUTURE OPPORTUNITIES -->
+  <section id="future" class="cap-section">
+    <div class="cap-eyebrow">Future Opportunities</div>
+    <h2 class="cap-title">What the design does not cover yet</h2>
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>A provider login that fails</h3>
+        <p>Every login in the prototype succeeds. <mark class="draft">It needs states for a wrong password, a locked account and a provider that is down.</mark></p>
+      </div>
+      <div class="cap-card">
+        <h3>The app and the register disagree</h3>
+        <p><mark class="draft">The app's verdict and the register's list come from different places. When they differ, the screen has to say which wins.</mark></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFLECTIONS -->
+  <section id="reflections" class="cap-section">
+    <div class="cap-eyebrow">Reflections</div>
+    <p class="cap-body">
+      <mark class="draft">The register was the harder half. A phone can wait for the shopper to read it; the customer screen has a line behind it, so every state had to read at a glance.</mark>
+    </p>
+  </section>
+
+  <!-- BACK -->
+  <section class="case-next">
+    <a href="../index.html" class="next-link">
+      <span class="next-label">Back to Work</span>
+      <span class="next-arrow">←</span>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Edward Chen</p>
+  </footer>
+
+
+  <script src="../js/nav.js" defer></script>
+  <script src="../js/rail.js" defer></script>
+  <script src="../js/cvs-demos.js" defer></script>
+</body>
+</html>

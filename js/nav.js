@@ -17,10 +17,15 @@
   /* ---------- frosted pills ---------- */
 
   var ART = 'img, .project-card, .case-hero-image, .about-image, .panel';
+  // The home page's rain also counts as something behind the bar, so the pills
+  // frost over it. It does not count as a picture for the Work marker below:
+  // thin grey lines are not a reason to swap its stroke for a white fill.
+  var BEHIND = ART + ', .rain-hero';
   var lit = null;
+  var onRain = null;
 
-  function overlapsBar(height) {
-    var art = document.querySelectorAll(ART);
+  function overlapsBar(height, selector) {
+    var art = document.querySelectorAll(selector || BEHIND);
     for (var i = 0; i < art.length; i++) {
       var el = art[i];
       if (nav.contains(el)) continue;
@@ -47,6 +52,13 @@
     if (art !== onArt) {
       onArt = art;
       nav.classList.toggle('nav-art', art);
+    }
+    // White glass on a white page cannot be seen, so over the rain the pills
+    // take the rim the CSS gives them under nav-rain.
+    var rain = overlapsBar(height, '.rain-hero') && !overlapsBar(height, ART);
+    if (rain !== onRain) {
+      onRain = rain;
+      nav.classList.toggle('nav-rain', rain);
     }
   }
 

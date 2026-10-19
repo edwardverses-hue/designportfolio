@@ -21,18 +21,42 @@
     <a href="about.html" class="nav-right">About</a>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <p class="hero-headline">Edward Chen is a systems designer driven by the belief that craft is care.</p>
-    <p class="hero-sub">Studying Design &amp; HCI @ Carnegie Mellon University</p>
-    <a href="mailto:edwardchen530@gmail.com" class="pill-button">Get in touch</a>
-  </section>
+  <!-- HERO
+       Behind the copy runs the rain from mimicrydesign.co.jp's home page:
+       diagonal rain across a pale ground, and one object at a time drifting in
+       and out at the centre. js/rain-hero.js runs the objects.
 
-  <div class="divider"></div>
+       The objects are placeholders until the real ones arrive. Each object is
+       one .rain-object. For a still or an animated PNG, put an <img> inside it.
+       For a flipbook, give it data-frames with the frame paths in order,
+       separated by spaces, and they play at 6 frames a second while the object
+       is on screen. Add data-bob for the slow up-and-down drift. -->
+  <section class="hero rain-hero">
+    <div class="rain-hero__sky" aria-hidden="true"><div class="rain-hero__rain"></div></div>
+    <div class="rain-hero__stage" aria-hidden="true">
+      <div class="rain-object is-placeholder"></div>
+      <div class="rain-object is-placeholder"></div>
+      <div class="rain-object is-placeholder" data-bob></div>
+    </div>
+    <div class="hero-copy">
+      <p class="hero-headline">Edward Chen is a systems designer driven by the belief that craft is care.</p>
+      <p class="hero-sub">Studying Design &amp; HCI @ Carnegie Mellon University</p>
+      <a href="mailto:edwardchen530@gmail.com" class="pill-button">Get in touch</a>
+    </div>
+  </section>
 
   <!-- WORK -->
   <section class="work-section">
     <div class="project" id="work">
+      <p class="project-label">CVS Benefits</p>
+      <div class="project-frame">
+        <a href="work/cvs.html" class="project-card">
+          <img src="images/cvs/Render_3_phones.png" alt="CVS Benefits on three phones" class="art-fit" />
+        </a>
+      </div>
+    </div>
+
+    <div class="project">
       <p class="project-label">Sessions</p>
       <div class="project-frame">
         <a href="work/sessions.html" class="project-card">
@@ -56,6 +80,7 @@
   </footer>
 
   <script src="js/nav.js" defer></script>
+  <script src="js/rain-hero.js" defer></script>
   <!-- The dandelion field lives in js/dandelion.js and is kept for later. To
        put it back: load the script here, and add
        <canvas class="dandelion-field" aria-hidden="true"></canvas> as the

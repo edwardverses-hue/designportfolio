@@ -277,12 +277,6 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
-.divider {
-  max-width: 1312px;
-  margin: 0 auto;
-  border-top: 1px solid #E5E5E5;
-}
-
 /* ---------- WORK SECTION (Home) ---------- */
 .work-section {
   padding: 120px 64px;
@@ -2464,5 +2458,788 @@ h1, h2, h3, h4, h5, h6 {
 @media (prefers-reduced-motion: reduce) {
   .widget-track img {
     transition: none;
+  }
+}
+
+/* ---------- CVS CASE STUDY ---------- */
+/* Sentences drafted for Edward rather than written by him. Each one is a guess
+   to be rewritten, and the highlight is loud on purpose so none of them ships
+   by accident. Remove the mark once the sentence is his. */
+mark.draft {
+  background: #FFF2B3;
+  color: inherit;
+  padding: 0 0.1em;
+  border-radius: 3px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Where the research numbers come from, small enough to stay out of the way
+   and there for anyone who wants to check them. */
+.case-sources {
+  max-width: 780px;
+  margin: 40px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+  color: #6C848E;
+}
+
+.case-sources a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* The prototype, one step of the flow at a time.
+
+   frame.png is the phone mockup with its screen cut out. The live prototype
+   runs in an iframe underneath it, and the stills are rendered from the same
+   prototype into the same frame, so a still and a running step are the same
+   device. Until the iframe is ready, the still for that step shows through.
+
+   The percentages are the cut-out's position in the 1066 x 2198 mockup: 43 and
+   36 in, 979 x 2126, with corners of 156.
+
+   Size is what decides how sharp a live step looks. The prototype is drawn at
+   393 points and scaled down to fit the frame, so a small phone means small,
+   soft text on a standard-density screen. 86vh keeps the whole phone on screen
+   while scaling the prototype by about 0.88 on a 900px-tall window, against
+   0.78 at the 76vh the other phone grids use. */
+.proto-demo {
+  margin: 48px auto;
+  padding: 0 24px;
+}
+
+.proto-phone {
+  position: relative;
+  width: min(100%, 400px, calc(86vh * 1066 / 2198));
+  aspect-ratio: 1066 / 2198;
+  margin: 0 auto;
+}
+
+.proto-poster,
+.proto-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.proto-frame {
+  pointer-events: none;
+}
+
+.proto-screen {
+  position: absolute;
+  left: 4.034%;
+  top: 1.638%;
+  width: 91.839%;
+  height: 96.724%;
+  border-radius: 15.93% / 7.34%;
+  overflow: hidden;
+}
+
+.proto-screen iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.proto-screen.is-ready iframe {
+  opacity: 1;
+}
+
+/* What the step shows, in a line under it. The phones loop, so there is no
+   per-figure control: the page carries one Pause motion for all of them. */
+.proto-cap {
+  margin-top: 16px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #6C848E;
+  text-align: center;
+}
+
+.motion-toggle:focus-visible,
+.pos-path:focus-visible,
+.pos-steps button:focus-visible {
+  outline: 1px solid #000000;
+  outline-offset: 3px;
+}
+
+.proto-open {
+  margin: 8px 0 24px;
+}
+
+/* The register's customer screen. Ten stills, and between any two of them
+   only the right-hand panel changes, so stacking them and fading from one to
+   the next shows exactly what moves at each step and nothing else. */
+.pos-demo {
+  max-width: 1100px;
+  margin: 48px auto;
+  padding: 0 24px;
+}
+
+.pos-paths {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.pos-path {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1px solid #E5E5E5;
+  background: #FFFFFF;
+  color: #000000;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.pos-path[aria-pressed="true"] {
+  background: #000000;
+  border-color: #000000;
+  color: #FFFFFF;
+}
+
+.pos-stage {
+  position: relative;
+  aspect-ratio: 1366 / 768;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #E5E5E5;
+  background: #FFFFFF;
+}
+
+.pos-stage img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.pos-stage img.is-on {
+  opacity: 1;
+}
+
+.pos-steps {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 22px;
+  margin: 20px 0 0;
+  padding: 0;
+  font-size: 13px;
+  color: #6C848E;
+}
+
+.pos-steps button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.pos-steps button[aria-current="step"] {
+  color: #000000;
+}
+
+.pos-steps .pos-num {
+  margin-right: 6px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proto-screen iframe,
+  .pos-stage img,
+  .pos-path {
+    transition: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .pos-stage {
+    border-radius: 12px;
+  }
+}
+
+/* ---------- CVS CASE STUDY: CAPSULE LAYOUT ----------
+   The CVS page runs on the Capsule-style classes above (.cap-page and the
+   .cap-* pieces). What follows is only what that layout did not already have:
+   the intro at the reference's scale, a full-bleed hero band, live phones set
+   into split rows, and captioned pairs of stills. */
+
+/* The reference sets the title as a sentence at about twice body size, not as
+   a display headline, and keeps the description and the facts under it small. */
+.cap-page .case-title {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  max-width: 640px;
+  margin-bottom: 14px;
+}
+
+.cap-page .case-description {
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 640px;
+  margin-bottom: 44px;
+}
+
+.cap-page .meta-value {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Edge to edge, the way the reference opens. The render is transparent, so it
+   sits on the same pale ground the other heroes use and is fitted inside the
+   band rather than cropped by it. */
+.cap-page .case-hero {
+  padding: 92px 0 0;
+}
+
+.cap-page .case-hero-image {
+  max-width: none;
+  aspect-ratio: auto;
+  height: min(68vh, 640px);
+  border-radius: 0;
+}
+
+/* A short label over the sentences beside a screen, as the reference does
+   beside each of its moments. */
+.cap-note {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 6px;
+}
+
+.cap-note + .cap-body + .cap-note {
+  margin-top: 22px;
+}
+
+/* A live phone inside a split row. The row's art column is sized for a still,
+   so it widens to the phone, and the figure drops the margins it carries when
+   it stands on its own. */
+.split-art.is-phone {
+  flex-basis: min(400px, calc(86vh * 1066 / 2198));
+  max-width: min(400px, calc(86vh * 1066 / 2198));
+}
+
+.split-art .proto-demo {
+  margin: 0;
+  padding: 0;
+}
+
+.cap-page .split-row {
+  max-width: 1000px;
+  margin: 28px 0 0;
+}
+
+/* Two stills side by side, each with its name under it: the reference's
+   Rename and Clear pair. Phones keep their own width; the register's wide
+   screens share the row. */
+.cap-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  margin: 26px 0 0;
+  max-width: 1000px;
+}
+
+.cap-pair.is-phones {
+  grid-template-columns: repeat(2, minmax(0, 300px));
+  gap: 56px;
+}
+
+.cap-pair figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.cap-pair img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cap-pair.is-wide img {
+  border: 1px solid #E5E5E5;
+  border-radius: 14px;
+}
+
+.cap-pair figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Inside the Capsule column the register sits on the column's left edge like
+   every other figure, rather than centred in a box of its own. */
+.cap-page .pos-demo {
+  max-width: 1000px;
+  margin: 26px 0 0;
+  padding: 0;
+}
+
+.cap-page .proto-open {
+  margin: 18px 0 0;
+}
+
+.cap-page .reframe {
+  margin: 28px 0 0;
+}
+
+.cap-page .case-sources {
+  margin-top: 26px;
+}
+
+@media (max-width: 900px) {
+  .split-art.is-phone {
+    max-width: min(100%, 320px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cap-pair.is-phones {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .cap-page .case-hero-image {
+    height: 46vh;
+  }
+}
+
+@media (max-width: 720px) {
+  .cap-pair.is-wide {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The closing render sits in the column like every other figure, and is held
+   to a screen's height rather than running at the full width of a transparent
+   4000px file. */
+.cap-page .full-image {
+  max-width: 1000px;
+  margin: 56px 0 0;
+  padding: 0;
+}
+
+.cap-page .full-image.is-bare img {
+  max-height: 76vh;
+}
+
+/* The back link follows the Capsule column rather than the older centred one,
+   so its rule starts where the text above it starts. */
+.cap-page .case-next {
+  max-width: 1060px;
+  margin-top: 96px;
+}
+
+@media (min-width: 1200px) {
+  .cap-page .case-next {
+    max-width: min(1060px, calc(100vw - 250px));
+    margin-left: max(210px, calc((100vw - 1060px) / 2));
+    margin-right: auto;
+  }
+}
+
+/* ---------- RAIN BEHIND THE HERO (home) ----------
+   The rain from mimicrydesign.co.jp's home page, laid under the hero copy and
+   measured off theirs rather than matched by eye: thin lines at 52.65 degrees,
+   spaced and sized to their tile, and the whole sheet slides one tile left and
+   one tile down every six seconds. The hero keeps its own size, its layout and
+   the page's white; these layers sit behind the copy and take nothing from it.
+
+   The lines in images/rain.svg are #E5E5E5, the grey every rule and border on
+   this site is drawn in, rather than Mimicry's own #BABABA. */
+.hero.rain-hero {
+  --rain-tile: max(100vw, 100vh);
+  position: relative;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+/* The frame the rain falls in. It stays still while the sheet inside it moves,
+   which is what lets the bottom edge fade: a mask on the moving sheet would
+   slide with it. Over the last 160px the rain fades out to the page's white
+   rather than stopping at a hard line. The stops follow an ease rather than a
+   straight ramp, since a linear fade shows a band where it begins. */
+.rain-hero__sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  --fade: linear-gradient(to bottom,
+    #000 calc(100% - 160px),
+    rgba(0, 0, 0, 0.95) calc(100% - 130px),
+    rgba(0, 0, 0, 0.86) calc(100% - 106px),
+    rgba(0, 0, 0, 0.74) calc(100% - 85px),
+    rgba(0, 0, 0, 0.60) calc(100% - 67px),
+    rgba(0, 0, 0, 0.46) calc(100% - 53px),
+    rgba(0, 0, 0, 0.33) calc(100% - 40px),
+    rgba(0, 0, 0, 0.21) calc(100% - 29px),
+    rgba(0, 0, 0, 0.11) calc(100% - 19px),
+    rgba(0, 0, 0, 0.04) calc(100% - 9px),
+    transparent 100%);
+  -webkit-mask-image: var(--fade);
+  mask-image: var(--fade);
+}
+
+/* Twice the tile in both directions, tiled with images/rain.svg and anchored
+   bottom-left. Moving it exactly one tile left and one tile down lands it on an
+   identical picture, so the loop has no seam, and it moves with transform so
+   the compositor carries it rather than repainting the hero every frame. The
+   tile takes the longer side of the window, so on a portrait phone the top of
+   the hero does not go dry as the sheet slides down. */
+.rain-hero__rain {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: calc(2 * var(--rain-tile));
+  height: calc(2 * var(--rain-tile));
+  background: url("../images/rain.svg") 0 0 / var(--rain-tile) var(--rain-tile) repeat;
+  animation: rain-fall 6s linear infinite;
+  will-change: transform;
+}
+
+@keyframes rain-fall {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(-1 * var(--rain-tile)), var(--rain-tile), 0); }
+}
+
+/* The objects drift in at the centre, behind the copy, in a stage the
+   proportions of theirs (800 x 560). js/rain-hero.js moves them. */
+.rain-hero__stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(48vw, 600px, calc(70vh * 800 / 560));
+  aspect-ratio: 800 / 560;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.rain-object {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+
+.rain-object img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.rain-object[data-bob] {
+  animation: rain-bob 7s ease-in-out infinite;
+}
+
+/* Their bottle's drift, keyframe for keyframe. */
+@keyframes rain-bob {
+  0%   { translate: 0 -10px; }
+  25%  { translate: 0 20px; }
+  50%  { translate: 0 -20px; }
+  75%  { translate: 0 15px; }
+  100% { translate: 0 -15px; }
+}
+
+/* Stand-ins until the real objects are sent: a faint outline that shows where
+   an object will drift, light enough to stay behind the copy. */
+.rain-object.is-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 16% 24%;
+  border: 1px dashed #D2D2D2;
+  border-radius: 18px;
+}
+
+/* The copy stays exactly as it was, lifted above the layers. */
+.rain-hero .hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+/* The nav's glass over the rain.
+
+   Over a picture the nav's glass shows because the frosted picture inside is
+   lighter and softer than the picture around it. Over white there is no such
+   difference: white glass on a white page cannot be seen, and a 14px blur wipes
+   a hairline of rain out entirely. So over the rain the pills draw their own
+   rim, a hairline, and the blur drops to 3px with the white at 40 per cent, so
+   a line passing under stays as a soft streak, the way a picture stays visible
+   through the pill. */
+.nav-rain .nav-logo,
+.nav-rain .nav-right,
+.nav-rain .nav-center {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(3px) saturate(170%);
+  backdrop-filter: blur(3px) saturate(170%);
+}
+
+.rain-hero.is-offscreen .rain-hero__rain,
+.rain-hero.is-offscreen .rain-object[data-bob] {
+  animation-play-state: paused;
+}
+
+@media (max-width: 720px) {
+  .rain-hero__stage {
+    width: min(86vw, calc(60vh * 800 / 560));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain-hero__rain,
+  .rain-object[data-bob] {
+    animation: none;
+  }
+}
+
+/* ---------- CVS CASE STUDY: LOOPS, HANDOFF, REGISTER ---------- */
+/* The page's one motion control. Every phone and the register loop on their
+   own, so instead of a button under each figure there is this, in a corner it
+   can keep for the whole page. */
+.motion-toggle {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 90;
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #000000;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #E5E5E5;
+  border-radius: 999px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+/* The checkout barcode and the register screen, side by side on one clock.
+   Both are held to the same height so the eye moves straight across between
+   them, and the register shows only its right-hand panel, which is where the
+   message changes and where the ExtraCare pill appears once the card is read.
+   At this height the panel's type is close to its designed size. */
+.handoff {
+  --handoff-h: min(74vh, 680px);
+  display: grid;
+  grid-template-columns: auto 72px auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  justify-content: start;
+  column-gap: 0;
+  row-gap: 14px;
+  margin: 28px 0 0;
+}
+
+.handoff .proto-demo {
+  margin: 0;
+  padding: 0;
+}
+
+.handoff .proto-phone {
+  height: var(--handoff-h);
+  width: auto;
+}
+
+.handoff__pos {
+  position: relative;
+  height: var(--handoff-h);
+  aspect-ratio: 582 / 768;
+  border: 1px solid #E5E5E5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.handoff__pos img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.handoff__pos img.is-on {
+  opacity: 1;
+}
+
+/* The arrow between them, and the dot that runs along it the moment the
+   barcode is read: the one cue that says the phone caused the change. */
+.handoff__link {
+  position: relative;
+  height: 1px;
+  margin: 0 12px;
+  background: #BDBDBD;
+}
+
+.handoff__link::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid #BDBDBD;
+  border-right: 1px solid #BDBDBD;
+  transform: rotate(45deg);
+}
+
+.handoff__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #E0201B;
+  opacity: 0;
+}
+
+.handoff__link.is-sending::after {
+  animation: handoff-send 0.7s ease-in-out;
+}
+
+@keyframes handoff-send {
+  0%   { left: 0; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { left: calc(100% - 9px); opacity: 0; }
+}
+
+.motion-paused .handoff__link::after {
+  animation-play-state: paused;
+}
+
+.handoff__label {
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #6C848E;
+  text-align: center;
+}
+
+/* The register, at the width the Capsule case study gives its wide videos and
+   a little more where the window allows, so the full screen is readable. */
+@media (min-width: 1200px) {
+  .cap-page .pos-demo {
+    max-width: none;
+    width: min(1160px, calc(100vw - 258px));
+  }
+}
+
+.pos-note {
+  max-width: 720px;
+  margin: 16px auto 0;
+  font-size: 14px;
+  line-height: 1.55;
+  text-align: center;
+  min-height: 3.1em;
+}
+
+@media (max-width: 900px) {
+  .handoff {
+    --handoff-h: auto;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+
+  .handoff .proto-phone {
+    height: auto;
+    width: min(100%, 300px);
+  }
+
+  .handoff__pos {
+    height: auto;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .handoff__link {
+    width: 1px;
+    height: 44px;
+    margin: 0;
+  }
+
+  .handoff__link::before {
+    right: -4px;
+    top: auto;
+    bottom: -1px;
+    transform: rotate(135deg);
+  }
+
+  .handoff__link::after {
+    left: -4px;
+    top: 0;
+  }
+
+  @keyframes handoff-send {
+    0%   { top: 0; opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { top: calc(100% - 9px); opacity: 0; }
+  }
+
+  .handoff__label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .handoff__pos img {
+    transition: none;
+  }
+
+  .motion-toggle {
+    display: none;
+  }
+}
+
+/* Where there is no empty margin, a fixed control would sit on top of the
+   text, so below the width the rail appears at the toggle stays in the page
+   beside the prototype link. Above it, it moves to the corner under the rail,
+   where it is in reach from every figure and covers nothing. */
+@media (max-width: 1199px) {
+  .motion-toggle {
+    position: static;
+    margin-left: 8px;
+    padding: 13px 18px;
+    font-size: 14px;
+    vertical-align: middle;
+  }
+}
+
+/* Stacked, the grid centres each item at its own size, so a phone sized as a
+   percentage of its figure has nothing to be a percentage of and collapses.
+   The figure takes the width instead and the phone fills it. */
+@media (max-width: 900px) {
+  .handoff .proto-demo {
+    width: min(100%, 300px);
+  }
+
+  .handoff .proto-phone {
+    width: 100%;
   }
 }
