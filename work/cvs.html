@@ -32,7 +32,7 @@
   <section class="case-intro">
     <h1 class="case-title">CVS Benefits, a split payment for FSA and HSA purchases in the app and at the register</h1>
     <p class="case-description">
-      The app shows your balance and deadline, checks products before you buy, and splits the cart so eligible items go on the FSA first. The register shows the same split.
+      The app shows your FSA balance and deadline, tells you whether a product is eligible, and splits your cart between the FSA and another card. The register uses the same split.
     </p>
 
     <div class="case-meta">
@@ -82,10 +82,10 @@
       </div>
       <div class="cap-card">
         <h3>Eligibility is item by item</h3>
-        <p>Pain relievers count without a prescription. The chocolate bar in the same basket does not.</p>
+        <p>Pain relievers are eligible without a prescription. A chocolate bar in the same basket is not.</p>
       </div>
       <div class="cap-card">
-        <h3>The split happens out of sight</h3>
+        <h3>Shoppers do not see the split</h3>
         <p>The register charges the FSA only for eligible items, <mark class="draft">often without saying which ones.</mark></p>
       </div>
     </div>
@@ -106,10 +106,10 @@
     <div class="cap-eyebrow">The Opportunity</div>
     <h2 class="cap-title">The register already knows the answer</h2>
     <p class="cap-body">
-      Chain pharmacies must run IIAS, a system that tags every product eligible or not and charges the FSA only the eligible total. <mark class="draft">That answer never reaches the shopper before checkout.</mark>
+      Chain pharmacies must run IIAS, a system that tags every product eligible or not and charges the FSA only the eligible total. <mark class="draft">Shoppers do not see that answer until they pay.</mark>
     </p>
     <p class="cap-body">
-      <mark class="draft">I started out designing an eligibility checker. The better question was who already has the answer, and the register always does.</mark>
+      <mark class="draft">I started by designing an eligibility checker, then realised the register already calculates the answer.</mark>
     </p>
 
     <div class="reframe">
@@ -134,12 +134,12 @@
       <div class="cap-card">
         <div class="cap-card-num">02</div>
         <h3>Check</h3>
-        <p>Search or scan any product for a verdict, with a reason whenever it is no.</p>
+        <p>Search or scan a product to see whether it is eligible. Ineligible products show the reason.</p>
       </div>
       <div class="cap-card">
         <div class="cap-card-num">03</div>
         <h3>Split</h3>
-        <p>The cart, the barcode and the register all put eligible items on the FSA first.</p>
+        <p>The cart, the checkout barcode and the register charge eligible items to the FSA.</p>
       </div>
     </div>
   </section>
@@ -169,8 +169,8 @@
         </figure>
       </div>
       <div class="split-text">
-        <p class="cap-note">Take only what the feature needs</p>
-        <p class="cap-body">Logging in happens on the provider's own page. CVS receives balances and plan dates, never the password.</p>
+        <p class="cap-note">Login stays with the provider</p>
+        <p class="cap-body">You log in on the provider's own page. CVS receives balances and plan dates and never sees the password.</p>
       </div>
     </div>
 
@@ -189,8 +189,8 @@
         </figure>
       </div>
       <div class="split-text">
-        <p class="cap-note">The deadline next to the number</p>
-        <p class="cap-body">Under the balance sits what expires on December 31 and how much can roll into 2027. The HSA tab says its money never expires.</p>
+        <p class="cap-note">The deadline sits with the balance</p>
+        <p class="cap-body">Below the balance, the app shows how much expires on December 31 and how much can carry over into 2027. The HSA tab notes that HSA money does not expire.</p>
       </div>
     </div>
 
@@ -209,8 +209,8 @@
         </figure>
       </div>
       <div class="split-text">
-        <p class="cap-note">Every no comes with a reason</p>
-        <p class="cap-body">Glasses come back eligible. Chocolate comes back not eligible, with why: food is not a medical expense. <mark class="draft">The shopper learns the rule, not just the product.</mark></p>
+        <p class="cap-note">Ineligible items show why</p>
+        <p class="cap-body">Reading glasses come back eligible. Chocolate comes back not eligible, because food is not a medical expense. <mark class="draft">Seeing the reason helps shoppers judge the next item themselves.</mark></p>
       </div>
     </div>
 
@@ -229,14 +229,14 @@
         </figure>
       </div>
       <div class="split-text">
-        <p class="cap-note">Show the split before the register does</p>
-        <p class="cap-body">Every change to the cart redraws the bar between the FSA and the other card.</p>
+        <p class="cap-note">The cart shows the split</p>
+        <p class="cap-body">Each time the cart changes, the bar showing the FSA and card amounts updates.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">From the phone to the register</h3>
     <p class="cap-body">
-      The checkout barcode is the whole handoff. The register reads it, takes the FSA card for the eligible items, and the app's balance counts down after.
+      At checkout, the register scans the barcode in the app and charges the eligible items to the FSA card. The app's balance then updates.
     </p>
     <div class="handoff">
       <figure class="proto-demo">
@@ -287,15 +287,15 @@
     <div class="cap-eyebrow">The Register</div>
     <h2 class="cap-title">Four ways checkout can end</h2>
     <p class="cap-body">
-      <mark class="draft">The app only helps people who open it.</mark> The customer screen carries the same split for everyone else, one card at a time.
+      <mark class="draft">Not every shopper uses the app.</mark> The register's customer screen shows the same split to everyone and takes one card at a time.
     </p>
 
     <figure class="pos-demo">
       <div class="pos-paths" role="group" aria-label="Ways checkout can end">
         <button type="button" class="pos-path" aria-pressed="true" data-steps="1 2 3 4 5" data-note="The FSA card pays for the eligible items first, then a second card pays for the rest.">Paid in two steps</button>
-        <button type="button" class="pos-path" aria-pressed="false" data-steps="3 6 7" data-note="The FSA covers $20.00 of $31.48. The screen says so, and the other $11.48 moves to the second card.">FSA balance too low</button>
-        <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 9" data-note="After the FSA has paid, the shopper can drop the one item that needed a second card.">Remove an item</button>
-        <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 10" data-note="Cancelling after the FSA has paid reverses that payment rather than leaving it behind.">Cancel the order</button>
+        <button type="button" class="pos-path" aria-pressed="false" data-steps="3 6 7" data-note="The FSA covers $20.00 of $31.48, and the remaining $11.48 moves to the second card.">FSA balance too low</button>
+        <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 9" data-note="After the FSA has paid, the shopper can remove the item that needed a second card.">Remove an item</button>
+        <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 10" data-note="Cancelling after the FSA has paid refunds the FSA payment.">Cancel the order</button>
       </div>
       <div class="pos-stage">
         <img class="is-on" data-step="1" data-label="Scan prompt" src="../images/cvs/pos/1-scan-prompt.png" alt="Customer screen asking the shopper to scan their ExtraCare card while the item list is still empty" />
@@ -325,7 +325,7 @@
       </div>
       <div class="cap-card">
         <h3>The app and the register disagree</h3>
-        <p><mark class="draft">The app's verdict and the register's list come from different places. When they differ, the screen has to say which wins.</mark></p>
+        <p><mark class="draft">The app's verdict and the register's list come from different places. When they differ, the screen needs to say which one applies.</mark></p>
       </div>
     </div>
   </section>
@@ -334,7 +334,7 @@
   <section id="reflections" class="cap-section">
     <div class="cap-eyebrow">Reflections</div>
     <p class="cap-body">
-      <mark class="draft">The register was the harder half. A phone can wait for the shopper to read it; the customer screen has a line behind it, so every state had to read at a glance.</mark>
+      <mark class="draft">The register was harder to design than the app. Shoppers read their phone at their own pace, but at the register there is a line behind them, so each screen had to be quick to read.</mark>
     </p>
   </section>
 
@@ -352,6 +352,7 @@
 
 
   <script src="../js/nav.js" defer></script>
+  <script src="../js/liquid-glass.js" defer></script>
   <script src="../js/cursor.js" defer></script>
   <script src="../js/rail.js" defer></script>
   <script src="../js/cvs-demos.js" defer></script>

@@ -32,13 +32,13 @@
   <section class="case-intro">
     <h1 class="case-title">Sessions</h1>
     <p class="case-description">
-      A social study app for college students that makes the focus timer something other people can see: friends on a campus map, sessions anyone can join, and streaks the right people notice.
+      Sessions is a study app for college students. It shows friends' study sessions on a campus map, so you can see who is studying and join them.
     </p>
 
     <div class="case-meta">
       <div class="meta-block">
         <div class="meta-label">Timeline</div>
-        <div class="meta-value">6 weeks</div>
+        <div class="meta-value">2 weeks</div>
       </div>
       <div class="meta-block">
         <div class="meta-label">Team</div>
@@ -71,23 +71,23 @@
     <div class="cap-eyebrow">The Problem</div>
     <h2 class="cap-title">Focus apps are built for one person</h2>
     <p class="cap-body">
-      Students go to the library at night because working near other people makes it easier to start. Study apps give them a timer, a streak counter and a leaderboard of strangers.
+      Many students go to the library at night because it is easier to start working when people nearby are working too. Study apps give each of them a private timer and a streak counter.
     </p>
 
     <h3 class="cap-moment">How students already study</h3>
-    <p class="cap-body">I asked classmates where they study, who with, and what makes them show up.</p>
+    <p class="cap-body">I asked classmates where they study, who they study with, and what gets them to show up.</p>
     <div class="cap-cards">
       <div class="cap-card">
-        <h3>Place is already the strategy</h3>
-        <p>They pick a library or café for the people in it, not the desk.</p>
+        <h3>They choose a place for its people</h3>
+        <p>Classmates picked a library or café because of who would be there.</p>
       </div>
       <div class="cap-card">
-        <h3>Streaks need an audience</h3>
-        <p>Everyone had abandoned a streak. Nobody remembered anyone noticing.</p>
+        <h3>Streaks went unnoticed</h3>
+        <p>Everyone I asked had dropped a streak in some app, and none of them remembered a friend noticing.</p>
       </div>
       <div class="cap-card">
-        <h3>Joining is easier than planning</h3>
-        <p>Planning a session over text kills it. Walking into one already running does not.</p>
+        <h3>Plans made over text fall through</h3>
+        <p>Study plans made over text often fell apart. Joining a session that had already started was easy.</p>
       </div>
     </div>
   </section>
@@ -97,13 +97,13 @@
     <div class="cap-eyebrow">The Reframe</div>
     <h2 class="cap-title">From a private timer to a visible one</h2>
     <p class="cap-body">
-      Asking how to help someone focus longer only produced solo features. The better question was what changes when friends can see the timer.
+      My first ideas were about helping one person focus for longer, and they looked like apps that already exist. I changed the question to what happens when friends can see each other's timers.
     </p>
 
     <div class="reframe">
       <p class="reframe-label">Before</p>
       <p class="reframe-text is-from">"Focus for 25 minutes."</p>
-      <p class="reframe-sub">A countdown with nothing behind it</p>
+      <p class="reframe-sub">A timer only you can see</p>
       <p class="reframe-label">After</p>
       <p class="reframe-text">"7 friends studying now."</p>
       <p class="reframe-sub">A session other people can see and join</p>
@@ -113,21 +113,17 @@
   <!-- PRINCIPLES -->
   <section id="principles" class="cap-section">
     <div class="cap-eyebrow">Principles</div>
-    <h2 class="cap-title">Rules I set before drawing screens</h2>
-    <p class="cap-body">A social layer can turn competitive, noisy or too revealing. Three rules kept it from that.</p>
+    <h2 class="cap-title">Two decisions about sharing</h2>
+    <p class="cap-body">Showing study sessions to friends meant deciding who sees a session and whose hours count.</p>
 
-    <div class="cap-cards">
+    <div class="cap-cards is-pair">
       <div class="cap-card">
-        <h3>The app never asks you to start</h3>
-        <p>Friends are visible on the map, but nothing nudges you to begin.</p>
+        <h3>Each session is public or private</h3>
+        <p>You choose on the timer screen before the session starts.</p>
       </div>
       <div class="cap-card">
-        <h3>Celebrate less than feels natural</h3>
-        <p>Streaks and challenges interrupt only when something real happened.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Public or private, decided up front</h3>
-        <p>Chosen before the timer starts, never a default to undo later.</p>
+        <h3>Hours count for the group</h3>
+        <p>Weekly challenges and the end screen add up the time of everyone who studied together.</p>
       </div>
     </div>
   </section>
@@ -137,7 +133,7 @@
     <div class="cap-eyebrow">Process</div>
     <h2 class="cap-title">Mapping every path through the app</h2>
     <p class="cap-body">
-      Laying the whole product out as one flow exposed the biggest gap: what a session looks like to everyone not in it.
+      I mapped the whole app as one flow before designing screens. The map showed I had not designed what a session looks like to people outside it.
     </p>
     <div class="full-image">
       <img loading="lazy" decoding="async" src="../images/sessions/Flow.png" alt="User flow" />
@@ -149,7 +145,7 @@
     <div class="cap-eyebrow">System Design</div>
     <h2 class="cap-title">A visual language borrowed from iOS</h2>
     <p class="cap-body">
-      Helvetica Neue, soft blues and glass surfaces keep it familiar, and quiet enough to leave open beside your notes for hours.
+      The type is Helvetica Neue and the surfaces are frosted glass in soft blues, close to iOS, so the app feels familiar from the first open.
     </p>
     <div class="full-image">
       <img loading="lazy" decoding="async" src="../images/sessions/Identity.png" alt="Visual identity" />
@@ -168,70 +164,93 @@
         <img loading="lazy" decoding="async" src="../images/sessions/Study_Preferences.png" alt="Study preferences" />
       </div>
       <div class="split-text">
-        <p class="cap-body">Setup asks what you study, when, and in what kind of room. The answers shape session suggestions later.</p>
+        <p class="cap-body">Setup asks for your subjects, when you study, how you like to study, and whether you study in person or remotely. Session suggestions use these answers.</p>
       </div>
     </div>
 
-    <!-- Three steps in the order they happen: name it, set it, run it. A row of
-         three leaves no room for text beside it, so the text leads. -->
+    <h3 class="cap-moment">Naming a session</h3>
+    <div class="split-row is-flipped">
+      <div class="split-art is-still">
+        <img loading="lazy" decoding="async" src="../images/sessions/Title_box.png" alt="Session name prompt reading Hello, Emma, What are you studying today?" />
+      </div>
+      <div class="split-text">
+        <p class="cap-body">A session starts with a name for what you are studying. The name then sits at the top of the timer.</p>
+      </div>
+    </div>
+
+    <!-- Setting the timer and the timer running: the Go control on the first
+         starts the second. -->
     <h3 class="cap-moment">Starting a session</h3>
-    <p class="cap-body">Name it, pick public or private, set a length, and go. Once it runs, the screen gets out of the way.</p>
-    <div class="cap-pair is-phones is-three">
-      <figure><img loading="lazy" decoding="async" src="../images/sessions/Title_box.png" alt="Session name" /></figure>
-      <figure><img loading="lazy" decoding="async" src="../images/sessions/Timer.png" alt="Timer setup" /></figure>
-      <figure><img loading="lazy" decoding="async" src="../images/sessions/Timer_Running.png" alt="Timer running" /></figure>
+    <div class="split-row">
+      <div class="split-art is-pair">
+        <img loading="lazy" decoding="async" src="../images/sessions/Timer.png" alt="Timer setup" />
+        <img loading="lazy" decoding="async" src="../images/sessions/Timer_Running.png" alt="Timer running" />
+      </div>
+      <div class="split-text">
+        <p class="cap-body">Choose public or private, then turn the dial to set the length. While it runs, the timer shows the time, how many people are studying alongside you, and a pause button.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Finishing a session</h3>
+    <div class="split-row is-flipped">
+      <div class="split-art is-still">
+        <img loading="lazy" decoding="async" src="../images/sessions/Session_Complete.png" alt="Session complete screen reading Locked in, with confetti, 2 hours studied, a 16 day streak, 30 total hours, and Sean, Eileen and Amelia listed as studied alongside for a 6 hour group total" />
+      </div>
+      <div class="split-text">
+        <p class="cap-body">The end screen shows how long you studied, your streak, your total hours, and the friends who studied with you.</p>
+      </div>
     </div>
 
     <!-- Screens share a row only when one leads to the other in the app: the
          friends list's Add Friends button opens the Add Friends screen. -->
     <h3 class="cap-moment">Seeing who is already studying</h3>
-    <div class="split-row is-flipped">
+    <div class="split-row">
       <div class="split-art is-still">
         <img loading="lazy" decoding="async" src="../images/sessions/Location.png" alt="Map view" />
       </div>
       <div class="split-text">
-        <p class="cap-body">Friends appear as pins with the time left on their timer. A group session is one tap to join.</p>
+        <p class="cap-body">The map shows where friends are studying and how long they have left. Group sessions show how many people are in them and have a Join button.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Adding friends</h3>
-    <div class="split-row">
+    <div class="split-row is-flipped">
       <div class="split-art is-pair">
         <img loading="lazy" decoding="async" src="../images/sessions/Friends.png" alt="Friends list" />
         <img loading="lazy" decoding="async" src="../images/sessions/Add_Friends.png" alt="Add friends" />
       </div>
       <div class="split-text">
-        <p class="cap-body">The friends list opens Add Friends: search, invite directly, or accept a suggestion from mutual friends. No feed and no follower count.</p>
+        <p class="cap-body">From the friends list, Add Friends lets you search by name, share an invite link, or add people suggested through mutual friends.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Weekly challenges</h3>
-    <div class="split-row is-flipped">
+    <div class="split-row">
       <div class="split-art is-still">
         <img loading="lazy" decoding="async" src="../images/sessions/Weekly_Challenge_1.png" alt="Weekly challenge" />
       </div>
       <div class="split-text">
-        <p class="cap-body">A group shares one weekly goal, and each member's hours count toward it.</p>
+        <p class="cap-body">A weekly challenge gives a group one goal, 10 hours here, and shows how much each member has added.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Session history</h3>
-    <div class="split-row">
+    <div class="split-row is-flipped">
       <div class="split-art is-still">
         <img loading="lazy" decoding="async" src="../images/sessions/Session_History.png" alt="Session history" />
       </div>
       <div class="split-text">
-        <p class="cap-body">A plain record of the time put in, with no encouragement attached.</p>
+        <p class="cap-body">History shows your total hours, a chart of the week, and each past session with its subject, place and length.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">When a streak breaks</h3>
-    <div class="split-row is-flipped">
+    <div class="split-row">
       <div class="split-art is-still">
         <img loading="lazy" decoding="async" src="../images/sessions/Streak_Frozen.png" alt="Streak lost" />
       </div>
       <div class="split-text">
-        <p class="cap-body">The screen states what happened and holds the number. It neither scolds nor hides the loss.</p>
+        <p class="cap-body">Missing a day ends the streak. The screen shows the old streak, the new one starting at zero, and a way to rebuild it by studying three sessions in three days.</p>
       </div>
     </div>
 
@@ -244,13 +263,13 @@
   <section id="reflections" class="cap-section">
     <div class="cap-eyebrow">Reflections</div>
     <p class="cap-body">
-      Presence did more than any feature I built around it. Seeing others study motivated more reliably than counters or notifications.
+      Seeing that friends are studying right now is the core of the app. The counters and notifications support it.
     </p>
     <p class="cap-body">
-      Most of the hard decisions were about restraint: what to leave off the timer, how often to celebrate, and how to handle a broken streak.
+      The hardest decisions were about what to leave off the timer and how to handle a broken streak.
     </p>
     <p class="cap-body">
-      Next I would design the map's quieter states: hotspots through the day, quiet hours, friends about to finish.
+      Next I would design the map for quiet hours, showing where people study at different times of day and which friends are about to finish.
     </p>
   </section>
 
@@ -267,6 +286,7 @@
   </footer>
 
   <script src="../js/nav.js" defer></script>
+  <script src="../js/liquid-glass.js" defer></script>
   <script src="../js/cursor.js" defer></script>
   <script src="../js/rail.js" defer></script>
 </body>

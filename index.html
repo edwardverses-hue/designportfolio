@@ -26,17 +26,24 @@
        diagonal rain across a pale ground, and one object at a time drifting in
        and out at the centre. js/rain-hero.js runs the objects.
 
-       The objects are placeholders until the real ones arrive. Each object is
-       one .rain-object. For a still or an animated PNG, put an <img> inside it.
-       For a flipbook, give it data-frames with the frame paths in order,
-       separated by spaces, and they play at 6 frames a second while the object
-       is on screen. Add data-bob for the slow up-and-down drift. -->
+       The objects follow theirs in order: an umbrella that opens, takes the
+       rain and closes, a paper plane, and a message in a bottle. They are
+       flat SVGs in images/hero/, generated rather than traced. Each object is
+       one .rain-object. For a still, put an <img> inside it. For a flipbook,
+       list frame paths, separated by spaces, in data-frames-in (played once
+       on arrival), data-frames (looped while it holds) and data-frames-out
+       (played once before it leaves), at 6 frames a second. Add data-bob for
+       the slow up-and-down drift. -->
   <section class="hero rain-hero">
     <div class="rain-hero__sky" aria-hidden="true"><div class="rain-hero__rain"></div></div>
     <div class="rain-hero__stage" aria-hidden="true">
-      <div class="rain-object is-placeholder"></div>
-      <div class="rain-object is-placeholder"></div>
-      <div class="rain-object is-placeholder" data-bob></div>
+      <div class="rain-object"
+           data-frames-in="images/hero/umbrella-1.svg images/hero/umbrella-2.svg images/hero/umbrella-3.svg images/hero/umbrella-4.svg images/hero/umbrella-5.svg"
+           data-frames="images/hero/umbrella-drops-1.svg images/hero/umbrella-drops-2.svg"
+           data-frames-out="images/hero/umbrella-5.svg images/hero/umbrella-4.svg images/hero/umbrella-3.svg images/hero/umbrella-2.svg images/hero/umbrella-1.svg"></div>
+      <div class="rain-object"
+           data-frames="images/hero/plane-1.svg images/hero/plane-2.svg images/hero/plane-3.svg images/hero/plane-4.svg images/hero/plane-5.svg images/hero/plane-6.svg images/hero/plane-7.svg images/hero/plane-8.svg"></div>
+      <div class="rain-object" data-bob><img src="images/hero/bottle.svg" alt="" /></div>
     </div>
     <div class="hero-copy">
       <p class="hero-headline">Edward Chen is a systems designer driven by the belief that craft is care.</p>
@@ -80,6 +87,7 @@
   </footer>
 
   <script src="js/nav.js" defer></script>
+  <script src="js/liquid-glass.js" defer></script>
   <script src="js/cursor.js" defer></script>
   <script src="js/rain-hero.js" defer></script>
   <!-- The dandelion field lives in js/dandelion.js and is kept for later. To

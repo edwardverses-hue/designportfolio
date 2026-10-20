@@ -22,19 +22,51 @@
   var offscreen = true;
   function paused() { return offscreen; }
 
-  /* Flipbooks: swap the img's src through the listed frames. The frames are
-     preloaded so the first pass does not flicker. */
+  /* Flipbooks: swap the img's src through the listed frames, the way their
+     umbrella runs. data-frames-in plays once as the object arrives (it opens),
+     data-frames loops while it holds (the rain on it), and data-frames-out
+     plays once just before it leaves (it closes), timed to finish as the fade
+     begins. Any of the three can be left off. The frames are preloaded so the
+     first pass does not flicker. */
+  function listOf(o, attr) {
+    var v = (o.getAttribute(attr) || '').trim();
+    return v ? v.split(/\s+/) : [];
+  }
+
   objects.forEach(function (o) {
-    var list = (o.getAttribute('data-frames') || '').trim();
-    if (!list) return;
-    o.frames = list.split(/\s+/);
-    o.frames.forEach(function (src) { var i = new Image(); i.src = src; });
+    var seq = { in: listOf(o, 'data-frames-in'), loop: listOf(o, 'data-frames'), out: listOf(o, 'data-frames-out') };
+    if (!seq.in.length && !seq.loop.length && !seq.out.length) return;
+    o.seq = seq;
+    seq.in.concat(seq.loop, seq.out).forEach(function (src) { var i = new Image(); i.src = src; });
     var img = o.querySelector('img');
     if (!img) { img = document.createElement('img'); img.alt = ''; o.appendChild(img); }
-    img.src = o.frames[0];
     o.img = img;
-    o.frame = 0;
+    startFrames(o);
   });
+
+  function show(o) {
+    var list = o.seq[o.mode];
+    o.img.src = list[Math.min(o.frame, list.length - 1)];
+  }
+
+  function startFrames(o) {
+    o.mode = o.seq.in.length ? 'in' : (o.seq.loop.length ? 'loop' : 'out');
+    o.frame = 0;
+    show(o);
+  }
+
+  function stepFrame(o) {
+    var list = o.seq[o.mode];
+    if (o.mode === 'in') {
+      if (o.frame < list.length - 1) o.frame++;
+      else if (o.seq.loop.length) { o.mode = 'loop'; o.frame = 0; }
+    } else if (o.mode === 'loop') {
+      o.frame = (o.frame + 1) % list.length;
+    } else if (o.frame < list.length - 1) {
+      o.frame++;
+    }
+    show(o);
+  }
 
   function setPose(o, alpha, t) {
     o.style.opacity = alpha;
@@ -60,17 +92,23 @@
     var o = objects[current];
     elapsed += dt;
 
-    if (o.frames && phase !== 'gap') {
+    if (o.seq && phase !== 'gap') {
       frameClock += dt;
       while (frameClock >= FRAME_MS) {
         frameClock -= FRAME_MS;
-        o.frame = (o.frame + 1) % o.frames.length;
-        o.img.src = o.frames[o.frame];
+        stepFrame(o);
       }
     }
 
+    // The closing frames start early enough to have finished as the fade out
+    // begins, so it is seen to close and then leave.
+    if (o.seq && phase === 'hold' && o.mode !== 'out' && o.seq.out.length &&
+        elapsed >= HOLD_MS - o.seq.out.length * FRAME_MS) {
+      o.mode = 'out'; o.frame = 0; frameClock = 0; show(o);
+    }
+
     if (phase === 'gap') {
-      if (elapsed >= GAP_MS) { phase = 'in'; elapsed = 0; frameClock = 0; if (o.frames) { o.frame = 0; o.img.src = o.frames[0]; } }
+      if (elapsed >= GAP_MS) { phase = 'in'; elapsed = 0; frameClock = 0; if (o.seq) startFrames(o); }
     } else if (phase === 'in') {
       var p = Math.min(elapsed / IN_MS, 1);
       setPose(o, ease(p), 1 - ease(p));
@@ -87,7 +125,12 @@
   objects.forEach(function (o) { setPose(o, 0, 1); });
 
   if (reduce) {
-    if (objects[0]) setPose(objects[0], 1, 0);
+    // Still, and in its settled state: the umbrella open, not closed.
+    var first = objects[0];
+    if (first) {
+      if (first.seq && first.seq.loop.length) { first.mode = 'loop'; first.frame = 0; show(first); }
+      setPose(first, 1, 0);
+    }
     return;
   }
 
