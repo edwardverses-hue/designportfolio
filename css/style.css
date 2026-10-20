@@ -1381,179 +1381,6 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 900px;
 }
 
-/* Two columns, so the type sits beside the colour and the icons beside the
-   components rather than the four stacking into a long scroll. The rule
-   between blocks is drawn inside a column, which is what keeps the two sides
-   reading as their own runs. */
-/* The specimen panel and the Figma canvas, read together. The kit is the wider
-   of the two because it carries four labelled blocks and the canvas is one
-   picture. */
-/* The specimen panel and the Figma canvas, read as one row. The canvas is the
-   larger of the two because it is the evidence and the panel is the index of
-   it. `stretch` is what makes the two the same height: the panel sets the row
-   from its own content and the canvas is fitted into whatever that comes to. */
-.kit-pair {
-  display: grid;
-  grid-template-columns: minmax(0, 0.618fr) minmax(0, 1fr);
-  gap: 40px;
-  align-items: stretch;
-  margin-top: 44px;
-}
-
-.kit-canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  object-fit: contain;
-  object-position: center;
-}
-
-.kit {
-  background: #000000;
-  border-radius: 22px;
-  padding: 40px;
-  margin: 20px 0 0;
-  color: #E8EAED;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 48px;
-}
-
-@media (max-width: 860px) {
-  .kit {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .kit-side + .kit-side .kit-block:first-child,
-  .kit > .kit-block + .kit-block {
-    margin-top: 36px;
-    padding-top: 36px;
-    border-top: 1px solid #1E1E1E;
-  }
-}
-
-/* Beside the canvas each of the kit's own columns is only about 290px, so the
-   role labels move above their specimens rather than taking a third of the
-   width from them. */
-.kit .kit-type {
-  grid-template-columns: 1fr;
-  gap: 7px;
-}
-
-.kit .kit-type + .kit-type {
-  margin-top: 20px;
-}
-
-/* The pair needs roughly 1200px to hold both. Below that the canvas drops
-   under the panel rather than either of them being squeezed. */
-@media (max-width: 1180px) {
-  .kit-pair {
-    grid-template-columns: 1fr;
-    gap: 34px;
-  }
-}
-
-.kit-side {
-  min-width: 0;
-}
-
-.kit-block + .kit-block {
-  margin-top: 40px;
-  padding-top: 40px;
-  border-top: 1px solid #1E1E1E;
-}
-
-.kit-label {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #9AA0A6;
-  margin-bottom: 26px;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.kit-label span:last-child {
-  text-transform: none;
-  letter-spacing: 0.01em;
-  color: #6C6F73;
-}
-
-/* Type specimens. Each is shown at the same scale factor off its own source
-   crop, so the sizes here are the real ratios between them rather than four
-   pictures set to whatever width looked balanced. */
-.kit-type {
-  display: grid;
-  grid-template-columns: 86px minmax(0, 1fr);
-  align-items: center;
-  gap: 22px;
-}
-
-.kit-type + .kit-type {
-  margin-top: 18px;
-}
-
-.kit-type-role {
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #6C6F73;
-}
-
-.kit-type img {
-  display: block;
-  height: auto;
-}
-
-.kit-swatches {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px 16px;
-}
-
-/* The screen colour is pure black on a pure black panel, so the border is what
-   draws that chip at all. It is set high enough to read on its own. */
-.kit-chip {
-  height: 52px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 10px;
-}
-
-.kit-hex {
-  font-size: 12px;
-  letter-spacing: 0.03em;
-}
-
-.kit-use {
-  font-size: 11px;
-  line-height: 1.4;
-  color: #6C6F73;
-  margin-top: 3px;
-}
-
-.kit-icons img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.kit-icons img + img {
-  margin-top: 26px;
-}
-
-.kit-note {
-  max-width: 780px;
-  margin: 22px auto 0;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: var(--grey);
-  text-align: center;
-}
-
 /* ---------- SIGNALS FIGURE ---------- */
 /* The research section's one piece of evidence that can be checked rather than
    taken on trust: what the app demonstrably has against what it puts on the
@@ -1819,37 +1646,6 @@ h1, h2, h3, h4, h5, h6 {
 
   .split-art.is-wide {
     max-width: 100%;
-  }
-
-  .kit {
-    padding: 28px 22px;
-    border-radius: 22px;
-  }
-
-  .kit-type {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .kit-type + .kit-type {
-    margin-top: 22px;
-  }
-
-  .kit {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  /* Once the panel is a single column the two sides run on, so the first block
-     of the second side needs the same rule above it as any other. */
-  .kit-side + .kit-side .kit-block:first-child {
-    margin-top: 40px;
-    padding-top: 40px;
-    border-top: 1px solid #1E1E1E;
-  }
-
-  .kit-swatches {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .signals {
@@ -3576,5 +3372,80 @@ html.has-cursor .about-pill:hover {
     background: rgba(255, 255, 255, 0.94);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+}
+
+/* ---------- GEMINI DESIGN KIT ----------
+   After the system section of the Bumble Events case study: type and colour
+   side by side under small labels, then the components on a grey panel. The
+   two sheets are both 718px tall, so the columns are sized by their widths
+   (956 and 569) and the sheets come out the same height with their tops level. */
+.kit-duo {
+  display: grid;
+  /* minmax(0, …) so the columns are sized from the space alone and never
+     from the sheets' natural widths, which otherwise leaves the grid taller
+     than its rows and spreads the difference into the gaps. */
+  grid-template-columns: minmax(0, 956fr) minmax(0, 569fr);
+  align-content: start;
+  column-gap: 28px;
+  max-width: 1000px;
+  margin: 34px 0 0;
+}
+
+.kit-duo__label {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--grey);
+  margin: 0 0 8px;
+}
+
+.kit-duo__text {
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  margin: 0 0 18px;
+  max-width: 520px;
+}
+
+.kit-duo__sheet {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid #E5E5E5;
+}
+
+.kit-duo-components {
+  margin-top: 56px;
+}
+
+.kit-board {
+  max-width: 1000px;
+  margin: 22px 0 0;
+  padding: 28px;
+  background: var(--surface);
+  border-radius: 24px;
+}
+
+.kit-board img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 720px) {
+  .kit-duo {
+    grid-template-columns: 1fr;
+  }
+
+  .kit-duo .is-type:nth-child(1) { order: 1; }
+  .kit-duo__text.is-type { order: 2; }
+  .kit-duo__sheet.is-type { order: 3; margin-bottom: 34px; }
+  .kit-duo__label.is-colour { order: 4; }
+  .kit-duo__text.is-colour { order: 5; }
+  .kit-duo__sheet.is-colour { order: 6; }
+
+  .kit-board {
+    padding: 14px;
   }
 }

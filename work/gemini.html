@@ -296,27 +296,24 @@
       Gemini has no public design kit, so I documented its type, colour and components from my recreation, sampling values from my renders. Then I added the stacks to it.
     </p>
 
-    <h3 class="cap-moment">Typography</h3>
-    <p class="cap-body">
-      Gemini uses Google Sans Flex, and SF Pro for anything iOS draws. The sheet records each size where it appears, from the home screen greeting to the small print under a rating.
-    </p>
-    <div class="full-image">
-      <img loading="lazy" decoding="async" src="../images/gemini/kit/typography.png" alt="Typography sheet for the kit, showing Google Sans Flex as the primary face and SF Pro as the secondary, with weight specimens and a scale of headline, text and button sizes" />
+    <!-- Type and colour side by side, components under them on a panel, after
+         the Bumble Events case study's system section. The children are in row
+         order (labels, then lines, then sheets) so the two sheets share a top
+         edge; on a phone, order regroups each label with its own sheet. -->
+    <div class="kit-duo">
+      <h3 class="kit-duo__label is-type">Typography</h3>
+      <h3 class="kit-duo__label is-colour">Colour</h3>
+      <p class="kit-duo__text is-type">Google Sans Flex for the app, and SF Pro for anything iOS draws. Each size is recorded where it appears.</p>
+      <p class="kit-duo__text is-colour">Blue from the glow behind the text field, blacks from the surfaces, greys from secondary text.</p>
+      <img class="kit-duo__sheet is-type" loading="lazy" decoding="async" src="../images/gemini/kit/typography.png" alt="Typography sheet for the kit, showing Google Sans Flex as the primary face and SF Pro as the secondary, with weight specimens and a scale of headline, text and button sizes" />
+      <img class="kit-duo__sheet is-colour" loading="lazy" decoding="async" src="../images/gemini/kit/colors.png" alt="Colour sheet for the kit, showing the main blue, black and grey, then three steps within each family with their hex values" />
     </div>
 
-    <h3 class="cap-moment">Colour</h3>
-    <p class="cap-body">
-      The blue comes from the glow behind the text field, the blacks from the screen's surfaces, and the greys from secondary text and inactive controls. I sampled each value from the renders.
-    </p>
-    <div class="full-image">
-      <img loading="lazy" decoding="async" src="../images/gemini/kit/colors.png" alt="Colour sheet for the kit, showing the main blue, black and grey, then three steps within each family with their hex values" />
-    </div>
-
-    <h3 class="cap-moment">Components</h3>
+    <h3 class="kit-duo__label kit-duo-components">Components</h3>
     <p class="cap-body">
       Every part of a chat session is a component in one Figma file, including the chat bubbles, both keyboards, the side drawer, the feedback sheets and the suggestion cards. I built the stacks from these components so they match the app.
     </p>
-    <div class="full-image is-bare">
+    <div class="kit-board">
       <img loading="lazy" decoding="async" src="../images/gemini/kit/canvas.png" alt="The Figma canvas holding every recreated Gemini component, including phone frames, chat bubbles, two keyboards, the side drawer, the feedback sheets and the suggestion cards" />
     </div>
   </section>

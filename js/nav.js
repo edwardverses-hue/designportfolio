@@ -20,7 +20,9 @@
   // The home page's rain also counts as something behind the bar, so the pills
   // frost over it. It does not count as a picture for the Work marker below:
   // thin grey lines are not a reason to swap its stroke for a white fill.
-  var BEHIND = ART + ', .rain-hero';
+  // It is the rain layer itself that counts, so while it is hidden the hero is
+  // plain white again and the pills stay clear over it.
+  var BEHIND = ART + ', .rain-hero__sky';
   var lit = null;
   var onRain = null;
 
@@ -55,7 +57,7 @@
     }
     // White glass on a white page cannot be seen, so over the rain the pills
     // take the rim the CSS gives them under nav-rain.
-    var rain = overlapsBar(height, '.rain-hero') && !overlapsBar(height, ART);
+    var rain = overlapsBar(height, '.rain-hero__sky') && !overlapsBar(height, ART);
     if (rain !== onRain) {
       onRain = rain;
       nav.classList.toggle('nav-rain', rain);

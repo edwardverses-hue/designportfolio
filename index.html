@@ -35,8 +35,11 @@
        (played once before it leaves), at 6 frames a second. Add data-bob for
        the slow up-and-down drift. -->
   <section class="hero rain-hero">
-    <div class="rain-hero__sky" aria-hidden="true"><div class="rain-hero__rain"></div></div>
-    <div class="rain-hero__stage" aria-hidden="true">
+    <!-- The rain is hidden for now. Delete the hidden attribute to bring it back. -->
+    <div class="rain-hero__sky" aria-hidden="true" hidden><div class="rain-hero__rain"></div></div>
+    <!-- The objects are hidden for now: Edward is finding better references.
+         Delete the hidden attribute below to bring them back. -->
+    <div class="rain-hero__stage" aria-hidden="true" hidden>
       <div class="rain-object"
            data-frames-in="images/hero/umbrella-1.svg images/hero/umbrella-2.svg images/hero/umbrella-3.svg images/hero/umbrella-4.svg images/hero/umbrella-5.svg"
            data-frames="images/hero/umbrella-drops-1.svg images/hero/umbrella-drops-2.svg"
@@ -67,7 +70,7 @@
       <p class="project-label">Sessions</p>
       <div class="project-frame">
         <a href="work/sessions.html" class="project-card">
-          <img src="images/sessions/Render_2_phones.png" alt="Sessions study app" />
+          <img src="images/sessions/Render_2_phones.png" alt="Sessions study app" class="art-fit" />
         </a>
       </div>
     </div>
