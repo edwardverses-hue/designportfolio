@@ -3449,3 +3449,117 @@ html.has-cursor .about-pill:hover {
     padding: 14px;
   }
 }
+
+/* ---------- GEMINI WIDGET SLIDER ----------
+   js/widget-slider.js moves the cards; this is the sliding version of the
+   stack styles above. The cards stay solid and travel, the view's soft mask
+   thinning each one as it leaves. The dots are pitched for the black panel,
+   with a padded hit area so a 6px dot is still easy to press. */
+.widget-demo.is-sliding .widget-view {
+  cursor: auto;
+  margin-top: 16px;
+}
+
+.widget-demo.is-sliding .widget-track img {
+  opacity: 1;
+  transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.widget-demo.is-sliding .widget-dots {
+  gap: 2px;
+  margin-top: 14px;
+}
+
+.widget-demo.is-sliding .widget-dot {
+  box-sizing: content-box;
+  width: 6px;
+  height: 6px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  background-clip: content-box;
+}
+
+.widget-demo.is-sliding .widget-dot.is-on {
+  background: rgba(255, 255, 255, 0.9);
+  background-clip: content-box;
+}
+
+.widget-demo.is-sliding .widget-dot:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .widget-demo.is-sliding .widget-track img {
+    transition: none;
+  }
+}
+
+/* ---------- ONE PHONE, TWO SLIDING STACKS (Gemini) ----------
+   The phone is one screenshot. Each .stack-win is a window over one stack,
+   placed in the screenshot's own pixels (--x, --y, --w, --h out of 1200 by
+   2429) and holding that stack's card from two screenshots side by side. The
+   layers sit a full window apart and move together, so the outgoing and
+   incoming cards stay butted and the phone underneath never shows through. The
+   window's edges fall in the dark ground around the card, so nothing visible
+   is cut at rest. The dots under a stack cross-fade rather than slide. */
+.stack-phone {
+  position: relative;
+  margin: 0;
+}
+
+.stack-phone__base {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.stack-win,
+.stack-dots {
+  position: absolute;
+  left: calc(var(--x) / 12 * 1%);
+  top: calc(var(--y) / 24.29 * 1%);
+  width: calc(var(--w) / 12 * 1%);
+  height: calc(var(--h) / 24.29 * 1%);
+  overflow: hidden;
+}
+
+.stack-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.stack-layer img {
+  position: absolute;
+  display: block;
+  width: calc(1200 / var(--w) * 100%);
+  max-width: none;
+  height: auto;
+  left: calc(var(--x) / var(--w) * -100%);
+  top: calc(var(--y) / var(--h) * -100%);
+}
+
+.stack-win .stack-layer {
+  transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.stack-win .stack-layer + .stack-layer {
+  transform: translateX(100%);
+}
+
+.stack-dots .stack-layer {
+  transition: opacity 0.3s ease;
+}
+
+.stack-dots .stack-layer + .stack-layer {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-win .stack-layer,
+  .stack-dots .stack-layer {
+    transition: none;
+  }
+}

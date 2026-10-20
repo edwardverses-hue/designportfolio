@@ -326,16 +326,28 @@
       The greeting stays, and two labelled stacks replace the prompt row. The left stack suggests things for the time and place, and the right one returns to recent work. Each card names something specific, such as Shibam Coffee on Centre Avenue, open until 11 pm, or the next topic in the Python chat.
     </p>
 
-    <div class="widget-demo">
+    <!-- Each stack slides between its cards, the two taking turns, as the
+         paragraph below the panel describes. js/widget-slider.js runs it. -->
+    <div class="widget-demo" data-slider>
       <div class="widget-col">
         <img class="widget-head" loading="lazy" decoding="async" src="../images/gemini/widgets/head-evening.png" alt="For your evening" />
-        <img class="widget-still" loading="lazy" decoding="async" src="../images/gemini/widgets/evening-coffee.png" alt="Card suggesting late-night coffee shops near Oakland, naming Shibam Coffee on Centre Ave, open till 11 pm" />
-        <img class="widget-still" loading="lazy" decoding="async" src="../images/gemini/widgets/evening-dinner.png" alt="Card suggesting dinner spots near campus that are open now, on Forbes and in Squirrel Hill" />
+        <div class="widget-view">
+          <div class="widget-track">
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-coffee.png" alt="Card suggesting late-night coffee shops near Oakland, naming Shibam Coffee on Centre Ave, open till 11 pm" />
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/evening-dinner.png" alt="Card suggesting dinner spots near campus that are open now, on Forbes and in Squirrel Hill" />
+          </div>
+        </div>
+        <div class="widget-dots" role="group" aria-label="For your evening cards"></div>
       </div>
       <div class="widget-col">
         <img class="widget-head" loading="lazy" decoding="async" src="../images/gemini/widgets/head-resume.png" alt="Pick up where you left off" />
-        <img class="widget-still" loading="lazy" decoding="async" src="../images/gemini/widgets/resume-python.png" alt="Card resuming a chat called Python Script Help, suggesting elif chains or nested if statements next" />
-        <img class="widget-still" loading="lazy" decoding="async" src="../images/gemini/widgets/resume-study.png" alt="Card resuming a study app design project, noting that streak logic and push notification timing are still open" />
+        <div class="widget-view">
+          <div class="widget-track">
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-python.png" alt="Card resuming a chat called Python Script Help, suggesting elif chains or nested if statements next" />
+            <img loading="lazy" decoding="async" src="../images/gemini/widgets/resume-study.png" alt="Card resuming a study app design project, noting that streak logic and push notification timing are still open" />
+          </div>
+        </div>
+        <div class="widget-dots" role="group" aria-label="Pick up where you left off cards"></div>
       </div>
     </div>
     <p class="widget-cap">Two of the four cards in each stack</p>
@@ -346,13 +358,36 @@
     </p>
 
     <h3 class="cap-moment">The stacks move independently</h3>
-    <p class="cap-body">
-      These are the same screen at three times. First the evening stack changes from coffee to dinner, then the work stack changes from the Python chat to the study app project.
-    </p>
-    <div class="cap-pair is-phones is-three">
-      <figure><img loading="lazy" decoding="async" src="../images/gemini/2.png" alt="Redesigned home screen showing late-night coffee and the Python chat" /></figure>
-      <figure><img loading="lazy" decoding="async" src="../images/gemini/3.png" alt="Home screen with the evening stack moved on to dinner spots near campus" /></figure>
-      <figure><img loading="lazy" decoding="async" src="../images/gemini/4.png" alt="Home screen with the work stack moved on to the study app design project" /></figure>
+    <!-- One phone, its two stacks sliding. The phone is the first screen; over
+         each stack sits a window holding that card from two of the three
+         screens side by side, and the window slides a card width to change it.
+         Positions are in the screens' own pixels (1200 by 2429). The dots under
+         each stack cross-fade between the same screens. -->
+    <div class="split-row">
+      <div class="split-art is-phone">
+        <figure class="stack-phone" data-stack-phone role="img" aria-label="Redesigned home screen. The evening stack changes from late-night coffee to dinner spots, then the work stack changes from the Python chat to the study app project.">
+          <img class="stack-phone__base" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
+          <div class="stack-win" style="--x:110; --y:1505; --w:480; --h:485">
+            <div class="stack-layer"><img src="../images/gemini/2.png" alt="" /></div>
+            <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+          </div>
+          <div class="stack-win" style="--x:612; --y:1505; --w:480; --h:485">
+            <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+            <div class="stack-layer"><img src="../images/gemini/4.png" alt="" /></div>
+          </div>
+          <div class="stack-dots" style="--x:300; --y:1996; --w:100; --h:24">
+            <div class="stack-layer"><img src="../images/gemini/2.png" alt="" /></div>
+            <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+          </div>
+          <div class="stack-dots" style="--x:802; --y:1996; --w:100; --h:24">
+            <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+            <div class="stack-layer"><img src="../images/gemini/4.png" alt="" /></div>
+          </div>
+        </figure>
+      </div>
+      <div class="split-text">
+        <p class="cap-body">The evening stack changes from coffee to dinner, then the work stack changes from the Python chat to the study app project.</p>
+      </div>
     </div>
   </section>
 
@@ -384,6 +419,7 @@
 
   <script src="../js/nav.js" defer></script>
   <script src="../js/liquid-glass.js" defer></script>
+  <script src="../js/widget-slider.js" defer></script>
   <script src="../js/cursor.js" defer></script>
   <script src="../js/rail.js" defer></script>
 </body>
