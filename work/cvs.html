@@ -38,15 +38,15 @@
     <div class="case-meta">
       <div class="meta-block">
         <div class="meta-label">Timeline</div>
-        <div class="meta-value"><mark class="draft">Add timeline</mark></div>
+        <div class="meta-value">3 weeks</div>
       </div>
       <div class="meta-block">
         <div class="meta-label">Team</div>
-        <div class="meta-value"><mark class="draft">Independent</mark></div>
+        <div class="meta-value">Independent</div>
       </div>
       <div class="meta-block">
         <div class="meta-label">Role</div>
-        <div class="meta-value"><mark class="draft">Product Designer</mark></div>
+        <div class="meta-value">Product Designer</div>
       </div>
       <div class="meta-block">
         <div class="meta-label">Focus</div>
@@ -57,6 +57,7 @@
     <!-- Section jump links -->
     <div class="case-toc">
       <a href="#premise">The Premise</a>
+      <a href="#research">Research</a>
       <a href="#opportunity">The Opportunity</a>
       <a href="#system">System Overview</a>
       <a href="#breakdown">Design Breakdown</a>
@@ -98,6 +99,70 @@
       <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32, section .15</a>;
       <a href="https://en.wikipedia.org/wiki/Inventory_Information_Approval_System" target="_blank" rel="noopener">Inventory Information Approval System</a>;
       <a href="https://www.opm.gov/retirement-services/publications-forms/benefits-administration-letters/2020/20-802.pdf" target="_blank" rel="noopener">OPM on the CARES Act changes</a>.
+    </p>
+  </section>
+
+  <!-- RESEARCH
+       Desk research from published data, laid out after wendyyudesign.com/
+       bumble: what the data says, the figure that carries it, the insights,
+       then the takeaway. Every number is from a source listed at the end. -->
+  <section id="research" class="cap-section">
+    <div class="cap-eyebrow">Research</div>
+    <h2 class="cap-title">People use their FSA, and still lose money</h2>
+    <p class="cap-body">
+      EBRI's analysis of 3.2 million flexible spending accounts shows how people actually use them. Most accountholders spend from their FSA during the year, and half still forfeit part of it.
+    </p>
+
+    <figure class="cap-chart">
+      <figcaption class="cap-chart__title">Share of FSA accountholders</figcaption>
+      <div class="cap-chart__row">
+        <span class="cap-chart__label">Spent from their FSA, 2022</span>
+        <span class="cap-chart__bar"><span style="width: 85%"></span></span>
+        <span class="cap-chart__value">85%</span>
+      </div>
+      <div class="cap-chart__row">
+        <span class="cap-chart__label">Forfeited money, 2022</span>
+        <span class="cap-chart__bar"><span style="width: 52%"></span></span>
+        <span class="cap-chart__value">52%</span>
+      </div>
+      <div class="cap-chart__row is-past">
+        <span class="cap-chart__label">Forfeited money, 2019</span>
+        <span class="cap-chart__bar"><span style="width: 44%"></span></span>
+        <span class="cap-chart__value">44%</span>
+      </div>
+      <p class="cap-chart__note">Source: EBRI FSA database, 3.2 million accounts, reported May 2024.</p>
+    </figure>
+
+    <h3 class="cap-moment">Data insights</h3>
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>Using the account is not the gap</h3>
+        <p>85% of accountholders spent from their FSA in 2022, and 52% still forfeited part of it.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Forfeiture is rising</h3>
+        <p>The share who forfeited grew from 44% in 2019 to 52% in 2022. EBRI links the rise to the end of pandemic-era rollover rules.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Plan rules made no difference</h3>
+        <p>EBRI found no significant difference in forfeiture between plans with a grace period or rollover and use-it-or-lose-it plans.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Eligibility rules changed in 2020</h3>
+        <p>Since the CARES Act, over-the-counter medicines need no prescription. Vitamins and supplements are still not eligible.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Takeaway</h3>
+    <p class="cap-body">
+      Accountholders with a grace period or rollover forfeited at the same rate as those in strict plans, so plan rules are not where to intervene. The design puts the remaining balance, the deadline and the eligible amount in front of people at the moment they shop.
+    </p>
+
+    <p class="case-sources">
+      Sources:
+      <a href="https://www.investmentnews.com/ria-news/half-of-fsa-holders-forfeited-funds-to-their-employers-ebri-report/253246" target="_blank" rel="noopener">EBRI FSA analysis, reported May 2024</a>;
+      <a href="https://www.ebri.org/content/summary/vital-statistics-on-flexible-spending-accounts--2022--forfeitures-on-the-rise" target="_blank" rel="noopener">EBRI, Vital Statistics on FSAs, 2022</a>;
+      <a href="https://www.fsafeds.gov/support/faq/all/55" target="_blank" rel="noopener">FSAFEDS on over-the-counter eligibility</a>.
     </p>
   </section>
 
@@ -154,8 +219,7 @@
       <button type="button" class="motion-toggle" aria-pressed="false">Pause motion</button>
     </p>
 
-    <h3 class="cap-moment">Connecting a benefits account</h3>
-    <div class="split-row">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -169,13 +233,13 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">Connecting a benefits account</h3>
         <p class="cap-note">Login stays with the provider</p>
         <p class="cap-body">You log in on the provider's own page. CVS receives balances and plan dates and never sees the password.</p>
       </div>
     </div>
 
-    <h3 class="cap-moment">The balance, and the part that expires</h3>
-    <div class="split-row is-flipped">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -189,13 +253,13 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">The balance, and the part that expires</h3>
         <p class="cap-note">The deadline sits with the balance</p>
         <p class="cap-body">Below the balance, the app shows how much expires on December 31 and how much can carry over into 2027. The HSA tab notes that HSA money does not expire.</p>
       </div>
     </div>
 
-    <h3 class="cap-moment">Checking a product before buying it</h3>
-    <div class="split-row">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -209,13 +273,13 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">Checking a product before buying it</h3>
         <p class="cap-note">Ineligible items show why</p>
         <p class="cap-body">Reading glasses come back eligible. Chocolate comes back not eligible, because food is not a medical expense. <mark class="draft">Seeing the reason helps shoppers judge the next item themselves.</mark></p>
       </div>
     </div>
 
-    <h3 class="cap-moment">The split, while you shop</h3>
-    <div class="split-row is-flipped">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -229,6 +293,7 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">The split, while you shop</h3>
         <p class="cap-note">The cart shows the split</p>
         <p class="cap-body">Each time the cart changes, the bar showing the FSA and card amounts updates.</p>
       </div>
@@ -261,8 +326,7 @@
       <p class="handoff__label">The register's customer screen</p>
     </div>
 
-    <h3 class="cap-moment">A receipt that holds up as proof</h3>
-    <div class="split-row">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -276,6 +340,7 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">A receipt that holds up as proof</h3>
         <p class="cap-note">Itemized with eligibility</p>
         <p class="cap-body">Orders filter to FSA and HSA purchases. Each receipt marks every item's eligibility, so WEX can verify a claim.</p>
       </div>

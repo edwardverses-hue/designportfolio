@@ -3563,3 +3563,107 @@ html.has-cursor .about-pill:hover {
     transition: none;
   }
 }
+
+/* ---------- MOMENT TITLES BESIDE THE SCREEN ----------
+   After wendyyudesign.com/bumble: a moment's title sits at the top of its own
+   text, beside the screen, rather than above the whole row where the centred
+   text left it stranded. The row takes over the gap the title used to give
+   between one moment and the next. */
+.split-text .cap-moment {
+  margin: 0 0 12px;
+}
+
+.cap-page .split-row.has-title {
+  margin-top: 88px;
+}
+
+.cap-page .cap-eyebrow + .split-row.has-title {
+  margin-top: 28px;
+}
+
+@media (max-width: 900px) {
+  .cap-page .split-row.has-title {
+    margin-top: 64px;
+  }
+
+  .cap-page .cap-eyebrow + .split-row.has-title {
+    margin-top: 24px;
+  }
+}
+
+/* ---------- RESEARCH CHART (CVS) ----------
+   A plain bar comparison: the share of accountholders who spent from their FSA
+   against the share who still forfeited money. Bars are drawn on a track that
+   stands for 100%, so their lengths can be compared by eye; the numbers sit at
+   the end of each bar for anyone who reads rather than measures. The older
+   year is grey so it reads as context for the 2022 rows. */
+.cap-chart {
+  max-width: 720px;
+  margin: 30px 0 0;
+}
+
+.cap-chart__title {
+  font-size: 15px;
+  color: var(--grey);
+  margin: 0 0 14px;
+}
+
+.cap-chart__row {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr) 44px;
+  align-items: center;
+  column-gap: 16px;
+  margin-bottom: 14px;
+}
+
+.cap-chart__label {
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+.cap-chart__bar {
+  display: block;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.cap-chart__bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #000000;
+}
+
+.cap-chart__row.is-past .cap-chart__bar span {
+  background: var(--grey);
+}
+
+.cap-chart__row.is-past .cap-chart__label,
+.cap-chart__row.is-past .cap-chart__value {
+  color: var(--grey);
+}
+
+.cap-chart__value {
+  font-size: 15px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cap-chart__note {
+  font-size: 13px;
+  color: var(--grey);
+  margin: 6px 0 0;
+}
+
+@media (max-width: 720px) {
+  .cap-chart__row {
+    grid-template-columns: minmax(0, 1fr) 44px;
+    row-gap: 6px;
+  }
+
+  .cap-chart__label {
+    grid-column: 1 / -1;
+  }
+}
