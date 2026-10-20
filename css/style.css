@@ -2940,6 +2940,13 @@ mark.draft {
   border-radius: 0;
 }
 
+/* One phone leaves the text a wide column, and on a flipped row the phone
+   would then sit at the far edge of the page from the words about it. The row
+   is held narrower so the two stay together. */
+.cap-page .split-row:has(> .split-art.is-still) {
+  max-width: 800px;
+}
+
 @media (max-width: 900px) {
   .split-art.is-pair,
   .split-row.is-flipped .split-art.is-pair {
