@@ -129,9 +129,12 @@
 
   // The pill swaps its black stroke for a white fill only when a picture is
   // genuinely behind it, not merely because the page has been scrolled.
+  // On the About page the current pill is About itself, outside the centre.
+  var currentPill = current || nav.querySelector('.nav-right.is-current');
+
   function artBehindMarker() {
-    if (!current) return false;
-    var m = current.getBoundingClientRect();
+    if (!currentPill) return false;
+    var m = currentPill.getBoundingClientRect();
     var art = document.querySelectorAll(ART);
     for (var i = 0; i < art.length; i++) {
       var el = art[i];

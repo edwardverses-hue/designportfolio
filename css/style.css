@@ -217,6 +217,18 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
 }
 
+/* About is its own pill rather than a stop for the marker, so on its own page
+   it takes the marker's look directly: the black stroke, and the white fill
+   once a picture is behind it. */
+.nav .nav-right.is-current {
+  border-color: #000000;
+}
+
+.nav.nav-art .nav-right.is-current {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: transparent;
+}
+
 /* ---------- HOME PAGE ---------- */
 
 .hero {
@@ -391,6 +403,13 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 32px;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+.about-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .about-text {
@@ -678,9 +697,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Sizes are the reference's, measured: 15px is the floor for anything meant to
-   be read, titles are 24px and subheads 20px. Its labels are capitals at 15px
-   with no extra tracking, so these keep only a trace of it. */
+/* Titles, subheads and labels are the reference's, measured: 24px, 20px and
+   capitals at 15px. Reading text is a step above its 15px, at 16px, and opened
+   up slightly rather than tightened like the rest of the site (see READING
+   TEXT below), because Helvetica Neue Light at 15px with negative tracking set
+   the same sentence about 6% narrower than the reference does. */
 .cap-eyebrow {
   font-size: 15px;
   letter-spacing: 0.02em;
@@ -699,11 +720,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cap-body {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
   color: #000000;
   margin: 0 0 8px;
-  max-width: 700px;
+  max-width: 620px;
 }
 
 .cap-moment {
@@ -830,7 +851,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Black like the body, as the reference sets its card text. */
 .cap-card p {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.55;
   color: #000000;
   margin: 0;
@@ -2561,8 +2582,8 @@ mark.draft {
    per-figure control: the page carries one Pause motion for all of them. */
 .proto-cap {
   margin-top: 16px;
-  font-size: 15px;
-  letter-spacing: 0.02em;
+  font-size: 16px;
+  letter-spacing: 0.01em;
   color: #6C848E;
   text-align: center;
 }
@@ -2698,9 +2719,9 @@ mark.draft {
 }
 
 .cap-page .case-description {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.6;
-  max-width: 640px;
+  max-width: 620px;
   margin-bottom: 44px;
 }
 
@@ -2817,8 +2838,120 @@ mark.draft {
 
 .cap-pair figcaption {
   margin-top: 12px;
-  font-size: 15px;
+  font-size: 16px;
   text-align: center;
+}
+
+/* Three screens of one moment in a row, a little narrower than a pair so the
+   three still fit the column. On a phone they stack, because three across at
+   that width leaves screens nobody can read. */
+.cap-pair.is-phones.is-three {
+  grid-template-columns: repeat(3, minmax(0, 260px));
+  gap: 40px;
+}
+
+@media (max-width: 720px) {
+  .cap-pair.is-phones.is-three {
+    grid-template-columns: minmax(0, 280px);
+    justify-content: center;
+    gap: 32px;
+  }
+}
+
+/* A walkthrough opens straight on its first moment, with no section title
+   between, so that moment sits under the eyebrow as a title would. */
+.cap-eyebrow + .cap-moment {
+  margin-top: 0;
+}
+
+/* The line under each side of a reframe, for the pages that carry one. It
+   stays in the text column on the wide layout and under its line when the
+   label stacks. */
+.cap-page .reframe {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+
+.reframe-sub {
+  grid-column: 2;
+  margin: -14px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #6C848E;
+}
+
+@media (max-width: 900px) {
+  .cap-page .reframe {
+    grid-template-columns: 1fr;
+  }
+
+  .reframe-sub {
+    grid-column: auto;
+    margin: -12px 0 16px;
+  }
+}
+
+.cap-page .widget-cap {
+  font-size: 16px;
+}
+
+/* A paragraph that carries on after a figure, rather than one opening a new
+   moment, keeps the same gap from the picture a caption would. */
+.cap-page .full-image + .cap-body {
+  margin-top: 26px;
+}
+
+/* READING TEXT. The site tightens all its type by 0.015em, which suits the
+   titles and starves small text. Anything meant to be read in sentences on
+   the case studies is opened up instead, the way the reference sets its body. */
+.cap-page .case-description,
+.cap-body,
+.cap-card p,
+.cap-pair figcaption,
+.pos-note,
+.reframe-sub,
+.cap-page .widget-cap {
+  letter-spacing: 0.01em;
+}
+
+/* Two screens of one moment beside the text that explains them, so the claim
+   and the evidence are read together rather than one after the other. Each
+   phone gives up a little width against a pair on its own (270 rather than
+   300) to leave the text a column of about fifty characters. */
+.split-art.is-pair {
+  flex: 0 1 564px;
+  max-width: 564px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.split-art.is-pair img {
+  border-radius: 0;
+}
+
+/* A single still beside its text, at the width each phone of a pair takes, so
+   the phone stays one size from moment to moment down the page. */
+.split-art.is-still {
+  flex: 0 0 270px;
+  max-width: 270px;
+}
+
+.split-art.is-still img {
+  border-radius: 0;
+}
+
+@media (max-width: 900px) {
+  .split-art.is-pair,
+  .split-row.is-flipped .split-art.is-pair {
+    max-width: 100%;
+    gap: 18px;
+  }
+
+  .split-art.is-still,
+  .split-row.is-flipped .split-art.is-still {
+    max-width: 270px;
+    margin: 0 auto 26px;
+  }
 }
 
 /* Inside the Capsule column the register sits on the column's left edge like
@@ -2844,7 +2977,8 @@ mark.draft {
 }
 
 @media (max-width: 900px) {
-  .split-art.is-phone {
+  .split-art.is-phone,
+  .split-row.is-flipped .split-art.is-phone {
     max-width: min(100%, 320px);
     margin-left: auto;
     margin-right: auto;
@@ -3171,8 +3305,8 @@ mark.draft {
 }
 
 .handoff__label {
-  font-size: 15px;
-  letter-spacing: 0.02em;
+  font-size: 16px;
+  letter-spacing: 0.01em;
   color: #6C848E;
   text-align: center;
 }
@@ -3189,7 +3323,7 @@ mark.draft {
 .pos-note {
   max-width: 720px;
   margin: 16px auto 0;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.55;
   text-align: center;
   min-height: 3.1em;
@@ -3278,4 +3412,108 @@ mark.draft {
   .handoff .proto-phone {
     width: 100%;
   }
+}
+
+/* ---------- CURSOR ----------
+   js/cursor.js draws it; this is its look. Taken from mimicrydesign.co.jp: a
+   small mark at rest that fills into a disc over anything clickable, and grows
+   and carries a word over things that open work. Theirs grows over 0.25s with
+   the word fading in 0.1s behind it, which is kept here.
+
+   The blend mode is difference, which subtracts the cursor's white from the
+   page under it. White on white comes out black, white on black stays white,
+   and on a picture every colour flips to its opposite. The label is black, and
+   black subtracts nothing, so the word shows the page through the disc. */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+
+.cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cursor.is-on {
+  opacity: 1;
+}
+
+.cursor__shape {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid #FFFFFF;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0);
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    height 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background-color 0.25s ease;
+}
+
+.cursor.is-link .cursor__shape {
+  width: 40px;
+  height: 40px;
+  background: #FFFFFF;
+}
+
+.cursor.is-view .cursor__shape {
+  width: 64px;
+  height: 64px;
+  background: #FFFFFF;
+}
+
+.cursor__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1;
+  white-space: nowrap;
+  color: #000000;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.cursor.is-view .cursor__label {
+  opacity: 1;
+  transition: opacity 0.25s ease 0.1s;
+}
+
+/* The phones on the CVS page are recordings of the prototype with every tap
+   already locked out, so the pointer passes through them to the page and the
+   cursor keeps following instead of stopping at the edge of the frame. */
+html.has-cursor .proto-screen iframe {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor__shape,
+  .cursor__label,
+  .cursor.is-view .cursor__label {
+    transition-duration: 0.01s;
+    transition-delay: 0s;
+  }
+}
+
+/* With the custom cursor on, the cursor is the hover state. The About pills
+   otherwise turn black under it, and the disc flips their middle back to
+   white, leaving two black half-moons. On touch there is no cursor, so the
+   pills keep their fill there. */
+html.has-cursor .about-pill:hover {
+  background: transparent;
+  color: inherit;
 }
