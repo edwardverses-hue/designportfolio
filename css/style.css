@@ -731,7 +731,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .cap-moment {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
   letter-spacing: -0.01em;
   line-height: 1.25;
@@ -2543,7 +2543,7 @@ mark.draft {
 
 @media (max-width: 720px) {
   .cap-page .case-title {
-    font-size: 28px;
+    font-size: 30px;
   }
 }
 
@@ -3562,4 +3562,189 @@ html.has-cursor .about-pill:hover {
   .stack-dots .stack-layer {
     transition: none;
   }
+}
+
+/* ---------- MOMENT TITLES BESIDE THE SCREEN ----------
+   After wendyyudesign.com/bumble: a moment's title sits at the top of its own
+   text, beside the screen, rather than above the whole row where the centred
+   text left it stranded. The row takes over the gap the title used to give
+   between one moment and the next. */
+.split-text .cap-moment {
+  margin: 0 0 12px;
+}
+
+.cap-page .split-row.has-title {
+  margin-top: 88px;
+}
+
+.cap-page .cap-eyebrow + .split-row.has-title {
+  margin-top: 28px;
+}
+
+@media (max-width: 900px) {
+  .cap-page .split-row.has-title {
+    margin-top: 64px;
+  }
+
+  .cap-page .cap-eyebrow + .split-row.has-title {
+    margin-top: 24px;
+  }
+}
+
+/* ---------- RESEARCH CHART (CVS) ----------
+   A plain bar comparison: the share of accountholders who spent from their FSA
+   against the share who still forfeited money. Bars are drawn on a track that
+   stands for 100%, so their lengths can be compared by eye; the numbers sit at
+   the end of each bar for anyone who reads rather than measures. The older
+   year is grey so it reads as context for the 2022 rows. */
+.cap-chart {
+  max-width: 720px;
+  margin: 30px 0 0;
+}
+
+.cap-chart__title {
+  font-size: 15px;
+  color: var(--grey);
+  margin: 0 0 14px;
+}
+
+.cap-chart__row {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr) 44px;
+  align-items: center;
+  column-gap: 16px;
+  margin-bottom: 14px;
+}
+
+.cap-chart__label {
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+
+.cap-chart__bar {
+  display: block;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.cap-chart__bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #000000;
+}
+
+.cap-chart__row.is-past .cap-chart__bar span {
+  background: var(--grey);
+}
+
+.cap-chart__row.is-past .cap-chart__label,
+.cap-chart__row.is-past .cap-chart__value {
+  color: var(--grey);
+}
+
+.cap-chart__value {
+  font-size: 15px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cap-chart__note {
+  font-size: 13px;
+  color: var(--grey);
+  margin: 6px 0 0;
+}
+
+@media (max-width: 720px) {
+  .cap-chart__row {
+    grid-template-columns: minmax(0, 1fr) 44px;
+    row-gap: 6px;
+  }
+
+  .cap-chart__label {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* ---------- PAGE GRID FOR THE CASE STUDIES ----------
+   Measured off wendyyudesign.com/bumble: the same 200px margin on the left and
+   the right at every window width, so the column is the window less 400px.
+   Everything starts on the one left edge and ends on one of two right edges:
+   wide things (facts, cards, screens, the register, panels) fill the column,
+   and running text keeps one reading measure. Bumble's measure is 700px at
+   15px; at this page's 16px that would run past 90 characters a line, so the
+   measure stays 620px. Titles span the column, as Bumble's do.
+
+   The widths hold at every size. The 200px margins start at 1200px, where the
+   section rail appears and needs them (it ends at 170px); below that the
+   column keeps its centred layout with equal side padding. */
+
+/* Wide: the full column. */
+.cap-page .case-meta,
+.cap-page .case-toc,
+.cap-page .cap-cards,
+.cap-page .cap-cards.is-pair,
+.cap-page .split-row,
+.cap-page .split-row:has(> .split-art.is-still),
+.cap-page .pos-demo,
+.cap-page .handoff,
+.cap-page .full-image,
+.cap-page .kit-duo,
+.cap-page .kit-board,
+.cap-page .widget-demo {
+  max-width: none;
+  width: auto;
+}
+
+/* Text: one measure. */
+.cap-page .case-description,
+.cap-page .cap-body,
+.cap-page .cap-pull,
+.cap-page .case-sources,
+.cap-page .reframe,
+.cap-page .cap-chart {
+  max-width: 620px;
+}
+
+/* Titles: the column. */
+.cap-page .case-title,
+.cap-page .cap-title {
+  max-width: none;
+}
+
+@media (min-width: 1200px) {
+  .cap-page .case-intro,
+  .cap-page .cap-section,
+  .cap-page .case-next {
+    max-width: none;
+    margin-left: 200px;
+    margin-right: 200px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* On a phone the sections pad 20px a side, so the intro and the back link do
+   the same and the page keeps one left edge there too. */
+@media (max-width: 720px) {
+  .cap-page .case-intro,
+  .cap-page .case-next {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* The register's path buttons, step list and note start on the page's left
+   edge with everything else, rather than centring under the screen. */
+.cap-page .pos-paths,
+.cap-page .pos-steps {
+  justify-content: flex-start;
+}
+
+.cap-page .pos-note {
+  margin-left: 0;
+  text-align: left;
 }

@@ -31,7 +31,7 @@
 
   <!-- TITLE + INTRO -->
   <section class="case-intro">
-    <h1 class="case-title">CVS Benefits, a split payment for FSA and HSA purchases in the app and at the register</h1>
+    <h1 class="case-title">CVS Benefits</h1>
     <p class="case-description">
       The app shows your FSA balance and deadline, tells you whether a product is eligible, and splits your cart between the FSA and another card. The register uses the same split.
     </p>
@@ -39,15 +39,15 @@
     <div class="case-meta">
       <div class="meta-block">
         <div class="meta-label">Timeline</div>
-        <div class="meta-value"><mark class="draft">Add timeline</mark></div>
+        <div class="meta-value">3 weeks</div>
       </div>
       <div class="meta-block">
         <div class="meta-label">Team</div>
-        <div class="meta-value"><mark class="draft">Independent</mark></div>
+        <div class="meta-value">Independent</div>
       </div>
       <div class="meta-block">
         <div class="meta-label">Role</div>
-        <div class="meta-value"><mark class="draft">Product Designer</mark></div>
+        <div class="meta-value">Product Designer</div>
       </div>
       <div class="meta-block">
         <div class="meta-label">Focus</div>
@@ -58,6 +58,7 @@
     <!-- Section jump links -->
     <div class="case-toc">
       <a href="#premise">The Premise</a>
+      <a href="#research">Research</a>
       <a href="#opportunity">The Opportunity</a>
       <a href="#system">System Overview</a>
       <a href="#breakdown">Design Breakdown</a>
@@ -70,35 +71,95 @@
   <!-- THE PREMISE -->
   <section id="premise" class="cap-section">
     <div class="cap-eyebrow">The Premise</div>
-    <h2 class="cap-title">FSA money has a deadline, and what it can buy is decided item by item</h2>
-    <p class="cap-body">
-      A health FSA is pre-tax money for medical costs, and most of it must be spent by the end of the plan year. In 2022, 52% of accountholders forfeited part of theirs, $441 on average.
-    </p>
+    <h2 class="cap-title">FSA money expires, and only some items qualify</h2>
+    <p class="cap-body">A health FSA is pre-tax money for medical costs.</p>
 
-    <h3 class="cap-moment">Key tensions</h3>
     <div class="cap-cards">
       <div class="cap-card">
         <h3>It expires</h3>
-        <p>Unused money is lost unless the plan allows a carryover, capped at $680 for 2026.</p>
+        <p>Unspent money is lost, except a carryover of up to $680 (2026 limit).</p>
       </div>
       <div class="cap-card">
         <h3>Eligibility is item by item</h3>
-        <p>Pain relievers are eligible without a prescription. A chocolate bar in the same basket is not.</p>
+        <p>Pain relievers count. A chocolate bar in the same basket does not.</p>
       </div>
       <div class="cap-card">
-        <h3>Shoppers do not see the split</h3>
-        <p>The register charges the FSA only for eligible items, <mark class="draft">often without saying which ones.</mark></p>
+        <h3>The split comes at checkout</h3>
+        <p>Shoppers see the eligible total only when they pay.</p>
       </div>
     </div>
 
-    <p class="cap-pull"><mark class="draft">What if the split the register already works out were visible before anyone pays?</mark></p>
+    <p class="cap-pull">What if shoppers could see the FSA split before they reach the register?</p>
 
     <p class="case-sources">
       Sources:
-      <a href="https://investmentnews.com/industry-news/half-of-fsa-holders-forfeited-funds-to-their-employers-ebri-report/253246" target="_blank" rel="noopener">EBRI forfeiture analysis, reported May 2024</a>;
       <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32, section .15</a>;
-      <a href="https://en.wikipedia.org/wiki/Inventory_Information_Approval_System" target="_blank" rel="noopener">Inventory Information Approval System</a>;
-      <a href="https://www.opm.gov/retirement-services/publications-forms/benefits-administration-letters/2020/20-802.pdf" target="_blank" rel="noopener">OPM on the CARES Act changes</a>.
+      <a href="https://www.opm.gov/retirement-services/publications-forms/benefits-administration-letters/2020/20-802.pdf" target="_blank" rel="noopener">OPM on the CARES Act changes</a>;
+      <a href="https://en.wikipedia.org/wiki/Inventory_Information_Approval_System" target="_blank" rel="noopener">Inventory Information Approval System</a>.
+    </p>
+  </section>
+
+  <!-- RESEARCH
+       Desk research from published data, laid out after wendyyudesign.com/
+       bumble: what the data says, the figure that carries it, the insights,
+       then the takeaway. Every number is from a source listed at the end. -->
+  <section id="research" class="cap-section">
+    <div class="cap-eyebrow">Research</div>
+    <h2 class="cap-title">People use their FSA, and still lose money</h2>
+    <p class="cap-body">
+      EBRI's analysis of 3.2 million flexible spending accounts shows how people actually use them. Most accountholders spend from their FSA during the year, and half still forfeit part of it.
+    </p>
+
+    <figure class="cap-chart">
+      <figcaption class="cap-chart__title">Share of FSA accountholders</figcaption>
+      <div class="cap-chart__row">
+        <span class="cap-chart__label">Spent from their FSA, 2022</span>
+        <span class="cap-chart__bar"><span style="width: 85%"></span></span>
+        <span class="cap-chart__value">85%</span>
+      </div>
+      <div class="cap-chart__row">
+        <span class="cap-chart__label">Forfeited money, 2022</span>
+        <span class="cap-chart__bar"><span style="width: 52%"></span></span>
+        <span class="cap-chart__value">52%</span>
+      </div>
+      <div class="cap-chart__row is-past">
+        <span class="cap-chart__label">Forfeited money, 2019</span>
+        <span class="cap-chart__bar"><span style="width: 44%"></span></span>
+        <span class="cap-chart__value">44%</span>
+      </div>
+      <p class="cap-chart__note">Source: EBRI FSA database, 3.2 million accounts, reported May 2024.</p>
+    </figure>
+
+    <h3 class="cap-moment">Data insights</h3>
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>Using the account is not the gap</h3>
+        <p>85% of accountholders spent from their FSA in 2022, and 52% still forfeited part of it.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Forfeiture is rising</h3>
+        <p>The share who forfeited grew from 44% in 2019 to 52% in 2022. EBRI links the rise to the end of pandemic-era rollover rules.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Plan rules made no difference</h3>
+        <p>EBRI found no significant difference in forfeiture between plans with a grace period or rollover and use-it-or-lose-it plans.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Eligibility rules changed in 2020</h3>
+        <p>Since the CARES Act, over-the-counter medicines need no prescription. Vitamins and supplements are still not eligible.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Takeaway</h3>
+    <p class="cap-body">
+      Accountholders with a grace period or rollover forfeited at the same rate as those in strict plans, so plan rules are not where to intervene. The design puts the remaining balance, the deadline and the eligible amount in front of people at the moment they shop.
+    </p>
+
+    <p class="case-sources">
+      Sources:
+      <a href="https://www.investmentnews.com/ria-news/half-of-fsa-holders-forfeited-funds-to-their-employers-ebri-report/253246" target="_blank" rel="noopener">EBRI FSA analysis, reported May 2024</a>;
+      <a href="https://www.ebri.org/content/summary/vital-statistics-on-flexible-spending-accounts--2022--forfeitures-on-the-rise" target="_blank" rel="noopener">EBRI, Vital Statistics on FSAs, 2022</a>;
+      <a href="https://www.fsafeds.gov/support/faq/all/55" target="_blank" rel="noopener">FSAFEDS on over-the-counter eligibility</a>.
     </p>
   </section>
 
@@ -107,10 +168,10 @@
     <div class="cap-eyebrow">The Opportunity</div>
     <h2 class="cap-title">The register already knows the answer</h2>
     <p class="cap-body">
-      Chain pharmacies must run IIAS, a system that tags every product eligible or not and charges the FSA only the eligible total. <mark class="draft">Shoppers do not see that answer until they pay.</mark>
+      Chain pharmacies must run IIAS, a system that tags every product eligible or not and charges the FSA only the eligible total. The check runs when the card is presented, so the shopper first sees the eligible total at payment.
     </p>
     <p class="cap-body">
-      <mark class="draft">I started by designing an eligibility checker, then realised the register already calculates the answer.</mark>
+      I started by designing an eligibility checker, then realised the register already calculates the answer.
     </p>
 
     <div class="reframe">
@@ -119,6 +180,11 @@
       <p class="reframe-label">To</p>
       <p class="reframe-text">"$31.48 can go on your FSA"</p>
     </div>
+    <p class="case-sources">
+      Sources:
+      <a href="https://docs.nmi.com/docs/fsa-support" target="_blank" rel="noopener">NMI on IIAS at checkout</a>;
+      <a href="https://docs.withflex.com/compliance/iias" target="_blank" rel="noopener">Flex on IIAS item checks</a>.
+    </p>
   </section>
 
   <!-- SYSTEM OVERVIEW -->
@@ -155,8 +221,7 @@
       <button type="button" class="motion-toggle" aria-pressed="false">Pause motion</button>
     </p>
 
-    <h3 class="cap-moment">Connecting a benefits account</h3>
-    <div class="split-row">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -170,13 +235,13 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">Connecting a benefits account</h3>
         <p class="cap-note">Login stays with the provider</p>
         <p class="cap-body">You log in on the provider's own page. CVS receives balances and plan dates and never sees the password.</p>
       </div>
     </div>
 
-    <h3 class="cap-moment">The balance, and the part that expires</h3>
-    <div class="split-row is-flipped">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -190,13 +255,13 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">The balance, and the part that expires</h3>
         <p class="cap-note">The deadline sits with the balance</p>
         <p class="cap-body">Below the balance, the app shows how much expires on December 31 and how much can carry over into 2027. The HSA tab notes that HSA money does not expire.</p>
       </div>
     </div>
 
-    <h3 class="cap-moment">Checking a product before buying it</h3>
-    <div class="split-row">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -210,13 +275,13 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">Checking a product before buying it</h3>
         <p class="cap-note">Ineligible items show why</p>
-        <p class="cap-body">Reading glasses come back eligible. Chocolate comes back not eligible, because food is not a medical expense. <mark class="draft">Seeing the reason helps shoppers judge the next item themselves.</mark></p>
+        <p class="cap-body">Reading glasses come back eligible. Chocolate comes back not eligible, because food is not a medical expense. The reasons follow IRS rules: over-the-counter medicines have counted without a prescription since 2020, while food and vitamins count only when a doctor prescribes them for a diagnosed condition.</p>
       </div>
     </div>
 
-    <h3 class="cap-moment">The split, while you shop</h3>
-    <div class="split-row is-flipped">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -230,6 +295,7 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">The split, while you shop</h3>
         <p class="cap-note">The cart shows the split</p>
         <p class="cap-body">Each time the cart changes, the bar showing the FSA and card amounts updates.</p>
       </div>
@@ -262,8 +328,7 @@
       <p class="handoff__label">The register's customer screen</p>
     </div>
 
-    <h3 class="cap-moment">A receipt that holds up as proof</h3>
-    <div class="split-row">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -277,10 +342,16 @@
         </figure>
       </div>
       <div class="split-text">
+        <h3 class="cap-moment">A receipt that holds up as proof</h3>
         <p class="cap-note">Itemized with eligibility</p>
         <p class="cap-body">Orders filter to FSA and HSA purchases. Each receipt marks every item's eligibility, so WEX can verify a claim.</p>
       </div>
     </div>
+    <p class="case-sources">
+      Sources:
+      <a href="https://www.irs.gov/node/120246" target="_blank" rel="noopener">IRS on food, vitamins and general health</a>;
+      <a href="https://www.fsafeds.gov/support/faq/all/55" target="_blank" rel="noopener">FSAFEDS on over-the-counter medicines</a>.
+    </p>
   </section>
 
   <!-- THE REGISTER -->
@@ -288,7 +359,7 @@
     <div class="cap-eyebrow">The Register</div>
     <h2 class="cap-title">Four ways checkout can end</h2>
     <p class="cap-body">
-      <mark class="draft">Not every shopper uses the app.</mark> The register's customer screen shows the same split to everyone and takes one card at a time.
+      Shoppers who do not use the app still pay at the register, so its customer screen shows the same split to everyone and takes one card at a time.
     </p>
 
     <figure class="pos-demo">
@@ -322,20 +393,25 @@
     <div class="cap-cards is-pair">
       <div class="cap-card">
         <h3>A provider login that fails</h3>
-        <p>Every login in the prototype succeeds. <mark class="draft">It needs states for a wrong password, a locked account and a provider that is down.</mark></p>
+        <p>Every login in the prototype succeeds. It has no screens yet for a wrong password, a locked account or a provider outage.</p>
       </div>
       <div class="cap-card">
-        <h3>The app and the register disagree</h3>
-        <p><mark class="draft">The app's verdict and the register's list come from different places. When they differ, the screen needs to say which one applies.</mark></p>
+        <h3>The plan can refuse what the register approves</h3>
+        <p>The register checks whether a product is eligible, and the shopper's plan can still decline it. A limited-purpose FSA covers only dental and vision, so the app needs a state for when the two disagree.</p>
       </div>
     </div>
+    <p class="case-sources">
+      Sources:
+      <a href="https://support.joinforma.com/hc/en-us/articles/13470294494103-Why-is-my-FSA-HSA-card-being-declined-at-a-pharmacy" target="_blank" rel="noopener">Forma on limited-purpose FSAs at pharmacies</a>;
+      <a href="https://amben.com/article/Inventory_Information_Approval_System.html" target="_blank" rel="noopener">American Benefits Group on IIAS approvals</a>.
+    </p>
   </section>
 
   <!-- REFLECTIONS -->
   <section id="reflections" class="cap-section">
     <div class="cap-eyebrow">Reflections</div>
     <p class="cap-body">
-      <mark class="draft">The register was harder to design than the app. Shoppers read their phone at their own pace, but at the register there is a line behind them, so each screen had to be quick to read.</mark>
+      The register was harder to design than the app. Shoppers read their phone at their own pace, but at the register there is a line behind them, so each screen had to be quick to read.
     </p>
   </section>
 
