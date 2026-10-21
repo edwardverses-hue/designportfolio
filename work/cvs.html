@@ -356,13 +356,21 @@
       Shoppers who do not use the app still pay at the register, so its customer screen shows the same split to everyone and takes one card at a time.
     </p>
 
-    <figure class="pos-demo">
+    <!-- Laid out after a moment on wendyyudesign.com/capsule: the screen sits
+         on a tinted plate, and the choices and the note stand beside it as a
+         column. From 1600px they sit side by side; narrower, the column is
+         above so the register keeps enough width to be read. -->
+    <figure class="pos-demo is-moment">
+      <div class="pos-side">
       <div class="pos-paths" role="group" aria-label="Ways checkout can end">
         <button type="button" class="pos-path" aria-pressed="true" data-steps="1 2 3 4 5" data-note="The FSA card pays for the eligible items first, then a second card pays for the rest.">Paid in two steps</button>
         <button type="button" class="pos-path" aria-pressed="false" data-steps="3 6 7" data-note="The FSA covers $20.00 of $31.48, and the remaining $11.48 moves to the second card.">FSA balance too low</button>
         <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 9" data-note="After the FSA has paid, the shopper can remove the item that needed a second card.">Remove an item</button>
         <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 10" data-note="Cancelling after the FSA has paid refunds the FSA payment.">Cancel the order</button>
       </div>
+      <p class="pos-note">The FSA card pays for the eligible items first, then a second card pays for the rest.</p>
+      </div>
+      <div class="pos-plate">
       <div class="pos-stage">
         <img class="is-on" data-step="1" data-label="Scan prompt" src="../images/cvs/pos/1-scan-prompt.png" alt="Customer screen asking the shopper to scan their ExtraCare card while the item list is still empty" />
         <img data-step="2" data-label="Recognized" src="../images/cvs/pos/2-recognized.png" alt="Customer screen greeting Edward, with two of three items FSA/HSA eligible and $31.48 able to go on the FSA" aria-hidden="true" />
@@ -375,8 +383,8 @@
         <img data-step="9" data-label="Item removed, done" src="../images/cvs/pos/9-item-removed.png" alt="The Hershey's bar is struck through as removed, and the order is complete at $31.48 paid by the FSA" aria-hidden="true" />
         <img data-step="10" data-label="Order canceled" src="../images/cvs/pos/10-order-canceled.png" alt="Order canceled, with the FSA payment of $31.48 reversed" aria-hidden="true" />
       </div>
+      </div>
       <ol class="pos-steps"></ol>
-      <p class="pos-note">The FSA card pays for the eligible items first, then a second card pays for the rest.</p>
     </figure>
   </section>
 

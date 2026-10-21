@@ -3734,3 +3734,79 @@ html.has-cursor .about-pill:hover {
   margin-left: 0;
   text-align: left;
 }
+
+/* ---------- THE REGISTER AS A MOMENT ----------
+   After a moment on wendyyudesign.com/capsule, measured off it: the screen
+   sits inset on a plate of rgb(237, 241, 247) with 24px corners and no border,
+   and the words stand beside it in a column. The plate's tint is the frame,
+   so the screen itself loses its outline. The register export is 1366px wide
+   and has to stay readable, so the two only sit side by side from 1600px,
+   where the screen still shows at about two thirds; below that the column
+   goes above and the plate takes the full width. */
+.pos-demo.is-moment {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+
+.pos-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.pos-demo.is-moment .pos-paths {
+  flex-direction: row;
+  margin: 0;
+}
+
+.pos-demo.is-moment .pos-note {
+  max-width: 620px;
+  margin: 0;
+  min-height: 0;
+}
+
+.pos-plate {
+  background: rgb(237, 241, 247);
+  border-radius: 24px;
+  padding: 28px;
+}
+
+.pos-demo.is-moment .pos-stage {
+  border: 0;
+  border-radius: 12px;
+  background: #FFFFFF;
+}
+
+.pos-demo.is-moment .pos-steps {
+  margin-top: 4px;
+}
+
+@media (min-width: 1600px) {
+  .pos-demo.is-moment {
+    grid-template-columns: 300px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 40px;
+  }
+
+  .pos-demo.is-moment .pos-paths {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pos-demo.is-moment .pos-steps {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 720px) {
+  .pos-plate {
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .pos-demo.is-moment .pos-stage {
+    border-radius: 8px;
+  }
+}
