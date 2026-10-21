@@ -56,27 +56,62 @@
 
     <!-- Section jump links -->
     <div class="case-toc">
-      <a href="#premise">The Premise</a>
+      <a href="#brief">The Brief</a>
+      <a href="#reframe">The Reframe</a>
       <a href="#research">Research</a>
       <a href="#opportunity">The Opportunity</a>
       <a href="#system">System Overview</a>
+      <a href="#components">Components</a>
       <a href="#breakdown">Design Breakdown</a>
       <a href="#register">The Register</a>
-      <a href="#future">Future Opportunities</a>
-      <a href="#reflections">Reflections</a>
+      <a href="#reflections">Future Opportunities</a>
     </div>
   </section>
 
-  <!-- THE PREMISE -->
-  <section id="premise" class="cap-section">
-    <div class="cap-eyebrow">The Premise</div>
-    <h2 class="cap-title">FSA money expires, and only some items qualify</h2>
-    <p class="cap-body">A health FSA is pre-tax money for medical costs.</p>
+  <!-- THE BRIEF, then THE REFRAME, after the opening of wendyyudesign.com/bumble:
+       what was asked for, the problems with it, and the question that replaced it. -->
+  <section id="brief" class="cap-section">
+    <div class="cap-eyebrow">The Brief</div>
+    <h2 class="cap-title">An app feature to keep shoppers in the store longer</h2>
+    <p class="cap-body">
+      The brief asked for an app-first feature that keeps customers in CVS stores longer, on the view that more time in the store means more spending. Success was dollars: basket size, return visits, conversion and fewer walk-outs. It came with a prototype from the product manager, ExtraTime, and six earlier initiatives not to repeat. Read against the analytics package, it had three problems:
+    </p>
 
     <div class="cap-cards">
       <div class="cap-card">
+        <h3>Time in the store was already up</h3>
+        <p>Dwell rose 14% after the endcaps moved, and abandonment rose two points with it. More minutes had not turned into more spending.</p>
+      </div>
+      <div class="cap-card">
+        <h3>App-first leaves out the most loyal shoppers</h3>
+        <p>Seniors visit most and fill the most prescriptions, and made 4% of in-app coupon redemptions.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Nudges to stay had backfired</h3>
+        <p>The two-hour ExtraBucks timer drew the sharpest survey comments and an accessibility settlement. Legal now reviews anything time-based.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="reframe" class="cap-section">
+    <div class="cap-eyebrow">The Reframe</div>
+    <h2 class="cap-title">From more time in the store to money already set aside</h2>
+    <p class="cap-body">
+      A health FSA is pre-tax money for medical costs that expires at the end of the plan year. In 2022, half of accountholders forfeited part of theirs, $441 on average. CVS sells what that money is for. So I changed the question from how the app keeps people in the store to how it helps them spend money they already have, here, before it is gone. That became CVS Benefits.
+    </p>
+
+    <div class="reframe">
+      <p class="reframe-label">From</p>
+      <p class="reframe-text is-from">"How might the app keep customers in the store longer?"</p>
+      <p class="reframe-label">To</p>
+      <p class="reframe-text">"How might the app help people spend their FSA here before it expires?"</p>
+    </div>
+
+    <h3 class="cap-moment">Three facts about FSA money shaped the design</h3>
+    <div class="cap-cards">
+      <div class="cap-card">
         <h3>It expires</h3>
-        <p>Unspent money is lost, except a carryover of up to $680 (2026 limit).</p>
+        <p>Money left at the end of the plan year is lost. Where a plan allows a carryover, it is capped at $680 for 2026.</p>
       </div>
       <div class="cap-card">
         <h3>Eligibility is item by item</h3>
@@ -88,10 +123,9 @@
       </div>
     </div>
 
-    <p class="cap-pull">What if shoppers could see the FSA split before they reach the register?</p>
-
     <p class="case-sources">
       Sources:
+      <a href="https://www.investmentnews.com/ria-news/half-of-fsa-holders-forfeited-funds-to-their-employers-ebri-report/253246" target="_blank" rel="noopener">EBRI analysis of 3.2 million FSAs, reported May 2024</a>;
       <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32, section .15</a>;
       <a href="https://www.opm.gov/retirement-services/publications-forms/benefits-administration-letters/2020/20-802.pdf" target="_blank" rel="noopener">OPM on the CARES Act changes</a>;
       <a href="https://en.wikipedia.org/wiki/Inventory_Information_Approval_System" target="_blank" rel="noopener">Inventory Information Approval System</a>.
@@ -99,66 +133,91 @@
   </section>
 
   <!-- RESEARCH
-       Desk research from published data, laid out after wendyyudesign.com/
-       bumble: what the data says, the figure that carries it, the insights,
-       then the takeaway. Every number is from a source listed at the end. -->
+       From the Region 4 analytics package that came with the brief. Laid out
+       after the research section on wendyyudesign.com/bumble: what was read,
+       the evidence itself, three insights, one takeaway. The coupon shares are
+       computed from the workbook's monthly rows. -->
   <section id="research" class="cap-section">
     <div class="cap-eyebrow">Research</div>
-    <h2 class="cap-title">People use their FSA, and still lose money</h2>
+    <h2 class="cap-title">What the region had already tried</h2>
     <p class="cap-body">
-      EBRI's analysis of 3.2 million flexible spending accounts shows how people actually use them. Most accountholders spend from their FSA during the year, and half still forfeit part of it.
+      The brief came with CVS Region 4's analytics package: thirty months of metrics from eight Pittsburgh stores, the results of six earlier initiatives, coupon redemptions by channel and age, and a sample of post-visit survey comments. I read it for what had already been tried on these shoppers, and how they answered.
     </p>
 
-    <figure class="cap-chart">
-      <figcaption class="cap-chart__title">Share of FSA accountholders</figcaption>
-      <div class="cap-chart__row">
-        <span class="cap-chart__label">Spent from their FSA, 2022</span>
-        <span class="cap-chart__bar"><span style="width: 85%"></span></span>
-        <span class="cap-chart__value">85%</span>
-      </div>
-      <div class="cap-chart__row">
-        <span class="cap-chart__label">Forfeited money, 2022</span>
-        <span class="cap-chart__bar"><span style="width: 52%"></span></span>
-        <span class="cap-chart__value">52%</span>
-      </div>
-      <div class="cap-chart__row is-past">
-        <span class="cap-chart__label">Forfeited money, 2019</span>
-        <span class="cap-chart__bar"><span style="width: 44%"></span></span>
-        <span class="cap-chart__value">44%</span>
-      </div>
-      <p class="cap-chart__note">Source: EBRI FSA database, 3.2 million accounts, reported May 2024.</p>
-    </figure>
+    <div class="cap-evidence">
+      <figure class="cap-evidence__item">
+        <table class="cap-table">
+          <thead><tr><th>Initiative</th><th>Ran</th><th>Result</th><th>Status</th></tr></thead>
+          <tbody>
+          <tr><td>Aisle-level product locator</td><td>Mar to Sep 2024</td><td>Basket +2.1%; CSAT 4.7 among users</td><td>Discontinued</td></tr>
+          <tr><td>In-app instant coupons</td><td>Jun 2024 to Sep 2025</td><td>Average basket +8.0%</td><td>Ended</td></tr>
+          <tr><td>Pharmacy path endcaps</td><td>Oct 2024 on</td><td>Dwell +14%; abandonment +2.4 pts</td><td>Active</td></tr>
+          <tr><td>2-hour flash ExtraBucks</td><td>Jan to May 2025</td><td>Return visits +11%</td><td>Ended</td></tr>
+          <tr><td>Deal finder kiosk</td><td>Mar 2025 on</td><td>Engagement 4.6 of 5; 61% of sessions staff-assisted</td><td>Active</td></tr>
+          <tr><td>ShopStreak rewards</td><td>Jun to Nov 2025, one store</td><td>Visits per member +19%</td><td>Under review</td></tr>
+          </tbody>
+        </table>
+        <figcaption class="cap-evidence__cap">Six earlier initiatives, from the Historical Initiatives tab</figcaption>
+      </figure>
+      <figure class="cap-evidence__item">
+        <div class="cap-pairs">
+          <div class="cap-pairs__key"><span class="is-base">Share of shoppers</span><span>Share of in-app coupon redemptions</span></div>
+          <div class="cap-pairs__band">
+            <span class="cap-pairs__label">18-29</span>
+            <span class="cap-pairs__bars">
+              <span class="cap-pairs__bar is-base" style="width: 14%"><b>14%</b></span>
+              <span class="cap-pairs__bar" style="width: 31%"><b>31%</b></span>
+            </span>
+          </div>
+          <div class="cap-pairs__band">
+            <span class="cap-pairs__label">30-49</span>
+            <span class="cap-pairs__bars">
+              <span class="cap-pairs__bar is-base" style="width: 33%"><b>33%</b></span>
+              <span class="cap-pairs__bar" style="width: 47%"><b>47%</b></span>
+            </span>
+          </div>
+          <div class="cap-pairs__band">
+            <span class="cap-pairs__label">50-64</span>
+            <span class="cap-pairs__bars">
+              <span class="cap-pairs__bar is-base" style="width: 27%"><b>27%</b></span>
+              <span class="cap-pairs__bar" style="width: 18%"><b>18%</b></span>
+            </span>
+          </div>
+          <div class="cap-pairs__band">
+            <span class="cap-pairs__label">65+</span>
+            <span class="cap-pairs__bars">
+              <span class="cap-pairs__bar is-base" style="width: 26%"><b>26%</b></span>
+              <span class="cap-pairs__bar" style="width: 4%"><b>4%</b></span>
+            </span>
+          </div>
+        </div>
+        <figcaption class="cap-evidence__cap">By age band. Shoppers from 2025 loyalty-linked transactions; redemptions over the programme, Jun 2024 to Sep 2025</figcaption>
+      </figure>
+    </div>
 
     <h3 class="cap-moment">Data insights</h3>
-    <div class="cap-cards is-pair">
+    <div class="cap-cards">
       <div class="cap-card">
-        <h3>Using the account is not the gap</h3>
-        <p>85% of accountholders spent from their FSA in 2022, and 52% still forfeited part of it.</p>
+        <h3>App-only savings skipped older shoppers</h3>
+        <p>Shoppers 65 and over are 26% of the region and 4% of in-app coupon redemptions. They redeemed more printed coupons than any other group.</p>
       </div>
       <div class="cap-card">
-        <h3>Forfeiture is rising</h3>
-        <p>The share who forfeited grew from 44% in 2019 to 52% in 2022. EBRI links the rise to the end of pandemic-era rollover rules.</p>
+        <h3>An extra step at checkout fails</h3>
+        <p>In the survey sample, clipped coupons rang up at full price and held up the line, and the clip button gave no sign it had worked.</p>
       </div>
       <div class="cap-card">
-        <h3>Plan rules made no difference</h3>
-        <p>EBRI found no significant difference in forfeiture between plans with a grace period or rollover and use-it-or-lose-it plans.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Eligibility rules changed in 2020</h3>
-        <p>Since the CARES Act, over-the-counter medicines need no prescription. Vitamins and supplements are still not eligible.</p>
+        <h3>Information helped, pressure did not</h3>
+        <p>The aisle locator scored 4.7 with its users and was cut. The two-hour ExtraBucks timer drew the angriest comments and a $47,500 accessibility settlement.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Takeaway</h3>
     <p class="cap-body">
-      Accountholders with a grace period or rollover forfeited at the same rate as those in strict plans, so plan rules are not where to intervene. The design puts the remaining balance, the deadline and the eligible amount in front of people at the moment they shop.
+      Benefits had to work at the register for people who never open the app, apply on its own with no step to get wrong, and show the split without rushing anyone.
     </p>
 
     <p class="case-sources">
-      Sources:
-      <a href="https://www.investmentnews.com/ria-news/half-of-fsa-holders-forfeited-funds-to-their-employers-ebri-report/253246" target="_blank" rel="noopener">EBRI FSA analysis, reported May 2024</a>;
-      <a href="https://www.ebri.org/content/summary/vital-statistics-on-flexible-spending-accounts--2022--forfeitures-on-the-rise" target="_blank" rel="noopener">EBRI, Vital Statistics on FSAs, 2022</a>;
-      <a href="https://www.fsafeds.gov/support/faq/all/55" target="_blank" rel="noopener">FSAFEDS on over-the-counter eligibility</a>.
+      Source: CVS Region 4 analytics package provided with the brief, covering January 2024 to June 2026 across eight stores. Survey comments are the package's stratified sample, about 2% of responses.
     </p>
   </section>
 
@@ -210,6 +269,26 @@
     </div>
   </section>
 
+  <!-- COMPONENTS: the kit behind the screens, shown from the Figma file. -->
+  <section id="components" class="cap-section">
+    <div class="cap-eyebrow">Components</div>
+    <h2 class="cap-title">One kit for the app and the register</h2>
+    <p class="cap-body">
+      Every screen is built from components in one Figma file. The app side keeps to CVS's existing patterns: product and order cards, the eligibility tag, five button styles, a text field with four states, and the added-to-cart sheet. The register has its own small set, drawn for the 15.6-inch customer screen: a header in two states, an item row that can be eligible, not eligible or removed, two banners, and four button styles.
+    </p>
+
+    <div class="pos-flow is-single">
+      <figure class="pos-state">
+        <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/kit/patterns.png" alt="The app components: a product card, the FSA and HSA account cards, two order cards, the FSA/HSA and Not eligible tags, five button styles, a text field in default, focus, error and valid states, a sub-page header, the benefits search field, a pickup or ship segmented control, and the added-to-cart sheet" /></div>
+        <figcaption class="pos-state__cap">App patterns, in CVS's design language</figcaption>
+      </figure>
+      <figure class="pos-state">
+        <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/kit/pos.png" alt="The register components: the customer-screen header with and without a recognised shopper, an item row in eligible, not eligible and removed states, a success and a warning banner, and primary, outlined, text and danger button styles" /></div>
+        <figcaption class="pos-state__cap">Register components, for a 1366 by 768 customer screen</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- DESIGN BREAKDOWN -->
   <section id="breakdown" class="cap-section">
     <div class="cap-eyebrow">Design Breakdown</div>
@@ -235,7 +314,7 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Connecting a benefits account</h3>
-        <p class="cap-body">You log in on the provider's own page. CVS receives balances and plan dates and never sees the password.</p>
+        <p class="cap-body">You log in on the provider's own page, and CVS receives the balances and plan dates.</p>
       </div>
     </div>
 
@@ -312,11 +391,11 @@
       </figure>
       <div class="handoff__link" aria-hidden="true"></div>
       <div class="handoff__pos">
-        <img class="is-on" data-step="1" src="../images/cvs/pos/panel-1.png" alt="Register screen asking the shopper to scan their ExtraCare card" />
-        <img data-step="2" src="../images/cvs/pos/panel-2.png" alt="Register screen after the barcode is read: Hi, Edward, $31.48 can go on your FSA" aria-hidden="true" />
-        <img data-step="3" src="../images/cvs/pos/panel-3.png" alt="Step 1 of 2: tap or insert the FSA card for $31.48" aria-hidden="true" />
-        <img data-step="4" src="../images/cvs/pos/panel-4.png" alt="FSA paid $31.48. Step 2 of 2: pay the remaining $2.49 with another card" aria-hidden="true" />
-        <img data-step="5" src="../images/cvs/pos/panel-5.png" alt="You're all set: $31.48 on WEX FSA and $2.49 on Visa" aria-hidden="true" />
+        <img class="is-on" data-step="1" src="../images/cvs/pos/1-scan-prompt.png" alt="Register screen asking the shopper to scan their ExtraCare card" />
+        <img data-step="2" src="../images/cvs/pos/2-recognized.png" alt="Register screen after the barcode is read: Hi, Edward, $31.48 can go on your FSA" aria-hidden="true" />
+        <img data-step="3" src="../images/cvs/pos/3-pay-fsa.png" alt="Step 1 of 2: tap or insert the FSA card for $31.48" aria-hidden="true" />
+        <img data-step="4" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48. Step 2 of 2: pay the remaining $2.49 with another card" aria-hidden="true" />
+        <img data-step="5" src="../images/cvs/pos/5-done.png" alt="You're all set: $31.48 on WEX FSA and $2.49 on Visa" aria-hidden="true" />
       </div>
       <p class="handoff__label">The shopper's phone</p>
       <span aria-hidden="true"></span>
@@ -356,65 +435,134 @@
       Shoppers who do not use the app still pay at the register, so its customer screen shows the same split to everyone and takes one card at a time.
     </p>
 
-    <!-- Laid out after a moment on wendyyudesign.com/capsule: the screen sits
-         on a tinted plate, and the choices and the note stand beside it as a
-         column. From 1600px they sit side by side; narrower, the column is
-         above so the register keeps enough width to be read. -->
-    <figure class="pos-demo is-moment">
-      <div class="pos-side">
-      <div class="pos-paths" role="group" aria-label="Ways checkout can end">
-        <button type="button" class="pos-path" aria-pressed="true" data-steps="1 2 3 4 5" data-note="The FSA card pays for the eligible items first, then a second card pays for the rest.">Paid in two steps</button>
-        <button type="button" class="pos-path" aria-pressed="false" data-steps="3 6 7" data-note="The FSA covers $20.00 of $31.48, and the remaining $11.48 moves to the second card.">FSA balance too low</button>
-        <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 9" data-note="After the FSA has paid, the shopper can remove the item that needed a second card.">Remove an item</button>
-        <button type="button" class="pos-path" aria-pressed="false" data-steps="4 8 10" data-note="Cancelling after the FSA has paid refunds the FSA payment.">Cancel the order</button>
-      </div>
-      <p class="pos-note">The FSA card pays for the eligible items first, then a second card pays for the rest.</p>
-      </div>
-      <div class="pos-plate">
-      <div class="pos-stage">
-        <img class="is-on" data-step="1" data-label="Scan prompt" src="../images/cvs/pos/1-scan-prompt.png" alt="Customer screen asking the shopper to scan their ExtraCare card while the item list is still empty" />
-        <img data-step="2" data-label="Recognized" src="../images/cvs/pos/2-recognized.png" alt="Customer screen greeting Edward, with two of three items FSA/HSA eligible and $31.48 able to go on the FSA" aria-hidden="true" />
-        <img data-step="3" data-label="Pay with FSA" src="../images/cvs/pos/3-pay-fsa.png" alt="Step 1 of 2: tap or insert the FSA card for $31.48 covering the two eligible items" aria-hidden="true" />
-        <img data-step="4" data-label="FSA paid, pay the rest" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48 for 2 items. Step 2 of 2: pay the remaining $2.49 with another card" aria-hidden="true" />
-        <img data-step="5" data-label="Done" src="../images/cvs/pos/5-done.png" alt="All set: WEX FSA paid $31.48 for eligible items and Visa paid $2.49 for everything else, total $33.97" aria-hidden="true" />
-        <img data-step="6" data-label="FSA balance too low" src="../images/cvs/pos/6-balance-low.png" alt="Alert that the FSA covered $20.00 of $31.48, the rest of its balance, leaving $13.97 to pay: $11.48 eligible plus $2.49 other" aria-hidden="true" />
-        <img data-step="7" data-label="Done" src="../images/cvs/pos/7-done-low.png" alt="All set: WEX FSA paid $20.00, all of its balance, and Visa paid the remaining $13.97" aria-hidden="true" />
-        <img data-step="8" data-label="Cancel the rest?" src="../images/cvs/pos/8-cancel-rest.png" alt="Cancel the rest? The FSA already paid $31.48, with options to pay $2.49 now, remove the Hershey's bar, or cancel the whole order" aria-hidden="true" />
-        <img data-step="9" data-label="Item removed, done" src="../images/cvs/pos/9-item-removed.png" alt="The Hershey's bar is struck through as removed, and the order is complete at $31.48 paid by the FSA" aria-hidden="true" />
-        <img data-step="10" data-label="Order canceled" src="../images/cvs/pos/10-order-canceled.png" alt="Order canceled, with the FSA payment of $31.48 reversed" aria-hidden="true" />
-      </div>
-      </div>
-      <ol class="pos-steps"></ol>
-    </figure>
-  </section>
-
-  <!-- FUTURE OPPORTUNITIES -->
-  <section id="future" class="cap-section">
-    <div class="cap-eyebrow">Future Opportunities</div>
-    <h2 class="cap-title">What the design does not cover yet</h2>
-    <div class="cap-cards is-pair">
-      <div class="cap-card">
-        <h3>A provider login that fails</h3>
-        <p>Every login in the prototype succeeds. It has no screens yet for a wrong password, a locked account or a provider outage.</p>
-      </div>
-      <div class="cap-card">
-        <h3>The plan can refuse what the register approves</h3>
-        <p>The register checks whether a product is eligible, and the shopper's plan can still decline it. A limited-purpose FSA covers only dental and vision, so the app needs a state for when the two disagree.</p>
+    <!-- The register, one screen per state, read by scrolling, after the
+         design breakdown on wendyyudesign.com/capsule: each state on its own
+         tinted plate with its title and one line beside it, the two sides
+         swapping row by row. The main path runs all five steps; the other
+         three show only the screens they add. -->
+    <h3 class="cap-moment">Paid in two steps</h3>
+    <p class="cap-body">The FSA card pays for the eligible items first, then a second card pays for the rest.</p>
+    <div class="pos-row">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/1-scan-prompt.png" alt="Customer screen asking the shopper to scan their ExtraCare card while the item list is still empty" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">1</span>Scan prompt</h4>
+        <p class="cap-body">The screen asks for the ExtraCare card before anything is scanned.</p>
       </div>
     </div>
-    <p class="case-sources">
-      Sources:
-      <a href="https://support.joinforma.com/hc/en-us/articles/13470294494103-Why-is-my-FSA-HSA-card-being-declined-at-a-pharmacy" target="_blank" rel="noopener">Forma on limited-purpose FSAs at pharmacies</a>;
-      <a href="https://amben.com/article/Inventory_Information_Approval_System.html" target="_blank" rel="noopener">American Benefits Group on IIAS approvals</a>.
-    </p>
+    <div class="pos-row is-flipped">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/2-recognized.png" alt="Customer screen greeting Edward, with two of three items FSA/HSA eligible and $31.48 able to go on the FSA" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">2</span>Recognized</h4>
+        <p class="cap-body">Two of the three items are eligible, and $31.48 can go on the FSA.</p>
+      </div>
+    </div>
+    <div class="pos-row">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/3-pay-fsa.png" alt="Step 1 of 2: tap or insert the FSA card for $31.48 covering the two eligible items" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">3</span>Pay with the FSA card</h4>
+        <p class="cap-body">Step 1 of 2: tap or insert the FSA card for $31.48.</p>
+      </div>
+    </div>
+    <div class="pos-row is-flipped">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48 for 2 items. Step 2 of 2: pay the remaining $2.49 with another card" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">4</span>FSA paid, pay the rest</h4>
+        <p class="cap-body">The FSA paid $31.48 for two items. Step 2 of 2 is $2.49 on another card.</p>
+      </div>
+    </div>
+    <div class="pos-row">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/5-done.png" alt="All set: WEX FSA paid $31.48 for eligible items and Visa paid $2.49 for everything else, total $33.97" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">5</span>Done</h4>
+        <p class="cap-body">WEX FSA paid $31.48 and Visa paid $2.49, a total of $33.97.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">FSA balance too low</h3>
+    <p class="cap-body">The FSA covers $20.00 of $31.48, and the remaining $11.48 moves to the second card.</p>
+    <div class="pos-row is-flipped">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/6-balance-low.png" alt="Alert that the FSA covered $20.00 of $31.48, the rest of its balance, leaving $13.97 to pay: $11.48 eligible plus $2.49 other" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">1</span>Balance too low</h4>
+        <p class="cap-body">The FSA covered $20.00 of $31.48, all it had left. $13.97 remains: $11.48 eligible and $2.49 other.</p>
+      </div>
+    </div>
+    <div class="pos-row">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/7-done-low.png" alt="All set: WEX FSA paid $20.00, all of its balance, and Visa paid the remaining $13.97" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">2</span>Done, split across two cards</h4>
+        <p class="cap-body">WEX FSA paid $20.00 and Visa paid the remaining $13.97.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Remove an item</h3>
+    <p class="cap-body">After the FSA has paid, the shopper can remove the item that needed a second card.</p>
+    <div class="pos-row is-flipped">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/8-cancel-rest.png" alt="Cancel the rest? The FSA already paid $31.48, with options to pay $2.49 now, remove the Hershey's bar, or cancel the whole order" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">1</span>Cancel the rest?</h4>
+        <p class="cap-body">The FSA has already paid $31.48. The shopper can pay $2.49 now, remove the chocolate bar, or cancel the order.</p>
+      </div>
+    </div>
+    <div class="pos-row">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/9-item-removed.png" alt="The Hershey's bar is struck through as removed, and the order is complete at $31.48 paid by the FSA" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">2</span>Item removed, done</h4>
+        <p class="cap-body">The chocolate bar is removed and the order completes at $31.48 on the FSA.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Cancel the order</h3>
+    <p class="cap-body">Cancelling after the FSA has paid refunds the FSA payment.</p>
+    <div class="pos-row is-flipped">
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/10-order-canceled.png" alt="Order canceled, with the FSA payment of $31.48 reversed" /></div>
+      <div class="pos-row__text">
+        <h4 class="pos-row__title"><span class="pos-num">1</span>Order canceled</h4>
+        <p class="cap-body">The order is cancelled and the $31.48 FSA payment is reversed.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- REFLECTIONS -->
+    <!-- FUTURE OPPORTUNITIES (what a longer project would do next) -->
   <section id="reflections" class="cap-section">
-    <div class="cap-eyebrow">Reflections</div>
-    <p class="cap-body">
-      The register was harder to design than the app. Shoppers read their phone at their own pace, but at the register there is a line behind them, so each screen had to be quick to read.
-    </p>
+    <div class="cap-eyebrow">Future Opportunities</div>
+
+    <h3 class="cap-moment">What reframing was worth</h3>
+    <p class="cap-body">Asking who already had the answer changed the scope of the project.</p>
+    <dl class="cap-list">
+      <div class="cap-list__item">
+        <dt>For CVS</dt>
+        <dd>Forfeited FSA money is spending that already belongs to health retail, and it is measured in the dollars the brief asked for. The register already works out the split, so showing it costs a screen and reaches every shopper, with or without the app.</dd>
+      </div>
+      <div class="cap-list__item">
+        <dt>For me</dt>
+        <dd>I learned to check what a system already knows before designing something new on top of it. It also put me in the conversation about what to build, and that is the conversation I want to be in.</dd>
+      </div>
+    </dl>
+
+    <h3 class="cap-moment">With more time</h3>
+    <dl class="cap-list">
+      <div class="cap-list__item">
+        <dt>The real tokens</dt>
+        <dd>The prototype is set in Inter with sampled colours. I would re-skin the flow in CVS Health Sans and the actual palette.</dd>
+      </div>
+      <div class="cap-list__item">
+        <dt>CVS's own benefits data</dt>
+        <dd>The region's package has no FSA or HSA numbers, so the case rests on national averages. With CVS's own attach and register conversion rates it would hold a real number.</dd>
+      </div>
+      <div class="cap-list__item">
+        <dt>Sessions with the people it is for</dt>
+        <dd>A WCAG self-audit checked contrast and labels. Moderated sessions with seniors and first-time FSA users would show what an automated check cannot.</dd>
+      </div>
+      <div class="cap-list__item">
+        <dt>Real register hardware</dt>
+        <dd>The gap between a card tap and a confirmed split is a timing problem, and Figma cannot stage it. I would prototype it on point-of-sale hardware.</dd>
+      </div>
+      <div class="cap-list__item">
+        <dt>A deadline that does something</dt>
+        <dd>"86 days left" states a fact. A reminder before the deadline, or a nudge toward eligible items, would help people act on it.</dd>
+      </div>
+    </dl>
   </section>
 
   <!-- BACK -->

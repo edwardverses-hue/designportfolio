@@ -257,7 +257,6 @@ h1, h2, h3, h4, h5, h6 {
    The overflow and the relative position are what hold the canvas to the
    section; the margin on the copy is what lifts it clear of the heads. */
 
-
 .hero-headline {
   font-size: 16px;
   font-weight: 300;
@@ -2033,7 +2032,6 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 24px;
 }
 
-
 .widget-col {
   min-width: 0;
   display: flex;
@@ -2387,9 +2385,7 @@ mark.draft {
   text-align: center;
 }
 
-.motion-toggle:focus-visible,
-.pos-path:focus-visible,
-.pos-steps button:focus-visible {
+.motion-toggle:focus-visible {
   outline: 1px solid #000000;
   outline-offset: 3px;
 }
@@ -2398,105 +2394,9 @@ mark.draft {
   margin: 8px 0 24px;
 }
 
-/* The register's customer screen. Ten stills, and between any two of them
-   only the right-hand panel changes, so stacking them and fading from one to
-   the next shows exactly what moves at each step and nothing else. */
-.pos-demo {
-  max-width: 1100px;
-  margin: 48px auto;
-  padding: 0 24px;
-}
-
-.pos-paths {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.pos-path {
-  font: inherit;
-  font-size: 15px;
-  font-weight: 400;
-  padding: 9px 15px;
-  border-radius: 999px;
-  border: 1px solid #E5E5E5;
-  background: #FFFFFF;
-  color: #000000;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.pos-path[aria-pressed="true"] {
-  background: #000000;
-  border-color: #000000;
-  color: #FFFFFF;
-}
-
-.pos-stage {
-  position: relative;
-  aspect-ratio: 1366 / 768;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid #E5E5E5;
-  background: #FFFFFF;
-}
-
-.pos-stage img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-.pos-stage img.is-on {
-  opacity: 1;
-}
-
-.pos-steps {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px 22px;
-  margin: 20px 0 0;
-  padding: 0;
-  font-size: 15px;
-  color: var(--grey);
-}
-
-.pos-steps button {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: 0;
-  padding: 4px 0;
-  cursor: pointer;
-}
-
-.pos-steps button[aria-current="step"] {
-  color: #000000;
-}
-
-.pos-steps .pos-num {
-  margin-right: 6px;
-  letter-spacing: 0.02em;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .proto-screen iframe,
-  .pos-stage img,
-  .pos-path {
+  .proto-screen iframe {
     transition: none;
-  }
-}
-
-@media (max-width: 720px) {
-  .pos-stage {
-    border-radius: 12px;
   }
 }
 
@@ -2687,12 +2587,10 @@ mark.draft {
 
 /* READING TEXT. The site tightens all its type by 0.015em, which suits the
    titles and starves small text. Anything meant to be read in sentences on
-   the case studies is opened up instead, the way the reference sets its body. */
-.cap-page .case-description,
+   the case studies is opened up instead, the way the reference sets its body. */.cap-page .case-description,
 .cap-body,
 .cap-card p,
 .cap-pair figcaption,
-.pos-note,
 .reframe-sub,
 .cap-page .widget-cap {
   letter-spacing: 0.01em;
@@ -2744,14 +2642,6 @@ mark.draft {
     max-width: 270px;
     margin: 0 auto 26px;
   }
-}
-
-/* Inside the Capsule column the register sits on the column's left edge like
-   every other figure, rather than centred in a box of its own. */
-.cap-page .pos-demo {
-  max-width: 1000px;
-  margin: 26px 0 0;
-  padding: 0;
 }
 
 .cap-page .proto-open {
@@ -2970,8 +2860,8 @@ mark.draft {
   }
 }
 
-/* ---------- CVS CASE STUDY: LOOPS, HANDOFF, REGISTER ---------- */
-/* The page's one motion control. Every phone and the register loop on their
+/* ---------- CVS CASE STUDY: LOOPS AND HANDOFF ---------- */
+/* The page's one motion control. Every phone and the handoff loop on their
    own, so instead of a button under each figure there is this, in a corner it
    can keep for the whole page. */
 .motion-toggle {
@@ -2996,9 +2886,9 @@ mark.draft {
    message changes and where the ExtraCare pill appears once the card is read.
    At this height the panel's type is close to its designed size. */
 .handoff {
-  --handoff-h: min(74vh, 680px);
+  --handoff-h: min(60vh, 560px);
   display: grid;
-  grid-template-columns: auto 72px auto;
+  grid-template-columns: auto 72px minmax(0, 1fr);
   grid-template-rows: auto auto;
   align-items: center;
   justify-content: start;
@@ -3017,21 +2907,25 @@ mark.draft {
   width: auto;
 }
 
+/* The whole customer screen, on the same plate as the register below, so
+   the two sides of the handoff carry equal weight: the phone is tall and the
+   register is wide, and the row centres them on each other. */
 .handoff__pos {
   position: relative;
-  height: var(--handoff-h);
-  aspect-ratio: 582 / 768;
-  border: 1px solid #E5E5E5;
-  border-radius: 16px;
+  width: 100%;
+  aspect-ratio: 1366 / 768;
+  border-radius: 20px;
   overflow: hidden;
-  background: #FFFFFF;
+  background: var(--surface);
 }
 
 .handoff__pos img {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: 3.2%;
+  width: 93.6%;
+  height: 93.6%;
+  border-radius: 8px;
+  background: #FFFFFF;
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -3095,24 +2989,6 @@ mark.draft {
   text-align: center;
 }
 
-/* The register, at the width the Capsule case study gives its wide videos and
-   a little more where the window allows, so the full screen is readable. */
-@media (min-width: 1200px) {
-  .cap-page .pos-demo {
-    max-width: none;
-    width: min(1160px, calc(100vw - 258px));
-  }
-}
-
-.pos-note {
-  max-width: 720px;
-  margin: 16px auto 0;
-  font-size: 16px;
-  line-height: 1.55;
-  text-align: center;
-  min-height: 3.1em;
-}
-
 @media (max-width: 900px) {
   .handoff {
     --handoff-h: auto;
@@ -3126,7 +3002,6 @@ mark.draft {
   }
 
   .handoff__pos {
-    height: auto;
     width: 100%;
     max-width: 420px;
   }
@@ -3577,84 +3452,6 @@ html.has-cursor .about-pill:hover {
   }
 }
 
-/* ---------- RESEARCH CHART (CVS) ----------
-   A plain bar comparison: the share of accountholders who spent from their FSA
-   against the share who still forfeited money. Bars are drawn on a track that
-   stands for 100%, so their lengths can be compared by eye; the numbers sit at
-   the end of each bar for anyone who reads rather than measures. The older
-   year is grey so it reads as context for the 2022 rows. */
-.cap-chart {
-  max-width: 720px;
-  margin: 30px 0 0;
-}
-
-.cap-chart__title {
-  font-size: 15px;
-  color: var(--grey);
-  margin: 0 0 14px;
-}
-
-.cap-chart__row {
-  display: grid;
-  grid-template-columns: 210px minmax(0, 1fr) 44px;
-  align-items: center;
-  column-gap: 16px;
-  margin-bottom: 14px;
-}
-
-.cap-chart__label {
-  font-size: 15px;
-  letter-spacing: 0.01em;
-}
-
-.cap-chart__bar {
-  display: block;
-  height: 12px;
-  border-radius: 999px;
-  background: var(--surface);
-  overflow: hidden;
-}
-
-.cap-chart__bar span {
-  display: block;
-  height: 100%;
-  border-radius: 999px;
-  background: #000000;
-}
-
-.cap-chart__row.is-past .cap-chart__bar span {
-  background: var(--grey);
-}
-
-.cap-chart__row.is-past .cap-chart__label,
-.cap-chart__row.is-past .cap-chart__value {
-  color: var(--grey);
-}
-
-.cap-chart__value {
-  font-size: 15px;
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-.cap-chart__note {
-  font-size: 13px;
-  color: var(--grey);
-  margin: 6px 0 0;
-}
-
-@media (max-width: 720px) {
-  .cap-chart__row {
-    grid-template-columns: minmax(0, 1fr) 44px;
-    row-gap: 6px;
-  }
-
-  .cap-chart__label {
-    grid-column: 1 / -1;
-  }
-}
-
-
 /* ---------- PAGE GRID FOR THE CASE STUDIES ----------
    Measured off wendyyudesign.com/bumble: the same 200px margin on the left and
    the right at every window width, so the column is the window less 400px.
@@ -3668,14 +3465,12 @@ html.has-cursor .about-pill:hover {
    section rail appears and needs them (it ends at 170px); below that the
    column keeps its centred layout with equal side padding. */
 
-/* Wide: the full column. */
-.cap-page .case-meta,
+/* Wide: the full column. */.cap-page .case-meta,
 .cap-page .case-toc,
 .cap-page .cap-cards,
 .cap-page .cap-cards.is-pair,
 .cap-page .split-row,
 .cap-page .split-row:has(> .split-art.is-still),
-.cap-page .pos-demo,
 .cap-page .handoff,
 .cap-page .full-image,
 .cap-page .kit-duo,
@@ -3690,8 +3485,7 @@ html.has-cursor .about-pill:hover {
 .cap-page .cap-body,
 .cap-page .cap-pull,
 .cap-page .case-sources,
-.cap-page .reframe,
-.cap-page .cap-chart {
+.cap-page .reframe {
   max-width: 620px;
 }
 
@@ -3723,81 +3517,10 @@ html.has-cursor .about-pill:hover {
   }
 }
 
-/* The register's path buttons, step list and note start on the page's left
-   edge with everything else, rather than centring under the screen. */
-.cap-page .pos-paths,
-.cap-page .pos-steps {
-  justify-content: flex-start;
-}
-
-.cap-page .pos-note {
-  margin-left: 0;
-  text-align: left;
-}
-
-/* ---------- THE REGISTER AS A MOMENT ----------
-   After a moment on wendyyudesign.com/capsule, measured off it: the screen
-   sits inset on a plate of rgb(237, 241, 247) with 24px corners and no border,
-   and the words stand beside it in a column. The plate's tint is the frame,
-   so the screen itself loses its outline. The register export is 1366px wide
-   and has to stay readable, so the two only sit side by side from 1600px,
-   where the screen still shows at about two thirds; below that the column
-   goes above and the plate takes the full width. */
-.pos-demo.is-moment {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 22px;
-}
-
-.pos-side {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 14px;
-}
-
-.pos-demo.is-moment .pos-paths {
-  flex-direction: row;
-  margin: 0;
-}
-
-.pos-demo.is-moment .pos-note {
-  max-width: 620px;
-  margin: 0;
-  min-height: 0;
-}
-
 .pos-plate {
-  background: rgb(237, 241, 247);
+  background: var(--surface);
   border-radius: 24px;
   padding: 28px;
-}
-
-.pos-demo.is-moment .pos-stage {
-  border: 0;
-  border-radius: 12px;
-  background: #FFFFFF;
-}
-
-.pos-demo.is-moment .pos-steps {
-  margin-top: 4px;
-}
-
-@media (min-width: 1600px) {
-  .pos-demo.is-moment {
-    grid-template-columns: 300px minmax(0, 1fr);
-    align-items: center;
-    column-gap: 40px;
-  }
-
-  .pos-demo.is-moment .pos-paths {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .pos-demo.is-moment .pos-steps {
-    grid-column: 2;
-  }
 }
 
 @media (max-width: 720px) {
@@ -3805,8 +3528,361 @@ html.has-cursor .about-pill:hover {
     padding: 12px;
     border-radius: 18px;
   }
+}
 
-  .pos-demo.is-moment .pos-stage {
+/* ---------- THE REGISTER, ONE SCREEN PER STATE ----------
+   After the design breakdown on wendyyudesign.com/capsule: the states are
+   read by scrolling, each on its own plate with a short label beside it,
+   instead of behind buttons. The plate is the one measured off Capsule. Two
+   screens share a row where the window allows, so a five-step path is not
+   five full-width plates, and on a phone they stack. */
+.pos-flow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 24px;
+  margin: 22px 0 0;
+}
+
+.pos-state {
+  margin: 0;
+  min-width: 0;
+}
+
+.pos-state .pos-plate {
+  padding: 18px;
+  border-radius: 20px;
+}
+
+.pos-state img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: #FFFFFF;
+}
+
+.pos-state__cap {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--grey);
+}
+
+.pos-state__cap .pos-num {
+  margin-right: 8px;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 720px) {
+  .pos-flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .pos-state .pos-plate {
+    padding: 10px;
+    border-radius: 16px;
+  }
+}
+
+/* One sheet per row, for the component sheets, which are wide. */
+.pos-flow.is-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ---------- THE REGISTER, ALTERNATING ROWS ----------
+   After the design breakdown on wendyyudesign.com/capsule: each state is a
+   plated screen about two thirds of the column wide, with its title and one
+   line beside it, vertically centred, and the sides swap row by row. The
+   plate is the one measured off Capsule. On a phone the screen comes first and
+   the words follow, whichever side they took. */
+.pos-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  column-gap: 40px;
+  align-items: center;
+  margin: 26px 0 0;
+}
+
+.pos-row.is-flipped {
+  grid-template-columns: 280px minmax(0, 1fr);
+}
+
+.pos-row.is-flipped .pos-plate {
+  order: 2;
+}
+
+.pos-row .pos-plate {
+  padding: 22px;
+  border-radius: 24px;
+  min-width: 0;
+}
+
+.pos-row .pos-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: #FFFFFF;
+}
+
+.pos-row__title {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.25;
+  margin: 0 0 10px;
+}
+
+.pos-row__title .pos-num {
+  color: var(--grey);
+  margin-right: 10px;
+  letter-spacing: 0.02em;
+}
+
+.pos-row__text .cap-body {
+  margin: 0;
+}
+
+.cap-body + .pos-row {
+  margin-top: 22px;
+}
+
+@media (max-width: 900px) {
+  .pos-row,
+  .pos-row.is-flipped {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 14px;
+  }
+
+  .pos-row.is-flipped .pos-plate {
+    order: 0;
+  }
+
+  .pos-row .pos-plate {
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .pos-row .pos-plate img {
     border-radius: 8px;
   }
+}
+
+/* ---------- RESEARCH EVIDENCE (CVS) ----------
+   Two pieces of evidence side by side under the research intro, as on
+   wendyyudesign.com/bumble: a table of the earlier initiatives and a paired
+   bar chart. Both are set in the system's own greys and hairlines, no fill,
+   and stack on a phone. The chart pairs two shares per age band so the gap
+   between them is the thing read: dark is the share of in-app redemptions,
+   grey the share of shoppers. */
+.cap-evidence {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 40px;
+  margin: 30px 0 0;
+}
+
+.cap-evidence__item {
+  margin: 0;
+  min-width: 0;
+}
+
+.cap-evidence__cap {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--grey);
+}
+
+.cap-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.cap-table th,
+.cap-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.cap-table th {
+  font-weight: 300;
+  color: var(--grey);
+  padding-top: 0;
+}
+
+.cap-table td:first-child {
+  white-space: nowrap;
+}
+
+.cap-pairs {
+  font-size: 14px;
+}
+
+.cap-pairs__key {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 14px;
+  color: var(--grey);
+}
+
+.cap-pairs__key span::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: -1px;
+  background: #000000;
+}
+
+.cap-pairs__key span.is-base::before {
+  background: #BDBDBD;
+}
+
+.cap-pairs__band {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  column-gap: 14px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.cap-pairs__label {
+  color: var(--grey);
+}
+
+.cap-pairs__bars {
+  display: grid;
+  row-gap: 3px;
+}
+
+.cap-pairs__bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 18px;
+  min-width: 40px;
+  padding-right: 7px;
+  border-radius: 3px;
+  background: #000000;
+}
+
+.cap-pairs__bar.is-base {
+  background: #BDBDBD;
+}
+
+.cap-pairs__bar b {
+  font-weight: 300;
+  font-size: 12px;
+  color: #FFFFFF;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  .cap-evidence {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+  }
+
+  .cap-table td:first-child {
+    white-space: normal;
+  }
+}
+
+/* On a phone the initiatives table has no room for four columns, so each row
+   becomes a short block: the initiative, then when it ran and its status on
+   one line, then the result. The header row goes, since the labels are
+   implied by the order. */
+@media (max-width: 720px) {
+  .cap-table thead {
+    display: none;
+  }
+
+  .cap-table tbody tr {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid #E5E5E5;
+  }
+
+  .cap-table td {
+    border: 0;
+    padding: 0;
+  }
+
+  .cap-table td:nth-child(1) {
+    grid-row: 1;
+    grid-column: 1 / -1;
+    margin-bottom: 2px;
+  }
+
+  .cap-table td:nth-child(2) {
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  .cap-table td:nth-child(4) {
+    grid-row: 2;
+    grid-column: 2;
+  }
+
+  .cap-table td:nth-child(2)::after {
+    content: " ·";
+    color: var(--grey);
+  }
+
+  .cap-table td:nth-child(2),
+  .cap-table td:nth-child(4) {
+    color: var(--grey);
+  }
+
+  .cap-table td:nth-child(3) {
+    grid-row: 3;
+    grid-column: 1 / -1;
+    margin-top: 4px;
+  }
+}
+
+/* ---------- HAIRLINE LIST ----------
+   Short items under a heading, each a title and one line, separated by the
+   system hairline. Used for the reflections' "with more time" list, where
+   cards would be heavy and a paragraph would not scan. */
+.cap-list {
+  max-width: 620px;
+  margin: 22px 0 0;
+}
+
+.cap-list__item {
+  padding: 16px 0;
+  border-top: 1px solid #E5E5E5;
+}
+
+.cap-list__item:last-child {
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.cap-list dt {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.25;
+  margin: 0 0 6px;
+}
+
+.cap-list dd {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* A list that follows a lead sentence sits closer to it than to a heading. */
+.cap-body + .cap-list {
+  margin-top: 14px;
 }
