@@ -2552,7 +2552,6 @@ mark.draft {
 .cap-page .case-title,
 .cap-title,
 .cap-moment,
-.cap-note,
 .cap-card h3,
 .cap-pull {
   text-wrap: balance;
@@ -2570,19 +2569,6 @@ mark.draft {
   aspect-ratio: auto;
   height: min(68vh, 640px);
   border-radius: 0;
-}
-
-/* A short label over the sentences beside a screen, as the reference does
-   beside each of its moments. */
-.cap-note {
-  font-size: 20px;
-  font-weight: 300;
-  line-height: 1.25;
-  margin: 0 0 8px;
-}
-
-.cap-note + .cap-body + .cap-note {
-  margin-top: 22px;
 }
 
 /* A live phone inside a split row. The row's art column is sized for a still,
