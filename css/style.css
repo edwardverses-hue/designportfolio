@@ -507,8 +507,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .meta-label {
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
 }
 
@@ -544,8 +543,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .section-label {
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
   margin-bottom: 20px;
 }
@@ -637,8 +635,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .ba-tag {
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
   margin-bottom: 16px;
 }
@@ -700,14 +697,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Titles, subheads and labels are the reference's, measured: 24px, 20px and
-   capitals at 15px. Reading text is a step above its 15px, at 16px, and opened
+   labels at 15px in sentence case. Reading text is a step above its 15px, at 16px, and opened
    up slightly rather than tightened like the rest of the site (see READING
    TEXT below), because Helvetica Neue Light at 15px with negative tracking set
    the same sentence about 6% narrower than the reference does. */
 .cap-eyebrow {
   font-size: 15px;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
   color: var(--grey);
   margin-bottom: 10px;
 }
@@ -1219,8 +1215,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .note-label {
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
   line-height: 1.5;
   padding-top: 5px;
@@ -1245,8 +1240,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .takeaway-label {
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
   margin-bottom: 14px;
 }
@@ -1271,8 +1265,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .reframe-label {
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
   line-height: 1.5;
   padding-top: 7px;
@@ -1409,8 +1402,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .signal-head {
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
   margin: 14px 0 20px;
 }
@@ -1959,8 +1951,7 @@ h1, h2, h3, h4, h5, h6 {
   transform: translateX(-50%);
   font-size: 11px;
   font-weight: 300;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
   transition: opacity 0.4s ease;
   z-index: 2;
@@ -2267,8 +2258,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto 48px;
   padding: 0 24px;
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--grey);
 }
 
@@ -3676,9 +3666,15 @@ html.has-cursor .about-pill:hover {
    grey the share of shoppers. */
 .cap-evidence {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: 40px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 34px;
   margin: 30px 0 0;
+}
+
+/* The coupon sheet is a narrow tab, so it sits at its own width rather than
+   being stretched to the column. */
+.cap-evidence__item.is-narrow {
+  max-width: 568px;
 }
 
 .cap-evidence__item {
@@ -3693,105 +3689,10 @@ html.has-cursor .about-pill:hover {
   color: var(--grey);
 }
 
-.cap-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
-}
-
-.cap-table th,
-.cap-table td {
-  text-align: left;
-  vertical-align: top;
-  padding: 10px 12px 10px 0;
-  border-bottom: 1px solid #E5E5E5;
-}
-
-.cap-table th {
-  font-weight: 300;
-  color: var(--grey);
-  padding-top: 0;
-}
-
-.cap-table td:first-child {
-  white-space: nowrap;
-}
-
-.cap-pairs {
-  font-size: 14px;
-}
-
-.cap-pairs__key {
-  display: flex;
-  gap: 18px;
-  margin-bottom: 14px;
-  color: var(--grey);
-}
-
-.cap-pairs__key span::before {
-  content: "";
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  margin-right: 6px;
-  vertical-align: -1px;
-  background: #000000;
-}
-
-.cap-pairs__key span.is-base::before {
-  background: #BDBDBD;
-}
-
-.cap-pairs__band {
-  display: grid;
-  grid-template-columns: 52px minmax(0, 1fr);
-  column-gap: 14px;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.cap-pairs__label {
-  color: var(--grey);
-}
-
-.cap-pairs__bars {
-  display: grid;
-  row-gap: 3px;
-}
-
-.cap-pairs__bar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  height: 18px;
-  min-width: 40px;
-  padding-right: 7px;
-  border-radius: 3px;
-  background: #000000;
-}
-
-.cap-pairs__bar.is-base {
-  background: #BDBDBD;
-}
-
-.cap-pairs__bar b {
-  font-weight: 300;
-  font-size: 12px;
-  color: #FFFFFF;
-  font-variant-numeric: tabular-nums;
-}
-
 @media (max-width: 900px) {
   .cap-evidence {
     grid-template-columns: minmax(0, 1fr);
     gap: 34px;
-  }
-
-  .cap-table td:first-child {
-    white-space: normal;
   }
 }
 
@@ -3799,56 +3700,6 @@ html.has-cursor .about-pill:hover {
    becomes a short block: the initiative, then when it ran and its status on
    one line, then the result. The header row goes, since the labels are
    implied by the order. */
-@media (max-width: 720px) {
-  .cap-table thead {
-    display: none;
-  }
-
-  .cap-table tbody tr {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: 10px;
-    padding: 12px 0;
-    border-bottom: 1px solid #E5E5E5;
-  }
-
-  .cap-table td {
-    border: 0;
-    padding: 0;
-  }
-
-  .cap-table td:nth-child(1) {
-    grid-row: 1;
-    grid-column: 1 / -1;
-    margin-bottom: 2px;
-  }
-
-  .cap-table td:nth-child(2) {
-    grid-row: 2;
-    grid-column: 1;
-  }
-
-  .cap-table td:nth-child(4) {
-    grid-row: 2;
-    grid-column: 2;
-  }
-
-  .cap-table td:nth-child(2)::after {
-    content: " ·";
-    color: var(--grey);
-  }
-
-  .cap-table td:nth-child(2),
-  .cap-table td:nth-child(4) {
-    color: var(--grey);
-  }
-
-  .cap-table td:nth-child(3) {
-    grid-row: 3;
-    grid-column: 1 / -1;
-    margin-top: 4px;
-  }
-}
 
 /* ---------- HAIRLINE LIST ----------
    Short items under a heading, each a title and one line, separated by the
@@ -3885,4 +3736,14 @@ html.has-cursor .about-pill:hover {
 /* A list that follows a lead sentence sits closer to it than to a heading. */
 .cap-body + .cap-list {
   margin-top: 14px;
+}
+
+/* A spreadsheet recreation shown as a picture: a hairline round it and a
+   small radius, the way the other stills sit, and the whole sheet visible. */
+.cap-sheet {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #E5E5E5;
+  border-radius: 12px;
 }
