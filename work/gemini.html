@@ -32,7 +32,7 @@
   <section class="case-intro">
     <h1 class="case-title">Google Gemini Smart Context</h1>
     <p class="case-description">
-      A redesign of the Gemini home screen on iOS. I first rebuilt the app screen by screen, then replaced its row of generic prompts with two stacks of suggestions: one based on the time and place, and one that returns to recent work.
+      A redesign of the Gemini home screen on iOS. I rebuilt the app screen by screen, then replaced its row of generic prompts with two stacks of suggestions: one for the time and place, one for recent work.
     </p>
 
     <div class="case-meta">
@@ -87,7 +87,7 @@
       </div>
       <div class="cap-card">
         <h3>The most-seen area is unused</h3>
-        <p>The space under the greeting is the first thing people see, and it holds nothing they use.</p>
+        <p>The space under the greeting is the first thing people see, and holds nothing they use.</p>
       </div>
     </div>
   </section>
@@ -111,7 +111,7 @@
       </div>
       <div class="cap-card">
         <h3>The app ignores what it knows</h3>
-        <p>The app knows the time, your location and your last conversation, and none of it appears on the first screen.</p>
+        <p>The app knows the time, your location and your last conversation. None of it reaches the first screen.</p>
       </div>
     </div>
   </section>
@@ -121,7 +121,7 @@
     <div class="cap-eyebrow">The Reframe</div>
     <h2 class="cap-title">Changing the question</h2>
     <p class="cap-body">
-      I started by trying to write better suggested prompts, which only produced a different list. I changed the question to what the home screen should show, given what the app already knows about you.
+      Writing better suggested prompts only produced a different list. I changed the question to what the home screen should show, given what the app already knows about you.
     </p>
 
     <div class="reframe">
@@ -163,7 +163,7 @@
     <div class="cap-eyebrow">Recreation</div>
     <h2 class="cap-title">Rebuilding the app before changing it</h2>
     <p class="cap-body">
-      Gemini uses its own design kit, separate from Material Design, so few parts were available in a library. I drew the typeface, icons, status bar and two keyboards as vectors, then rebuilt each screen of a chat session.
+      Gemini's kit is its own, so little came from a library. I drew the typeface, icons, status bar and two keyboards as vectors, then rebuilt each screen of a chat session.
     </p>
 
     <div class="cap-cards">
@@ -189,7 +189,7 @@
       <div class="split-text">
         <h3 class="cap-moment">Signing in, and getting around</h3>
         <p class="cap-body">
-          Signing in takes one button because the Google account is already on the phone. The side drawer lists new chat, search, images and library, then recent chats.
+          Signing in is one button, since the Google account is already on the phone. The drawer lists new chat, search, images and library, then recents.
         </p>
       </div>
     </div>
@@ -202,7 +202,7 @@
       <div class="split-text">
         <h3 class="cap-moment">Finding an old thread</h3>
         <p class="cap-body">
-          Once a chat leaves the recents list, search is the only way back to it, and you need to remember it exists. The chat opened here, Python Script Help, is the one this project started from.
+          Once a chat leaves recents, search is the only way back, and you have to remember it exists. The chat opened here, Python Script Help, is where this project started.
         </p>
       </div>
     </div>
@@ -215,7 +215,7 @@
       <div class="split-text">
         <h3 class="cap-moment">Asking for something longer</h3>
         <p class="cap-body">
-          I asked a long question to see how the interface handles a long answer. Gemini breaks it up with a heading and a bulleted list, and the sent prompt collapses to one line.
+          A long question tests how the interface handles a long answer. Gemini breaks it up with a heading and a bulleted list, and the sent prompt collapses to one line.
         </p>
       </div>
     </div>
@@ -259,7 +259,7 @@
       <div class="split-text">
         <h3 class="cap-moment">Opening the block fullscreen</h3>
         <p class="cap-body">
-          A button at the top right of the block opens it fullscreen, with the chat input still available. Whole lines fit on the screen.
+          A button at the top right of the block opens it fullscreen, with the chat input still there. Whole lines fit.
         </p>
       </div>
     </div>
@@ -278,7 +278,7 @@
 
     <h3 class="cap-moment">Turning the phone sideways</h3>
     <p class="cap-body">
-      In landscape, long lines fit across the wide edge of the screen. It was the best version for reading code on a phone, but few people review code on a phone. They do it at a desk.
+      In landscape, whole lines fit. It was the best way to read code on a phone, but few people review code on a phone. They use a desk.
     </p>
     <div class="full-image is-bare">
       <img loading="lazy" decoding="async" src="../images/gemini/code-landscape.png" alt="The code view rotated to landscape, with full lines fitting across the wide edge of the screen" />
@@ -311,7 +311,7 @@
 
     <h3 class="kit-duo__label kit-duo-components">Components</h3>
     <p class="cap-body">
-      Every part of a chat session is a component in one Figma file, including the chat bubbles, both keyboards, the side drawer, the feedback sheets and the suggestion cards. I built the stacks from these components so they match the app.
+      Every part of a chat session is a component in one Figma file: bubbles, both keyboards, the drawer, the feedback sheets, the suggestion cards. The stacks are built from these, so they match the app.
     </p>
     <div class="kit-board">
       <img loading="lazy" decoding="async" src="../images/gemini/kit/canvas.png" alt="The Figma canvas holding every recreated Gemini component, including phone frames, chat bubbles, two keyboards, the side drawer, the feedback sheets and the suggestion cards" />
@@ -323,7 +323,7 @@
     <div class="cap-eyebrow">The Redesign</div>
     <h2 class="cap-title">Two stacks of suggestions</h2>
     <p class="cap-body">
-      The greeting stays, and two labelled stacks replace the prompt row. The left stack suggests things for the time and place, and the right one returns to recent work. Each card names something specific, such as Shibam Coffee on Centre Avenue, open until 11 pm, or the next topic in the Python chat.
+      The greeting stays, and two labelled stacks replace the prompt row: the left for the time and place, the right for recent work. Each card names something specific, such as Shibam Coffee on Centre Avenue, open until 11 pm, or the next topic in the Python chat.
     </p>
 
     <!-- Each stack slides between its cards, the two taking turns, as the

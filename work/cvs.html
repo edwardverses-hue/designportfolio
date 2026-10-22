@@ -32,7 +32,7 @@
   <section class="case-intro">
     <h1 class="case-title">CVS Benefits</h1>
     <p class="case-description">
-      The app shows your FSA balance and deadline, tells you whether a product is eligible, and splits your cart between the FSA and another card. The register uses the same split.
+      The app shows your FSA balance and deadline, checks products for eligibility, and splits the cart between the FSA and another card. So does the register.
     </p>
 
     <div class="case-meta">
@@ -57,8 +57,8 @@
     <!-- Section jump links -->
     <div class="case-toc">
       <a href="#brief">The Brief</a>
-      <a href="#reframe">The Reframe</a>
       <a href="#research">Research</a>
+      <a href="#reframe">The Reframe</a>
       <a href="#opportunity">The Opportunity</a>
       <a href="#system">System Overview</a>
       <a href="#components">Components</a>
@@ -74,30 +74,79 @@
     <div class="cap-eyebrow">The Brief</div>
     <h2 class="cap-title">An app feature to keep shoppers in the store longer</h2>
     <p class="cap-body">
-      The brief asked for an app-first feature that keeps customers in CVS stores longer, on the view that more time in the store means more spending. Success was dollars: basket size, return visits, conversion and fewer walk-outs. It came with a prototype from the product manager, ExtraTime, and six earlier initiatives not to repeat. Read against the analytics package, it had three problems:
+      The brief asked for an app-first feature that keeps customers in the store longer, measured in dollars: basket size, return visits, conversion and fewer walk-outs. It came with a prototype, ExtraTime, and six earlier initiatives not to repeat. Read against the analytics package, it had three problems:
     </p>
 
     <div class="cap-cards">
       <div class="cap-card">
         <h3>Time in the store was already up</h3>
-        <p>Dwell rose 14% after the endcaps moved, and abandonment rose two points with it. More minutes had not turned into more spending.</p>
+        <p>Dwell rose 14% after the endcaps moved, and abandonment rose two points with it.</p>
       </div>
       <div class="cap-card">
         <h3>App-first leaves out the most loyal shoppers</h3>
-        <p>Seniors visit most and fill the most prescriptions, and made 4% of in-app coupon redemptions.</p>
+        <p>Seniors, the most loyal shoppers, made 4% of in-app coupon redemptions.</p>
       </div>
       <div class="cap-card">
         <h3>Nudges to stay had backfired</h3>
-        <p>The two-hour ExtraBucks timer drew the sharpest survey comments and an accessibility settlement. Legal now reviews anything time-based.</p>
+        <p>The two-hour ExtraBucks timer drew the sharpest survey comments and a $47,500 settlement.</p>
       </div>
     </div>
+  </section>
+
+  <!-- RESEARCH
+       From the Region 4 analytics package that came with the brief. Laid out
+       after the research section on wendyyudesign.com/bumble: what was read,
+       the evidence itself, three insights, one takeaway. The coupon shares are
+       computed from the workbook's monthly rows. -->
+  <section id="research" class="cap-section">
+    <div class="cap-eyebrow">Research</div>
+    <h2 class="cap-title">What the region had already tried</h2>
+    <p class="cap-body">
+      The brief came with Region 4's analytics package: thirty months of metrics from eight Pittsburgh stores, six earlier initiatives and their results, coupon redemptions by age, and a sample of survey comments. I read it for what had already been tried, and how shoppers answered.
+    </p>
+
+    <div class="cap-evidence">
+      <figure class="cap-evidence__item">
+        <img class="cap-sheet" loading="lazy" decoding="async" src="../images/cvs/research/initiatives.png" alt="The Historical Initiatives tab: six rows, INIT-01 to INIT-06, with each initiative's description, launch and end dates, stores, primary metric, topline result, status and owner" />
+        <figcaption class="cap-evidence__cap">Historical Initiatives tab</figcaption>
+      </figure>
+      <figure class="cap-evidence__item is-narrow">
+        <img class="cap-sheet" loading="lazy" decoding="async" src="../images/cvs/research/coupons.png" alt="The Coupon Redemptions tab for August and September 2024: redemptions and attributed incremental basket by month, channel and age band, with in-app redemptions for shoppers 65 and over in the low thousands against twenty thousand printed coupons" />
+        <figcaption class="cap-evidence__cap">Coupon Redemptions tab, August and September 2024</figcaption>
+      </figure>
+    </div>
+
+    <h3 class="cap-moment">Data insights</h3>
+    <div class="cap-cards">
+      <div class="cap-card">
+        <h3>Paper still carries the oldest shoppers</h3>
+        <p>Shoppers 65 and over made 39% of printed coupon redemptions, the largest share of any age group.</p>
+      </div>
+      <div class="cap-card">
+        <h3>An extra step at checkout fails</h3>
+        <p>Clipped coupons rang up at full price and held up the line; the button gave no sign it had worked.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Information at the shelf worked, screens that needed staff did not</h3>
+        <p>The aisle locator scored 4.7 with its users. The kiosk needed a staff member for 61% of its sessions.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Takeaway</h3>
+    <p class="cap-body">
+      Whatever replaced the brief had to work for people who never open the app, add no step at checkout, and not rush anyone.
+    </p>
+
+    <p class="case-sources">
+      Source: CVS Region 4 analytics package provided with the brief, covering January 2024 to June 2026 across eight stores. Survey comments are the package's stratified sample, about 2% of responses.
+    </p>
   </section>
 
   <section id="reframe" class="cap-section">
     <div class="cap-eyebrow">The Reframe</div>
     <h2 class="cap-title">From more time in the store to money already set aside</h2>
     <p class="cap-body">
-      A health FSA is pre-tax money for medical costs that expires at the end of the plan year. In 2022, half of accountholders forfeited part of theirs, $441 on average. CVS sells what that money is for. So I changed the question from how the app keeps people in the store to how it helps them spend money they already have, here, before it is gone. That became CVS Benefits.
+      A health FSA is pre-tax money for medical costs, and it expires. In 2022, half of accountholders forfeited part of theirs, $441 on average. CVS sells what that money is for, so I changed the question: from keeping people in the store to helping them spend what they already have before it is gone.
     </p>
 
     <div class="reframe">
@@ -111,7 +160,7 @@
     <div class="cap-cards">
       <div class="cap-card">
         <h3>It expires</h3>
-        <p>Money left at the end of the plan year is lost. Where a plan allows a carryover, it is capped at $680 for 2026.</p>
+        <p>Money left at year end is lost, beyond a carryover capped at $680 for 2026.</p>
       </div>
       <div class="cap-card">
         <h3>Eligibility is item by item</h3>
@@ -132,61 +181,14 @@
     </p>
   </section>
 
-  <!-- RESEARCH
-       From the Region 4 analytics package that came with the brief. Laid out
-       after the research section on wendyyudesign.com/bumble: what was read,
-       the evidence itself, three insights, one takeaway. The coupon shares are
-       computed from the workbook's monthly rows. -->
-  <section id="research" class="cap-section">
-    <div class="cap-eyebrow">Research</div>
-    <h2 class="cap-title">What the region had already tried</h2>
-    <p class="cap-body">
-      The brief came with CVS Region 4's analytics package: thirty months of metrics from eight Pittsburgh stores, the results of six earlier initiatives, coupon redemptions by channel and age, and a sample of post-visit survey comments. I read it for what had already been tried on these shoppers, and how they answered.
-    </p>
 
-    <div class="cap-evidence">
-      <figure class="cap-evidence__item">
-        <img class="cap-sheet" loading="lazy" decoding="async" src="../images/cvs/research/initiatives.png" alt="The Historical Initiatives tab: six rows, INIT-01 to INIT-06, with each initiative's description, launch and end dates, stores, primary metric, topline result, status and owner" />
-        <figcaption class="cap-evidence__cap">Historical Initiatives tab</figcaption>
-      </figure>
-      <figure class="cap-evidence__item is-narrow">
-        <img class="cap-sheet" loading="lazy" decoding="async" src="../images/cvs/research/coupons.png" alt="The Coupon Redemptions tab for July to September 2024: redemptions and attributed incremental basket by month, channel and age band, with in-app redemptions for shoppers 65 and over in the low thousands against twenty thousand printed coupons" />
-        <figcaption class="cap-evidence__cap">Coupon Redemptions tab, July to September 2024</figcaption>
-      </figure>
-    </div>
-
-    <h3 class="cap-moment">Data insights</h3>
-    <div class="cap-cards">
-      <div class="cap-card">
-        <h3>App-only savings skipped older shoppers</h3>
-        <p>Shoppers 65 and over are 26% of the region and 4% of in-app coupon redemptions. They redeemed more printed coupons than any other group.</p>
-      </div>
-      <div class="cap-card">
-        <h3>An extra step at checkout fails</h3>
-        <p>In the survey sample, clipped coupons rang up at full price and held up the line, and the clip button gave no sign it had worked.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Information helped, pressure did not</h3>
-        <p>The aisle locator scored 4.7 with its users and was cut. The two-hour ExtraBucks timer drew the angriest comments and a $47,500 accessibility settlement.</p>
-      </div>
-    </div>
-
-    <h3 class="cap-moment">Takeaway</h3>
-    <p class="cap-body">
-      Benefits had to work at the register for people who never open the app, apply on its own with no step to get wrong, and show the split without rushing anyone.
-    </p>
-
-    <p class="case-sources">
-      Source: CVS Region 4 analytics package provided with the brief, covering January 2024 to June 2026 across eight stores. Survey comments are the package's stratified sample, about 2% of responses.
-    </p>
-  </section>
 
   <!-- THE OPPORTUNITY -->
   <section id="opportunity" class="cap-section">
     <div class="cap-eyebrow">The Opportunity</div>
     <h2 class="cap-title">The register already knows the answer</h2>
     <p class="cap-body">
-      Chain pharmacies must run IIAS, a system that tags every product eligible or not and charges the FSA only the eligible total. The check runs when the card is presented, so the shopper first sees the eligible total at payment.
+      Chain pharmacies run IIAS, which tags each product eligible or not and charges the FSA the eligible total. It runs when the card is presented, so shoppers see the split only at payment.
     </p>
     <p class="cap-body">
       I started by designing an eligibility checker, then realised the register already calculates the answer.
@@ -219,7 +221,7 @@
       <div class="cap-card">
         <div class="cap-card-num">02</div>
         <h3>Check</h3>
-        <p>Search or scan a product to see whether it is eligible. Ineligible products show the reason.</p>
+        <p>Search or scan a product to see whether it is eligible, with the reason when it is not.</p>
       </div>
       <div class="cap-card">
         <div class="cap-card-num">03</div>
@@ -234,7 +236,7 @@
     <div class="cap-eyebrow">Components</div>
     <h2 class="cap-title">One kit for the app and the register</h2>
     <p class="cap-body">
-      Every screen is built from components in one Figma file. The app side keeps to CVS's existing patterns: product and order cards, the eligibility tag, five button styles, a text field with four states, and the added-to-cart sheet. The register has its own small set, drawn for the 15.6-inch customer screen: a header in two states, an item row that can be eligible, not eligible or removed, two banners, and four button styles.
+      Every screen is built from components in one Figma file. The app side keeps to CVS's patterns: cards, the eligibility tag, buttons, fields and the added-to-cart sheet. The register has its own small set for the 15.6-inch customer screen: header, item row, banners and buttons.
     </p>
 
     <div class="pos-flow is-single">
@@ -293,7 +295,7 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">The balance, and the part that expires</h3>
-        <p class="cap-body">Below the balance, the app shows how much expires on December 31 and how much can carry over into 2027. The HSA tab notes that HSA money does not expire.</p>
+        <p class="cap-body">Below the balance: what expires on December 31 and what can carry over into 2027. The HSA tab notes that HSA money does not expire.</p>
       </div>
     </div>
 
@@ -312,7 +314,8 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Checking a product before buying it</h3>
-        <p class="cap-body">Reading glasses come back eligible. Chocolate comes back not eligible, because food is not a medical expense. The reasons follow IRS rules: over-the-counter medicines have counted without a prescription since 2020, while food and vitamins count only when a doctor prescribes them for a diagnosed condition.</p>
+        <p class="cap-body">Reading glasses come back eligible. Chocolate does not, because food is not a medical expense.</p>
+        <p class="cap-body">The reasons follow IRS rules: over-the-counter medicines have counted without a prescription since 2020; food and vitamins only when prescribed for a diagnosed condition.</p>
       </div>
     </div>
 
@@ -444,7 +447,7 @@
       <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/6-balance-low.png" alt="Alert that the FSA covered $20.00 of $31.48, the rest of its balance, leaving $13.97 to pay: $11.48 eligible plus $2.49 other" /></div>
       <div class="pos-row__text">
         <h4 class="pos-row__title"><span class="pos-num">1</span>Balance too low</h4>
-        <p class="cap-body">The FSA covered $20.00 of $31.48, all it had left. $13.97 remains: $11.48 eligible and $2.49 other.</p>
+        <p class="cap-body">The FSA covered $20.00 of $31.48, all it had left; $13.97 remains.</p>
       </div>
     </div>
     <div class="pos-row">
@@ -461,7 +464,7 @@
       <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/8-cancel-rest.png" alt="Cancel the rest? The FSA already paid $31.48, with options to pay $2.49 now, remove the Hershey's bar, or cancel the whole order" /></div>
       <div class="pos-row__text">
         <h4 class="pos-row__title"><span class="pos-num">1</span>Cancel the rest?</h4>
-        <p class="cap-body">The FSA has already paid $31.48. The shopper can pay $2.49 now, remove the chocolate bar, or cancel the order.</p>
+        <p class="cap-body">The FSA has paid $31.48. The shopper can pay $2.49 now, remove the bar, or cancel.</p>
       </div>
     </div>
     <div class="pos-row">
@@ -492,11 +495,11 @@
     <dl class="cap-list">
       <div class="cap-list__item">
         <dt>For CVS</dt>
-        <dd>Forfeited FSA money is spending that already belongs to health retail, and it is measured in the dollars the brief asked for. The register already works out the split, so showing it costs a screen and reaches every shopper, with or without the app.</dd>
+        <dd>Forfeited FSA money is spend that already belongs to health retail, in the dollars the brief asked for. Showing the register's own split costs a screen and reaches every shopper.</dd>
       </div>
       <div class="cap-list__item">
         <dt>For me</dt>
-        <dd>I learned to check what a system already knows before designing something new on top of it. It also put me in the conversation about what to build, and that is the conversation I want to be in.</dd>
+        <dd>I learned to check what a system already knows before designing on top of it. It also put me in the conversation about what to build, which is where I want to be.</dd>
       </div>
     </dl>
 
@@ -508,7 +511,7 @@
       </div>
       <div class="cap-list__item">
         <dt>CVS's own benefits data</dt>
-        <dd>The region's package has no FSA or HSA numbers, so the case rests on national averages. With CVS's own attach and register conversion rates it would hold a real number.</dd>
+        <dd>The region's package has no FSA numbers, so the case rests on national averages. CVS's own attach and conversion rates would make it a real number.</dd>
       </div>
       <div class="cap-list__item">
         <dt>Sessions with the people it is for</dt>

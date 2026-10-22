@@ -76,7 +76,7 @@ h1, h2, h3, h4, h5, h6 {
   padding: 28px 56px;
   background: transparent;
   z-index: 100;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 300;
 }
 
@@ -1189,17 +1189,6 @@ h1, h2, h3, h4, h5, h6 {
 /* A section headline is 40px and carries the section. These carry an item
    inside it, so they sit well below that and well above body copy, which is
    what lets a reader skim the headings alone and still follow the argument. */
-.sub-title {
-  font-size: 26px;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-  margin: 56px 0 20px;
-}
-
-.sub-title:first-child {
-  margin-top: 0;
-}
 
 /* Labelled pairs. The label names what the line is doing, so the claim and
    the answer to it can each be read on their own without the paragraph
@@ -1329,9 +1318,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Inside a split row the heading and notes are already tight against the art,
    so they lose the margins they carry when they sit on their own. */
-.split-text .sub-title {
-  margin: 0 0 18px;
-}
 
 /* Beside a picture the text column is narrow, so the label sits above its line
    rather than taking a third of the width from it. This is also how the
@@ -1544,21 +1530,14 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .hero-headline {
-    font-size: 15px;
     max-width: 340px;
   }
 
-  .hero-sub {
-    font-size: 12px;
-  }
-
   .pill-button {
-    font-size: 15px;
     padding: 13px 18px;
   }
 
   .project-label {
-    font-size: 15px;
     margin-bottom: 28px;
   }
 
@@ -1615,11 +1594,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 16px;
   }
 
-  .sub-title {
-    font-size: 22px;
-    margin: 44px 0 16px;
-  }
-
   /* Stacked, with the screen above the text it belongs to in every row,
      whichever side it took on the wide layout. */
   .split-row {
@@ -1642,10 +1616,6 @@ h1, h2, h3, h4, h5, h6 {
   .signals {
     grid-template-columns: 1fr;
     gap: 14px;
-  }
-
-  .reframe-text {
-    font-size: 19px;
   }
 
   .takeaway {
@@ -2416,19 +2386,9 @@ mark.draft {
 
 /* The facts and labels shared with the other case studies, raised to the
    reference's 15px on this page only. */
-.cap-page .meta-label,
-.cap-page .reframe-label {
-  font-size: 15px;
-  letter-spacing: 0.02em;
-}
 
 .cap-page .meta-value {
-  font-size: 15px;
   font-weight: 300;
-}
-
-.cap-page .case-toc {
-  font-size: 15px;
 }
 
 @media (max-width: 720px) {
@@ -2565,10 +2525,6 @@ mark.draft {
   }
 }
 
-.cap-page .widget-cap {
-  font-size: 16px;
-}
-
 /* A paragraph that carries on after a figure, rather than one opening a new
    moment, keeps the same gap from the picture a caption would. */
 .cap-page .full-image + .cap-body {
@@ -2642,10 +2598,9 @@ mark.draft {
   margin: 28px 0 0;
 }
 
-/* The one thing left under 15px: citations are fine print. */
+/* Sources sit closer under a Capsule section than under the older layout. */
 .cap-page .case-sources {
   margin-top: 26px;
-  font-size: 13px;
 }
 
 @media (max-width: 900px) {
@@ -3746,4 +3701,107 @@ html.has-cursor .about-pill:hover {
   height: auto;
   border: 1px solid #E5E5E5;
   border-radius: 12px;
+}
+
+/* ---------- TYPE SYSTEM ----------
+   Five sizes for the whole site, Helvetica Neue Light throughout, each step
+   at least 1.14 times the one below so every level reads as its own:
+
+     36px  page title (30px on phones)   line 1.2   tracking -0.02em
+     24px  section title                 line 1.25  tracking -0.01em
+     20px  subhead, card title,
+           quote line, list item         line 1.25  tracking -0.01em
+     16px  everything read: body, labels,
+           meta, nav, pills              line 1.6 for text, 1.5 for labels
+     14px  everything secondary: captions,
+           rail, controls, sources, footer   line 1.5
+
+   Labels share the body size and are told apart by the system grey, as the
+   reference does. The one weight above 300 is the filled pill button's 500. */
+
+/* 20px */
+.cap-moment,
+.cap-card h3,
+.cap-list dt,
+.pos-row__title,
+.reframe-text,
+.gallery-welcome-title,
+.next-link,
+.next-label {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* 16px, reading text */
+.case-description,
+.cap-body,
+.cap-card p,
+.cap-list dd,
+.kit-duo__text,
+.about-text p,
+.gallery-welcome-sub {
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* 16px, labels and meta, in grey where they label something */
+.cap-eyebrow,
+.meta-label,
+.meta-value,
+.reframe-label,
+.kit-duo__label,
+.cap-page .meta-label,
+.cap-page .reframe-label,
+.cap-page .meta-value,
+.cap-page .case-toc,
+.about-pill {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+/* 14px, secondary */
+.reframe-sub,
+.cap-card-num,
+.proto-cap,
+.handoff__label,
+.pos-state__cap,
+.cap-evidence__cap,
+.widget-cap,
+.cap-pair figcaption,
+.cap-cap,
+.case-sources,
+.hero-sub,
+.work-cap,
+.viewer-cap,
+.gallery-hint,
+.motion-toggle,
+.case-rail a,
+.footer {
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+/* Where the section rail is on screen it already lists every section, so
+   the jump links under the title would only repeat it, as the reference
+   shows only the rail. They stay in the page, since the rail is built from
+   them, and show below the rail's width. */
+@media (min-width: 1200px) {
+  .cap-page .case-toc {
+    display: none;
+  }
+
+  /* With the row gone, the space it held closes, so the first section sits
+     the same distance below the facts as every section below the last. */
+  .cap-page .case-meta {
+    margin-bottom: 0;
+  }
+
+  .cap-page .case-intro {
+    padding-bottom: 0;
+  }
 }
