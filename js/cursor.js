@@ -20,12 +20,39 @@
   // the pieces on the Play page, and anything marked data-cursor="view".
   var VIEW = '.project-card, .work, [data-cursor="view"]';
 
+  // The cursor in the site's liquid glass, at rest and grown, instead of the
+  // white mark drawn in difference. To go back, set this to false; the glass
+  // look lives entirely under .cursor.is-glass in the stylesheet.
+  var GLASS = true;
+
   var el = document.createElement('div');
   el.className = 'cursor';
   el.setAttribute('aria-hidden', 'true');
-  el.innerHTML = '<span class="cursor__shape"></span><span class="cursor__label">view</span>';
+  el.innerHTML = '<span class="cursor__shape"></span><span class="cursor__label">View</span>';
   document.body.appendChild(el);
   document.documentElement.classList.add('has-cursor');
+
+  // Everything the cursor is drawn with. With the glass on, the word goes in
+  // a layer of its own: drawn in difference inside the glass, it makes the
+  // browser paint the cursor apart from the page, and the glass is left with
+  // nothing behind it to blur or bend.
+  var layers = [el];
+  if (GLASS) {
+    var shape = el.querySelector('.cursor__shape');
+    el.classList.add('is-glass');
+    shape.classList.add('lg-glass');
+    // A round magnifier rather than a pane: see data-lg in js/liquid-glass.js.
+    shape.setAttribute('data-lg', 'lens');
+    if (window.liquidGlass) window.liquidGlass(shape);
+    var word = document.createElement('div');
+    word.className = 'cursor cursor--word';
+    word.setAttribute('aria-hidden', 'true');
+    word.appendChild(el.querySelector('.cursor__label'));
+    document.body.appendChild(word);
+    layers.push(word);
+  }
+
+  function each(fn) { layers.forEach(fn); }
 
   var x = 0, y = 0, cx = 0, cy = 0, seen = false, running = false, state = '';
 
@@ -37,7 +64,8 @@
     cx += (x - cx) * EASE;
     cy += (y - cy) * EASE;
     if (Math.abs(x - cx) < 0.1 && Math.abs(y - cy) < 0.1) { cx = x; cy = y; running = false; }
-    el.style.transform = 'translate3d(' + cx.toFixed(2) + 'px,' + cy.toFixed(2) + 'px,0)';
+    var t = 'translate3d(' + cx.toFixed(2) + 'px,' + cy.toFixed(2) + 'px,0)';
+    each(function (l) { l.style.transform = t; });
     if (running) requestAnimationFrame(frame);
   }
 
@@ -50,8 +78,10 @@
   function setState(next) {
     if (next === state) return;
     state = next;
-    el.classList.toggle('is-link', next === 'link');
-    el.classList.toggle('is-view', next === 'view');
+    each(function (l) {
+      l.classList.toggle('is-link', next === 'link');
+      l.classList.toggle('is-view', next === 'view');
+    });
   }
 
   function stateFor(target) {
@@ -68,7 +98,7 @@
       seen = true;
       cx = x; cy = y;
     }
-    el.classList.add('is-on');
+    each(function (l) { l.classList.add('is-on'); });
     kick();
   }, { passive: true });
 
@@ -93,6 +123,6 @@
   // Hidden while the pointer is outside the window, so it does not sit frozen
   // at the edge it left from.
   document.documentElement.addEventListener('mouseleave', function () {
-    el.classList.remove('is-on');
+    each(function (l) { l.classList.remove('is-on'); });
   });
 })();

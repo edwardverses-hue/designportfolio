@@ -3119,6 +3119,68 @@ html.has-cursor .about-pill:hover {
   color: inherit;
 }
 
+/* The glass cursor, switched on by GLASS in js/cursor.js, which also gives
+   the shape the site's .lg-glass and its lens. It is the header pills' glass
+   at every size: at rest, over a link and over work. Two things differ, both
+   because a cursor has no label to show where it is: it rests at 20px rather
+   than 12, large enough for the glass to bend what is under it, and at rest
+   it has a two-tone edge, a 75 per cent white ring inside a 60 per cent black one.
+   WCAG 2.2 asks 3:1 of an indicator against what is around it (1.4.11), and
+   no single colour gets that on both white and black; with the pair, one
+   ring always does, the weakest case being mid-grey at 3.19:1. Any fainter
+   pair fails somewhere. The word "view" sits in a layer of its own above the glass, drawn
+   white in difference, so it reads black on the page and white over a dark
+   picture without cutting the glass off from the page behind it. */
+.cursor.is-glass {
+  mix-blend-mode: normal;
+}
+
+.cursor.is-glass .cursor__shape {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+  /* At rest it is the ring alone, with nothing behind it blurred or bent,
+     by Edward's call. The glass comes in only as it grows, below. */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition:
+    width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    height 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Grown over a link or a work, the cursor becomes a round lens, after the two
+   magnifiers Edward chose: no frost and no tint, the page bent across the
+   whole disc (js/liquid-glass.js, data-lg="lens"), and a white stroke with a
+   faint dark line outside it, which is how their rim reads on a light page.
+   Browsers that cannot draw the bend get the disc, its rim and the same
+   light frost. */
+.cursor.is-glass.is-link .cursor__shape,
+.cursor.is-glass.is-view .cursor__shape {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.15);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: var(--lg-backdrop, blur(2px));
+}
+
+.cursor.is-glass.is-link .cursor__shape {
+  width: 40px;
+  height: 40px;
+}
+
+.cursor.is-glass.is-view .cursor__shape {
+  width: 64px;
+  height: 64px;
+}
+
+.cursor--word .cursor__label {
+  color: #FFFFFF;
+}
+
 /* ---------- LIQUID GLASS (nav pills, and anything marked .lg-glass) ----------
    After Apple's Liquid Glass. Four things make it read as glass rather than
    frost: the page shows through clearly, the rim catches light along the top
@@ -3198,6 +3260,115 @@ html.has-cursor .about-pill:hover {
 .nav .nav-right.is-current.is-dark {
   background: rgba(255, 255, 255, 0.16);
   border-color: transparent;
+}
+
+/* The header in the cursor's lens, switched on by HEADER_LENS in
+   js/liquid-glass.js, which adds .lg-lens-header to the page and gives the
+   pills the lens's bend. Here they take the lens's white rim with its faint
+   dark line outside and its light frost, exactly as the grown cursor has
+   them. It sits before the home page's rule so that one still wins. */
+.lg-lens-header .nav-lit .nav-logo,
+.lg-lens-header .nav-lit .nav-right,
+.lg-lens-header .nav-lit .nav-center,
+.lg-lens-header.play-page .nav-logo.is-over,
+.lg-lens-header.play-page .nav-right.is-over,
+.lg-lens-header .nav-rain .nav-logo,
+.lg-lens-header .nav-rain .nav-right,
+.lg-lens-header .nav-rain .nav-center {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.15);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: var(--lg-backdrop, blur(2px));
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .lg-lens-header .nav-lit .nav-logo,
+  .lg-lens-header .nav-lit .nav-right,
+  .lg-lens-header .nav-lit .nav-center,
+  .lg-lens-header.play-page .nav-logo.is-over,
+  .lg-lens-header.play-page .nav-right.is-over,
+  .lg-lens-header .nav-rain .nav-logo,
+  .lg-lens-header .nav-rain .nav-right,
+  .lg-lens-header .nav-rain .nav-center {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* The header's words in difference, switched on by LABEL_BLEND in
+   js/nav.js: white, subtracted from what is behind, so black over light and
+   white over dark with no judging needed, as the cursor's "View" is drawn.
+   The real words go transparent and white copies in .nav-ghost, a layer on
+   the page itself, are drawn over them; see the script for why. */
+.nav-blend .nav .nav-logo,
+.nav-blend .nav .nav-right,
+.nav-blend .nav .nav-center a {
+  color: transparent;
+}
+
+.nav-ghost {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  z-index: 101;           /* just over the header (100), under the Play viewer (200) */
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+.nav-ghost__word {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  line-height: normal;
+  white-space: nowrap;
+  color: #FFFFFF;
+}
+
+/* Aave's glass, switched on by AAVE in js/liquid-glass.js, which adds
+   .lg-aave to the page and draws the bend, colour split and rim light from
+   their code. Their Glass Playground's lens has no stroke and no shadow; its
+   only paint is a white layer at 12 per cent (their "brightness" 0.12), and
+   its frost is 0.5px. Every glass takes exactly that here: the header pills
+   where they are glass, CVS's motion button, and the cursor once it grows.
+   The cursor at rest keeps its ring, which is not glass. This sits before the
+   home page's rule so that one still wins. */
+.lg-aave .nav-lit .nav-logo,
+.lg-aave .nav-lit .nav-right,
+.lg-aave .nav-lit .nav-center,
+.lg-aave.play-page .nav-logo.is-over,
+.lg-aave.play-page .nav-right.is-over,
+.lg-aave .nav-rain .nav-logo,
+.lg-aave .nav-rain .nav-right,
+.lg-aave .nav-rain .nav-center,
+.lg-aave .lg-glass:not(.cursor__shape),
+.lg-aave .cursor.is-glass.is-link .cursor__shape,
+.lg-aave .cursor.is-glass.is-view .cursor__shape {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: blur(0.5px);
+  backdrop-filter: var(--lg-backdrop, blur(0.5px));
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .lg-aave .nav-lit .nav-logo,
+  .lg-aave .nav-lit .nav-right,
+  .lg-aave .nav-lit .nav-center,
+  .lg-aave.play-page .nav-logo.is-over,
+  .lg-aave.play-page .nav-right.is-over,
+  .lg-aave .nav-rain .nav-logo,
+  .lg-aave .nav-rain .nav-right,
+  .lg-aave .nav-rain .nav-center,
+  .lg-aave .lg-glass:not(.cursor__shape),
+  .lg-aave .cursor.is-glass.is-link .cursor__shape,
+  .lg-aave .cursor.is-glass.is-view .cursor__shape {
+    background: rgba(255, 255, 255, 0.94);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 /* On the home page the wordmark and About stay plain text however far the

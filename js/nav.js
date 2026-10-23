@@ -12,6 +12,57 @@
   var nav = document.querySelector('.nav');
   if (!nav) return;
 
+  // The header's words drawn white in difference, as the cursor's "View" is,
+  // so they come out black over light and white over dark by themselves.
+  // Difference only reaches what shares a layer with the words, and the
+  // header is a fixed layer of its own, so blended in place they would only
+  // ever see the header and turn white on the white page. Instead each word
+  // is copied into a layer on the page itself, set exactly over the real
+  // one, and the real words are made transparent. The links stay where they
+  // are for clicking, keyboards and screen readers; the copies are hidden
+  // from them. To go back, set this to false; the look lives under
+  // .nav-blend and .nav-ghost in the stylesheet.
+  var LABEL_BLEND = true;
+  if (LABEL_BLEND) {
+    document.documentElement.classList.add('nav-blend');
+    var ghost = document.createElement('div');
+    ghost.className = 'nav-ghost';
+    ghost.setAttribute('aria-hidden', 'true');
+    var words = [].slice.call(nav.querySelectorAll('.nav-logo, .nav-right, .nav-center a'));
+    var copies = words.map(function (w) {
+      var s = document.createElement('span');
+      s.className = 'nav-ghost__word';
+      s.textContent = w.textContent.trim();
+      ghost.appendChild(s);
+      return s;
+    });
+    document.body.appendChild(ghost);
+
+    // The copy takes the word's own type and sits on the box the text itself
+    // draws in, so the two line up to the pixel.
+    var placeWords = function () {
+      words.forEach(function (w, i) {
+        var range = document.createRange();
+        range.selectNodeContents(w);
+        var r = range.getBoundingClientRect();
+        var cs = getComputedStyle(w), c = copies[i];
+        c.style.font = cs.font;
+        c.style.letterSpacing = cs.letterSpacing;
+        c.style.transform = 'translate(' + r.left.toFixed(2) + 'px,' + r.top.toFixed(2) + 'px)';
+        // A block's text starts a little inside its box; measure that and
+        // take it off, so the copy's letters land on the real ones.
+        var cr = document.createRange();
+        cr.selectNodeContents(c);
+        var b = cr.getBoundingClientRect();
+        var x = 2 * r.left - b.left, y = 2 * r.top - b.top;
+        c.style.transform = 'translate(' + x.toFixed(2) + 'px,' + y.toFixed(2) + 'px)';
+      });
+    };
+    placeWords();
+    window.addEventListener('resize', placeWords);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeWords);
+  }
+
   var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- frosted pills ---------- */
@@ -62,8 +113,35 @@
       onRain = rain;
       nav.classList.toggle('nav-rain', rain);
     }
-    if (room) playOver();
-    tone();
+    slow();
+  }
+
+  // The two checks that read pixels or hit-test the Play room are the costly
+  // ones, so they run at most every 100ms while things move, and once more
+  // when they stop, so the header always ends on the right state.
+  var slowAt = 0, slowLater = null;
+  function slow() {
+    var now = Date.now();
+    window.clearTimeout(slowLater);
+    if (now - slowAt >= 100) {
+      slowAt = now;
+      if (room) playOver();
+      tone();
+    }
+    slowLater = window.setTimeout(function () {
+      slowAt = Date.now();
+      if (room) playOver();
+      tone();
+    }, 120);
+  }
+
+  // Scroll events can arrive several times a frame; the header is checked
+  // once per frame.
+  var queued = false;
+  function schedule() {
+    if (queued) return;
+    queued = true;
+    window.requestAnimationFrame(function () { queued = false; check(); });
   }
 
   /* ---------- Play: a work under the wordmark or About ---------- */
@@ -81,9 +159,11 @@
     var r = el.getBoundingClientRect(), cs = getComputedStyle(el);
     var left = r.left + (parseFloat(cs.paddingLeft) || 0), right = r.right - (parseFloat(cs.paddingRight) || 0);
     var top = r.top + (parseFloat(cs.paddingTop) || 0), bottom = r.bottom - (parseFloat(cs.paddingBottom) || 0);
-    for (var gy = 0; gy < 3; gy++) {
-      for (var gx = 0; gx < 6; gx++) {
-        var x = left + (right - left) * gx / 5, y = top + (bottom - top) * gy / 2;
+    // Eight points, four across the middle and four across the foot of the
+    // words, where a poster rising from below arrives first.
+    for (var gy = 1; gy < 3; gy++) {
+      for (var gx = 0; gx < 4; gx++) {
+        var x = left + (right - left) * gx / 3, y = top + (bottom - top) * gy / 2;
         var hits = document.elementsFromPoint(x, y);
         for (var i = 0; i < hits.length; i++) {
           if (hits[i].classList && hits[i].classList.contains('facet')) return true;
@@ -303,13 +383,26 @@
     place(current, false);
   }
 
-  window.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', onResize);
 
-  // The Play page turns its artwork under a bar that never moves, so polling is
-  // the only way to notice; every other page settles on scroll alone.
+  // The Play page turns its artwork under a bar that never moves, so it is
+  // checked on a timer, but only while the room is turning: for a second and
+  // a half after each wheel, swipe or arrow key, which outlasts the room's
+  // easing. Left running, the timer cost half a processor core doing nothing.
   if (room) {
-    window.setInterval(check, 100);
+    var pollUntil = 0, poll = null;
+    var wake = function () {
+      pollUntil = Date.now() + 1500;
+      if (poll) return;
+      poll = window.setInterval(function () {
+        check();
+        if (Date.now() > pollUntil) { window.clearInterval(poll); poll = null; }
+      }, 100);
+    };
+    ['wheel', 'touchmove', 'keydown'].forEach(function (type) {
+      window.addEventListener(type, wake, { passive: true });
+    });
   }
 
   check();
