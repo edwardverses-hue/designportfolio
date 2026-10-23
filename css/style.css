@@ -681,7 +681,7 @@ h1, h2, h3, h4, h5, h6 {
    at. The column is capped against the viewport as well as its own maximum, so
    at the narrow end of the range it gives up width rather than running off the
    right edge. */
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   .cap-page .case-intro,
   .cap-section {
     max-width: min(1060px, calc(100vw - 250px));
@@ -1131,7 +1131,7 @@ h1, h2, h3, h4, h5, h6 {
 .case-rail {
   display: none;
   position: fixed;
-  left: 20px;
+  left: 56px;
   top: 50%;
   transform: translateY(-50%);
   width: 150px;
@@ -1172,7 +1172,7 @@ h1, h2, h3, h4, h5, h6 {
   outline-offset: 2px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   .case-rail {
     display: flex;
   }
@@ -2647,7 +2647,7 @@ mark.draft {
   margin-top: 96px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   .cap-page .case-next {
     max-width: min(1060px, calc(100vw - 250px));
     margin-left: max(210px, calc((100vw - 1060px) / 2));
@@ -2811,7 +2811,7 @@ mark.draft {
    can keep for the whole page. */
 .motion-toggle {
   position: fixed;
-  left: 20px;
+  left: 56px;
   bottom: 20px;
   z-index: 90;
   font: inherit;
@@ -2995,7 +2995,7 @@ mark.draft {
    text, so below the width the rail appears at the toggle stays in the page
    beside the prototype link. Above it, it moves to the corner under the rail,
    where it is in reach from every figure and covers nothing. */
-@media (max-width: 1199px) {
+@media (max-width: 1279px) {
   .motion-toggle {
     position: static;
     margin-left: 8px;
@@ -3148,19 +3148,22 @@ html.has-cursor .about-pill:hover {
 .nav-rain .nav-logo,
 .nav-rain .nav-right,
 .nav-rain .nav-center {
-  /* 42 per cent white rather than Apple's near-clear glass: their labels turn
-     white over dark content, and these stay black, so over a dark picture the
-     glass has to lift the backdrop enough for black text to read. */
+  /* One tint everywhere, clear enough that the glass takes its shade from what
+     is behind it, as real glass does: near white over the page, a dark smoke
+     over a black picture. At 42 per cent white it lifted black into a bright
+     grey slab; at 14, with the glow inside the rim kept low, it does not.
+     Only the labels change, black over light and white over dark, judged per
+     pill by nav.js. */
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.04) 48%, rgba(255, 255, 255, 0.16) 100%),
-    rgba(255, 255, 255, 0.42);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0.06) 100%),
+    rgba(255, 255, 255, 0.14);
   border: 1px solid rgba(0, 0, 0, 0.05);
   -webkit-backdrop-filter: blur(10px) saturate(170%);
   backdrop-filter: var(--lg-backdrop, blur(10px) saturate(170%));
   box-shadow:
-    inset 1.5px 1.5px 1px rgba(255, 255, 255, 0.85),
-    inset -1px -1px 1px rgba(255, 255, 255, 0.4),
-    inset 0 0 10px 1px rgba(255, 255, 255, 0.45),
+    inset 1.5px 1.5px 1px rgba(255, 255, 255, 0.6),
+    inset -1px -1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 0 10px 1px rgba(255, 255, 255, 0.18),
     inset 0 -6px 10px -6px rgba(0, 0, 0, 0.06);
 }
 
@@ -3178,6 +3181,40 @@ html.has-cursor .about-pill:hover {
     background: rgba(255, 255, 255, 0.94);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+}
+
+/* Over a dark picture or panel (nav.js sets is-dark per pill) the glass is
+   left as it is and only the labels turn white. The current link's marker,
+   a near-white chip over pictures, would hide a white label, so over dark it
+   is a faint lift of light instead. */
+.nav .nav-logo.is-dark,
+.nav .nav-right.is-dark,
+.nav .nav-center.is-dark {
+  color: #FFFFFF;
+  transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
+              -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease;
+}
+
+.nav .nav-center.is-dark .nav-marker,
+.nav .nav-right.is-current.is-dark {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: transparent;
+}
+
+/* With less transparency asked for, the pills are solid white, so the labels
+   stay black whatever is behind. */
+@media (prefers-reduced-transparency: reduce) {
+  .nav .nav-logo.is-dark,
+  .nav .nav-right.is-dark,
+  .nav .nav-center.is-dark {
+    color: #000000;
+  }
+
+  .nav .nav-center.is-dark .nav-marker,
+  .nav .nav-right.is-current.is-dark {
+    background: transparent;
+    border-color: #000000;
   }
 }
 
@@ -3406,9 +3443,9 @@ html.has-cursor .about-pill:hover {
    15px; at this page's 16px that would run past 90 characters a line, so the
    measure stays 620px. Titles span the column, as Bumble's do.
 
-   The widths hold at every size. The 200px margins start at 1200px, where the
-   section rail appears and needs them (it ends at 170px); below that the
-   column keeps its centred layout with equal side padding. */
+   The side margins start at 1280px, where the section rail appears and needs
+   them (it ends at 206px), and are set below with the frame they line up to;
+   below 1280px the column keeps its centred layout with equal side padding. */
 
 /* Wide: the full column. */.cap-page .case-meta,
 .cap-page .case-toc,
@@ -3440,13 +3477,18 @@ html.has-cursor .about-pill:hover {
   max-width: none;
 }
 
-@media (min-width: 1200px) {
+/* The header, the section rail and the motion toggle share one frame, 56px in
+   from each side, so the wordmark, the rail and About line up down the page.
+   The column is centred inside that frame: 240px clear of each side, which
+   leaves the rail (56px to 206px) its own space, and never wider than 1040px,
+   so on a big screen it centres rather than stretching the cards. */
+@media (min-width: 1280px) {
   .cap-page .case-intro,
   .cap-page .cap-section,
   .cap-page .case-next {
     max-width: none;
-    margin-left: 200px;
-    margin-right: 200px;
+    margin-left: max(240px, calc((100vw - 1040px) / 2));
+    margin-right: max(240px, calc((100vw - 1040px) / 2));
     padding-left: 0;
     padding-right: 0;
   }
@@ -3790,7 +3832,7 @@ html.has-cursor .about-pill:hover {
    the jump links under the title would only repeat it, as the reference
    shows only the rail. They stay in the page, since the rail is built from
    them, and show below the rail's width. */
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
   .cap-page .case-toc {
     display: none;
   }

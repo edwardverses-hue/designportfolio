@@ -62,6 +62,7 @@
       onRain = rain;
       nav.classList.toggle('nav-rain', rain);
     }
+    tone();
   }
 
   /* ---------- the sliding marker ---------- */
@@ -151,7 +152,116 @@
     return false;
   }
 
+  /* ---------- is it dark behind a pill? ---------- */
+
+  // The glass is clear enough to take its shade from what is behind it, so
+  // over a black picture it is dark, and black labels on it would vanish.
+  // Each pill turns its labels white over dark, judged on its own: the
+  // wordmark can sit over a black screenshot while About is still over the
+  // white page beside it. The glass itself never changes.
+  //
+  // A pill is dark when most of a grid of points across it lands on something
+  // dark: the part of a picture actually under it, read from a small copy of
+  // the image, or a black panel. Reading the image itself, rather than tagging
+  // pictures by hand, keeps it right as screenshots are added or swapped.
+  var pills = [].slice.call(nav.querySelectorAll('.nav-logo, .nav-center, .nav-right'));
+  var PANELS = '.widget-demo';
+  var thumbs = {};  // src -> { w, h, data } at no more than 96px wide, or false
+
+  function thumb(img) {
+    var src = img.currentSrc || img.src;
+    if (!src || !img.complete || !img.naturalWidth) return null;
+    if (src in thumbs) return thumbs[src];
+    try {
+      var w = Math.min(96, img.naturalWidth);
+      var h = Math.max(1, Math.round(w * img.naturalHeight / img.naturalWidth));
+      var c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      var ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      thumbs[src] = { w: w, h: h, data: ctx.getImageData(0, 0, w, h).data };
+    } catch (e) {
+      thumbs[src] = false;  // a page opened from disk cannot read its pixels
+    }
+    return thumbs[src];
+  }
+
+  function shown(el) {
+    for (var n = el; n && n !== document.body; n = n.parentElement) {
+      var cs = getComputedStyle(n);
+      if (cs.visibility === 'hidden' || cs.display === 'none' || parseFloat(cs.opacity) < 0.5) return false;
+    }
+    return true;
+  }
+
+  // Luminance 0-255 of the picture at a point on screen, or null where the
+  // picture leaves that point uncovered (outside a contained image, or a
+  // transparent pixel), so whatever is beneath it decides instead.
+  function pixel(img, r, x, y) {
+    var t = thumb(img);
+    if (!t) return null;
+    var fit = getComputedStyle(img).objectFit;
+    var bx = r.left, by = r.top, bw = r.width, bh = r.height;
+    if (fit === 'contain' || fit === 'cover') {
+      var s = (fit === 'contain' ? Math.min : Math.max)(r.width / t.w, r.height / t.h);
+      bw = t.w * s; bh = t.h * s;
+      bx = r.left + (r.width - bw) / 2;
+      by = r.top + (r.height - bh) / 2;
+    }
+    var u = Math.floor((x - bx) / bw * t.w), v = Math.floor((y - by) / bh * t.h);
+    if (u < 0 || v < 0 || u >= t.w || v >= t.h) return null;
+    var i = (v * t.w + u) * 4, d = t.data;
+    if (d[i + 3] < 128) return null;
+    return 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+  }
+
+  function darkBehind(pill) {
+    var p = pill.getBoundingClientRect();
+    var under = [];
+    var els = document.querySelectorAll('img, ' + PANELS);
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (nav.contains(el)) continue;
+      var r = el.getBoundingClientRect();
+      if (r.right <= p.left || r.left >= p.right || r.bottom <= p.top || r.top >= p.bottom) continue;
+      if (!shown(el)) continue;
+      under.push({ el: el, r: r, img: el.tagName === 'IMG' });
+    }
+    if (!under.length) return false;
+    // Pictures sit on top of panels, and a later picture on top of an earlier one.
+    under.sort(function (a, b) { return (b.img - a.img) || (a.el.compareDocumentPosition(b.el) & 4 ? 1 : -1); });
+
+    var dark = 0, total = 0;
+    for (var gy = 0; gy < 3; gy++) {
+      for (var gx = 0; gx < 6; gx++) {
+        var x = p.left + p.width * (gx + 0.5) / 6, y = p.top + p.height * (gy + 0.5) / 3;
+        var lum = 255;  // the page itself is white
+        for (var k = 0; k < under.length; k++) {
+          var u = under[k], r = u.r;
+          if (x < r.left || x >= r.right || y < r.top || y >= r.bottom) continue;
+          var l = u.img ? pixel(u.el, r, x, y) : 0;
+          if (l !== null) { lum = l; break; }
+        }
+        total++;
+        if (lum < 110) dark++;
+      }
+    }
+    return dark / total > 0.5;
+  }
+
+  function tone() {
+    for (var i = 0; i < pills.length; i++) {
+      var d = darkBehind(pills[i]);
+      if (pills[i].classList.contains('is-dark') !== d) pills[i].classList.toggle('is-dark', d);
+    }
+  }
+
   /* ---------- wiring ---------- */
+
+  // Pictures that finish loading under the bar change what is behind it.
+  [].forEach.call(document.images, function (img) {
+    if (!img.complete) img.addEventListener('load', function () { check(); }, { once: true });
+  });
 
   function onResize() {
     check();
