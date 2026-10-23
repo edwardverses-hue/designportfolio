@@ -102,18 +102,15 @@ h1, h2, h3, h4, h5, h6 {
   padding: 6px 16px;
 }
 
-/* The Play page is lit from the start rather than on the script's say-so. That
-   page is a full bleed gallery, so there is always artwork under the bar, and
-   its works are drawn as facets rather than as anything the header counts as a
-   picture: teaching it to recognise them would mean measuring a couple of
-   hundred of them on every check, to answer a question whose answer never
-   changes. */
+/* On Play the works are drawn as facets, which the header's usual check does
+   not count as pictures, so nav.js checks the facets itself. The wordmark and
+   About take the glass only while a work passes under their text (is-over),
+   and the Work/Play pill never does there, by Edward's call. */
 .nav-lit .nav-logo,
 .nav-lit .nav-right,
 .nav-lit .nav-center,
-.play-page .nav-logo,
-.play-page .nav-right,
-.play-page .nav-center {
+.play-page .nav-logo.is-over,
+.play-page .nav-right.is-over {
   background: rgba(255, 255, 255, 0.55);
   border-color: rgba(255, 255, 255, 0.65);
   -webkit-backdrop-filter: blur(14px) saturate(170%);
@@ -3122,7 +3119,7 @@ html.has-cursor .about-pill:hover {
   color: inherit;
 }
 
-/* ---------- LIQUID GLASS (nav pills) ----------
+/* ---------- LIQUID GLASS (nav pills, and anything marked .lg-glass) ----------
    After Apple's Liquid Glass. Four things make it read as glass rather than
    frost: the page shows through clearly, the rim catches light along the top
    left, the body looks thick because its inner edge is lit, and the page bends
@@ -3134,7 +3131,8 @@ html.has-cursor .about-pill:hover {
    inside the edge. */
 .nav-logo,
 .nav-right,
-.nav-center {
+.nav-center,
+.lg-glass {
   transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
               -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease;
 }
@@ -3142,29 +3140,28 @@ html.has-cursor .about-pill:hover {
 .nav-lit .nav-logo,
 .nav-lit .nav-right,
 .nav-lit .nav-center,
-.play-page .nav-logo,
-.play-page .nav-right,
-.play-page .nav-center,
+.play-page .nav-logo.is-over,
+.play-page .nav-right.is-over,
 .nav-rain .nav-logo,
 .nav-rain .nav-right,
-.nav-rain .nav-center {
-  /* One tint everywhere, clear enough that the glass takes its shade from what
-     is behind it, as real glass does: near white over the page, a dark smoke
-     over a black picture. At 42 per cent white it lifted black into a bright
-     grey slab; at 14, with the glow inside the rim kept low, it does not.
-     Only the labels change, black over light and white over dark, judged per
-     pill by nav.js. */
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0.06) 100%),
-    rgba(255, 255, 255, 0.14);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  -webkit-backdrop-filter: blur(10px) saturate(170%);
-  backdrop-filter: var(--lg-backdrop, blur(10px) saturate(170%));
-  box-shadow:
-    inset 1.5px 1.5px 1px rgba(255, 255, 255, 0.6),
-    inset -1px -1px 1px rgba(255, 255, 255, 0.25),
-    inset 0 0 10px 1px rgba(255, 255, 255, 0.18),
-    inset 0 -6px 10px -6px rgba(0, 0, 0, 0.06);
+.nav-rain .nav-center,
+.lg-glass {
+  /* After the two references Edward chose, iOS's Control Center and a glass
+     profile card, compared side by side over the same photograph. Neither
+     lays a white wash over what is behind, so the glass keeps the backdrop's
+     own colour and shade: near white over the page, dark over a black
+     picture. No tint is laid over it. The one thing drawn is a 1px white
+     stroke at 20 per cent: over white it cannot be seen, so the pill there
+     is only the blurred, bent backdrop from js/liquid-glass.js; over a plain
+     black area, where there is nothing behind to blur or bend, it is what
+     keeps the pill from vanishing. At 40 per cent it read as an outline.
+     Only the labels change, black over light and white over dark, judged
+     per pill by nav.js. */
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: var(--lg-backdrop, blur(16px) saturate(170%));
+  box-shadow: none;
 }
 
 /* Some visitors ask the system for less transparency. They get a solid pill. */
@@ -3172,12 +3169,12 @@ html.has-cursor .about-pill:hover {
   .nav-lit .nav-logo,
   .nav-lit .nav-right,
   .nav-lit .nav-center,
-  .play-page .nav-logo,
-  .play-page .nav-right,
-  .play-page .nav-center,
+  .play-page .nav-logo.is-over,
+  .play-page .nav-right.is-over,
   .nav-rain .nav-logo,
   .nav-rain .nav-right,
-  .nav-rain .nav-center {
+  .nav-rain .nav-center,
+  .lg-glass {
     background: rgba(255, 255, 255, 0.94);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
@@ -3190,7 +3187,8 @@ html.has-cursor .about-pill:hover {
    is a faint lift of light instead. */
 .nav .nav-logo.is-dark,
 .nav .nav-right.is-dark,
-.nav .nav-center.is-dark {
+.nav .nav-center.is-dark,
+.lg-glass.is-dark {
   color: #FFFFFF;
   transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
               -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease;
@@ -3202,12 +3200,25 @@ html.has-cursor .about-pill:hover {
   border-color: transparent;
 }
 
+/* On the home page the wordmark and About stay plain text however far the
+   page is scrolled, by Edward's call; only the Work/Play pill takes the
+   glass there. */
+.home-page .nav .nav-logo,
+.home-page .nav .nav-right {
+  background: transparent;
+  border-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
 /* With less transparency asked for, the pills are solid white, so the labels
    stay black whatever is behind. */
 @media (prefers-reduced-transparency: reduce) {
   .nav .nav-logo.is-dark,
   .nav .nav-right.is-dark,
-  .nav .nav-center.is-dark {
+  .nav .nav-center.is-dark,
+  .lg-glass.is-dark {
     color: #000000;
   }
 

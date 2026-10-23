@@ -62,7 +62,42 @@
       onRain = rain;
       nav.classList.toggle('nav-rain', rain);
     }
+    if (room) playOver();
     tone();
+  }
+
+  /* ---------- Play: a work under the wordmark or About ---------- */
+
+  // The Play room draws its works as facets, which the checks above do not
+  // count, and the header there stays clear until a work actually passes
+  // under the words of the wordmark or About. The test is points across the
+  // text itself, the pill less its padding, asked of the browser's own hit
+  // testing: a poster on a side wall is a slanted shape, and its bounding box
+  // would light the pill while only empty floor was under the words.
+  var room = document.getElementById('room');
+  var playPills = room ? [].slice.call(nav.querySelectorAll('.nav-logo, .nav-right')) : [];
+
+  function workUnder(el) {
+    var r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+    var left = r.left + (parseFloat(cs.paddingLeft) || 0), right = r.right - (parseFloat(cs.paddingRight) || 0);
+    var top = r.top + (parseFloat(cs.paddingTop) || 0), bottom = r.bottom - (parseFloat(cs.paddingBottom) || 0);
+    for (var gy = 0; gy < 3; gy++) {
+      for (var gx = 0; gx < 6; gx++) {
+        var x = left + (right - left) * gx / 5, y = top + (bottom - top) * gy / 2;
+        var hits = document.elementsFromPoint(x, y);
+        for (var i = 0; i < hits.length; i++) {
+          if (hits[i].classList && hits[i].classList.contains('facet')) return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function playOver() {
+    for (var k = 0; k < playPills.length; k++) {
+      var hit = workUnder(playPills[k]);
+      if (playPills[k].classList.contains('is-over') !== hit) playPills[k].classList.toggle('is-over', hit);
+    }
   }
 
   /* ---------- the sliding marker ---------- */
@@ -164,7 +199,7 @@
   // dark: the part of a picture actually under it, read from a small copy of
   // the image, or a black panel. Reading the image itself, rather than tagging
   // pictures by hand, keeps it right as screenshots are added or swapped.
-  var pills = [].slice.call(nav.querySelectorAll('.nav-logo, .nav-center, .nav-right'));
+  var pills = [].slice.call(document.querySelectorAll('.nav-logo, .nav-center, .nav-right, .lg-glass'));
   var PANELS = '.widget-demo';
   var thumbs = {};  // src -> { w, h, data } at no more than 96px wide, or false
 
@@ -273,8 +308,8 @@
 
   // The Play page turns its artwork under a bar that never moves, so polling is
   // the only way to notice; every other page settles on scroll alone.
-  if (document.querySelector('.gallery-ring')) {
-    window.setInterval(check, 140);
+  if (room) {
+    window.setInterval(check, 100);
   }
 
   check();

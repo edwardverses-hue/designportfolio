@@ -13,7 +13,7 @@
    and curved there. The three colour channels are displaced by slightly
    different amounts, which is the fringe. */
 (function () {
-  var pills = [].slice.call(document.querySelectorAll('.nav-logo, .nav-center, .nav-right'));
+  var pills = [].slice.call(document.querySelectorAll('.nav-logo, .nav-center, .nav-right, .lg-glass'));
   if (!pills.length) return;
 
   var brands = navigator.userAgentData && navigator.userAgentData.brands;
@@ -22,9 +22,21 @@
   if (window.matchMedia('(prefers-reduced-transparency: reduce)').matches) return;
 
   var NS = 'http://www.w3.org/2000/svg';
-  var BAND = 14;     // px from the rim that bends
-  var SCALE = 22;    // strongest pull, in px, at the very edge
-  var FRINGE = 0.04; // how much further green and blue are pulled than red
+
+  // Two looks. 'clear' is the one the site had; 'lensed' bends the backdrop
+  // further in from the rim and harder, splits its colours more at the edge,
+  // and frosts it less, so more of what is behind shows through bent. To go
+  // back, set LOOK to LOOKS.clear. Nothing else changes between them.
+  var LOOKS = {
+    clear:  { band: 14, scale: 22, fringe: 0.04, blur: 8 },
+    lensed: { band: 18, scale: 34, fringe: 0.12, blur: 5 }
+  };
+  var LOOK = LOOKS.lensed;
+
+  var BAND = LOOK.band;     // px from the rim that bends
+  var SCALE = LOOK.scale;   // strongest pull, in px, at the very edge
+  var FRINGE = LOOK.fringe; // how much further green and blue are pulled than red
+  var BLUR = LOOK.blur;     // frost on the backdrop before it is bent
 
   var defs = document.createElementNS(NS, 'svg');
   defs.setAttribute('width', '0');
@@ -115,7 +127,7 @@
     map.setAttribute('href', url);
     map.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', url);
     f.appendChild(map);
-    f.appendChild(el('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '4', result: 'soft' }));
+    f.appendChild(el('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: String(BLUR), result: 'soft' }));
     channel(f, SCALE, 0, 'r');
     channel(f, SCALE * (1 + FRINGE), 1, 'g');
     channel(f, SCALE * (1 + 2 * FRINGE), 2, 'b');
