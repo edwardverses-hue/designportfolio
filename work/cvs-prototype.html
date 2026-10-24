@@ -1068,9 +1068,10 @@ html.embed #scaler{position:absolute;left:50%;top:50%;margin:-426px 0 0 -196.5px
 .tapdot.on{animation:tapdot .62s var(--ease) both}
 @keyframes tapdot{0%{opacity:0;transform:scale(.6)}25%{opacity:1;transform:scale(1)}45%{opacity:1;transform:scale(.86)}100%{opacity:0;transform:scale(1.04)}}
 .taplock{position:absolute;inset:0;z-index:95}
-/* The register's scanner reading the checkout barcode, in the red of a laser
-   scanner so it reads as the store's action rather than the shopper's tap. */
-.scanbeam{position:absolute;z-index:91;height:2px;border-radius:1px;background:#E0201B;box-shadow:0 0 8px 1px rgba(224,32,27,.55);pointer-events:none}
+/* The register reading the checkout barcode, marked the way the case study's
+   page marks what is current, in its rail and its Work and Play pill: a 1px
+   black outline round the thing, rounded, with no colour of its own. */
+.scanmark{position:absolute;z-index:91;border:1px solid #000;border-radius:10px;pointer-events:none;opacity:0}
 /* Paused from the page: the prototype's own CSS loops (the scan line, the mic
    shimmer) hold too. */
 html.paused *,html.paused *::before,html.paused *::after{animation-play-state:paused!important}
@@ -1135,9 +1136,9 @@ if(EMBED)(()=>{
     s.scrollTo({top:s.scrollTop+(er.top-sr.top)/k-s.clientHeight/2+er.height/k/2,behavior:mode==='still'?'auto':'smooth'});await sleep(750);}
   /* The register's scanner reading the barcode: a red line passing down it. */
   async function scanBeam(sel){const e=await get(sel);if(mode==='still')return;const p=at(e);
-    const b=el('<div class="scanbeam" aria-hidden="true"></div>');b.style.left=(p.x-6)+'px';b.style.width=(p.w+12)+'px';b.style.top=p.y+'px';dev.appendChild(b);
-    b.animate([{transform:'translateY(0)',opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.85},{transform:'translateY('+p.h+'px)',opacity:0}],{duration:800,easing:'ease-in-out'});
-    await sleep(820);b.remove();}
+    const m=el('<div class="scanmark" aria-hidden="true"></div>');m.style.left=(p.x-8)+'px';m.style.top=(p.y-8)+'px';m.style.width=(p.w+16)+'px';m.style.height=(p.h+16)+'px';dev.appendChild(m);
+    m.animate([{opacity:0,transform:'scale(1.03)'},{opacity:1,transform:'scale(1)',offset:.25},{opacity:1,transform:'scale(1)',offset:.75},{opacity:0,transform:'scale(1)'}],{duration:1100,easing:'ease-out'});
+    await sleep(1120);m.remove();}
 
   /* Each scene is the step of the flow the case study is talking about at that
      point, and starts on the screen the reader saw last. */

@@ -1131,7 +1131,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 56px;
   top: 50%;
   transform: translateY(-50%);
-  width: 150px;
+  width: 117px;           /* the widest label, Gemini's "The Redesign" (85px), with the pill's padding and outline */
   flex-direction: column;
   gap: 6px;
   z-index: 40;
@@ -2861,6 +2861,8 @@ mark.draft {
   background: var(--surface);
 }
 
+/* One register screen at a time: the old one fades all the way out before
+   the next fades in, so two screens' text never shows on top of each other. */
 .handoff__pos img {
   position: absolute;
   inset: 3.2%;
@@ -2869,15 +2871,18 @@ mark.draft {
   border-radius: 8px;
   background: #FFFFFF;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.18s ease;
 }
 
 .handoff__pos img.is-on {
   opacity: 1;
+  transition: opacity 0.24s ease 0.18s;
 }
 
-/* The arrow between them, and the dot that runs along it the moment the
-   barcode is read: the one cue that says the phone caused the change. */
+/* The arrow between them, a grey hairline that draws across in black the
+   moment the barcode is read, from the phone's side to the register's: the
+   one cue that says the phone caused the change, in the page's own hairlines
+   rather than a colour of its own. */
 .handoff__link {
   position: relative;
   height: 1px;
@@ -2901,23 +2906,39 @@ mark.draft {
   content: "";
   position: absolute;
   left: 0;
-  top: -4px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #E0201B;
+  top: 0;
+  width: 100%;
+  height: 1px;
+  background: #000000;
+  transform-origin: left center;
+  transform: scaleX(0);
   opacity: 0;
 }
 
 .handoff__link.is-sending::after {
-  animation: handoff-send 0.7s ease-in-out;
+  animation: handoff-send 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 @keyframes handoff-send {
-  0%   { left: 0; opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { left: calc(100% - 9px); opacity: 0; }
+  0%   { transform: scaleX(0); opacity: 1; }
+  55%  { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+/* The arrowhead takes the black as the line reaches it, and lets it go with
+   the line. */
+.handoff__link.is-sending::before {
+  animation: handoff-head 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@keyframes handoff-head {
+  0%, 45% { border-color: #BDBDBD; }
+  55%     { border-color: #000000; }
+  100%    { border-color: #BDBDBD; }
+}
+
+.motion-paused .handoff__link::before {
+  animation-play-state: paused;
 }
 
 .motion-paused .handoff__link::after {
@@ -2962,15 +2983,18 @@ mark.draft {
   }
 
   .handoff__link::after {
-    left: -4px;
+    left: 0;
     top: 0;
+    width: 1px;
+    height: 100%;
+    transform-origin: center top;
+    transform: scaleY(0);
   }
 
   @keyframes handoff-send {
-    0%   { top: 0; opacity: 0; }
-    15%  { opacity: 1; }
-    85%  { opacity: 1; }
-    100% { top: calc(100% - 9px); opacity: 0; }
+    0%   { transform: scaleY(0); opacity: 1; }
+    55%  { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; }
   }
 
   .handoff__label {
@@ -3661,16 +3685,23 @@ html.has-cursor .about-pill:hover {
 
 /* The header, the section rail and the motion toggle share one frame, 56px in
    from each side, so the wordmark, the rail and About line up down the page.
-   The column is centred inside that frame: 240px clear of each side, which
-   leaves the rail (56px to 206px) its own space, and never wider than 1040px,
-   so on a big screen it centres rather than stretching the cards. */
+   The column is centred inside that frame, at least 213px clear of each
+   side: the rail (56px to 173px, sized by its longest label) and 40px, the
+   step the spacing system uses between text and a different element. The
+   rail is navigation, not part of the content, so it takes more space than
+   anything grouped with the content does; at 20px it read as attached.
+   The column stops at 1200px and centres beyond it. There the paired cards
+   measure about 63 characters a line, near the 66 usually given as ideal
+   for reading (45 to 75 comfortable), the same rule that holds body text
+   to its 620px measure; uncapped, at 1534px on a 1920px screen, they ran
+   about 80. */
 @media (min-width: 1280px) {
   .cap-page .case-intro,
   .cap-page .cap-section,
   .cap-page .case-next {
     max-width: none;
-    margin-left: max(240px, calc((100vw - 1040px) / 2));
-    margin-right: max(240px, calc((100vw - 1040px) / 2));
+    margin-left: max(213px, calc((100vw - 1200px) / 2));
+    margin-right: max(213px, calc((100vw - 1200px) / 2));
     padding-left: 0;
     padding-right: 0;
   }
@@ -4126,6 +4157,41 @@ html.has-cursor .about-pill:hover {
 .type-wendy .kit-duo__label { font-weight: 300; }
 
 .type-wendy .meta-value { font-weight: 300; }
+
+/* Wendy's weight steps, drawn on Helvetica Neue Light. Her page sets them on
+   a variable font's weight axis: body 360, title 401, section titles,
+   subheads and labels 440, fact values 480. Helvetica Neue here has only
+   Light and Medium, so the heavier steps are made with a hairline outline in
+   the text's own colour, sized by ink: measured on the same words, Light with
+   an outline of 0.58px at 15px, 0.72px at 20px, 0.88px at 24px and about
+   1.3px at 36px carries the ink of Medium. Each role takes its share of the
+   way from Light (300) to Medium (500): 401 is half, 440 70 per cent.
+
+   The body, captions, sources, fact values and rail are plain Helvetica
+   Light with no outline, by Edward's call: an outline, even a thin one,
+   fills the letters and the text stops reading as Light.
+
+   An outline is drawn centred on each letter's edge, so half of it falls
+   outside: every letter grows by half the outline on each side and the gap
+   between two letters shrinks by the whole outline, which read as cramped.
+   Each outlined role's letter spacing is its own (none, for these) plus its
+   outline's width, which gives the gaps back exactly. */
+.type-wendy .cap-eyebrow,
+.type-wendy .meta-label,
+.type-wendy .reframe-label,
+.type-wendy .kit-duo__label { -webkit-text-stroke: 0.41px currentColor; letter-spacing: 0.41px; }
+
+.type-wendy .cap-moment,
+.type-wendy .cap-card h3,
+.type-wendy .cap-list dt,
+.type-wendy .pos-row__title,
+.type-wendy .reframe-text,
+.type-wendy .next-link,
+.type-wendy .next-label { -webkit-text-stroke: 0.50px currentColor; letter-spacing: 0.50px; }
+
+.type-wendy .cap-title { -webkit-text-stroke: 0.61px currentColor; letter-spacing: 0.61px; }
+
+.type-wendy .case-title { -webkit-text-stroke: 0.66px currentColor; letter-spacing: 0.66px; }
 
 /* ---------- SPACING SYSTEM (CVS page) ----------
    Measured off wendyyudesign.com/capsule, where every gap between two blocks
