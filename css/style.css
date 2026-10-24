@@ -4029,3 +4029,212 @@ html.has-cursor .about-pill:hover {
     padding-bottom: 0;
   }
 }
+
+/* ---------- TYPE AFTER WENDY YU'S CAPSULE (CVS page) ----------
+   Measured off wendyyudesign.com/capsule. It uses one weight, Light (300),
+   for every line, as this site already does; its hierarchy comes from size,
+   leading, tracking and colour, and one monospace accent:
+
+     36px title, 24px section, 20px subhead    leading 1.2, no tracking
+     15px body                                 leading 22px, +0.03em
+     15px section label and fact label         leading 1.2, #969696
+     14px step caption                         Space Mono, black
+
+   Scoped to the CVS page by .type-wendy on its <html>; take the class off
+   to go back. */
+.type-wendy .case-title {
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+.type-wendy .cap-title {
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+.type-wendy .cap-moment,
+.type-wendy .cap-card h3,
+.type-wendy .cap-list dt,
+.type-wendy .pos-row__title,
+.type-wendy .reframe-text,
+.type-wendy .next-link,
+.type-wendy .next-label {
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+.type-wendy .case-description,
+.type-wendy .cap-body,
+.type-wendy .cap-card p,
+.type-wendy .cap-list dd,
+.type-wendy .kit-duo__text,
+.type-wendy .meta-value {
+  font-size: 15px;
+  line-height: 22px;
+  letter-spacing: 0.03em;
+}
+
+.type-wendy .cap-eyebrow,
+.type-wendy .meta-label,
+.type-wendy .reframe-label,
+.type-wendy .kit-duo__label {
+  font-size: 15px;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #969696;
+}
+
+.type-wendy .proto-cap,
+.type-wendy .pos-state__cap,
+.type-wendy .handoff__label,
+.type-wendy .cap-evidence__cap,
+.type-wendy .cap-card-num {
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: normal;
+  color: #000000;
+}
+
+/* Weights, after her page. It sets them on its variable font's weight axis
+   (read from font-variation-settings, which font-weight alone does not
+   show): body 360, title 401, section titles, subheads and labels 440, fact
+   values 480, rail 400. Helvetica Neue comes in fixed weights, so her steps
+   are kept in order on its real faces, by Edward's call: the body lightest,
+   titles and labels a step up, the facts heaviest.
+
+     body Light 300   title, headings, labels Regular 400
+     fact values Medium 500
+
+   Where Helvetica Neue is not installed, Inter is next, ahead of Helvetica,
+   which Windows quietly swaps for Arial, a font with no weights between
+   Regular and Bold. Inter is loaded as a variable font and takes these
+   weights exactly. */
+.type-wendy body {
+  font-family: 'Helvetica Neue', 'HelveticaNeue', 'Inter', 'Helvetica', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.type-wendy .case-description,
+.type-wendy .cap-body,
+.type-wendy .cap-card p,
+.type-wendy .cap-list dd,
+.type-wendy .kit-duo__text,
+.type-wendy .case-sources { font-weight: 300; }
+
+.type-wendy .case-title,
+.type-wendy .cap-title,
+.type-wendy .cap-moment,
+.type-wendy .cap-card h3,
+.type-wendy .cap-list dt,
+.type-wendy .pos-row__title,
+.type-wendy .reframe-text,
+.type-wendy .next-link,
+.type-wendy .next-label,
+.type-wendy .cap-eyebrow,
+.type-wendy .meta-label,
+.type-wendy .reframe-label,
+.type-wendy .kit-duo__label { font-weight: 400; }
+
+.type-wendy .meta-value { font-weight: 500; }
+
+/* ---------- SPACING SYSTEM (CVS page) ----------
+   Measured off wendyyudesign.com/capsule, where every gap between two blocks
+   is one of six, chosen by how the two relate rather than by what they are.
+   Things that belong together sit closest; the further apart two blocks are
+   in meaning, the more space between them, so the gaps alone say what to
+   read as one group:
+
+     --s-tight    8px   a subhead and its text, a fact's label and value
+     --s-bound   10px   a label and its title, a title and its text,
+                        a picture and its caption
+     --s-para    20px   one paragraph and the next
+     --s-visual  40px   text and the picture or cards it introduces,
+                        an introduction and its first group
+     --s-group   64px   one group and the next inside a section
+     --s-section 88px   one section and the next
+     --s-major  112px   the opening facts and the first section
+
+   Inside a section every block's top margin is set by the block before it;
+   bottom margins are taken off so no gap is counted twice. Scoped to the
+   CVS page by .space-system on its <html>; take the class off to go back. */
+.space-system {
+  --s-tight: 8px;
+  --s-bound: 10px;
+  --s-para: 20px;
+  --s-visual: 40px;
+  --s-group: 64px;
+  --s-section: 88px;
+  --s-major: 112px;
+}
+
+@media (max-width: 720px) {
+  .space-system {
+    --s-group: 48px;
+    --s-section: 64px;
+    --s-major: 80px;
+  }
+}
+
+/* The opening: title, summary, facts. */
+.space-system .case-title { margin: 0 0 var(--s-bound); }
+.space-system .case-description { margin: 0; }
+.space-system .case-meta { margin-top: 60px; }
+
+/* Sections. */
+.space-system .cap-section { padding-top: var(--s-section); }
+
+@media (min-width: 1280px) {
+  /* The facts close on a hairline 40px under them; the first section's label
+     sits the major step below the facts, counting the line. */
+  .space-system .case-intro + .cap-section { padding-top: calc(var(--s-major) - 41px); }
+}
+
+/* Inside a section: the block before decides the gap. */
+.space-system .cap-section > * { margin-top: 0; margin-bottom: 0; }
+.space-system .cap-section > * + * { margin-top: var(--s-visual); }
+
+.space-system .cap-eyebrow + .cap-title,
+.space-system .cap-eyebrow + .cap-moment,
+.space-system .cap-title + .cap-body { margin-top: var(--s-bound); }
+
+.space-system .cap-body + .cap-body,
+.space-system .cap-body + .proto-open { margin-top: var(--s-para); }
+
+.space-system .cap-moment + .cap-body { margin-top: var(--s-tight); }
+
+/* A subhead opens a new group: a group's width away from what came before,
+   unless it is the first group after the section's introduction. */
+.space-system .cap-section > * + .cap-moment { margin-top: var(--s-group); }
+.space-system .cap-title + .cap-body + .cap-moment,
+.space-system .cap-title + .cap-body + .cap-body + .cap-moment { margin-top: var(--s-visual); }
+.space-system .cap-eyebrow + .cap-moment { margin-top: var(--s-bound); }
+
+/* Rows that are each a group of their own: moments and register states. */
+.space-system .split-row + .split-row,
+.space-system .pos-row + .pos-row,
+.space-system .handoff + .split-row { margin-top: var(--s-group); }
+
+/* Inside a group. */
+.space-system .split-text .cap-moment,
+.space-system .pos-row__title { margin: 0 0 var(--s-tight); }
+.space-system .pos-row__text .cap-body { margin: 0; }
+.space-system .proto-cap,
+.space-system .pos-state__cap,
+.space-system .cap-evidence__cap { margin-top: var(--s-bound); }
+.space-system .cap-card h3 { margin: 0 0 var(--s-tight); }
+.space-system .kit-duo__label { margin: 0 0 var(--s-bound); }
+
+/* Figures in a run, the research sheets and the component plates, stand a
+   visual step apart like any other picture. */
+.space-system .cap-evidence { gap: var(--s-visual); }
+.space-system .pos-flow { row-gap: var(--s-visual); }
+
+/* The design breakdown's moments carried a fixed 88px of their own from
+   before the system; they take its steps instead: the visual step after the
+   section's introduction, a group's step between one moment and the next. */
+.space-system .cap-section > .split-row.has-title { margin-top: var(--s-visual); }
+.space-system .cap-section > .split-row + .split-row.has-title,
+.space-system .cap-section > .handoff + .split-row.has-title { margin-top: var(--s-group); }
