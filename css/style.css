@@ -4464,3 +4464,75 @@ html.has-cursor .about-pill:hover {
     transition: none;
   }
 }
+
+/* ---------- RESEARCH CHARTS (CVS) ---------- */
+/* A chart at the top of an insight card, drawn by js/cvs-charts.js from the
+   package's figures. Black for the series the card is about, the placeholder
+   grey for the other, hairlines and the secondary 14px for everything else,
+   so it is set like the rest of the page rather than like a dashboard. */
+.chart {
+  margin: 0 0 16px;
+}
+
+.chart__svg {
+  display: block;
+  overflow: visible;
+}
+
+.chart__grid {
+  stroke: #E5E5E5;
+  stroke-width: 1;
+}
+
+.chart__bar.is-print { fill: #000000; }
+.chart__bar.is-app { fill: #D9D9D9; }
+
+/* The page's 14px secondary, since the chart is drawn at real pixels. */
+.chart__tick,
+.chart__label,
+.chart__value {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  fill: var(--grey);
+}
+
+.chart__value {
+  fill: #000000;
+}
+
+.chart__legend {
+  display: flex;
+  gap: 14px;
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--grey);
+}
+
+.chart__key::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: 0;
+  background: #D9D9D9;
+}
+
+.chart__key.is-print::before { background: #000000; }
+
+.chart__cap {
+  order: 1;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--grey);
+}
+
+/* The caption reads after the legend. */
+.chart { display: flex; flex-direction: column; }
+.chart__svg { order: 0; }
+.chart__legend { order: 0; }
