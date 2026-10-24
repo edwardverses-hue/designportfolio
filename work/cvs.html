@@ -64,7 +64,7 @@
       <a href="#components">Components</a>
       <a href="#breakdown">Design</a>
       <a href="#register">Secondary</a>
-      <a href="#reflections">Observations</a>
+      <a href="#reflections">Reflections</a>
     </div>
   </section>
 
@@ -236,23 +236,17 @@
     <div class="cap-eyebrow">Components</div>
     <h2 class="cap-title">One kit for the app and the register</h2>
     <p class="cap-body">
-      Every screen comes from one Figma file. The app keeps to CVS's existing patterns; the register has its own small set for its customer screen.
+      CVS's app is several products in one shell, with three different tab bars between them. I kept its patterns and made them consistent; the register got its own small set.
     </p>
 
-    <!-- The existing design language: what matching it meant, and where the
-         kit departs from it on purpose. -->
-    <h3 class="cap-moment">Working inside CVS's design language</h3>
-    <p class="cap-body">
-      The CVS Health app is several products in one shell: pharmacy, ExtraCare, the shop and the clinic each arrived with their own patterns, and the App Store's own screenshots show three different tab bars. Matching it meant choosing which CVS to match, then being consistent where the app is not.
-    </p>
     <div class="cap-cards is-pair">
       <div class="cap-card">
         <h3>Kept</h3>
-        <p>The navy pill buttons, filled for the one main action and outlined for the rest. The search field at the top of a tab. The plan card with a progress bar, from the Benefits tab. The product card with its stars and price.</p>
+        <p>Navy pill buttons, the search field, the plan card's progress bar, the product card.</p>
       </div>
       <div class="cap-card">
         <h3>Changed</h3>
-        <p>One tab bar across every screen. Red kept for the heart and for the one urgent number, the amount that expires. One eligibility tag that reads the same on a product card, a cart row, an order and the register, so the answer never changes shape.</p>
+        <p>One tab bar. Red only for the heart and the amount that expires. One eligibility tag, from product card to register.</p>
       </div>
     </div>
 
@@ -502,44 +496,24 @@
     </div>
   </section>
 
-    <!-- FUTURE OPPORTUNITIES (what a longer project would do next) -->
+    <!-- REFLECTIONS: the one lesson, then the three things still unproven. -->
   <section id="reflections" class="cap-section">
-    <div class="cap-eyebrow">Observations</div>
+    <div class="cap-eyebrow">Reflections</div>
+    <h2 class="cap-title">Check what a system already knows before designing on top of it</h2>
+    <p class="cap-body">The design is still untested in three places.</p>
 
-    <h3 class="cap-moment">What reframing was worth</h3>
-    <p class="cap-body">Asking who already had the answer changed the scope of the project.</p>
-    <div class="cap-cards is-pair">
-      <div class="cap-card">
-        <h3>For CVS</h3>
-        <p>Forfeited FSA money is spend that already belongs to health retail, in the dollars the brief asked for. Showing the register's own split costs a screen and reaches every shopper.</p>
-      </div>
-      <div class="cap-card">
-        <h3>For me</h3>
-        <p>I learned to check what a system already knows before designing on top of it. It also put me in the conversation about what to build, which is where I want to be.</p>
-      </div>
-    </div>
-
-    <h3 class="cap-moment">Constraints</h3>
     <div class="cap-cards">
       <div class="cap-card">
-        <h3>The real tokens</h3>
-        <p>The prototype is set in Inter with sampled colours. I would re-skin the flow in CVS Health Sans and the actual palette.</p>
+        <h3>With the people it's for</h3>
+        <p>Only a WCAG self-audit so far. Seniors and first-time FSA users would show what it can't.</p>
       </div>
       <div class="cap-card">
-        <h3>CVS's own benefits data</h3>
-        <p>The region's package has no FSA numbers, so the case rests on national averages. CVS's own attach and conversion rates would make it a real number.</p>
+        <h3>With CVS's numbers</h3>
+        <p>The case rests on national FSA averages, not CVS's own rates.</p>
       </div>
       <div class="cap-card">
-        <h3>Sessions with the people it is for</h3>
-        <p>A WCAG self-audit checked contrast and labels. Moderated sessions with seniors and first-time FSA users would show what an automated check cannot.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Real register hardware</h3>
-        <p>The gap between a card tap and a confirmed split is a timing problem, and Figma cannot stage it. I would prototype it on point-of-sale hardware.</p>
-      </div>
-      <div class="cap-card">
-        <h3>A deadline that does something</h3>
-        <p>"86 days left" states a fact. A reminder before the deadline, or a nudge toward eligible items, would help people act on it.</p>
+        <h3>On a real register</h3>
+        <p>The pause between a card tap and a confirmed split can't be staged in Figma.</p>
       </div>
     </div>
   </section>
