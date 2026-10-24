@@ -4033,12 +4033,11 @@ html.has-cursor .about-pill:hover {
 /* ---------- TYPE AFTER WENDY YU'S CAPSULE (CVS page) ----------
    Measured off wendyyudesign.com/capsule. It uses one weight, Light (300),
    for every line, as this site already does; its hierarchy comes from size,
-   leading, tracking and colour, and one monospace accent:
+   leading, tracking and colour:
 
      36px title, 24px section, 20px subhead    leading 1.2, no tracking
      15px body                                 leading 22px, +0.03em
      15px section label and fact label         leading 1.2, #969696
-     14px step caption                         Space Mono, black
 
    Scoped to the CVS page by .type-wendy on its <html>; take the class off
    to go back. */
@@ -4086,19 +4085,6 @@ html.has-cursor .about-pill:hover {
   color: #969696;
 }
 
-.type-wendy .proto-cap,
-.type-wendy .pos-state__cap,
-.type-wendy .handoff__label,
-.type-wendy .cap-evidence__cap,
-.type-wendy .cap-card-num {
-  font-family: 'Space Mono', ui-monospace, monospace;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 21px;
-  letter-spacing: normal;
-  color: #000000;
-}
-
 /* Weights, after her page. It sets them on its variable font's weight axis
    (read from font-variation-settings, which font-weight alone does not
    show): body 360, title 401, section titles, subheads and labels 440, fact
@@ -4106,8 +4092,9 @@ html.has-cursor .about-pill:hover {
    are kept in order on its real faces, by Edward's call: the body lightest,
    titles and labels a step up, the facts heaviest.
 
-     body Light 300   title, headings, labels Regular 400
-     fact values Medium 500
+     every role Light 300, the fact values included
+     (lowered by Edward's call: on a machine with only Light and Medium,
+     Regular falls through to Medium and read too bold)
 
    Where Helvetica Neue is not installed, Inter is next, ahead of Helvetica,
    which Windows quietly swaps for Arial, a font with no weights between
@@ -4136,9 +4123,9 @@ html.has-cursor .about-pill:hover {
 .type-wendy .cap-eyebrow,
 .type-wendy .meta-label,
 .type-wendy .reframe-label,
-.type-wendy .kit-duo__label { font-weight: 400; }
+.type-wendy .kit-duo__label { font-weight: 300; }
 
-.type-wendy .meta-value { font-weight: 500; }
+.type-wendy .meta-value { font-weight: 300; }
 
 /* ---------- SPACING SYSTEM (CVS page) ----------
    Measured off wendyyudesign.com/capsule, where every gap between two blocks

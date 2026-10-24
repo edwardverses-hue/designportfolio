@@ -169,7 +169,17 @@
       f.appendChild(el('feColorMatrix', { type: 'matrix', values: pass[1], result: pass[2] }));
     });
     f.appendChild(el('feComposite', { in: 'dispR', in2: 'dispG', operator: 'arithmetic', k1: '0', k2: '1', k3: '1', k4: '0', result: 'rg' }));
-    f.appendChild(el('feComposite', { in: 'rg', in2: 'dispB', operator: 'arithmetic', k1: '0', k2: '1', k3: '1', k4: '0', result: 'lensResult' }));
+    f.appendChild(el('feComposite', { in: 'rg', in2: 'dispB', operator: 'arithmetic', k1: '0', k2: '1', k3: '1', k4: '0', result: 'lensRaw' }));
+    // Chrome's displacement takes the nearest pixel with no smoothing, so
+    // where the lens stretches the page each pixel becomes a block, and the
+    // colour split, rounded to whole pixels, leaves single red, green and
+    // blue dots instead of a fringe. On a 2x screen these are small enough to
+    // pass; on a 1x screen they show. A smoothing pass of 0.8 device pixels
+    // blends them into the smooth result they stand for (Chrome skips one
+    // under about 0.6), little enough that the page behind still reads
+    // through. Their filter has no such pass; it is the one addition.
+    var smooth = 0.8 / Math.min(2, window.devicePixelRatio || 1);
+    f.appendChild(el('feGaussianBlur', { in: 'lensRaw', stdDeviation: smooth.toFixed(2), result: 'lensResult' }));
     f.appendChild(el('feColorMatrix', { in: 'map', type: 'matrix', values: '0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 1 0 ' + (-128 / 255), result: 'specMask' }));
     f.appendChild(el('feComposite', { in: 'specMask', in2: 'lensResult', operator: 'arithmetic', k1: '0', k2: String(AV.specular), k3: '1', k4: '0' }));
     return f;
