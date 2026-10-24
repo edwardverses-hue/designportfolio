@@ -2861,8 +2861,10 @@ mark.draft {
   background: var(--surface);
 }
 
-/* One register screen at a time: the old one fades all the way out before
-   the next fades in, so two screens' text never shows on top of each other. */
+/* One register screen at a time, with no gap: the next screen fades in over
+   the one showing, which stays fully up underneath (is-prev) until it is
+   covered and is then taken away by js/cvs-demos.js. Every screen has a white
+   ground, so nothing behind shows through and no two screens' text mixes. */
 .handoff__pos img {
   position: absolute;
   inset: 3.2%;
@@ -2871,18 +2873,27 @@ mark.draft {
   border-radius: 8px;
   background: #FFFFFF;
   opacity: 0;
-  transition: opacity 0.18s ease;
+  z-index: 0;
+}
+
+.handoff__pos img.is-prev {
+  opacity: 1;
+  z-index: 1;
 }
 
 .handoff__pos img.is-on {
   opacity: 1;
-  transition: opacity 0.24s ease 0.18s;
+  z-index: 2;
+  transition: opacity 0.3s ease;
 }
 
-/* The arrow between them, a grey hairline that draws across in black the
-   moment the barcode is read, from the phone's side to the register's: the
-   one cue that says the phone caused the change, in the page's own hairlines
-   rather than a colour of its own. */
+@media (prefers-reduced-motion: reduce) {
+  .handoff__pos img.is-on { transition: none; }
+}
+
+/* The arrow between them, a still grey hairline: the phone's barcode taking
+   its outline at the moment the register changes shows the one caused the
+   other, so the arrow only gives the direction. */
 .handoff__link {
   position: relative;
   height: 1px;
@@ -2900,49 +2911,6 @@ mark.draft {
   border-top: 1px solid #BDBDBD;
   border-right: 1px solid #BDBDBD;
   transform: rotate(45deg);
-}
-
-.handoff__link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 1px;
-  background: #000000;
-  transform-origin: left center;
-  transform: scaleX(0);
-  opacity: 0;
-}
-
-.handoff__link.is-sending::after {
-  animation: handoff-send 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-@keyframes handoff-send {
-  0%   { transform: scaleX(0); opacity: 1; }
-  55%  { transform: scaleX(1); opacity: 1; }
-  100% { transform: scaleX(1); opacity: 0; }
-}
-
-/* The arrowhead takes the black as the line reaches it, and lets it go with
-   the line. */
-.handoff__link.is-sending::before {
-  animation: handoff-head 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-@keyframes handoff-head {
-  0%, 45% { border-color: #BDBDBD; }
-  55%     { border-color: #000000; }
-  100%    { border-color: #BDBDBD; }
-}
-
-.motion-paused .handoff__link::before {
-  animation-play-state: paused;
-}
-
-.motion-paused .handoff__link::after {
-  animation-play-state: paused;
 }
 
 .handoff__label {
@@ -2980,21 +2948,6 @@ mark.draft {
     top: auto;
     bottom: -1px;
     transform: rotate(135deg);
-  }
-
-  .handoff__link::after {
-    left: 0;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    transform-origin: center top;
-    transform: scaleY(0);
-  }
-
-  @keyframes handoff-send {
-    0%   { transform: scaleY(0); opacity: 1; }
-    55%  { transform: scaleY(1); opacity: 1; }
-    100% { transform: scaleY(1); opacity: 0; }
   }
 
   .handoff__label {
@@ -4291,3 +4244,223 @@ html.has-cursor .about-pill:hover {
 .space-system .cap-section > .split-row.has-title { margin-top: var(--s-visual); }
 .space-system .cap-section > .split-row + .split-row.has-title,
 .space-system .cap-section > .handoff + .split-row.has-title { margin-top: var(--s-group); }
+
+/* ---------- BEYOND THE WORK (about) ---------- */
+/* The photo globe at the end of the About page, after ramp.design's section
+   of the same name. The stage fills what is left of the viewport under the
+   fixed nav, js/beyond.js sets --beyond-nav-bottom and --beyond-usable-height
+   from the nav's measured height, and the heading sits at z-index 500 so the
+   cards pass in front of it and behind it by depth. The cards are grey until
+   they hold pictures. */
+.beyond {
+  width: min(100%, 1440px);
+  max-width: 1440px;
+  margin-inline: auto;
+  overflow: visible;
+  color: #000000;
+}
+
+.beyond__stage {
+  --beyond-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: var(--beyond-usable-height, calc(100dvh - var(--beyond-nav-bottom, 80px) - var(--beyond-safe-area-bottom)));
+  min-height: 0;
+  isolation: isolate;
+  overflow: visible;
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+}
+
+.beyond__stage[data-orbit-dragging],
+.beyond__stage[data-orbit-dragging] .beyond__photo {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.beyond__center {
+  position: absolute;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: min(92vw, 70rem);
+  margin: auto;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* The type system's face and weight, Helvetica Neue Light. The size is the
+   one display size on the site: the globe is built around a heading this big,
+   so it sits outside the five reading sizes rather than at 36px. */
+.beyond__title {
+  margin: 0;
+  font-family: inherit;
+  font-size: clamp(4.5rem, 10vw, 9rem);
+  font-weight: 300;
+  line-height: 0.78;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.beyond__title span {
+  display: block;
+}
+
+/* The type system's 16px reading text. */
+.beyond__dek {
+  width: min(90%, 31rem);
+  margin: 36px 0 0;
+  color: #000000;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+.beyond__sphere {
+  position: absolute;
+  inset: 0;
+  z-index: auto;
+  perspective: 1100px;
+  pointer-events: none;
+}
+
+.beyond__photo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  display: block;
+  width: clamp(8rem, 15vw, 13.5rem);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  /* The radius every picture and plate on the site takes, 16px on phones. */
+  border-radius: 24px;
+  background: none;
+  perspective: 800px;
+  transform-origin: 50% center;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  touch-action: pan-y pinch-zoom;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.beyond__push {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border-radius: inherit;
+  transform: translate(0, 0);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+
+.beyond__card {
+  position: absolute;
+  inset: 0;
+  display: block;
+  border: 0;
+  border-radius: inherit;
+  background: #D9D9D9;
+  overflow: hidden;
+  isolation: isolate;
+  transform: translate(0, 0);
+  transform-origin: 50% center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  pointer-events: none;
+}
+
+.beyond__media {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (min-width: 761px) and (max-width: 1199px) {
+  .beyond__photo { width: clamp(8rem, 14.5vw, 9.25rem); }
+}
+
+@media (max-width: 760px), (max-height: 500px) and (orientation: landscape) {
+  .beyond {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .beyond__center {
+    width: min(92vw, 25rem);
+    isolation: isolate;
+  }
+
+  /* A soft white haze behind the words, so they read over cards that are
+     too close to go behind them on a small screen. */
+  .beyond__center::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    width: min(92vw, 22rem);
+    height: 15rem;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 46%, rgba(255, 255, 255, 0) 76%);
+    filter: blur(4px);
+    pointer-events: none;
+  }
+
+  .beyond__title {
+    font-size: clamp(3.05rem, 13.8vw, 4rem);
+    line-height: 0.82;
+  }
+
+  .beyond__dek {
+    width: min(82vw, 20rem);
+    margin-top: 36px;
+  }
+
+  .beyond__photo {
+    width: clamp(6.75rem, 28.5vw, 7.875rem);
+    border-radius: 16px;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 760px), (max-height: 500px) and (orientation: landscape) {
+  .beyond__photo { width: clamp(6.75rem, 30vw, 7.875rem); }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .beyond__center { width: min(70vw, 28rem); }
+  .beyond__center::before { width: min(70vw, 20rem); height: 10rem; }
+  .beyond__title { font-size: clamp(2.25rem, 12vh, 3.25rem); }
+  .beyond__dek { width: min(70vw, 22rem); font-size: 14px; line-height: 1.5; }
+  .beyond__photo { width: clamp(4.25rem, 22vh, 5.75rem); }
+}
+
+@media (max-width: 390px) {
+  .beyond__title { font-size: clamp(2.9rem, 13.5vw, 3.5rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beyond__photo,
+  .beyond__push,
+  .beyond__card,
+  .beyond__media {
+    will-change: auto;
+    transition: none;
+  }
+}

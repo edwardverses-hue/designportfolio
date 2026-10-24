@@ -35,12 +35,23 @@
     return null;
   }
 
+  // The register's next screen fades in over the one showing, which stays
+  // fully up underneath until it is covered, then goes. Each screen is opaque,
+  // so there is never a blank moment between them and never two screens'
+  // text showing through each other.
   function showStep(imgs, key) {
+    var prev = null;
+    Object.keys(imgs).forEach(function (k) {
+      if (k !== key && imgs[k].classList.contains('is-on')) prev = imgs[k];
+      imgs[k].classList.remove('is-prev');
+    });
+    if (prev) prev.classList.add('is-prev');
     Object.keys(imgs).forEach(function (k) {
       var on = k === key;
       imgs[k].classList.toggle('is-on', on);
       imgs[k].setAttribute('aria-hidden', on ? 'false' : 'true');
     });
+    if (prev) window.setTimeout(function () { prev.classList.remove('is-prev'); }, 360);
   }
 
   /* ---------- the handoff ---------- */
@@ -49,14 +60,13 @@
     [].slice.call(fig.querySelectorAll('.handoff__pos img')).forEach(function (img) {
       imgs[img.getAttribute('data-step')] = img;
     });
-    var link = fig.querySelector('.handoff__link');
+    // The arrow between the two stays still: the phone's barcode taking its
+    // outline at the moment the register changes is what shows the one caused
+    // the other, and an arrow lighting up as well was a third motion
+    // competing with those two.
     return function (name) {
       if (name === 'loop') showStep(imgs, '1');
-      else if (name === 'pos:scan') {
-        link.classList.remove('is-sending');
-        void link.offsetWidth;
-        link.classList.add('is-sending');
-      } else if (name.indexOf('pos:') === 0) showStep(imgs, name.slice(4));
+      else if (name.indexOf('pos:') === 0 && name !== 'pos:scan') showStep(imgs, name.slice(4));
     };
   }
 
