@@ -4465,13 +4465,51 @@ html.has-cursor .about-pill:hover {
   }
 }
 
-/* ---------- RESEARCH CHARTS (CVS) ---------- */
-/* A chart at the top of an insight card, drawn by js/cvs-charts.js from the
-   package's figures. Black for the series the card is about, the placeholder
-   grey for the other, hairlines and the secondary 14px for everything else,
-   so it is set like the rest of the page rather than like a dashboard. */
+/* ---------- CHARTS (CVS) ----------
+   Drawn by js/cvs-charts.js, after the charts in ramp.design's Charts Glow Up
+   reel: one point per chart, drawn large, few labels, the bars filled with a
+   soft gradient. The fill is CVS navy, the prototype's --navy, fading to its
+   palest wash, so the charts are the same material as the screens beside
+   them. Type is the page's own: 14px grey for scales, 36px for a figure. */
+
+/* Each insight is a row of its own: the chart takes the larger share of the
+   column and its heading and line sit beside it, top-aligned, the way the
+   reference sets its gauge beside one sentence. */
+.finding {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 40px;
+  align-items: center;
+}
+
+/* A dial is narrower than a bar chart, so its row is sized to it and the
+   text follows at the visual step rather than across an empty column. */
+.finding.is-dial {
+  grid-template-columns: auto minmax(0, 620px);
+  justify-content: start;
+}
+
+.cap-body + .finding { margin-top: var(--s-visual, 40px); }
+.finding + .finding,
+.finding + .cap-evidence,
+.cap-evidence + .finding,
+.finding + .reframe { margin-top: var(--s-group, 64px); }
+.reframe + .finding { margin-top: var(--s-group, 64px); }
+.finding + .case-sources { margin-top: var(--s-visual, 40px); }
+
+.finding__text .cap-moment { margin: 0 0 8px; }
+.finding__text .cap-body { margin: 0; }
+
+.finding__cap {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--grey);
+}
+
 .chart {
-  margin: 0 0 16px;
+  margin: 0;
+  min-width: 0;
 }
 
 .chart__svg {
@@ -4482,12 +4520,14 @@ html.has-cursor .about-pill:hover {
 .chart__grid {
   stroke: #E5E5E5;
   stroke-width: 1;
+  stroke-dasharray: 3 4;
 }
 
-.chart__bar.is-print { fill: #000000; }
-.chart__bar.is-app { fill: #D9D9D9; }
+.chart__base {
+  stroke: #D9D9D9;
+  stroke-width: 1;
+}
 
-/* The page's 14px secondary, since the chart is drawn at real pixels. */
 .chart__tick,
 .chart__label,
 .chart__value {
@@ -4498,41 +4538,46 @@ html.has-cursor .about-pill:hover {
   fill: var(--grey);
 }
 
-.chart__value {
-  fill: #000000;
+.chart__value.is-focus { fill: #000000; }
+
+.chart__big {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
 }
 
-.chart__legend {
-  display: flex;
-  gap: 14px;
-  margin: 6px 0 0;
+.chart__under {
+  margin: 4px 0 0;
   font-size: 14px;
   line-height: 1.5;
   color: var(--grey);
 }
 
-.chart__key::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  margin-right: 6px;
-  vertical-align: 0;
-  background: #D9D9D9;
+/* The gauge: the dial, with its number in the middle. */
+.chart__dial {
+  justify-self: start;
+  width: max-content;
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
 }
 
-.chart__key.is-print::before { background: #000000; }
+.chart__dial > * { grid-area: 1 / 1; }
+.chart__dial .chart__big { transform: translateY(-6px); font-size: 36px; }
+.chart__dial .chart__under { align-self: end; margin: 0 0 6px; }
 
-.chart__cap {
-  order: 1;
-  margin-top: 4px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--grey);
+.chart__track { stroke: #EAF0FA; }
+.chart__fill { stroke: #1E4B94; }
+
+@media (max-width: 900px) {
+  .finding,
+  .finding.is-dial {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
 }
 
-/* The caption reads after the legend. */
-.chart { display: flex; flex-direction: column; }
-.chart__svg { order: 0; }
-.chart__legend { order: 0; }

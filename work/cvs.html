@@ -60,7 +60,6 @@
       <a href="#research">Research</a>
       <a href="#reframe">Reframe</a>
       <a href="#opportunity">Opportunity</a>
-      <a href="#system">System</a>
       <a href="#components">Components</a>
       <a href="#breakdown">Design</a>
       <a href="#register">Secondary</a>
@@ -94,16 +93,25 @@
   </section>
 
   <!-- RESEARCH
-       From the Region 4 analytics package that came with the brief. Laid out
-       after the research section on wendyyudesign.com/bumble: what was read,
-       the evidence itself, three insights, one takeaway. The coupon shares are
-       computed from the workbook's monthly rows. -->
+       The evidence about the problem, in one place: the Region 4 package's
+       finding with the sheets it came from, then the national FSA figure,
+       then the takeaway that leads into the reframe. The app shares are
+       computed from the Coupon Redemptions tab's monthly rows. -->
   <section id="research" class="cap-section">
     <div class="cap-eyebrow">Research</div>
-    <h2 class="cap-title">What the region had already tried</h2>
+    <h2 class="cap-title">What the region had tried, and what shoppers were losing</h2>
     <p class="cap-body">
-      The brief came with Region 4's analytics package: thirty months of metrics from eight Pittsburgh stores, six earlier initiatives and their results, coupon redemptions by age, and a sample of survey comments. I read it for what had already been tried, and how shoppers answered.
+      The brief came with Region 4's analytics package: thirty months of metrics from eight Pittsburgh stores, six earlier initiatives and their results, coupon redemptions by age, and a sample of survey comments. I read it for what had already been tried and how shoppers answered, then looked at national data on FSAs.
     </p>
+
+    <div class="finding">
+      <figure class="chart" data-chart="share" aria-label="Share of coupon redemptions made in the app, by age: 18 to 29, 81%; 30 to 49, 63%; 50 to 64, 32%; 65 and over, 8%."></figure>
+      <div class="finding__text">
+        <h3 class="cap-moment">The older the shopper, the less the app gets used</h3>
+        <p class="cap-body">Shoppers 65 and over redeemed 8% of their coupons in the app, against 81% for 18 to 29. In the same two months they redeemed 39,241 printed ones.</p>
+        <p class="finding__cap">Share of coupon redemptions made in the app, Aug–Sep 2024. Coupon Redemptions tab.</p>
+      </div>
+    </div>
 
     <div class="cap-evidence">
       <figure class="cap-evidence__item">
@@ -116,32 +124,25 @@
       </figure>
     </div>
 
-    <h3 class="cap-moment">Data insights</h3>
-    <div class="cap-cards">
-      <div class="cap-card">
-        <figure class="chart" data-chart="coupons">
-          <figcaption class="chart__cap">Coupon redemptions by age, Aug–Sep 2024</figcaption>
-        </figure>
-        <h3>Paper still carries the oldest shoppers</h3>
-        <p>Shoppers 65 and over made 39% of printed coupon redemptions, the largest share of any age group.</p>
-      </div>
-      <div class="cap-card">
-        <h3>An extra step at checkout fails</h3>
-        <p>Clipped coupons rang up at full price and held up the line; the button gave no sign it had worked.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Information at the shelf worked, screens that needed staff did not</h3>
-        <p>The aisle locator scored 4.7 with its users. The kiosk needed a staff member for 61% of its sessions.</p>
+    <div class="finding is-dial">
+      <figure class="chart" data-chart="forfeit" aria-label="52% of FSA accountholders forfeited funds in 2022."></figure>
+      <div class="finding__text">
+        <h3 class="cap-moment">Half of FSA holders lose some of theirs</h3>
+        <p class="cap-body">An FSA is pre-tax money for medical costs, and it expires. In 2022, 52% of accountholders forfeited part of theirs to their employer, $441 on average. In 2023 it was still roughly half, $436 on average.</p>
+        <p class="finding__cap">EBRI's analysis of 3.2 million FSAs, 2022 and 2023.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Takeaway</h3>
     <p class="cap-body">
-      Whatever replaced the brief had to work for people who never open the app, add no step at checkout, and not rush anyone.
+      Whatever replaced the brief had to work for people who never open the app and not rush anyone. Meanwhile, half of FSA holders were losing money meant for what CVS sells.
     </p>
 
     <p class="case-sources">
-      Source: CVS Region 4 analytics package provided with the brief, covering January 2024 to June 2026 across eight stores. Survey comments are the package's stratified sample, about 2% of responses.
+      Sources: CVS Region 4 analytics package provided with the brief, covering January 2024 to June 2026 across eight stores; survey comments are the package's stratified sample, about 2% of responses.
+      <a href="https://www.ebri.org/content/new-analysis-of-3.2-million-flexible-spending-accounts-finds-average-contributions-increasing-while-half-forfeiting-funds-to-their-employers" target="_blank" rel="noopener">EBRI analysis of 3.2 million FSAs, May 2024</a>;
+      <a href="https://www.plansponsor.com/flexible-savings-account-forfeitures-slightly-on-the-rise/" target="_blank" rel="noopener">PlanSponsor on the same report, with the 52% figure</a>;
+      <a href="https://www.ebri.org/content/updates-from-ebri-s-flexible-spending-account-database" target="_blank" rel="noopener">EBRI on 2023, May 2025</a>.
     </p>
   </section>
 
@@ -149,7 +150,7 @@
     <div class="cap-eyebrow">Reframe</div>
     <h2 class="cap-title">From more time in the store to money already set aside</h2>
     <p class="cap-body">
-      A health FSA is pre-tax money for medical costs, and it expires. In 2022, half of accountholders forfeited part of theirs, $441 on average. CVS sells what that money is for, so I changed the question: from keeping people in the store to helping them spend what they already have before it is gone.
+      CVS sells what FSA money is for, so I changed the question: from keeping people in the store to helping them spend what they already have before it is gone.
     </p>
 
     <div class="reframe">
@@ -158,30 +159,6 @@
       <p class="reframe-label">To</p>
       <p class="reframe-text">"How might the app help people spend their FSA here before it expires?"</p>
     </div>
-
-    <h3 class="cap-moment">Three facts about FSA money shaped the design</h3>
-    <div class="cap-cards">
-      <div class="cap-card">
-        <h3>It expires</h3>
-        <p>Money left at year end is lost, beyond a carryover capped at $680 for 2026.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Eligibility is item by item</h3>
-        <p>Each product is checked on its own, so one basket can be partly eligible.</p>
-      </div>
-      <div class="cap-card">
-        <h3>The split comes at checkout</h3>
-        <p>Shoppers see the eligible total only when they pay.</p>
-      </div>
-    </div>
-
-    <p class="case-sources">
-      Sources:
-      <a href="https://www.investmentnews.com/ria-news/half-of-fsa-holders-forfeited-funds-to-their-employers-ebri-report/253246" target="_blank" rel="noopener">EBRI analysis of 3.2 million FSAs, reported May 2024</a>;
-      <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32, section .15</a>;
-      <a href="https://www.opm.gov/retirement-services/publications-forms/benefits-administration-letters/2020/20-802.pdf" target="_blank" rel="noopener">OPM on the CARES Act changes</a>;
-      <a href="https://en.wikipedia.org/wiki/Inventory_Information_Approval_System" target="_blank" rel="noopener">Inventory Information Approval System</a>.
-    </p>
   </section>
 
 
@@ -203,35 +180,22 @@
       <p class="reframe-label">To</p>
       <p class="reframe-text">"$31.48 can go on your FSA"</p>
     </div>
+
+    <div class="finding">
+      <figure class="chart" data-chart="substantiation" aria-label="Average FSA forfeiture: $407 for workers whose claims were all approved automatically, $293 for workers who submitted at least one claim by hand."></figure>
+      <div class="finding__text">
+        <h3 class="cap-moment">Paying automatically does not stop money expiring</h3>
+        <p class="cap-body">Workers whose claims were all approved at the register forfeited $114 more on average than those who submitted at least one by hand, and were 13 points more likely to forfeit. EBRI suggests inertia may play a part. Making payment easy is not enough; people need to see what is left before they pay.</p>
+        <p class="finding__cap">EBRI, December 2024. The two averages as reported by Investopedia.</p>
+      </div>
+    </div>
     <p class="case-sources">
       Sources:
       <a href="https://docs.nmi.com/docs/fsa-support" target="_blank" rel="noopener">NMI on IIAS at checkout</a>;
-      <a href="https://docs.withflex.com/compliance/iias" target="_blank" rel="noopener">Flex on IIAS item checks</a>.
+      <a href="https://docs.withflex.com/compliance/iias" target="_blank" rel="noopener">Flex on IIAS item checks</a>;
+      <a href="https://www.ebri.org/content/new--fast-fact--research-report-finds-workers-who-manually-submitted-at-least-one-flexible-spending-account-expense-had-fewer-forfeitures--saved-average-of--114" target="_blank" rel="noopener">EBRI on FSA substantiation, December 2024</a>;
+      <a href="https://www.itiger.com/news/2492910186" target="_blank" rel="noopener">Investopedia's report of the averages, December 2024</a>.
     </p>
-  </section>
-
-  <!-- SYSTEM OVERVIEW -->
-  <section id="system" class="cap-section">
-    <div class="cap-eyebrow">System Overview</div>
-    <h2 class="cap-title">Connect, check, split</h2>
-
-    <div class="cap-cards">
-      <div class="cap-card">
-        <div class="cap-card-num">01</div>
-        <h3>Connect</h3>
-        <p>Log in with the benefits provider once to bring in each balance and deadline.</p>
-      </div>
-      <div class="cap-card">
-        <div class="cap-card-num">02</div>
-        <h3>Check</h3>
-        <p>Search or scan a product for an eligibility answer and the reason behind it.</p>
-      </div>
-      <div class="cap-card">
-        <div class="cap-card-num">03</div>
-        <h3>Split</h3>
-        <p>The cart, the checkout barcode and the register charge eligible items to the FSA.</p>
-      </div>
-    </div>
   </section>
 
   <!-- COMPONENTS: the kit behind the screens, shown from the Figma file. -->
@@ -399,7 +363,8 @@
     <p class="case-sources">
       Sources:
       <a href="https://www.irs.gov/node/120246" target="_blank" rel="noopener">IRS on food, vitamins and general health</a>;
-      <a href="https://www.fsafeds.gov/support/faq/all/55" target="_blank" rel="noopener">FSAFEDS on over-the-counter medicines</a>.
+      <a href="https://www.fsafeds.gov/support/faq/all/55" target="_blank" rel="noopener">FSAFEDS on over-the-counter medicines</a>;
+      <a href="https://www.irs.gov/pub/irs-drop/rp-25-32.pdf" target="_blank" rel="noopener">IRS Rev. Proc. 2025-32 on the $680 carryover into 2027</a>.
     </p>
   </section>
 
