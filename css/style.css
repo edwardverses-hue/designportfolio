@@ -4837,3 +4837,45 @@ a.beyond__photo:focus-visible {
 .chart.is-bare .chart__fill { stroke: var(--chart-accent); }
 
 .chart.is-bare .chart__track { stroke: var(--surface); }
+
+/* ---------- THE CVS FILM (js/hero-video.js) ----------
+   A 1920 x 1080 film fills the home card, which is already 16:9, and the
+   case study's banner. The banner takes the page's content column and the
+   24px corners every other picture has, rather than running edge to edge:
+   the film has dark edges, and full width it ran under the section rail,
+   whose grey labels were lost on them. In the column it is never under the
+   rail, is shown whole at 16:9, and lines up with the text below it. */
+.hero-film {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: transparent;
+}
+
+/* The Work page's card keeps the grey every project card has; only the
+   CVS page's banner goes without it. */
+
+.cap-page .case-hero-image:has(> .hero-film) {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: 0 24px;
+  border-radius: 24px;
+  background: transparent;
+}
+
+@media (min-width: 1280px) {
+  .cap-page .case-hero-image:has(> .hero-film) {
+    margin-left: max(213px, calc((100vw - 1200px) / 2));
+    margin-right: max(213px, calc((100vw - 1200px) / 2));
+  }
+}
+
+@media (max-width: 720px) {
+  .cap-page .case-hero-image:has(> .hero-film) {
+    margin: 0 20px;
+    border-radius: 16px;
+  }
+}
