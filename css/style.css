@@ -2641,7 +2641,8 @@ mark.draft {
    so its rule starts where the text above it starts. */
 .cap-page .case-next {
   max-width: 1060px;
-  margin-top: 96px;
+  /* The end of the case study: the major step, as at its opening. */
+  margin-top: var(--s-major, 112px);
 }
 
 @media (min-width: 1280px) {
@@ -4184,10 +4185,12 @@ html.has-cursor .about-pill:hover {
   }
 }
 
-/* The opening: title, summary, facts. */
+/* The opening: title, summary, facts. The title starts a section's step
+   below the banner, as every section starts below the last. */
+.space-system .case-intro { padding-top: var(--s-section); }
 .space-system .case-title { margin: 0 0 var(--s-bound); }
 .space-system .case-description { margin: 0; }
-.space-system .case-meta { margin-top: 60px; }
+.space-system .case-meta { margin-top: var(--s-group); }
 
 /* Sections. */
 .space-system .cap-section { padding-top: var(--s-section); }
@@ -4497,8 +4500,10 @@ a.beyond__photo:focus-visible {
 }
 
 .cap-body + .finding { margin-top: var(--s-visual, 40px); }
+/* The sheets under a chart are its evidence, so they sit the visual step
+   below it; the next finding is a new group. */
+.finding + .cap-evidence { margin-top: var(--s-visual, 40px); }
 .finding + .finding,
-.finding + .cap-evidence,
 .cap-evidence + .finding,
 .finding + .reframe { margin-top: var(--s-group, 64px); }
 .reframe + .finding { margin-top: var(--s-group, 64px); }
