@@ -24,16 +24,21 @@
   var sphere = root.querySelector('.beyond__sphere');
   if (!stage || !sphere) return;
 
-  /* The seventeen frames, in ramp's order and at their aspect ratios. A
-     picture goes in by giving an entry a src and alt. */
-  var PHOTOS = [
-    { w: 1600, h: 1060 }, { w: 1600, h: 1066 }, { w: 1600, h: 1067 },
-    { w: 1600, h: 1067 }, { w: 1600, h: 1067 }, { w: 1600, h: 1067 },
-    { w: 1600, h: 1200 }, { w: 1200, h: 1600 }, { w: 1060, h: 1600 },
-    { w: 1600, h: 1060 }, { w: 1600, h: 1060 }, { w: 1060, h: 1600 },
-    { w: 1600, h: 1060 }, { w: 1200, h: 1600 }, { w: 1200, h: 1600 },
-    { w: 1600, h: 1200 }, { w: 1600, h: 1200 }
+  /* The pictures, at their own aspect ratios. The globe holds seventeen, as
+     ramp's does, so with fewer it cycles through them; a card's neighbours on
+     a fibonacci sphere are about 3, 5, 8 and 13 places away, never 6, so with
+     six pictures no two copies sit side by side. Add more to repeat less. */
+  var SRC = 'images/about/beyond/';
+  var PICTURES = [
+    { src: SRC + 'lights.jpg', full: SRC + 'lights-full.jpg', w: 640, h: 853, alt: 'People in a dark room of projected blue light and falling flowers at teamLab Borderless' },
+    { src: SRC + 'tractor.jpg', full: SRC + 'tractor-full.jpg', w: 720, h: 480, alt: 'Sitting at the wheel of a red Farmall tractor in a sunny field' },
+    { src: SRC + 'chalk.jpg', full: SRC + 'chalk-full.jpg', w: 640, h: 853, alt: 'Chalk drawings of flowers and leaves along a sidewalk at night' },
+    { src: SRC + 'heron.jpg', full: SRC + 'heron-full.jpg', w: 640, h: 853, alt: 'A heron wading in calm blue water at dusk' },
+    { src: SRC + 'palms.jpg', full: SRC + 'palms-full.jpg', w: 640, h: 960, alt: 'Palm trees in silhouette against a low sun on a beach path' },
+    { src: SRC + 'porsche.jpg', full: SRC + 'porsche-full.jpg', w: 720, h: 480, alt: 'A crowd watching a white Porsche 911 being worked on in a service bay' }
   ];
+  var PHOTOS = [];
+  for (var n = 0; n < 17; n++) PHOTOS.push(PICTURES[n % PICTURES.length]);
 
   var COMPACT = '(max-width: 760px), (max-height: 500px) and (orientation: landscape)';
   var SPIN = 2 * Math.PI / 56000; // radians per ms: one turn in 56 seconds
@@ -103,13 +108,14 @@
   var reduce = reduceMq.matches;
   var still = false; // reduced motion or reduced data: no spin of its own, no coasting
   var compact = compactMq.matches;
-  var set = compact ? tenOf(PHOTOS) : PHOTOS;
+  var set = compact ? PHOTOS.slice(0, 10) : PHOTOS;
   var points = fibonacci(set.length);
   var cards = [];
   var cache = [];
   var geo = { width: 0, height: 0, rX: 0, rY: 0, rZ: 0, offsetY: 0 };
   var orient = axisAngle({ x: 1, y: 0, z: 0 }, -0.07);
   var drag = null;
+  var dragged = false;
   var spin = { x: 0, y: 0, z: 0 };
   var coasting = false;
   var inputKind = 'mouse';
@@ -130,11 +136,29 @@
     sphere.querySelectorAll('.beyond__photo').forEach(function (n) { n.remove(); });
     cards = [];
     cache = [];
+    var shown = {};
     set.forEach(function (p) {
-      var photo = document.createElement('span');
+      /* Each card is a link to its picture, opened over the page in the Play
+         page's viewer (js/viewer.js) with the View cursor. The first card of
+         each picture is the one a keyboard reaches; the repeats the globe
+         needs to fill itself are hidden from it and from screen readers. */
+      var photo = document.createElement(p.src ? 'a' : 'span');
       photo.className = 'beyond__photo';
-      photo.setAttribute('aria-hidden', 'true');
+      if (p.src) {
+        photo.href = p.full || p.src;
+        photo.setAttribute('data-viewer', '');
+        photo.setAttribute('data-cursor', 'view');
+        photo.draggable = false;
+        if (shown[p.src]) { photo.setAttribute('aria-hidden', 'true'); photo.tabIndex = -1; }
+        else { photo.setAttribute('aria-label', 'Open photo: ' + (p.alt || '')); shown[p.src] = true; }
+      } else {
+        photo.setAttribute('aria-hidden', 'true');
+      }
       photo.style.aspectRatio = p.w + ' / ' + p.h;
+      // Ramp's cards are about 3:2. A card of any other shape keeps that card's
+      // area, so a portrait photo is narrower, not taller, and the globe keeps
+      // its density round the heading.
+      photo.style.setProperty('--s', Math.min(1, Math.sqrt((p.w / p.h) / 1.5)).toFixed(3));
       var push = document.createElement('span');
       push.className = 'beyond__push';
       var card = document.createElement('span');
@@ -148,6 +172,8 @@
         img.height = p.h;
         img.draggable = false;
         img.decoding = 'async';
+        // The globe sits at the foot of the page; its pictures load as it nears.
+        img.loading = 'lazy';
         card.appendChild(img);
       }
       push.appendChild(card);
@@ -314,6 +340,7 @@
 
   function down(e) {
     if (!e.isPrimary || e.button !== 0 || drag) return;
+    dragged = false;
     var card = e.target instanceof Element ? e.target.closest('.beyond__photo') : null;
     drag = {
       id: e.pointerId,
@@ -338,6 +365,7 @@
       // A finger moving mostly up or down is scrolling the page, not the globe.
       if (touch && Math.abs(dy) > 1.2 * Math.abs(dx)) { release(e.pointerId, true); return; }
       drag.committed = true;
+      dragged = true;
       try { drag.capture.setPointerCapture(e.pointerId); } catch (err) {}
       rest(performance.now());
       stage.setAttribute('data-orbit-dragging', '');
@@ -393,6 +421,13 @@
     wake();
   }
 
+  // Swallow the click that ends a drag, before the viewer hears it.
+  stage.addEventListener('click', function (e) {
+    if (!dragged) return;
+    dragged = false;
+    e.preventDefault();
+    e.stopPropagation();
+  }, true);
   stage.addEventListener('pointerdown', down, true);
   stage.addEventListener('pointermove', move, true);
   stage.addEventListener('pointerup', function (e) { release(e.pointerId, false); }, true);
@@ -431,7 +466,7 @@
     var wasCompact = compact;
     compact = compactMq.matches;
     if (compact !== wasCompact) {
-      set = compact ? tenOf(PHOTOS) : PHOTOS;
+      set = compact ? PHOTOS.slice(0, 10) : PHOTOS;
       points = fibonacci(set.length);
       build();
       setWill();

@@ -49,8 +49,21 @@
     </div>
   </section>
 
+  <!-- A picture opened over the page, as on the Play page (js/viewer.js). -->
+  <div class="viewer" id="viewer" hidden tabindex="-1" role="dialog" aria-modal="true" aria-label="Enlarged view">
+    <button class="viewer-close" id="viewer-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <path d="M4.5 4.5 L15.5 15.5 M15.5 4.5 L4.5 15.5" />
+      </svg>
+    </button>
+    <figure class="viewer-frame">
+      <img id="viewer-img" alt="" />
+      <figcaption class="viewer-cap" id="viewer-cap"></figcaption>
+    </figure>
+  </div>
   <script src="js/nav.js" defer></script>
   <script src="js/beyond.js" defer></script>
+  <script src="js/viewer.js" defer></script>
   <script src="js/liquid-glass.js" defer></script>
   <script src="js/cursor.js" defer></script>
 </body>

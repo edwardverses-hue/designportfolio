@@ -224,13 +224,17 @@ input{font:inherit;color:inherit}
 
 /* scanner */
 .scan{background:#000}
+.scan .feed{position:absolute;left:0;top:104.5px;width:393px;height:747.5px;overflow:hidden;background:radial-gradient(120% 70% at 50% 30%,#2a2826 0%,#141312 60%,#090908 100%)}
+.scan .pack{position:absolute;background:center/100% 100% no-repeat;transform-origin:50% 40%;box-shadow:0 30px 60px rgba(0,0,0,.55);border-radius:6px;
+  transition:transform .65s cubic-bezier(.2,.9,.24,1),filter .5s ease,opacity .25s}
+.scan .pack.aim{transform:translate(16px,34px) rotate(-4.5deg) scale(.9);filter:blur(1.4px) brightness(.92)}
+.scan .pack.hand{animation:tremor 2.6s ease-in-out infinite}
+.scan .feed::after{content:"";position:absolute;inset:0;background:radial-gradient(110% 80% at 50% 35%,rgba(0,0,0,0) 55%,rgba(0,0,0,.35) 100%);pointer-events:none}
 .scan .shead{position:absolute;inset:0 0 auto 0;height:104.5px;background:#fff;z-index:5;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 .scan .shead .t{position:absolute;left:38px;top:66px;font-size:15.6px;font-weight:700}
 .scan .ctl{position:absolute;top:132.5px;width:21px;height:21px}
 .bracket{position:absolute;border:3.3px solid #fff;width:55px;height:55px;transition:all .35s var(--ease)}
 .b-tl{border-right:0;border-bottom:0}.b-tr{border-left:0;border-bottom:0}.b-bl{border-right:0;border-top:0}.b-br{border-left:0;border-top:0}
-.scanline{position:absolute;left:30px;right:30px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.9),transparent);box-shadow:0 0 12px rgba(255,255,255,.6);animation:sweep 1.4s ease-in-out infinite alternate}
-@keyframes sweep{from{top:230px}to{top:360px}}
 .hint{position:absolute;left:38.5px;top:402.5px;width:316px;min-height:45px;padding:6px 12px;text-align:center;border-radius:4px;background:rgba(255,255,255,.94);display:grid;place-items:center;font-size:13px;color:#1C1C1E;transition:opacity .25s}
 .ssheet{position:absolute;left:0;right:0;top:555.6px;bottom:0;background:#fff;border-radius:20px 20px 0 0;transition:top .45s var(--ease)}
 .ssheet .pad{padding:0 14.3px}
@@ -358,36 +362,45 @@ input{font:inherit;color:inherit}
 .cbr{position:absolute;width:41.6px;height:48.5px;border:0 solid #fff;transition:left .45s cubic-bezier(.22,1,.36,1),top .45s cubic-bezier(.22,1,.36,1)}
 .cbr-tl{border-top-width:3.3px;border-left-width:3.3px}.cbr-tr{border-top-width:3.3px;border-right-width:3.3px}
 .cbr-bl{border-bottom-width:3.3px;border-left-width:3.3px}.cbr-br{border-bottom-width:3.3px;border-right-width:3.3px}
-.cbr.pop,.scanv .bracket.pop{animation:pop .45s cubic-bezier(.34,1.56,.64,1)}
-.bcard{position:absolute;left:89px;top:227.8px;width:215px;height:135px;border-radius:8px;color:#fff;transform-origin:50% 50%;
-  transform:perspective(900px) translate(-16px,26px) rotateX(18deg) rotateY(-9deg) rotateZ(-5deg) scale(1.2);
-  transition:transform .68s cubic-bezier(.2,.9,.24,1),filter .3s;background:linear-gradient(135deg,#223457 0%,#15243F 48%,#0D182C 100%);
-  box-shadow:0 18px 40px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.35),inset 0 0 0 .8px rgba(255,255,255,.14);overflow:hidden;font-family:var(--sys)}
+.cbr.pop,.scanv .bracket.pop,.scan .bracket.pop{animation:pop .45s cubic-bezier(.34,1.56,.64,1)}
+.bcard{position:absolute;left:0;top:0;width:303px;height:190.25px;border-radius:11.3px;color:#fff;transform-origin:0 0;
+  transform:matrix3d(1.04547,0.0243809,0,5.40771e-05,0.0533155,1.08066,0,0.0001041,0,0,1,0,98.9653,286.757,0,1);
+  transition:filter .3s;background:linear-gradient(135deg,#223457 0%,#15243F 48%,#0D182C 100%);
+  box-shadow:inset 0 0 0 .8px rgba(255,255,255,.16);overflow:hidden;font-family:var(--sys)}
 .bcard::before{content:"";position:absolute;inset:-40% -20%;background:linear-gradient(115deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.07) 46%,rgba(255,255,255,.11) 50%,rgba(255,255,255,.05) 56%,rgba(255,255,255,0) 64%);transition:transform .68s cubic-bezier(.2,.9,.24,1);transform:translateX(-18%)}
 .hand{position:absolute;inset:0;animation:tremor 2.6s ease-in-out infinite}
+/* card scan feed: hand + blank card (Claire Abdo, Unsplash) composited over a defocused home office (Med Badr Chemmaoui, Unsplash); card art mapped onto the blank card in perspective */
+.cscene{position:absolute;left:-60px;top:-90px;width:513px;height:810px;background:#0B0B0D url(img/cardscan-scene.jpg) 0 0/100% 100% no-repeat;
+  transform-origin:256.5px 385.3px;transform:translate(10px,22px) rotate(-3deg) scale(.86);filter:blur(1.3px) brightness(.94);
+  transition:transform .7s cubic-bezier(.2,.9,.24,1),filter .45s ease;isolation:isolate}
+.cscene .lyr{position:absolute;inset:0;background:0 0/100% 100% no-repeat;pointer-events:none}
+.cscene .cshade{background-image:url(img/cardscan-shade.png);mix-blend-mode:multiply}
+.cscene .cocc{background-image:url(img/cardscan-thumb.png)}
+.scanv.locked .cscene{transform:none;filter:none}
+.scanv.captured .cscene{filter:brightness(1.04)}
+.cscrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(11,11,13,0) 0,rgba(11,11,13,0) 430px,rgba(11,11,13,.72) 492px,rgba(11,11,13,.94) 540px,#0B0B0D 578px)}
 @keyframes tremor{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(1.6px,-1.2px) rotate(.35deg)}50%{transform:translate(-.8px,1.4px) rotate(-.25deg)}75%{transform:translate(-1.4px,-.6px) rotate(.2deg)}}
 .scanv.locked .hand{animation:none}
-.scanv.locked .bcard{transform:scale(1.4093)}
 .scanv.locked .bcard::before{transform:translateX(6%)}
-.bcard .chip{position:absolute;left:24px;top:44px;width:30px;height:23px;border-radius:4.5px;background:linear-gradient(160deg,#E6C98A 0%,#CFAC5E 45%,#B48E3E 100%);box-shadow:inset 0 0 0 .6px rgba(90,65,20,.45)}
+.bcard .chip{position:absolute;left:33.82px;top:62.01px;width:42.28px;height:32.41px;border-radius:6.34px;background:linear-gradient(160deg,#E6C98A 0%,#CFAC5E 45%,#B48E3E 100%);box-shadow:inset 0 0 0 0.85px rgba(90,65,20,.45)}
 .bcard .chip::before,.bcard .chip::after{content:"";position:absolute;background:rgba(90,65,20,.5)}
-.bcard .chip::before{left:0;right:0;top:7.5px;height:.7px;box-shadow:0 7.5px 0 rgba(90,65,20,.5)}
-.bcard .chip::after{top:0;bottom:0;left:9.5px;width:.7px;box-shadow:10.5px 0 0 rgba(90,65,20,.5)}
-.bcard .t1{position:absolute;left:18px;top:14px;font-size:13px;font-weight:800;letter-spacing:.6px}
-.bcard .t2{position:absolute;right:18px;top:16px;font-size:7.5px;font-weight:600;letter-spacing:1.1px;opacity:.72}
-.bcard .num{position:absolute;left:16px;top:77px;font-size:13px;font-weight:500;letter-spacing:1.6px;font-variant-numeric:tabular-nums;text-shadow:0 .5px 0 rgba(0,0,0,.35);display:flex;gap:4.5px}
-.bcard .t3{position:absolute;left:16px;bottom:11px;font-size:8px;font-weight:600;letter-spacing:1px}
-.bcard .t4{position:absolute;right:16px;bottom:10px;font-size:8px;font-weight:600;letter-spacing:.5px;text-align:right}
-.bcard .t4 small{display:block;font-size:5.5px;font-weight:600;letter-spacing:.8px;opacity:.75;margin-bottom:1px}
-.bcard .g{padding:1px 2px;border-radius:2.5px;transition:background .18s,box-shadow .18s,opacity .25s;opacity:.86}
-.bcard .g.hit{background:rgba(255,255,255,.2);box-shadow:0 0 0 1px rgba(255,255,255,.35);opacity:1}
+.bcard .chip::before{left:0;right:0;top:10.57px;height:0.99px;box-shadow:0 10.57px 0 rgba(90,65,20,.5)}
+.bcard .chip::after{top:0;bottom:0;left:13.39px;width:0.99px;box-shadow:14.8px 0 0 rgba(90,65,20,.5)}
+.bcard .t1{position:absolute;left:25.37px;top:19.73px;font-size:18.32px;font-weight:800;letter-spacing:0.85px}
+.bcard .t2{position:absolute;right:25.37px;top:22.55px;font-size:10.57px;font-weight:600;letter-spacing:1.55px;opacity:.72}
+.bcard .num{position:absolute;left:22.55px;top:108.52px;font-size:18.32px;font-weight:500;letter-spacing:2.25px;font-variant-numeric:tabular-nums;text-shadow:0 0.7px 0 rgba(0,0,0,.35);display:flex;gap:6.34px}
+.bcard .t3{position:absolute;left:22.55px;bottom:15.5px;font-size:11.27px;font-weight:600;letter-spacing:1.41px}
+.bcard .t4{position:absolute;right:22.55px;bottom:14.09px;font-size:11.27px;font-weight:600;letter-spacing:0.7px;text-align:right}
+.bcard .t4 small{display:block;font-size:7.75px;font-weight:600;letter-spacing:1.13px;opacity:.75;margin-bottom:1.41px}
+.bcard .g{padding:1.41px 2.82px;border-radius:3.52px;transition:background .18s,box-shadow .18s,opacity .25s;opacity:.86}
+.bcard .g.hit{background:rgba(255,255,255,.2);box-shadow:0 0 0 1.41px rgba(255,255,255,.35);opacity:1}
 .bcard .g.done{background:transparent;box-shadow:none;opacity:1}
 .cam{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 34%,#3B3A3E 0%,#232326 50%,#0B0B0D 100%)}
 .sdim{position:absolute;left:29px;top:186px;width:335px;height:218.6px;box-shadow:0 0 0 999px rgba(0,0,0,.5);pointer-events:none;transition:all .35s var(--ease)}
-.scanv .bracket{z-index:2}
+.scanv .bracket{z-index:2;filter:drop-shadow(0 0 1.4px rgba(0,0,0,.72)) drop-shadow(0 1px 3px rgba(0,0,0,.3))}
 .scanv.captured .bcard{filter:brightness(1.08)}
-.scanline{position:absolute;left:77px;width:239px;height:3px;border-radius:2px;background:#6BC4FF;box-shadow:0 0 12px 2px rgba(107,196,255,.8);opacity:0;top:255px}
-.scanline.on{opacity:1;animation:sweep 1.4s ease-in-out infinite alternate}@keyframes sweep{from{top:222px}to{top:333px}}
+
+
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.06)}100%{transform:scale(1)}}
 /* error microinteraction: shake + message slides in */
 .field.shake{animation:shake .35s cubic-bezier(.36,.07,.19,.97)}
@@ -397,7 +410,7 @@ input{font:inherit;color:inherit}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:1ms!important;animation-iteration-count:1!important;transition-duration:1ms!important}
-  .scanline,.mic::after{display:none}
+  .mic::after{display:none}
 }
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 input,textarea,select{font-size:16px!important} /* iOS Safari zooms on focus below 16px */
@@ -446,11 +459,13 @@ const P={
  Gain:{n:'Gain Liquid Laundry Detergent, Original',p:12.99,r:5,c:956,e:0,m:'46 fl oz',k:'laundry detergent gain'},
  TotalHome:{n:'Total Home Paper Towels, 6 Rolls',p:8.49,r:4,c:312,e:0,m:'6 rolls',k:'paper towels total home'},
  Crest:{n:'Crest Pro-Health Toothpaste',p:4.79,r:5,c:688,e:0,m:'4.3 oz',k:'toothpaste crest'},
- Hershey:{n:'Hershey’s Milk Chocolate Bar',p:2.49,r:5,c:880,e:0,m:'1.55 oz',k:'chocolate candy'},
+ Hershey:{n:'Hershey’s Milk Chocolate XL Bar',p:4.19,r:5,c:880,e:0,m:'4.4 oz',k:'chocolate candy'},
  Neutrogena:{n:'Neutrogena Sun Rescue After Sun Gel',p:9.49,r:4,c:142,e:0,m:'6.7 fl oz',k:'sunscreen sun after sun'}
 };
 const ROWS=[['First Aid & Recovery',['Bandages','Advil','TylenolReg','TylenolES','ChildTylenol']],['Eye & Vision Care',['Glasses','Biotrue','Systane']],['Sun & Skin Protection',['Sunscreen','ChapStick','Solarcaine']],['Family Wellness',['Thermometer','Claritin','Zyrtec','Flonase','Allegra','Pepto']]];
-const SCANS=['Glasses','Hershey','Sunscreen'];
+const SCANS=['ChapStick','Hershey'];
+// back-of-pack photos from CVS.com galleries (ChapStick 38371100896_6, Hershey's 3400017038_2); barcode boxes measured in source px
+const FEED={ChapStick:{w:835,h:1391,bx:[485,177,795,322],k:.697},Hershey:{w:561,h:1265,bx:[186,791,415,963],k:.873}};
 const WHY={Hershey:'Food isn’t a medical expense, so pay for it with another card.',Neutrogena:'After-sun moisturizers aren’t a medical expense.'};
 const S={acct:'fsa',fsa:1124.50,hsa:2846.20,expiring:444.50,cart:{Bandages:1,Glasses:1,Hershey:1},scanIdx:0,howSeen:false,saved:{},store:'CVS #4417, Forbes Ave',cardAdded:false,pendingRoll:null,
   orders:[{id:'o1',d:'Oct 6, 2026',w:'In store · CVS #4417, Forbes Ave',items:{Bandages:1,Glasses:1,Hershey:1},paid:'Paid with WEX FSA •••• 4821 and Visa •••• 1290'},
@@ -616,8 +631,8 @@ SCREENS.addcard=()=>{const n=el(setup(`<div data-flow data-gap="24.3" style="pos
   <button class="btn btn-outline" style="position:absolute;left:14.3px;top:776px" data-type>Enter card details</button>`,{action:'<button class="action" data-notnow>Not now</button>'}));
   n.querySelector('[data-scan]').onclick=()=>go('cardscan',{t:'up'});n.querySelector('[data-type]').onclick=()=>go('carddetails');n.querySelector('[data-notnow]').onclick=()=>go('home',{t:'fade'});wireCommon(n);return n;};
 SCREENS.cardscan=()=>{const n=el(`<section class="screen scanv" style="background:#0B0B0D" aria-label="Scan Benefit Card"><div class="cam"></div>
-  <div class="hand" data-hand><div class="bcard" data-bcard aria-hidden="true"><i class="chip"></i><span class="t1">WEX</span><span class="t2">FSA · HSA</span>
-   <span class="num"><span class="g">••••</span><span class="g">••••</span><span class="g">••••</span><span class="g">4821</span></span><span class="t3"><span class="g">EDWARD CHEN</span></span><span class="t4"><small>VALID THRU</small><span class="g">12/28</span></span></div></div>
+  <div class="hand" data-hand><div class="cscene" aria-hidden="true"><div class="bcard" data-bcard><i class="chip"></i><span class="t1">WEX</span><span class="t2">FSA · HSA</span>
+   <span class="num"><span class="g">••••</span><span class="g">••••</span><span class="g">••••</span><span class="g">4821</span></span><span class="t3"><span class="g">EDWARD CHEN</span></span><span class="t4"><small>VALID THRU</small><span class="g">12/28</span></span></div><i class="lyr cshade"></i><i class="lyr cocc"></i></div></div><i class="cscrim" aria-hidden="true"></i>
   <i class="sdim" data-dim aria-hidden="true"></i><div data-br aria-hidden="true">${['tl','tr','bl','br'].map(c=>`<span class="bracket b-${c}"></span>`).join('')}</div>
   <button data-back aria-label="Back" style="position:absolute;left:6px;top:57px;width:40px;height:40px"><svg style="position:absolute;left:10px;top:14px" width="7" height="14" viewBox="0 0 7 14"><path d="M6.1 .9.9 7l5.2 6.1" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <h1 class="h1" tabindex="-1" data-autofocus style="position:absolute;left:14.3px;top:510px;color:#fff">Scan Benefit Card</h1>
@@ -627,7 +642,7 @@ SCREENS.cardscan=()=>{const n=el(`<section class="screen scanv" style="backgroun
   const B=$$('.bracket',n),D=n.querySelector('[data-dim]');const place=(x,y,w,h)=>{const[tl,tr,bl,br]=B;tl.style.left=bl.style.left=x+'px';tr.style.left=br.style.left=(x+w-55)+'px';tl.style.top=tr.style.top=y+'px';bl.style.top=br.style.top=(y+h-55)+'px';Object.assign(D.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});};
   place(29,186,335,218.6);
   const msg=n.querySelector('[data-msg]'),G=$$('.bcard .g',n),T=[];const later=(f,ms)=>T.push(setTimeout(()=>{if(cur===n)f();},ms));
-  if(reduce)n.querySelector('[data-hand]').style.animation='none';
+  if(reduce){n.querySelector('[data-hand]').style.animation='none';n.querySelector('.cscene').style.transition='none';}
   wireCommon(n);n.querySelector('[data-manual]').onclick=()=>{T.forEach(clearTimeout);go('carddetails');};
   n._enter=()=>{
     later(()=>{n.classList.add('locked');place(39,196,315,198.6);msg.textContent='Hold still while we read your card.';say(msg.textContent);},1300);
@@ -723,19 +738,25 @@ SCREENS.scan=()=>{const n=el(`<section class="screen scan" aria-label="Scan a pr
   <div class="shead"><button class="back" data-back aria-label="Back" style="top:56px">${ICON.back}</button><div class="t">Scan A Product</div>${cartBtn(61,14)}</div>
   <svg class="ctl" style="left:317px" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1.5"/><circle cx="11" cy="6.6" r="1.2" fill="#fff"/><path d="M11 9.6v6.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
   <svg class="ctl" style="left:351px" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="11" fill="#fff" fill-opacity=".75"/><path d="M12.2 4.5 7.6 11.6h3l-1.1 5.9 4.9-7.4h-3.1l.9-5.6Z" fill="#3a3a3c"/><path d="M6 5.5l10.5 11" stroke="#3a3a3c" stroke-width="1.4" stroke-linecap="round"/></svg>
+  <div class="feed" aria-hidden="true"><div class="pack aim" data-pack></div></div>
+  <i class="sdim" data-pdim aria-hidden="true" style="left:15.9px;top:214.7px;width:360.9px;height:163.7px"></i>
   <div data-br>${['tl','tr','bl','br'].map(c=>`<span class="bracket b-${c}"></span>`).join('')}</div>
-  <div class="scanline" data-line></div>
   <div class="hint" data-hint>Point the phone's camera at product's barcode</div>
   <div class="ssheet" data-sheet><div class="handle"></div><div class="pad" data-sbody>
    <div style="font-size:15.6px;margin-top:14px">Enter a barcode number</div>
    <label class="field" style="margin-top:9px;height:50.9px"><span style="margin-right:12px">${ICON.search}</span><input placeholder="Search for items by UPC" inputmode="numeric" aria-label="Barcode number"></label>
    <div class="panelrow" style="margin-top:24px"><span style="font-size:15.6px">Recently Searched</span><button class="link" style="font-weight:700;font-size:15.6px">Clear</button></div>
    <div style="text-align:center;font-size:15.6px;margin-top:14px">No recent searches found.</div></div></div></section>`);
-  wireCommon(n);const B=$$('.bracket',n);
-  const place=(x,y,w,h)=>{const[tl,tr,bl,br]=B;tl.style.left=bl.style.left=x+'px';tr.style.left=br.style.left=(x+w-55)+'px';tl.style.top=tr.style.top=y+'px';bl.style.top=br.style.top=(y+h-55)+'px';};
+  wireCommon(n);const B=$$('.bracket',n),PD=n.querySelector('[data-pdim]');
+  const place=(x,y,w,h)=>{Object.assign(PD.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});const[tl,tr,bl,br]=B;tl.style.left=bl.style.left=x+'px';tr.style.left=br.style.left=(x+w-55)+'px';tl.style.top=tr.style.top=y+'px';bl.style.top=br.style.top=(y+h-55)+'px';};
   place(15.9,214.7,360.9,163.7);
-  const aim=()=>{n._manual=false;n.querySelector('[data-line]').style.display='block';n.querySelector('[data-hint]').style.opacity=1;n.querySelector('[data-hint]').textContent="Point the phone's camera at product's barcode";place(15.9,214.7,360.9,163.7);
-    setTimeout(()=>{if(cur!==n||n._manual)return;n.querySelector('[data-hint]').textContent='Checking eligibility…';n.querySelector('[data-line]').style.display='none';place(46,236,301,120);say('Checking eligibility');
+  const pk=n.querySelector('[data-pack]');
+  const frame=k=>{const f=FEED[k];const [x0,y0,x1,y1]=f.bx;const cx=(x0+x1)/2,cy=(y0+y1)/2;
+    // barcode centred on the bracket centre (196.5, 296.5); feed starts at y=104.5
+    Object.assign(pk.style,{width:f.w*f.k+'px',height:f.h*f.k+'px',left:(196.5-cx*f.k)+'px',top:(296.5-104.5-cy*f.k)+'px',backgroundImage:`url(img/scan-${k}.jpg)`});
+    const pad=10;return [196.5-(x1-x0)*f.k/2-pad,296.5-(y1-y0)*f.k/2-pad,(x1-x0)*f.k+2*pad,(y1-y0)*f.k+2*pad];};
+  const aim=()=>{n._manual=false;B.forEach(x=>x.classList.remove('pop'));const nk=SCANS[S.scanIdx%SCANS.length];pk.style.opacity=0;setTimeout(()=>{n._box=frame(nk);pk.classList.add('aim');if(!reduce)pk.classList.add('hand');pk.style.opacity=1;},pk.style.backgroundImage?220:0);n.querySelector('[data-hint]').style.opacity=1;n.querySelector('[data-hint]').textContent="Point the phone's camera at product's barcode";place(15.9,214.7,360.9,163.7);
+    setTimeout(()=>{if(cur!==n||n._manual)return;n.querySelector('[data-hint]').textContent='Checking eligibility…';pk.classList.remove('aim','hand');const b=n._box||[46,236,301,120];place(b[0],b[1],b[2],b[3]);B.forEach(x=>x.classList.add('pop'));say('Checking eligibility');
       setTimeout(()=>{if(cur!==n||n._manual)return;verdict();},1100);},1300);};
   const verdict=(force)=>{const k=force||SCANS[S.scanIdx%SCANS.length];if(!force)S.scanIdx++;const p=P[k];n.querySelector('[data-hint]').style.opacity=0;
     const sh=n.querySelector('[data-sheet]');sh.style.top='420px';
@@ -837,7 +858,7 @@ SCREENS.online=()=>{const t=cartTotals();const keys=Object.keys(S.cart);
   n.querySelector('[data-place]').onclick=e=>{const b=e.currentTarget;b.innerHTML='<span class="spin"></span>';b.disabled=true;setTimeout(()=>{complete('online');go('placed',{t:'fade'});},700);};return n;};
 const whereHTML=()=>S.ship?`<div class="panelrow"><span class="sec">Ship to Edward Chen</span><button class="link">Change</button></div><div style="font-size:13.9px;color:var(--sub);margin-top:2px">Free standard shipping · Arrives in 2–3 days</div>`
  :`<div class="panelrow"><span class="sec">${S.store}</span><button class="link" data-store>Change</button></div><div style="font-size:13.9px;color:var(--sub);margin-top:2px">Ready in about 1 hour · Free</div>`;
-SCREENS.placed=()=>{const t=S.lastPaid||{e:31.48,o:2.49,t:33.97};const n=el(`<section class="screen" aria-label="Order placed">
+SCREENS.placed=()=>{const t=S.lastPaid||{e:31.48,o:4.19,t:35.67};const n=el(`<section class="screen" aria-label="Order placed">
   <div style="position:absolute;left:14.3px;top:125.3px">${ICON.check(24)}</div><h1 class="h1" style="position:absolute;left:14.3px;top:160px" tabindex="-1" data-autofocus>Order placed</h1>
   <p class="body" style="position:absolute;left:14.3px;top:228px">${S.ship?'Arrives in 2–3 days':'Ready in about 1 hour'}<br><span style="color:var(--sub)">${S.ship?'Free standard shipping':S.store}</span></p>
   <div style="position:absolute;left:14.3px;top:310px;width:364.4px"><div class="sec">How you paid</div>
@@ -1166,9 +1187,10 @@ if(EMBED)(()=>{
   /* Each scene is the step of the flow the case study is talking about at that
      point, and starts on the screen the reader saw last. */
   const SC={
-    connect:{start(){S.connected=false;go('intro',{t:'none'});},
-      async run(){await sleep(900);await tap('[data-connect]');await sleep(1300);await tap('[data-p="WEX"]');await sleep(1300);await tap('[data-login]');
-        await get('[aria-label="Connected"]');await sleep(600);}},
+    /* After logging in: saving the card by scanning it, from the camera
+       finding the card to the details it fills in. */
+    connect:{start(){S.connected=true;go('addcard',{t:'none'});},
+      async run(){await sleep(1000);await tap('[data-scan]');await get('#cv');await sleep(1800);}},
     home:{start(){go('home',{t:'none'});},
       async run(){await sleep(1000);await tap('[data-acct="hsa"]');await sleep(2200);await tap('[data-acct="fsa"]');await sleep(900);}},
     scan:{start(){go('home',{t:'none'});},

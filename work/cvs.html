@@ -113,18 +113,20 @@
       </div>
     </div>
 
-    <div class="cap-evidence">
+    <!-- The sheets are the charts' sources, kept small: a reader who wants to
+         check a figure opens the full sheet. -->
+    <div class="cap-evidence is-ref">
       <figure class="cap-evidence__item">
-        <img class="cap-sheet" loading="lazy" decoding="async" src="../images/cvs/research/initiatives.png" alt="The Historical Initiatives tab: six rows, INIT-01 to INIT-06, with each initiative's description, launch and end dates, stores, primary metric, topline result, status and owner" />
+        <a href="../images/cvs/research/initiatives.png" data-viewer data-cursor="view"><img class="cap-sheet" loading="lazy" decoding="async" src="../images/cvs/research/initiatives.png" width="2220" height="496" alt="The Historical Initiatives tab: six rows, INIT-01 to INIT-06, with each initiative's description, launch and end dates, stores, primary metric, topline result, status and owner" /></a>
         <figcaption class="cap-evidence__cap">Historical Initiatives tab</figcaption>
       </figure>
       <figure class="cap-evidence__item is-narrow">
-        <img class="cap-sheet" loading="lazy" decoding="async" src="../images/cvs/research/coupons.png" alt="The Coupon Redemptions tab for August and September 2024: redemptions and attributed incremental basket by month, channel and age band, with in-app redemptions for shoppers 65 and over in the low thousands against twenty thousand printed coupons" />
-        <figcaption class="cap-evidence__cap">Coupon Redemptions tab, August and September 2024</figcaption>
+        <a href="../images/cvs/research/coupons.png" data-viewer data-cursor="view"><img class="cap-sheet" loading="lazy" decoding="async" src="../images/cvs/research/coupons.png" width="1136" height="1078" alt="The Coupon Redemptions tab for August and September 2024: redemptions and attributed incremental basket by month, channel and age band, with in-app redemptions for shoppers 65 and over in the low thousands against twenty thousand printed coupons" /></a>
+        <figcaption class="cap-evidence__cap">Coupon Redemptions tab, Aug–Sep 2024</figcaption>
       </figure>
     </div>
 
-    <div class="finding is-dial">
+    <div class="finding">
       <figure class="chart" data-chart="forfeit" aria-label="52% of FSA accountholders forfeited funds in 2022."></figure>
       <div class="finding__text">
         <h3 class="cap-moment">Half of FSA holders lose some of theirs</h3>
@@ -245,16 +247,16 @@
           <div class="proto-phone">
             <img class="proto-poster" src="../images/cvs/intro.png" alt="" aria-hidden="true" />
             <div class="proto-screen">
-              <iframe data-src="cvs-prototype.html?embed&amp;scene=connect" title="Prototype: connecting a WEX account" loading="lazy"></iframe>
+              <iframe data-src="cvs-prototype.html?embed&amp;scene=connect" title="Prototype: scanning the WEX card to save it" loading="lazy"></iframe>
             </div>
             <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
           </div>
-          <figcaption class="proto-cap">Choosing WEX and logging in</figcaption>
+          <figcaption class="proto-cap">Scanning the WEX card</figcaption>
         </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Connecting a benefits account</h3>
-        <p class="cap-body">You log in on the provider's own page, and CVS receives the balances and plan dates.</p>
+        <p class="cap-body">You log in on the provider's own page, and CVS receives the balances and plan dates. The camera then reads the card, so it can pay in the app.</p>
       </div>
     </div>
 
@@ -283,16 +285,16 @@
           <div class="proto-phone">
             <img class="proto-poster" src="../images/cvs/home.png" alt="" aria-hidden="true" />
             <div class="proto-screen">
-              <iframe data-src="cvs-prototype.html?embed&amp;scene=scan" title="Prototype: scanning reading glasses, then a chocolate bar" loading="lazy"></iframe>
+              <iframe data-src="cvs-prototype.html?embed&amp;scene=scan" title="Prototype: scanning SPF lip balm, then a chocolate bar" loading="lazy"></iframe>
             </div>
             <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
           </div>
-          <figcaption class="proto-cap">Scanning reading glasses, then a chocolate bar</figcaption>
+          <figcaption class="proto-cap">Scanning SPF lip balm, then a chocolate bar</figcaption>
         </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Checking a product before buying it</h3>
-        <p class="cap-body">Reading glasses come back eligible. Chocolate doesn't, because under IRS rules food isn't a medical expense.</p>
+        <p class="cap-body">SPF lip balm comes back eligible. Chocolate doesn't, because under IRS rules food isn't a medical expense.</p>
       </div>
     </div>
 
@@ -334,8 +336,8 @@
         <img class="is-on" data-step="1" src="../images/cvs/pos/1-scan-prompt.png" alt="Register screen asking the shopper to scan their ExtraCare card" />
         <img data-step="2" src="../images/cvs/pos/2-recognized.png" alt="Register screen after the barcode is read: Hi, Edward, $31.48 can go on your FSA" aria-hidden="true" />
         <img data-step="3" src="../images/cvs/pos/3-pay-fsa.png" alt="Step 1 of 2: tap or insert the FSA card for $31.48" aria-hidden="true" />
-        <img data-step="4" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48. Step 2 of 2: pay the remaining $2.49 with another card" aria-hidden="true" />
-        <img data-step="5" src="../images/cvs/pos/5-done.png" alt="You're all set: $31.48 on WEX FSA and $2.49 on Visa" aria-hidden="true" />
+        <img data-step="4" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48. Step 2 of 2: pay the remaining $4.19 with another card" aria-hidden="true" />
+        <img data-step="5" src="../images/cvs/pos/5-done.png" alt="You're all set: $31.48 on WEX FSA and $4.19 on Visa" aria-hidden="true" />
       </div>
       <p class="handoff__label">The shopper's phone</p>
       <span aria-hidden="true"></span>
@@ -405,44 +407,44 @@
       </div>
     </div>
     <div class="pos-row is-flipped">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48 for 2 items. Step 2 of 2: pay the remaining $2.49 with another card" /></div>
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48 for 2 items. Step 2 of 2: pay the remaining $4.19 with another card" /></div>
       <div class="pos-row__text">
         <h4 class="pos-row__title"><span class="pos-num">4</span>FSA paid, pay the rest</h4>
-        <p class="cap-body">The FSA paid $31.48 for two items. Step 2 of 2 is $2.49 on another card.</p>
+        <p class="cap-body">The FSA paid $31.48 for two items. Step 2 of 2 is $4.19 on another card.</p>
       </div>
     </div>
     <div class="pos-row">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/5-done.png" alt="All set: WEX FSA paid $31.48 for eligible items and Visa paid $2.49 for everything else, total $33.97" /></div>
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/5-done.png" alt="All set: WEX FSA paid $31.48 for eligible items and Visa paid $4.19 for everything else, total $35.67" /></div>
       <div class="pos-row__text">
         <h4 class="pos-row__title"><span class="pos-num">5</span>Done</h4>
-        <p class="cap-body">WEX FSA paid $31.48 and Visa paid $2.49, a total of $33.97.</p>
+        <p class="cap-body">WEX FSA paid $31.48 and Visa paid $4.19, a total of $35.67.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">FSA balance too low</h3>
     <p class="cap-body">The FSA covers $20.00 of $31.48, and the remaining $11.48 moves to the second card.</p>
     <div class="pos-row is-flipped">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/6-balance-low.png" alt="Alert that the FSA covered $20.00 of $31.48, the rest of its balance, leaving $13.97 to pay: $11.48 eligible plus $2.49 other" /></div>
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/6-balance-low.png" alt="Alert that the FSA covered $20.00 of $31.48, the rest of its balance, leaving $15.67 to pay: $11.48 eligible plus $4.19 other" /></div>
       <div class="pos-row__text">
         <h4 class="pos-row__title"><span class="pos-num">1</span>Balance too low</h4>
-        <p class="cap-body">The FSA covered $20.00 of $31.48, all it had left; $13.97 remains.</p>
+        <p class="cap-body">The FSA covered $20.00 of $31.48, all it had left; $15.67 remains.</p>
       </div>
     </div>
     <div class="pos-row">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/7-done-low.png" alt="All set: WEX FSA paid $20.00, all of its balance, and Visa paid the remaining $13.97" /></div>
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/7-done-low.png" alt="All set: WEX FSA paid $20.00, all of its balance, and Visa paid the remaining $15.67" /></div>
       <div class="pos-row__text">
         <h4 class="pos-row__title"><span class="pos-num">2</span>Done, split across two cards</h4>
-        <p class="cap-body">WEX FSA paid $20.00 and Visa paid the remaining $13.97.</p>
+        <p class="cap-body">WEX FSA paid $20.00 and Visa paid the remaining $15.67.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Remove an item</h3>
     <p class="cap-body">After the FSA has paid, the shopper can remove the item that needed a second card.</p>
     <div class="pos-row is-flipped">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/8-cancel-rest.png" alt="Cancel the rest? The FSA already paid $31.48, with options to pay $2.49 now, remove the Hershey's bar, or cancel the whole order" /></div>
+      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/8-cancel-rest.png" alt="Cancel the rest? The FSA already paid $31.48, with options to pay $4.19 now, remove the Hershey's bar, or cancel the whole order" /></div>
       <div class="pos-row__text">
         <h4 class="pos-row__title"><span class="pos-num">1</span>Cancel the rest?</h4>
-        <p class="cap-body">The FSA has paid $31.48. The shopper can pay $2.49 now, remove the bar, or cancel.</p>
+        <p class="cap-body">The FSA has paid $31.48. The shopper can pay $4.19 now, remove the bar, or cancel.</p>
       </div>
     </div>
     <div class="pos-row">
@@ -499,11 +501,24 @@
   </footer>
 
 
+  <!-- A picture opened over the page, as on the Play page (js/viewer.js). -->
+  <div class="viewer" id="viewer" hidden tabindex="-1" role="dialog" aria-modal="true" aria-label="Enlarged view">
+    <button class="viewer-close" id="viewer-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <path d="M4.5 4.5 L15.5 15.5 M15.5 4.5 L4.5 15.5" />
+      </svg>
+    </button>
+    <figure class="viewer-frame">
+      <img id="viewer-img" alt="" />
+      <figcaption class="viewer-cap" id="viewer-cap"></figcaption>
+    </figure>
+  </div>
   <script src="../js/nav.js" defer></script>
   <script src="../js/liquid-glass.js" defer></script>
   <script src="../js/cursor.js" defer></script>
   <script src="../js/rail.js" defer></script>
   <script src="../js/cvs-demos.js" defer></script>
   <script src="../js/cvs-charts.js" defer></script>
+  <script src="../js/viewer.js" defer></script>
 </body>
 </html>

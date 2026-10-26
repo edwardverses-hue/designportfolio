@@ -3786,7 +3786,7 @@ html.has-cursor .about-pill:hover {
 }
 
 .pos-row__title .pos-num {
-  color: var(--grey);
+  color: inherit;
   margin-right: 10px;
   letter-spacing: 0.02em;
 }
@@ -4338,7 +4338,9 @@ html.has-cursor .about-pill:hover {
   left: 50%;
   translate: -50% -50%;
   display: block;
-  width: clamp(8rem, 15vw, 13.5rem);
+  /* --s, set per card by js/beyond.js, keeps a portrait picture to the
+     area of a landscape one, narrower rather than taller. */
+  width: calc(clamp(8rem, 15vw, 13.5rem) * var(--s, 1));
   margin: 0;
   padding: 0;
   border: 0;
@@ -4351,6 +4353,18 @@ html.has-cursor .about-pill:hover {
   cursor: pointer;
   touch-action: pan-y pinch-zoom;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* The cards are links: the globe sets their opacity every frame, so the
+   site's link fade would lag it, and a link's hover dim would fight it. */
+a.beyond__photo,
+a.beyond__photo:hover {
+  transition: none;
+}
+
+a.beyond__photo:focus-visible {
+  outline: 1px solid #000000;
+  outline-offset: 4px;
 }
 
 .beyond__push {
@@ -4393,7 +4407,7 @@ html.has-cursor .about-pill:hover {
 }
 
 @media (min-width: 761px) and (max-width: 1199px) {
-  .beyond__photo { width: clamp(8rem, 14.5vw, 9.25rem); }
+  .beyond__photo { width: calc(clamp(8rem, 14.5vw, 9.25rem) * var(--s, 1)); }
 }
 
 @media (max-width: 760px), (max-height: 500px) and (orientation: landscape) {
@@ -4434,13 +4448,13 @@ html.has-cursor .about-pill:hover {
   }
 
   .beyond__photo {
-    width: clamp(6.75rem, 28.5vw, 7.875rem);
+    width: calc(clamp(6.75rem, 28.5vw, 7.875rem) * var(--s, 1));
     border-radius: 16px;
   }
 }
 
 @media (min-width: 360px) and (max-width: 760px), (max-height: 500px) and (orientation: landscape) {
-  .beyond__photo { width: clamp(6.75rem, 30vw, 7.875rem); }
+  .beyond__photo { width: calc(clamp(6.75rem, 30vw, 7.875rem) * var(--s, 1)); }
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
@@ -4448,7 +4462,7 @@ html.has-cursor .about-pill:hover {
   .beyond__center::before { width: min(70vw, 20rem); height: 10rem; }
   .beyond__title { font-size: clamp(2.25rem, 12vh, 3.25rem); }
   .beyond__dek { width: min(70vw, 22rem); font-size: 14px; line-height: 1.5; }
-  .beyond__photo { width: clamp(4.25rem, 22vh, 5.75rem); }
+  .beyond__photo { width: calc(clamp(4.25rem, 22vh, 5.75rem) * var(--s, 1)); }
 }
 
 @media (max-width: 390px) {
@@ -4480,13 +4494,6 @@ html.has-cursor .about-pill:hover {
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   gap: 40px;
   align-items: center;
-}
-
-/* A dial is narrower than a bar chart, so its row is sized to it and the
-   text follows at the visual step rather than across an empty column. */
-.finding.is-dial {
-  grid-template-columns: auto minmax(0, 620px);
-  justify-content: start;
 }
 
 .cap-body + .finding { margin-top: var(--s-visual, 40px); }
@@ -4557,8 +4564,10 @@ html.has-cursor .about-pill:hover {
 }
 
 /* The gauge: the dial, with its number in the middle. */
+/* The dial is as tall as a bar chart and centred in the same column, so
+   every chart row has one height and its text one left edge. */
 .chart__dial {
-  justify-self: start;
+  margin: 0 auto;
   width: max-content;
   position: relative;
   flex-shrink: 0;
@@ -4574,10 +4583,257 @@ html.has-cursor .about-pill:hover {
 .chart__fill { stroke: #1E4B94; }
 
 @media (max-width: 900px) {
-  .finding,
-  .finding.is-dial {
+  .finding {
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
   }
 }
 
+
+/* The research sheets as references: one row of thumbnails at one height,
+   each opening the full sheet. They prove where the chart's figures come
+   from, so they sit under it, small, rather than at figure size. */
+.cap-evidence.is-ref {
+  grid-template-columns: repeat(2, max-content);
+  justify-content: start;
+  align-items: end;
+  gap: 40px;
+}
+
+.cap-evidence.is-ref .cap-evidence__item.is-narrow {
+  max-width: none;
+}
+
+.cap-evidence.is-ref a {
+  display: block;
+}
+
+.cap-evidence.is-ref .cap-sheet {
+  width: auto;
+  height: 160px;
+}
+
+@media (max-width: 900px) {
+  .cap-evidence.is-ref {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .cap-evidence.is-ref .cap-sheet {
+    width: 100%;
+    height: auto;
+  }
+
+  .cap-evidence.is-ref .cap-evidence__item.is-narrow {
+    max-width: 260px;
+  }
+}
+
+/* ---------- CHARTS: GLOW LOOK (js/cvs-charts.js, LOOK = 'glow') ----------
+   Frosted glass over a light in the site's own greys: near-black at the
+   heart, falling through to the system grey #999. The light is blurred and sits
+   inside each shape; the pane over it blurs it again for real, keeps a white
+   rim at its edge, and carries a fine grain so it reads as a material rather
+   than a gradient. */
+.chart { position: relative; }
+
+.chart__glow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.chart__glow-light,
+.chart__glow-pane {
+  position: absolute;
+  display: block;
+}
+
+.chart__glow-light {
+  border-radius: 16px;
+  background: linear-gradient(180deg, #111111 0%, #4D4D4D 55%, #999999 100%);
+  filter: blur(12px);
+}
+
+.chart__glow-pane,
+.chart__glow-ring {
+  background-color: rgba(255, 255, 255, 0.26);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+}
+
+.chart__glow-pane {
+  border-radius: 12px 12px 4px 4px;
+  overflow: hidden;
+  /* A frosted edge: white gathering inward from the rim, so the colour sits
+     in the middle of the bar the way it sits in the middle of the reference's
+     disc. */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 0 14px 3px rgba(255, 255, 255, 0.55),
+    0 16px 32px -16px rgba(0, 0, 0, 0.28);
+}
+
+.chart__glow-pane::after,
+.chart__glow-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+}
+
+.chart__glow-ring {
+  position: relative;
+}
+
+.chart__track.is-glow { stroke: #E5E5E5; }
+
+/* ---------- CHARTS: PANEL LOOK (js/cvs-charts.js, LOOK = 'panel') ----------
+   Each chart on a panel of its own: large soft pools of the site's greys,
+   graphite to #999, under a heavy fine grain, with the bars as frosted white
+   glass and every line, label and figure in thin white. The radius is the
+   site's 24px for pictures and plates. For colour, change the four pools. */
+.chart.is-panel {
+  padding: 28px 28px 20px;
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(60% 75% at 12% 18%, #8C8C8C 0%, rgba(140, 140, 140, 0) 70%),
+    radial-gradient(55% 65% at 88% 22%, #B3B3B3 0%, rgba(179, 179, 179, 0) 70%),
+    radial-gradient(70% 70% at 78% 92%, #1A1A1A 0%, rgba(26, 26, 26, 0) 72%),
+    radial-gradient(60% 60% at 22% 95%, #5C5C5C 0%, rgba(92, 92, 92, 0) 70%),
+    #3D3D3D;
+}
+
+/* The grain, over the gradient and under the chart. */
+.chart.is-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.chart.is-panel .chart__grid {
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-dasharray: none;
+}
+
+.chart.is-panel .chart__base { stroke: rgba(255, 255, 255, 0.5); }
+
+.chart.is-panel .chart__tick,
+.chart.is-panel .chart__label { fill: rgba(255, 255, 255, 0.7); }
+
+.chart.is-panel .chart__value { fill: rgba(255, 255, 255, 0.8); }
+.chart.is-panel .chart__value.is-focus { fill: #FFFFFF; }
+
+/* Frosted glass: translucent, blurring the lines behind it so they break at
+   its edge, with a fine white edge. The series a chart is about is near
+   opaque, the way the reference sets its second bar. */
+.chart__pane {
+  position: absolute;
+  display: block;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(10px) saturate(115%);
+  backdrop-filter: blur(10px) saturate(115%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+.chart__pane.is-focus {
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+/* The dial in white on its panel: a translucent track, an opaque arc. */
+.chart.is-panel .chart__track { stroke: rgba(255, 255, 255, 0.22); }
+.chart.is-panel .chart__fill { stroke: rgba(255, 255, 255, 0.9); }
+.chart.is-panel .chart__big { color: #FFFFFF; }
+.chart.is-panel .chart__under { color: rgba(255, 255, 255, 0.7); }
+
+/* ---------- CHARTS: SURFACE LOOK (js/cvs-charts.js, LOOK = 'surface') ----------
+   The panel on the site's own flat grey, --surface, the grey the project
+   cards are filled with. On a light ground the white of the panel look would
+   vanish, so the chart takes the site's other two colours: the bars white
+   with the hairline the cards use, the bar a chart is about solid black, and
+   its labels back in the grey and black the page sets text in. */
+.chart.is-panel.is-surface {
+  background: var(--surface);
+}
+
+.chart.is-panel.is-surface::before { display: none; }
+
+.chart.is-surface .chart__grid { stroke: #E5E5E5; }
+.chart.is-surface .chart__base { stroke: #D9D9D9; }
+.chart.is-surface .chart__tick,
+.chart.is-surface .chart__label { fill: var(--grey); }
+.chart.is-surface .chart__value { fill: var(--grey); }
+.chart.is-surface .chart__value.is-focus { fill: #000000; }
+
+.chart.is-surface .chart__pane {
+  background: #FFFFFF;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: inset 0 0 0 1px #E5E5E5;
+}
+
+.chart.is-surface .chart__pane.is-focus {
+  background: #000000;
+  box-shadow: none;
+}
+
+.chart.is-surface .chart__track { stroke: #FFFFFF; }
+.chart.is-surface .chart__fill { stroke: #000000; }
+.chart.is-surface .chart__big { color: #000000; }
+.chart.is-surface .chart__under { color: var(--grey); }
+
+/* ---------- CHARTS: BARE LOOK (js/cvs-charts.js, LOOK = 'bare') ----------
+   No panel: the chart on the white page, its bars in the site's #D9D9D9, the
+   grey the About photo sits on. The dial's empty track takes the lighter
+   --surface grey.
+
+   The bar a chart is about, and its figure, take the prototype's alert red,
+   #BB2619: the red the app keeps for the one amount that expires. Every
+   highlight here marks money or reach being lost, so it reads the way it
+   does in the product. About 6:1 on white, so the figure stays legible.
+   For black instead, set --chart-accent to #000000. */
+/* Frost blue for the shapes; text in that light a blue is about 2:1 on white,
+   so the figure takes a deeper blue of the same hue (about 6:1). For the red,
+   set both to #BB2619. */
+.chart.is-bare { --chart-accent: #9CBDE6; --chart-accent-ink: #2F5E9E; }
+
+/* After a KPI chart from a crypto exchange case study: one saturated blue,
+   strongest at the top of a bar and fading almost to nothing at the
+   baseline, tight 4px corners, no grey. The bar a chart is about takes the
+   full blue; the rest take the same gradient at a third of its strength, so
+   the point still reads first. #0B57F2 is about 5:1 on white, so the
+   highlighted figure can be set in it too. */
+.chart.is-bare.is-blue { --chart-accent: #0B57F2; --chart-accent-ink: #0B57F2; }
+
+.chart.is-bare .chart__pane {
+  background: #D9D9D9;
+  box-shadow: none;
+}
+
+.chart.is-bare.is-blue .chart__pane {
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, rgba(11, 87, 242, 0.32) 0%, rgba(11, 87, 242, 0.14) 60%, rgba(11, 87, 242, 0.02) 100%);
+}
+
+.chart.is-bare.is-blue .chart__pane.is-focus {
+  background: linear-gradient(180deg, #0B57F2 0%, rgba(11, 87, 242, 0.62) 55%, rgba(11, 87, 242, 0.06) 100%);
+}
+
+.chart.is-bare .chart__pane.is-focus { background: var(--chart-accent); }
+.chart.is-bare .chart__value.is-focus { fill: var(--chart-accent-ink, var(--chart-accent)); }
+.chart.is-bare .chart__fill { stroke: var(--chart-accent); }
+
+.chart.is-bare .chart__track { stroke: var(--surface); }

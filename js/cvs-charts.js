@@ -27,6 +27,28 @@
      navy gradient. */
   var GLASS = false;
 
+  /* LOOK: 'glow' draws the bars and the dial as frosted glass with a light
+     in the site's greys behind it, after a glass pie by Irina Devyatova: the colour
+     sits in the middle, the glass softens it and keeps a white rim at the
+     edge. The glass blurs what is behind it for real (backdrop-filter), so
+     these layers are HTML over the chart's SVG; axes and labels are
+     unchanged. 'flat' puts back the plain navy gradient. */
+  var LOOK = 'bare';
+  // BLUE: the bare look in the reference's fading blue instead of grey bars
+  // and a flat highlight. false puts back grey bars with the --chart-accent.
+  var BLUE = true;
+  // 'surface' is the panel on the site's flat --surface grey, #F5F5F5, with
+  // the bars in white and black. Both share the panel's layout.
+  // 'bare' is the same on the white page itself, no panel, the bars in the
+  // site's #D9D9D9 grey and the one a chart is about in black.
+  var PANEL = LOOK === 'panel' || LOOK === 'surface' || LOOK === 'bare';
+
+  /* 'panel': each chart on a panel of its own, a soft grainy gradient in the
+     site's greys, with the bars as frosted white glass (the series a chart is
+     about near-opaque, the rest translucent) and every line, label and figure
+     in thin white. After a chart in an AI agents reel. The panel's colours are
+     in style.css under CHARTS: PANEL LOOK. */
+
   function pct(v) { return Math.round(v) + '%'; }
   function usd(v) { return '$' + Math.round(v); }
 
@@ -52,7 +74,8 @@
   var SUBST = {
     bands: [['All approved', 'at the register'], ['At least one', 'by hand']],
     values: [407, 293],
-    focus: [0, 1],
+    // The automatic group is the point: it forfeited more.
+    focus: [0],
     max: 500,
     ticks: [0, 250, 500],
     fmt: usd
@@ -108,7 +131,14 @@
 
     function draw() {
       [].slice.call(fig.children).forEach(function (n) { n.remove(); });
-      parts = build(fig, Math.max(fig.clientWidth || 300, 240));
+      // Drawn inside the figure's padding, which the panel look gives it.
+      fig.classList.toggle('is-panel', LOOK === 'panel' || LOOK === 'surface');
+      fig.classList.toggle('is-surface', LOOK === 'surface' || LOOK === 'bare');
+      fig.classList.toggle('is-bare', LOOK === 'bare');
+      fig.classList.toggle('is-blue', LOOK === 'bare' && BLUE);
+      var cs = getComputedStyle(fig);
+      var inner = fig.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      parts = build(fig, Math.max(inner || 300, 240));
     }
     function set(k) { parts.forEach(function (p) { p.at(k); }); }
 
@@ -166,12 +196,23 @@
       el('text', { x: left - 10, y: y(t) + 5, class: 'chart__tick', 'text-anchor': 'end' }, svg).textContent = data.fmt(t);
     });
     el('line', { x1: left, x2: W, y1: base, y2: base, class: 'chart__base' }, svg);
+    var layer = null;
+    if (LOOK === 'glow' || PANEL) {
+      layer = html('div', 'chart__glow', '', fig);
+      layer.style.left = getComputedStyle(fig).paddingLeft;
+      layer.style.top = getComputedStyle(fig).paddingTop;
+      layer.style.width = W + 'px';
+      layer.style.height = H + 'px';
+    }
 
     data.values.forEach(function (v, i) {
       var x = left + slot * i + (slot - barW) / 2;
       var cx = x + barW / 2;
       var h = (v / data.max) * plotH;
-      var bar = GLASS ? glassBar(svg, data, x, barW, base, left, W, y) : el('path', { d: barPath(x, base, barW, 0, 6), fill: fill }, svg);
+      var bar = PANEL ? panelBar(layer, x, barW, base, data.focus.indexOf(i) >= 0)
+        : LOOK === 'glow' ? glowBar(layer, x, barW, base)
+        : GLASS ? glassBar(svg, data, x, barW, base, left, W, y)
+        : el('path', { d: barPath(x, base, barW, 0, 6), fill: fill }, svg);
       var band = el('text', { x: cx, y: base + 25, class: 'chart__label', 'text-anchor': 'middle' }, svg);
       data.bands[i].forEach(function (line, k) {
         el('tspan', { x: cx, dy: k ? 20 : 0 }, band).textContent = line;
@@ -180,7 +221,7 @@
       parts.push({
         order: i,
         at: function (k) {
-          if (GLASS) bar.grow(h * k);
+          if (LOOK === 'glow' || PANEL || GLASS) bar.grow(h * k);
           else bar.setAttribute('d', barPath(x, base, barW, h * k, 6));
           label.setAttribute('y', base - h * k - 10);
           label.textContent = k > 0 ? data.fmt(v * k) : '';
@@ -235,15 +276,46 @@
     };
   }
 
+  /* One glow bar: the light, a blurred blue to cyan block inset from the
+     bar's sides so its colour gathers in the middle, and over it the pane,
+     frosted glass the bar's full size with a white rim. A short bar keeps
+     most of its light, so it does not wash out to white. */
+  function glowBar(layer, x, w, base) {
+    var light = html('i', 'chart__glow-light', '', layer);
+    var pane = html('i', 'chart__glow-pane', '', layer);
+    return {
+      grow: function (h) {
+        var vis = h > 0.5 ? '' : 'hidden';
+        var ix = Math.min(10, w * 0.14), iy = Math.min(10, h * 0.18);
+        light.style.cssText = 'left:' + (x + ix) + 'px;width:' + (w - 2 * ix) + 'px;top:' + (base - h + iy) + 'px;height:' + Math.max(0, h - 2 * iy) + 'px;visibility:' + vis;
+        pane.style.cssText = 'left:' + x + 'px;width:' + w + 'px;top:' + (base - h) + 'px;height:' + h + 'px;visibility:' + vis;
+      }
+    };
+  }
+
+  /* One panel bar: frosted white glass the bar's size, its corners rounded;
+     brighter for the series the chart is about. */
+  function panelBar(layer, x, w, base, focus) {
+    var pane = html('i', 'chart__pane' + (focus ? ' is-focus' : ''), '', layer);
+    return {
+      grow: function (h) {
+        pane.style.cssText = 'left:' + x + 'px;width:' + w + 'px;top:' + (base - h) + 'px;height:' + h + 'px;visibility:' + (h > 0.5 ? '' : 'hidden');
+      }
+    };
+  }
+
   /* ---------- gauge ---------- */
   /* The reference's dial: an arc of 250 degrees open at the bottom, round
      ends, the number in the middle, the fill and the number rising together. */
   function buildGauge(fig, W) {
     var data = FORFEIT;
-    // Sized from the row, not the figure: the figure is as wide as the dial.
-    var row = (fig.parentElement && fig.parentElement.clientWidth) || W;
-    var R = Math.min(110, Math.max(72, (row - 40) / 4)), stroke = 16, span = 250;
-    var size = R * 2 + stroke;
+    // As tall as a bar chart (300px with the stroke), narrower if the column is.
+    var stroke = LOOK === 'glow' ? 28 : 16, span = 250;
+    // Room round the ring for the glow's blur, which the SVG would otherwise
+    // cut off at its edge. The whole dial stays 300px.
+    var pad = LOOK === 'glow' ? 16 : 0;
+    var R = Math.min(150 - stroke / 2 - pad, (W - stroke) / 2 - pad);
+    var size = R * 2 + stroke + pad * 2;
     var cx = size / 2, cy = size / 2;
     var C = 2 * Math.PI * R;
     var arc = C * span / 360;
@@ -264,6 +336,17 @@
         rims.push({ c: c2, n: el('circle', { cx: cx, cy: cy, r: r[0], fill: 'none', stroke: '#fff', 'stroke-opacity': r[1], 'stroke-width': r[2], 'stroke-linecap': 'round', 'stroke-dasharray': '0 ' + c2, transform: turn }, svg) });
       });
     }
+    var glow = LOOK === 'glow' ? glowDial(wrap, svg, size, cx, cy, R, stroke, C, arc, turn) : null;
+    // In blue, the arc fades the way the bars do: pale where it starts at the
+    // lower left, the full blue where it ends.
+    if (LOOK === 'bare' && BLUE) {
+      var gid = 'cvs-dial-blue-' + (++uid);
+      var defs = el('defs', {}, svg);
+      var lg = el('linearGradient', { id: gid, gradientUnits: 'userSpaceOnUse', x1: 0, y1: size, x2: 0, y2: 0 }, defs);
+      el('stop', { offset: '0%', 'stop-color': '#0B57F2', 'stop-opacity': 0.14 }, lg);
+      el('stop', { offset: '100%', 'stop-color': '#0B57F2', 'stop-opacity': 1 }, lg);
+      fill.style.stroke = 'url(#' + gid + ')';
+    }
     var num = html('p', 'chart__big', '', wrap);
     html('p', 'chart__under', 'forfeited FSA money', wrap);
     return [{
@@ -271,6 +354,7 @@
       at: function (k) {
         var v = data.percent * k;
         fill.setAttribute('stroke-dasharray', (arc * v / 100) + ' ' + C);
+        if (glow) glow(v);
         // The rims stop short of the round ends so they stay on the band.
         rims.forEach(function (r) {
           var len = Math.max(0, r.c * span / 360 * v / 100 - stroke * 0.9);
@@ -280,6 +364,39 @@
         num.textContent = Math.round(v) + '%';
       }
     }];
+  }
+
+  /* The dial as glow: under a frosted ring the length of the whole arc, the
+     value's arc as light, blurred and kept to just past the ring's edge;
+     the ring's body is a pale track, so it reads on white, and the navy fill
+     goes. */
+  function glowDial(wrap, svg, size, cx, cy, R, stroke, C, arc, turn) {
+    var id = 'cvs-glowdial-' + (++uid);
+    svg.querySelector('.chart__fill').setAttribute('stroke-opacity', 0);
+    svg.querySelector('.chart__track').setAttribute('class', 'chart__track is-glow');
+    var defs = el('defs', {}, svg);
+    var grad = el('linearGradient', { id: id + '-g', gradientUnits: 'userSpaceOnUse', x1: 0, y1: size, x2: size, y2: 0 }, defs);
+    el('stop', { offset: '0%', 'stop-color': '#111111' }, grad);
+    el('stop', { offset: '55%', 'stop-color': '#4D4D4D' }, grad);
+    el('stop', { offset: '100%', 'stop-color': '#999999' }, grad);
+    var blur = el('filter', { id: id + '-b', x: '-20%', y: '-20%', width: '140%', height: '140%' }, defs);
+    el('feGaussianBlur', { stdDeviation: 7 }, blur);
+    var mask = el('mask', { id: id + '-m', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: size, height: size }, defs);
+    el('circle', { cx: cx, cy: cy, r: R, fill: 'none', stroke: '#fff', 'stroke-width': stroke + 10, 'stroke-linecap': 'round', 'stroke-dasharray': arc + ' ' + C, transform: turn }, mask);
+    var g = el('g', { mask: 'url(#' + id + '-m)' }, svg);
+    var light = el('circle', { cx: cx, cy: cy, r: R, fill: 'none', stroke: 'url(#' + id + '-g)', 'stroke-width': stroke - 4, 'stroke-linecap': 'round', 'stroke-dasharray': '0 ' + C, transform: turn, filter: 'url(#' + id + '-b)' }, g);
+    // The frosted ring: a div over the SVG, cut to the arc by a mask of the same shape.
+    var ring = html('div', 'chart__glow-ring', '', wrap);
+    var shape = "<svg xmlns='http://www.w3.org/2000/svg' width='" + size + "' height='" + size + "'><circle cx='" + cx + "' cy='" + cy + "' r='" + R + "' fill='none' stroke='#000' stroke-width='" + stroke + "' stroke-linecap='round' stroke-dasharray='" + arc + " " + C + "' transform='" + turn + "'/></svg>";
+    var url = 'url("data:image/svg+xml,' + encodeURIComponent(shape) + '")';
+    ring.style.cssText = 'width:' + size + 'px;height:' + size + 'px;-webkit-mask-image:' + url + ';mask-image:' + url;
+    // Its rim, inside each edge, over the ring.
+    var rims = el('svg', { width: size, height: size, viewBox: '0 0 ' + size + ' ' + size, class: 'chart__svg', 'aria-hidden': 'true' }, wrap);
+    [[R + stroke / 2 - 1.2, 0.95, 1.4], [R - stroke / 2 + 1.2, 0.7, 1]].forEach(function (r) {
+      var c2 = 2 * Math.PI * r[0];
+      el('circle', { cx: cx, cy: cy, r: r[0], fill: 'none', stroke: '#fff', 'stroke-opacity': r[1], 'stroke-width': r[2], 'stroke-dasharray': (c2 * 250 / 360) + ' ' + c2, transform: turn }, rims);
+    });
+    return function (v) { light.setAttribute('stroke-dasharray', (arc * v / 100) + ' ' + C); };
   }
 
   /* ---------- wiring ---------- */
