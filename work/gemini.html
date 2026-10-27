@@ -32,7 +32,7 @@
   <section class="case-intro">
     <h1 class="case-title">Google Gemini Smart Context</h1>
     <p class="case-description">
-      A redesign of the Gemini home screen on iOS. I rebuilt the app screen by screen, then filled the empty space under its greeting with two stacks of suggestions: one for the time and place, one for recent work.
+      A redesign of Gemini's iOS home screen: two stacks of suggestions in the empty space under the greeting, one for the time and place, one for recent work.
     </p>
 
     <div class="case-meta">
@@ -70,7 +70,7 @@
     <div class="cap-eyebrow">Problem</div>
     <h2 class="cap-title">The home screen ignores what the app knows</h2>
     <p class="cap-body">
-      Gemini opens on a greeting and a text field. The greeting uses your first name and nothing else, and nothing on the screen reflects what you did the last time you opened the app.
+      Gemini opens on a greeting and a text field. Nothing on it reflects what you did the last time you opened the app.
     </p>
 
     <!-- The real app, from my phone, unedited, set in the same mockup as the
@@ -81,7 +81,7 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Most of the first screen is empty</h3>
-        <p class="cap-body">The space between the greeting and the text field is the first thing people see, and holds nothing they can use. Nothing on it suggests the app can read a photograph or write working code.</p>
+        <p class="cap-body">The space between them is the first thing people see. It holds nothing to use, and nothing hints that the app can read a photo or write code.</p>
       </div>
     </div>
   </section>
@@ -94,19 +94,19 @@
     <div class="cap-eyebrow">Research</div>
     <h2 class="cap-title">People skip the prompts and type their own question</h2>
     <p class="cap-body">
-      I watched classmates open their AI assistants. Almost nobody read the suggested prompts: typing the question they already had was faster than reading the list. I then looked for published evidence; no assistant has published how often its prompts are clicked, so what follows is the nearest there is.
+      I watched classmates open their AI assistants. Almost nobody read the suggested prompts; they typed the question they already had. No assistant publishes how often its prompts are clicked, so below is the nearest evidence.
     </p>
 
     <h3 class="cap-moment">Generic suggestions go unclicked</h3>
     <p class="cap-body">
-      In Nielsen Norman Group's tests of Amazon's shopping assistant, no participant clicked a suggested prompt on their own, including people who use Amazon daily. Suggestions drawn from the person do better: in a month-long test in a large chat assistant, starters built from each user's past sessions were clicked 9.4% more than the ones it showed before.
+      In Nielsen Norman Group's tests of Amazon's shopping assistant, no one clicked a suggested prompt unprompted. Starters built from a person's past chats did better: 9.4% more clicks in a month-long test.
     </p>
 
     <div class="finding">
       <figure class="chart" data-chart="refind" aria-label="As many as 40% of search queries look for something the person found before."></figure>
       <div class="finding__text">
         <h3 class="cap-moment">People go back for what they found before</h3>
-        <p class="cap-body">In a year of search logs, as many as 40% of queries looked for something the person had already found, and in a follow-up study people misremembered their original query 30% of the time. Search is not chat, but going back to an old thread asks the same of memory.</p>
+        <p class="cap-body">As many as 40% of searches look for something already found, and people misremember the original search 30% of the time. An old chat asks the same of memory.</p>
         <p class="finding__cap">Teevan et al., SIGIR 2007: a year of Yahoo logs from 114 people, and a study of 119 volunteers.</p>
       </div>
     </div>
@@ -119,19 +119,19 @@
       <div class="split-text">
         <h3 class="cap-moment">Going back to an old chat means remembering it</h3>
         <p class="cap-body">
-          Once a chat leaves recents, search is the only way back, and you have to remember it exists and what it was called. The app knows the time, your location and your last conversation; none of it reaches the first screen.
+          Once a chat leaves recents, search is the only way back, and you have to remember it exists and what it was called.
         </p>
       </div>
     </div>
 
     <h3 class="cap-moment">The hour says less on a phone</h3>
     <p class="cap-body">
-      What people ask moves with the clock: in Claude, requests for recipes are 2.3 times as frequent at 6 pm as on average. But across 37.5 million Copilot conversations, the top topic on phones, health, held at every hour, so the time alone is a weak signal on a phone.
+      In Claude, recipe requests are 2.3 times as common at 6 pm. But across 37.5 million Copilot chats, the top topic on phones held at every hour.
     </p>
 
     <h3 class="cap-moment">Takeaway</h3>
     <p class="cap-body">
-      Generic prompts get skipped, people go back to what they did before, and on a phone the hour alone says little. The home screen should lead with recent work, and use the time and place only when together they point at something specific.
+      Generic prompts get skipped and people return to old work. The home screen should lead with that, and use the time and place only when they point at something specific.
     </p>
 
     <p class="case-sources">
@@ -151,7 +151,7 @@
     <div class="cap-eyebrow">Reframe</div>
     <h2 class="cap-title">From better prompts to what the app already knows</h2>
     <p class="cap-body">
-      My first idea was a row of suggested prompts under the greeting, but people skip those, and a better list was still a list. I changed the question to what the home screen should show, given what the app already knows about you.
+      My first idea was a row of better prompts, but people skip prompts. So I asked what the screen should show, given what Gemini already knows.
     </p>
 
     <div class="reframe">
@@ -171,7 +171,7 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">An idea I set aside</h3>
-        <p class="cap-body">Before this, I designed a fullscreen code view, because code blocks in the chat cut off long lines. Turned sideways, whole lines fit, but few people review code on a phone; they use a desk. I had found a real problem without checking how many people it affected, so I set it aside.</p>
+        <p class="cap-body">First I designed a fullscreen view for code that runs off the screen; turned sideways, whole lines fit. But few people review code on a phone. I hadn't checked who had the problem.</p>
       </div>
     </div>
     <div class="full-image is-bare">
@@ -184,10 +184,10 @@
     <div class="cap-eyebrow">Components</div>
     <h2 class="cap-title">Rebuilding Gemini before changing it</h2>
     <p class="cap-body">
-      Gemini has no public design kit, so little came from a library. I drew Google Sans Flex, every icon, the status bar and two keyboards as vectors, matching each icon's corner rounding and stroke weight, then rebuilt each screen of a chat session.
+      Gemini has no public design kit, so I drew Google Sans Flex, the icons, the status bar and both keyboards as vectors, then rebuilt each screen.
     </p>
     <p class="cap-body">
-      From that recreation I documented its type, colour and components, sampling values from my renders, then added the stacks to it.
+      From that I documented its type, colour and components, then added the stacks.
     </p>
 
     <!-- Type and colour side by side, components under them on a panel, after
@@ -205,7 +205,7 @@
 
     <h3 class="kit-duo__label kit-duo-components">Components</h3>
     <p class="cap-body">
-      Every part of a chat session is a component in one Figma file: bubbles, both keyboards, the drawer, the feedback sheets, the suggestion cards. The stacks are built from these, so they match the app.
+      Every part of a chat session is a component in one Figma file, so the stacks match the app.
     </p>
     <div class="kit-board">
       <a href="../images/gemini/kit/canvas.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/gemini/kit/canvas.png" alt="The Figma canvas holding every recreated Gemini component, including phone frames, chat bubbles, two keyboards, the side drawer, the feedback sheets and the suggestion cards" /></a>
@@ -240,7 +240,7 @@
     <div class="cap-eyebrow">Design</div>
     <h2 class="cap-title">Suggestions from the time, the place and your last chat</h2>
     <p class="cap-body">
-      The greeting stays, and two labelled stacks fill the space under it: the left for the time and place, the right for recent work. Each card names something specific, such as Shibam Coffee on Centre Avenue, open until 11 pm, or the next topic in the Python chat.
+      The greeting stays. Two stacks fill the space under it: the time and place on the left, recent work on the right, each card naming something specific.
     </p>
     <p class="cap-body">
       The stacks take their space from the text field, so each card has to be more useful than the question you were about to type.
@@ -274,7 +274,7 @@
 
     <h3 class="cap-moment">Glass cards</h3>
     <p class="cap-body">
-      The cards are glass so the blue gradient behind Gemini's text field shows through them. A solid fill would be easier to read, but it would look added on top of the app.
+      The cards are glass so the blue glow behind the text field shows through. A solid fill would read more easily but look stuck on.
     </p>
 
     <!-- One phone, its two stacks sliding. The phone is the first screen; over
@@ -315,16 +315,16 @@
   <section id="reflections" class="cap-section">
     <div class="cap-eyebrow">Reflections</div>
     <h2 class="cap-title">Check how many people a problem affects before designing for it</h2>
-    <p class="cap-body">I would rebuild the app first again: until the screens were full size, I could not tell which empty areas were intentional. Two parts of the design are still open.</p>
+    <p class="cap-body">I would rebuild the app first again: only at full size could I tell which empty areas were intentional. Two parts are still open.</p>
 
     <div class="cap-cards is-pair">
       <div class="cap-card">
         <h3>When a guess is wrong</h3>
-        <p>The design does not yet say what happens when a suggestion misreads the time, the place or the task. In a study of proactive coding assistants, a third of suggestions went ignored or unnoticed.</p>
+        <p>Nothing yet says what happens when a suggestion misreads the time, place or task. In a study of coding assistants, a third of proactive suggestions went ignored.</p>
       </div>
       <div class="cap-card">
         <h3>What it knows about you</h3>
-        <p>The stacks draw on your location and recent chats. The design does not yet show where you see that, or turn it off.</p>
+        <p>The stacks use your location and recent chats. Nothing yet shows you that, or lets you turn it off.</p>
       </div>
     </div>
     <p class="case-sources">
