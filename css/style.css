@@ -4279,15 +4279,6 @@ a.pos-plate { display: block; }
 a.kit-duo__sheet { overflow: hidden; }
 a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
 
-/* A screenshot straight off the phone, with no device around it: cut to the
-   screen's own corners (55 of 402 points across, 874 down) and set at the
-   width the screens inside the device renders take, so it sits among them. */
-.split-art img.is-screen {
-  width: 92%;
-  height: auto;
-  margin-inline: auto;
-  border-radius: 13.7% / 6.3%;
-}
 
 /* ---------- BEYOND THE WORK (about) ---------- */
 /* The photo globe at the end of the About page, after ramp.design's section
