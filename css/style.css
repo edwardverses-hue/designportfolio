@@ -4256,7 +4256,8 @@ html.has-cursor .about-pill:hover {
 .space-system .cap-section > .kit-duo__label + .cap-body { margin-top: var(--s-bound); }
 .space-system .cap-section > .full-image + .cap-body { margin-top: var(--s-visual); }
 .space-system .cap-section > .kit-board + .split-row.has-title,
-.space-system .cap-section > .finding + .split-row.has-title { margin-top: var(--s-group); }
+.space-system .cap-section > .finding + .split-row.has-title,
+.space-system .cap-section > .reframe + .split-row.has-title { margin-top: var(--s-group); }
 
 /* Pictures too detailed to read at page size open in the viewer: the link
    takes the picture's place, and a sheet's border and corners move onto it. */
