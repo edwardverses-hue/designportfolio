@@ -161,21 +161,26 @@
       <p class="reframe-text">"How might the home screen use what Gemini already knows about you?"</p>
     </div>
 
-    <!-- The problem and the fullscreen fix side by side, the landscape view
-         under them, and no more: the aside is here for what it taught, not
-         as a second project. -->
+    <!-- The set-aside idea as two rows, as the CVS page shows its moments:
+         the problem, then the fix and why it stopped there. -->
     <div class="split-row has-title">
-      <div class="split-art is-pair">
+      <div class="split-art is-still">
         <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge of the screen, cutting off its comments mid-line" />
-        <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, every line complete, with the chat input still reachable" />
       </div>
       <div class="split-text">
         <h3 class="cap-moment">An idea I set aside</h3>
-        <p class="cap-body">First I designed a fullscreen view for code that runs off the screen; turned sideways, whole lines fit. But few people review code on a phone. I hadn't checked who had the problem.</p>
+        <p class="cap-body">Code blocks in the chat cut off long lines, including the comments Gemini writes to explain them.</p>
       </div>
     </div>
-    <div class="full-image is-bare">
-      <img loading="lazy" decoding="async" src="../images/gemini/code-landscape.png" alt="The code view rotated to landscape, with full lines fitting across the wide edge of the screen" />
+
+    <div class="split-row is-flipped has-title">
+      <div class="split-art is-still">
+        <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, every line complete, with the chat input still reachable" />
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">A fullscreen view, and why I stopped</h3>
+        <p class="cap-body">Opened fullscreen, whole lines fit. But few people review code on a phone, and I hadn't checked who had the problem.</p>
+      </div>
     </div>
   </section>
 
@@ -207,31 +212,8 @@
     <p class="cap-body">
       Every part of a chat session is a component in one Figma file, so the stacks match the app.
     </p>
-    <div class="kit-board">
-      <a href="../images/gemini/kit/canvas.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/gemini/kit/canvas.png" alt="The Figma canvas holding every recreated Gemini component, including phone frames, chat bubbles, two keyboards, the side drawer, the feedback sheets and the suggestion cards" /></a>
-    </div>
-
-    <div class="split-row has-title">
-      <div class="split-art is-pair">
-        <img loading="lazy" decoding="async" src="../images/gemini/1.png" alt="Sign-in screen reading Meet Gemini, your personal AI assistant, with a Google account sheet and a Continue as Edward button" />
-        <img loading="lazy" decoding="async" src="../images/gemini/5.png" alt="Side drawer with new chat, search chats, images and library, then a recents list holding one conversation" />
-      </div>
-      <div class="split-text">
-        <h3 class="cap-moment">Signing in, and getting around</h3>
-        <p class="cap-body">
-          Signing in is one button, since the Google account is already on the phone. The drawer lists new chat, search, images and library, then recents.
-        </p>
-      </div>
-    </div>
-
-    <h3 class="cap-moment">Rating an answer</h3>
-    <p class="cap-body">
-      Thumbs down opens a sheet with six reasons and a comment field. After you submit, the chat shows your rating and a one-line thank you.
-    </p>
-    <div class="cap-pair is-phones is-three">
-      <figure><img loading="lazy" decoding="async" src="../images/gemini/11.png" alt="Feedback sheet asking why this rating was chosen, with six reason chips and an empty comment field" /></figure>
-      <figure><img loading="lazy" decoding="async" src="../images/gemini/12.png" alt="The same sheet with Formatting issues typed into the comment field and the keyboard up" /></figure>
-      <figure><img loading="lazy" decoding="async" src="../images/gemini/13.png" alt="Back in the conversation with the thumbs down held and a thank you for your feedback message" /></figure>
+    <div class="kit-board is-bare">
+      <a href="../images/gemini/kit/components.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/gemini/kit/components.png" width="2960" height="6034" alt="The components, grouped on Gemini's black: the two suggestion stacks added for the redesign; the status bar, top bars and their buttons; the greeting, the text field and a typed prompt; a conversation with its rating row and thank-you; the drawer, chat search and Google sign-in; and the feedback sheet and keyboard" /></a>
     </div>
   </section>
 
