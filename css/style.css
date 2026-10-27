@@ -4248,6 +4248,46 @@ html.has-cursor .about-pill:hover {
 .space-system .cap-section > .split-row + .split-row.has-title,
 .space-system .cap-section > .handoff + .split-row.has-title { margin-top: var(--s-group); }
 
+/* Gemini's blocks, on the same steps: a caption sits a bound under what it
+   names, a label opening a new group a group's step down, and text after a
+   picture the visual step. */
+.space-system .cap-section > .widget-demo + .widget-cap { margin-top: var(--s-bound); }
+.space-system .cap-section > * + .kit-duo__label { margin-top: var(--s-group); }
+.space-system .cap-section > .kit-duo__label + .cap-body { margin-top: var(--s-bound); }
+.space-system .cap-section > .full-image + .cap-body { margin-top: var(--s-visual); }
+.space-system .cap-section > .kit-board + .split-row.has-title,
+.space-system .cap-section > .finding + .split-row.has-title { margin-top: var(--s-group); }
+
+/* Pictures too detailed to read at page size open in the viewer: the link
+   takes the picture's place, and a sheet's border and corners move onto it. */
+.full-image > a,
+.kit-board > a,
+a.pos-plate { display: block; }
+
+/* A poster that is the screen alone, not the phone: it sits in the screen's
+   rounded opening under the live prototype, so it never shows past the
+   frame's corners. */
+.proto-screen .proto-poster.is-screen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.proto-screen .proto-poster.is-screen + iframe { position: relative; }
+a.kit-duo__sheet { overflow: hidden; }
+a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
+
+/* A screenshot straight off the phone, with no device around it: cut to the
+   screen's own corners (55 of 402 points across, 874 down) and set at the
+   width the screens inside the device renders take, so it sits among them. */
+.split-art img.is-screen {
+  width: 92%;
+  height: auto;
+  margin-inline: auto;
+  border-radius: 13.7% / 6.3%;
+}
+
 /* ---------- BEYOND THE WORK (about) ---------- */
 /* The photo globe at the end of the About page, after ramp.design's section
    of the same name. The stage fills what is left of the viewport under the
@@ -4823,6 +4863,12 @@ a.beyond__photo:focus-visible {
    highlighted figure can be set in it too. */
 .chart.is-bare.is-blue { --chart-accent: #0B57F2; --chart-accent-ink: #0B57F2; }
 
+/* Softer peak: the strongest blue anywhere, the top of the bar a chart is
+   about and the end of the dial, at 70% instead of the full #0B57F2. The
+   figure takes #3C6FD8, a lighter blue than the full one that still reads
+   at about 4.7:1 on white. To put the full blue back, delete this rule. */
+.chart.is-bare.is-blue { --blue-peak: 0.7; --chart-accent-ink: #3C6FD8; }
+
 .chart.is-bare .chart__pane {
   background: #D9D9D9;
   box-shadow: none;
@@ -4834,7 +4880,7 @@ a.beyond__photo:focus-visible {
 }
 
 .chart.is-bare.is-blue .chart__pane.is-focus {
-  background: linear-gradient(180deg, #0B57F2 0%, rgba(11, 87, 242, 0.62) 55%, rgba(11, 87, 242, 0.06) 100%);
+  background: linear-gradient(180deg, rgba(11, 87, 242, var(--blue-peak, 1)) 0%, rgba(11, 87, 242, calc(var(--blue-peak, 1) * 0.62)) 55%, rgba(11, 87, 242, calc(var(--blue-peak, 1) * 0.06)) 100%);
 }
 
 .chart.is-bare .chart__pane.is-focus { background: var(--chart-accent); }

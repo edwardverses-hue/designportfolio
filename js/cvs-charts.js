@@ -1,4 +1,5 @@
-/* The CVS case study's charts, drawn from the figures the page cites and
+/* The case studies' charts (CVS and Sessions), drawn from the figures each
+   page cites and
    moved the way the charts in ramp.design's "Charts Glow Up" reel move.
    Measured from that reel at 50ms steps: a chart arrives in a 150ms blur and
    fade, then its bars grow and its numbers count up together over 400ms on
@@ -50,6 +51,8 @@
      in style.css under CHARTS: PANEL LOOK. */
 
   function pct(v) { return Math.round(v) + '%'; }
+  // For figures their sources give to a tenth, so 48.5% is not shown as 49%.
+  function pct1(v) { return (Math.round(v * 10) / 10).toFixed(1) + '%'; }
   function usd(v) { return '$' + Math.round(v); }
 
   /* ---------- the figures ---------- */
@@ -83,7 +86,43 @@
 
   /* EBRI's analysis of 3.2 million FSAs for 2022: 52% of accountholders
      forfeited funds. */
-  var FORFEIT = { percent: 52 };
+  var FORFEIT = { percent: 52, under: 'forfeited FSA money' };
+
+  /* Sessions. ACHA-NCHA III, Spring 2025, undergraduate reference group:
+     48.5% positive for loneliness on the UCLA 3-item scale (6 to 9),
+     47,194 undergraduates at 96 schools. */
+  /* Gemini. Teevan, Adar, Jones and Potts, SIGIR 2007: "as many as 40% of
+     all queries are re-finding queries", a year of Yahoo logs from 114
+     users. The source gives it as an upper bound, and the page says so. */
+  var REFIND = { percent: 40, under: 'of searches re-find something' };
+
+  var LONELY = { percent: 48.5, under: 'of undergraduates lonely', fmt: pct1 };
+
+  /* Kohli et al., SIGCSE 2023: obstacles students reported in their study
+     groups, 477 students in one remote course, fall 2020. 34.5% reported no
+     major obstacle, left out here: it is not an obstacle. */
+  var SCHEDULE = {
+    bands: [['Finding a time'], ['Zoom', 'fatigue'], ['Awkward with', 'strangers']],
+    values: [48.5, 31.7, 30.7],
+    focus: [0],
+    max: 100,
+    ticks: [0, 50, 100],
+    fmt: pct1,
+    tick: pct
+  };
+
+  /* Sarasso et al., Scientific Reports 2022, experiment 2: memory accuracy
+     with a person in the room, alone, and with a partner on a video call,
+     18 participants each in every condition. */
+  var PRESENCE = {
+    bands: [['Someone', 'in the room'], ['Alone'], ['Someone on', 'a video call']],
+    values: [79.4, 70.25, 63.77],
+    focus: [0],
+    max: 100,
+    ticks: [0, 50, 100],
+    fmt: pct1,
+    tick: pct
+  };
 
   /* ---------- helpers ---------- */
   var uid = 0;
@@ -193,7 +232,7 @@
 
     data.ticks.forEach(function (t) {
       if (t) el('line', { x1: left, x2: W, y1: y(t), y2: y(t), class: 'chart__grid' }, svg);
-      el('text', { x: left - 10, y: y(t) + 5, class: 'chart__tick', 'text-anchor': 'end' }, svg).textContent = data.fmt(t);
+      el('text', { x: left - 10, y: y(t) + 5, class: 'chart__tick', 'text-anchor': 'end' }, svg).textContent = (data.tick || data.fmt)(t);
     });
     el('line', { x1: left, x2: W, y1: base, y2: base, class: 'chart__base' }, svg);
     var layer = null;
@@ -307,8 +346,8 @@
   /* ---------- gauge ---------- */
   /* The reference's dial: an arc of 250 degrees open at the bottom, round
      ends, the number in the middle, the fill and the number rising together. */
-  function buildGauge(fig, W) {
-    var data = FORFEIT;
+  function gauge(data) { return function (fig, W) { return buildGauge(fig, W, data); }; }
+  function buildGauge(fig, W, data) {
     // As tall as a bar chart (300px with the stroke), narrower if the column is.
     var stroke = LOOK === 'glow' ? 28 : 16, span = 250;
     // Room round the ring for the glow's blur, which the SVG would otherwise
@@ -344,11 +383,13 @@
       var defs = el('defs', {}, svg);
       var lg = el('linearGradient', { id: gid, gradientUnits: 'userSpaceOnUse', x1: 0, y1: size, x2: 0, y2: 0 }, defs);
       el('stop', { offset: '0%', 'stop-color': '#0B57F2', 'stop-opacity': 0.14 }, lg);
-      el('stop', { offset: '100%', 'stop-color': '#0B57F2', 'stop-opacity': 1 }, lg);
+      // The peak follows --blue-peak in css/style.css, the same as the bars.
+      var peak = parseFloat(getComputedStyle(fig).getPropertyValue('--blue-peak')) || 1;
+      el('stop', { offset: '100%', 'stop-color': '#0B57F2', 'stop-opacity': peak }, lg);
       fill.style.stroke = 'url(#' + gid + ')';
     }
     var num = html('p', 'chart__big', '', wrap);
-    html('p', 'chart__under', 'forfeited FSA money', wrap);
+    html('p', 'chart__under', data.under, wrap);
     return [{
       order: 0,
       at: function (k) {
@@ -361,7 +402,7 @@
           r.n.setAttribute('stroke-dasharray', len + ' ' + r.c);
           r.n.setAttribute('stroke-dashoffset', -stroke * 0.45);
         });
-        num.textContent = Math.round(v) + '%';
+        num.textContent = (data.fmt || pct)(v);
       }
     }];
   }
@@ -400,7 +441,10 @@
   }
 
   /* ---------- wiring ---------- */
-  var builders = { share: bars(SHARE), substantiation: bars(SUBST), forfeit: buildGauge };
+  var builders = {
+    share: bars(SHARE), substantiation: bars(SUBST), forfeit: gauge(FORFEIT),
+    lonely: gauge(LONELY), refind: gauge(REFIND), scheduling: bars(SCHEDULE), presence: bars(PRESENCE)
+  };
   var charts = [].slice.call(document.querySelectorAll('.chart[data-chart]')).map(function (fig) {
     var build = builders[fig.getAttribute('data-chart')];
     return build ? { fig: fig, chart: scaffold(fig, build) } : null;

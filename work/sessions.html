@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="type-wendy space-system">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sessions — Edward Chen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" />
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body class="cap-page">
@@ -24,7 +24,7 @@
   <!-- HERO IMAGE -->
   <section class="case-hero">
     <div class="case-hero-image">
-      <img src="../images/sessions/Render_2_phones.png" alt="Sessions hero" class="art-fit" />
+      <img src="../images/sessions/Render_2_phones.png" alt="Two phones running Sessions: one setting a public session to 1 hour, the other timing a Calculus session at 35:06 with 3 studying alongside" class="art-fit" />
     </div>
   </section>
 
@@ -56,74 +56,102 @@
 
     <!-- Section jump links -->
     <div class="case-toc">
-      <a href="#problem">The Problem</a>
+      <a href="#problem">Problem</a>
       <a href="#research">Research</a>
+      <a href="#reframe">Reframe</a>
       <a href="#process">Process</a>
-      <a href="#system">System</a>
-      <a href="#walkthrough">Walkthrough</a>
+      <a href="#system">Components</a>
+      <a href="#walkthrough">Design</a>
       <a href="#reflections">Reflections</a>
     </div>
   </section>
 
-  <!-- THE PROBLEM, with what the research found -->
+  <!-- PROBLEM -->
   <section id="problem" class="cap-section">
-    <div class="cap-eyebrow">The Problem</div>
+    <div class="cap-eyebrow">Problem</div>
     <h2 class="cap-title">Focus apps are built for one person</h2>
     <p class="cap-body">
       Students go to the library at night because it is easier to start when people nearby are working. Study apps give each of them a private timer and a streak counter.
     </p>
   </section>
 
-  <!-- RESEARCH: published studies on studying alongside other people, which
-       lead from the problem to what the app had to do. -->
+  <!-- RESEARCH: what classmates said, then three published findings that
+       test it, each a chart beside its claim as on the CVS page. The figures
+       are in js/cvs-charts.js with their sources. -->
   <section id="research" class="cap-section">
     <div class="cap-eyebrow">Research</div>
     <h2 class="cap-title">Students go looking for company to study with</h2>
     <p class="cap-body">
-      I talked to over 40 classmates about where they study, who with, and what gets them to start. Then I checked what they told me against published research.
+      I talked to over 40 classmates about where they study, who with, and what gets them to start, then checked what they told me against published research.
     </p>
 
-    <h3 class="cap-moment">What classmates told me</h3>
-    <div class="cap-cards is-pair">
-      <div class="cap-card">
-        <h3>They choose a place for its people</h3>
-        <p>Classmates picked a library or café because of who would be there.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Plans made over text fall through</h3>
-        <p>Classmates found it easier to join a session already running than to plan one over text.</p>
+    <h3 class="cap-moment">Company they already look for</h3>
+    <p class="cap-body">
+      Classmates picked a library or café for who would be there, and found it easier to join a session already running than to plan one over text. These were informal conversations, so I have no counts behind them.
+    </p>
+    <p class="cap-body">
+      Online, students find company from strangers. Videos with "study with me" in the title drew more than 520 million views on YouTube in 2023, and viewers describe them as company, and peer pressure they can control.
+    </p>
+
+    <div class="finding">
+      <figure class="chart" data-chart="lonely" aria-label="48.5% of undergraduates screened positive for loneliness in spring 2025."></figure>
+      <div class="finding__text">
+        <h3 class="cap-moment">About half of undergraduates are lonely</h3>
+        <p class="cap-body">In spring 2025, 48.5% of undergraduates screened positive for loneliness. A second national survey puts it at 52%, down from 58% in 2022: falling, but still about half.</p>
+        <p class="finding__cap">ACHA's National College Health Assessment, spring 2025: 47,194 undergraduates at 96 schools.</p>
       </div>
     </div>
 
-    <h3 class="cap-moment">What the studies add</h3>
-    <div class="cap-cards">
-      <div class="cap-card">
-        <h3>Students already study with strangers</h3>
-        <p>Viewers of study-with-me videos use them for company and peer pressure they can control.</p>
+    <div class="finding">
+      <figure class="chart" data-chart="scheduling" aria-label="Obstacles students reported in their study groups: finding a time, 48.5%; Zoom fatigue, 31.7%; awkwardness with strangers, 30.7%."></figure>
+      <div class="finding__text">
+        <h3 class="cap-moment">Finding a time is the hardest part of studying together</h3>
+        <p class="cap-body">In a course that matched students into study groups, finding a time was the obstacle reported most, even though the matching had already accounted for when each student was free. Almost a third found studying with people they did not know awkward. Interviews in online study rooms found the same: close friends helped, and coordinating schedules was hard.</p>
+        <p class="finding__cap">Kohli et al., SIGCSE 2023: 477 students in one remote course, fall 2020.</p>
       </div>
-      <div class="cap-card">
-        <h3>Close friends help most</h3>
-        <p>In online study rooms, students said close friends helped them focus, and coordinating schedules was hard.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Shared streaks get kept</h3>
-        <p>Duolingo learners who share a streak with a friend are 22% more likely to finish their daily lesson.</p>
+    </div>
+
+    <div class="finding">
+      <figure class="chart" data-chart="presence" aria-label="Memory accuracy in a learning task: 79.4% with someone in the room, 70.3% alone, 63.8% with someone on a video call."></figure>
+      <div class="finding__text">
+        <h3 class="cap-moment">Company in the room helps; on a video call it does not</h3>
+        <p class="cap-body">People remembered more with someone in the room than alone. With a partner on a video call they did no better than alone. It is one small lab study, but it points the app at joining friends in person, not at a virtual room.</p>
+        <p class="finding__cap">Memory accuracy in a learning task. Sarasso et al., Scientific Reports 2022: 18 people, each tested in all three conditions.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Takeaway</h3>
     <p class="cap-body">
-      The app should give the company those videos give, with friends instead of strangers: show who is studying now, let anyone join a session already running, and count the time spent together.
+      Students want company, and arranging it is the hard part. The app should show which friends are studying now, let anyone join a session already running, in person, and count the time spent together.
     </p>
 
     <p class="case-sources">
       Sources:
+      <a href="https://www.acha.org/wp-content/uploads/NCHA-IIIb_SPRING_2025_UNDERGRADUATE_REFERENCE_GROUP_INSTITUTIONAL_EXECUTIVE_SUMMARY.pdf" target="_blank" rel="noopener">ACHA-NCHA III, spring 2025, undergraduates</a>;
+      <a href="https://newsroom.ucla.edu/releases/college-students-mental-health-report-ucla" target="_blank" rel="noopener">UCLA on the Healthy Minds Study, October 2025</a>;
+      <a href="https://arxiv.org/pdf/2202.07439" target="_blank" rel="noopener">Kohli et al., SIGCSE 2023</a>;
+      <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9732282/" target="_blank" rel="noopener">Sarasso et al., Scientific Reports 2022</a>;
+      <a href="https://blog.youtube/culture-and-trends/study-with-me/" target="_blank" rel="noopener">YouTube, February 2024</a>;
       <a href="https://dgist.elsevierpure.com/en/publications/personalizing-ambience-and-illusionary-presence-how-people-use-st/" target="_blank" rel="noopener">Lee et al., CHI 2021, 30 videos and 12 interviews</a>;
-      <a href="https://dl.eusset.eu/items/dffb766d-5f87-4ec6-ab1d-dc07f6dadb84/full" target="_blank" rel="noopener">Lee, Yoo and Park, ECSCW 2025, 13 interviews</a>;
-      <a href="https://blog.duolingo.com/friend-streak/" target="_blank" rel="noopener">Duolingo, 2024</a>.
-      The first two are interview studies, Duolingo's figure is its own and not a controlled test, and a 2025 review finds the effect of study-with-me videos on grades
-      <a href="https://library.iated.org/view/AKGUL2025LEA" target="_blank" rel="noopener">still unproven</a>.
+      <a href="https://dl.eusset.eu/items/dffb766d-5f87-4ec6-ab1d-dc07f6dadb84/full" target="_blank" rel="noopener">Lee, Yoo and Park, ECSCW 2025, 13 interviews</a>.
+      The loneliness figures are self-reported, and the study-group and co-presence studies are each a single study.
     </p>
+  </section>
+
+  <!-- REFRAME: the takeaway turned into the question the app answers. -->
+  <section id="reframe" class="cap-section">
+    <div class="cap-eyebrow">Reframe</div>
+    <h2 class="cap-title">From a private timer to friends studying now</h2>
+    <p class="cap-body">
+      A better timer would still leave each student on their own. The question became how to show who is already studying, and make joining them as easy as starting alone.
+    </p>
+
+    <div class="reframe">
+      <p class="reframe-label">From</p>
+      <p class="reframe-text is-from">"How might an app help a student focus alone?"</p>
+      <p class="reframe-label">To</p>
+      <p class="reframe-text">"How might students see which friends are studying now, and join them?"</p>
+    </div>
   </section>
 
   <!-- PROCESS -->
@@ -133,123 +161,196 @@
     <p class="cap-body">
       I mapped the whole app as one flow before designing screens. The map showed I had not designed what a session looks like to people outside it.
     </p>
-    <div class="full-image">
-      <img loading="lazy" decoding="async" src="../images/sessions/Flow.png" alt="User flow" />
-    </div>
+    <figure class="full-image">
+      <a href="../images/sessions/Flow.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/sessions/Flow.png" alt="The app's whole user flow as one diagram: every screen and the paths between them" /></a>
+    </figure>
   </section>
 
-  <!-- SYSTEM DESIGN -->
+  <!-- COMPONENTS: the identity, then every part of the final screens as a
+       component, shown from the Figma file's Components page. -->
   <section id="system" class="cap-section">
-    <div class="cap-eyebrow">System Design</div>
+    <div class="cap-eyebrow">Components</div>
     <h2 class="cap-title">Quiet enough to leave open while studying</h2>
     <p class="cap-body">
-      Pale blue, warm white, frosted glass, and slate and near-black instead of a bright accent. The glass and controls follow iOS, so there is nothing new to learn.
+      The screen stays open beside someone studying, so nothing on it should pull at their attention: pale blue, warm white, frosted glass, and slate and near-black instead of a bright accent. Frosted panels keep the map, and the friends on it, visible under the controls.
+    </p>
+    <p class="cap-body">
+      A brand colour would make the app easier to recognise, but it would compete with friends on the map. The glass and controls follow iOS, so there is nothing new to learn.
     </p>
 
-    <div class="cap-cards">
-      <div class="cap-card">
-        <h3>Soft while the timer runs</h3>
-        <p>The screen stays open beside someone studying, so nothing on it should pull their attention.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Glass over the map</h3>
-        <p>Frosted panels keep the map, and the friends on it, visible under the controls.</p>
-      </div>
-      <div class="cap-card">
-        <h3>Colour comes from people</h3>
-        <p>A bright brand colour would make the app easier to recognise, but it would compete with friends on the map.</p>
-      </div>
-    </div>
-    <div class="full-image">
-      <img loading="lazy" decoding="async" src="../images/sessions/Identity.png" alt="Visual identity" />
+    <div class="pos-flow is-single">
+      <figure class="pos-state">
+        <a class="pos-plate" href="../images/sessions/Identity.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/sessions/Identity.png" width="3525" height="2600" alt="Visual identity: Helvetica Neue, with pale blue #D9F4FF, warm white #FEFDF9, near-white #FBFEFF, slate #6C848E and near-black #231F20" /></a>
+        <figcaption class="pos-state__cap">Type and colour</figcaption>
+      </figure>
+      <figure class="pos-state">
+        <a class="pos-plate" href="../images/sessions/kit/components.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/sessions/kit/components.png" width="2400" height="1741" alt="The components: the tab bar in its three states and round icon buttons; primary, secondary and get-started buttons; chips, filters, the public or private switch and onboarding steps; the search field and friend, menu, member and session rows; cards for friends studying now, a group session, an invite, session stats, studied alongside, a lost streak, rebuilding it and the next milestone; the group goal ring, the week chart, and friend, you and group pins" /></a>
+        <figcaption class="pos-state__cap">Components, each placed on the colour it sits on in the app</figcaption>
+      </figure>
+      <figure class="pos-state">
+        <a class="pos-plate" href="../images/sessions/kit/timer.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/sessions/kit/timer.png" width="2400" height="1028" alt="The timer's parts on its slate light: the session name tag, the running time with its page dots, studying alongside and pause; the public or private switch, the hours, the dial and the Go slider; and the session name field" /></a>
+        <figcaption class="pos-state__cap">The timer, on the dark light that only it uses</figcaption>
+      </figure>
     </div>
   </section>
 
-  <!-- FINAL WALKTHROUGH -->
+  <!-- DESIGN BREAKDOWN: the working prototype, one moment per phone, in the
+       order a student meets them. Scenes are at the end of
+       sessions-prototype.html; js/cvs-demos.js plays them. -->
   <section id="walkthrough" class="cap-section">
-    <div class="cap-eyebrow">Final Walkthrough</div>
+    <div class="cap-eyebrow">Design Breakdown</div>
+    <h2 class="cap-title">Ten moments, from setup to a quiet map</h2>
+    <p class="cap-body">Each phone is the working prototype, looping one step. Building it showed what the Figma flow had left out: who sees you, joining, ending early and a quiet map.</p>
+    <p class="proto-open">
+      <a href="sessions-prototype.html" class="pill-button" target="_blank" rel="noopener" data-cursor="view">Open the full prototype</a>
+      <button type="button" class="motion-toggle lg-glass" aria-pressed="false">Pause motion</button>
+    </p>
 
-    <!-- In the order a student meets them: set up once, start a session, find
-         people, add more of them, then what accumulates and what can break. -->
     <div class="split-row has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/sessions/Study_Preferences.png" alt="Study preferences" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/onboard.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=onboard" title="Prototype: choosing study preferences, then who sees you studying" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Choosing preferences, then who sees you</figcaption>
+        </figure>
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">Onboarding</h3>
-        <p class="cap-body">Setup asks for your subjects, when you study, how you like to study, and whether you study in person or remotely. Session suggestions use these answers.</p>
+        <h3 class="cap-moment">Setting up, and who sees you</h3>
+        <p class="cap-body">Setup asks for your subjects, when and how you study, and whether in person or remotely; suggestions use the answers. The next step is new: who sees you studying, and whether a pin shows the building or where you sit.</p>
       </div>
     </div>
 
     <div class="split-row is-flipped has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/sessions/Title_box.png" alt="Session name prompt reading Hello, Emma, What are you studying today?" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/start.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=start" title="Prototype: naming a session, setting its length and sliding to start" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Naming a session, setting 1.5 hours, sliding to start</figcaption>
+        </figure>
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">Naming a session</h3>
-        <p class="cap-body">A session starts with a name for what you are studying. The name then sits at the top of the timer.</p>
+        <h3 class="cap-moment">Naming and starting a session</h3>
+        <p class="cap-body">A session starts with a name, then Public or Private and a length on the dial. Go is a slide rather than a tap, so a session never starts by accident.</p>
       </div>
     </div>
 
-    <!-- Setting the timer and the timer running: the Go control on the first
-         starts the second. -->
     <div class="split-row has-title">
-      <div class="split-art is-pair">
-        <img loading="lazy" decoding="async" src="../images/sessions/Timer.png" alt="Timer setup" />
-        <img loading="lazy" decoding="async" src="../images/sessions/Timer_Running.png" alt="Timer running" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/run.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=run" title="Prototype: paging through the running timer, then pausing it" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Paging through the timer, then pausing</figcaption>
+        </figure>
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">Starting a session</h3>
-        <p class="cap-body">Choose public or private and set the length on the dial. The running timer shows the time, how many are studying alongside you, and pause.</p>
+        <h3 class="cap-moment">While the timer runs</h3>
+        <p class="cap-body">The screen shows the time, how many are studying alongside, and pause. Its dots page through time left, today’s total and the streak.</p>
       </div>
     </div>
 
     <div class="split-row is-flipped has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/sessions/Session_Complete.png" alt="Session complete screen reading Locked in, with confetti, 2 hours studied, a 16 day streak, 30 total hours, and Sean, Eileen and Amelia listed as studied alongside for a 6 hour group total" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/join.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=join" title="Prototype: a notification about a group session, then joining it" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">A notification, the group session, joining</figcaption>
+        </figure>
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">Finishing a session</h3>
-        <p class="cap-body">The end screen shows how long you studied, your streak, your total hours, and the friends who studied with you.</p>
+        <h3 class="cap-moment">Joining friends who are already studying</h3>
+        <p class="cap-body">The map shows where friends are studying and when they finish. Joining a group now asks once, and says what it shares: your building, to friends, until you leave.</p>
       </div>
     </div>
 
-    <!-- Screens share a row only when one leads to the other in the app: the
-         friends list's Add Friends button opens the Add Friends screen. -->
     <div class="split-row has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/sessions/Location.png" alt="Map view" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/finish.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=finish" title="Prototype: ending a session early, then the session summary" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Ending early, then the summary</figcaption>
+        </figure>
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">Seeing who is already studying</h3>
-        <p class="cap-body">The map shows where friends are studying and how long they have left. Group sessions show how many people are in them and have a Join button.</p>
+        <h3 class="cap-moment">Ending a session</h3>
+        <p class="cap-body">Ending early now asks once, and says the time still counts. The end screen shows how long you studied, your streak and total, and who studied with you.</p>
       </div>
     </div>
 
     <div class="split-row is-flipped has-title">
-      <div class="split-art is-pair">
-        <img loading="lazy" decoding="async" src="../images/sessions/Friends.png" alt="Friends list" />
-        <img loading="lazy" decoding="async" src="../images/sessions/Add_Friends.png" alt="Add friends" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/friends.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=friends" title="Prototype: filtering friends, accepting a request, adding a friend and copying the invite link" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Filtering, accepting a request, adding a friend</figcaption>
+        </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Adding friends</h3>
-        <p class="cap-body">From the friends list, Add Friends offers search by name, an invite link, or people suggested through mutual friends.</p>
+        <p class="cap-body">Friends filters to who is studying now and to requests, which can now be accepted. Add Friends offers search, an invite link, or people with mutual friends.</p>
       </div>
     </div>
 
     <div class="split-row has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/sessions/Weekly_Challenge_1.png" alt="Weekly challenge" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/challenge.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=challenge" title="Prototype: scrolling the weekly challenge" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">The group goal and past weeks</figcaption>
+        </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Weekly challenges</h3>
-        <p class="cap-body">A weekly challenge gives a group one goal, 10 hours here, and shows how much each member has added.</p>
+        <p class="cap-body">A weekly challenge gives a group one goal, 10 hours here, and shows how much each member has added and how past weeks went.</p>
       </div>
     </div>
 
     <div class="split-row is-flipped has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/sessions/Session_History.png" alt="Session history" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/history.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=history" title="Prototype: scrolling session history" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">The week and past sessions</figcaption>
+        </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Session history</h3>
@@ -258,32 +359,64 @@
     </div>
 
     <div class="split-row has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/sessions/Streak_Frozen.png" alt="Streak lost" />
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/streak.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=streak" title="Prototype: the lost streak, then starting a session" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">From the lost streak to a new session</figcaption>
+        </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">When a streak breaks</h3>
-        <p class="cap-body">Missing a day ends the streak. The screen shows the old streak, the new one starting at zero, and a way to rebuild it by studying three sessions in three days.</p>
+        <p class="cap-body">Missing a day ends the streak. The screen shows the old streak, the new one at zero, and a way to rebuild it in three sessions over three days: a broken streak puts people off less when they can repair it.</p>
       </div>
     </div>
 
-    <div class="full-image is-bare">
-      <img loading="lazy" decoding="async" src="../images/sessions/Render_hand.png" alt="Sessions in hand" />
+    <div class="split-row is-flipped has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/quiet.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=quiet" title="Prototype: the map when no friends are studying" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">The map at a quiet hour</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">When no friends are studying</h3>
+        <p class="cap-body">The case I had left open. At a quiet hour the map says so, shows when and where friends usually study, and offers a public session they will see.</p>
+      </div>
     </div>
+    <p class="case-sources">
+      Sources:
+      <a href="https://udspace.udel.edu/items/42ce576b-8e1f-429a-8541-e29e48dbcfbb/full" target="_blank" rel="noopener">Silverman and Barasch, Journal of Consumer Research 2023, on broken and repaired streaks</a>.
+    </p>
   </section>
 
-  <!-- REFLECTIONS -->
+  <!-- REFLECTIONS: the one lesson, then what is still open. -->
   <section id="reflections" class="cap-section">
     <div class="cap-eyebrow">Reflections</div>
-    <p class="cap-body">
-      Seeing that friends are studying right now is the core of the app. The counters and notifications support it.
-    </p>
-    <p class="cap-body">
-      The hardest decisions were about what to leave off the timer and how to handle a broken streak.
-    </p>
-    <p class="cap-body">
-      Next I would design the map for quiet hours, showing where people study at different times of day and which friends are about to finish.
-    </p>
+    <h2 class="cap-title">Friends studying right now matter more than the timer</h2>
+    <p class="cap-body">The counters and notifications only support them. Building the prototype filled in the quiet map, joining and who sees you; two questions are still open.</p>
+
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>A streak that breaks</h3>
+        <p>The break screen says your friends noticed. Whether that brings people back or puts them off is still a guess.</p>
+      </div>
+      <div class="cap-card">
+        <h3>How much location people share</h3>
+        <p>Students can show only the building, or nothing. Whether that is enough to leave sharing on is a question for testing.</p>
+      </div>
+    </div>
   </section>
 
   <!-- NEXT PROJECT -->
@@ -298,9 +431,24 @@
     <p>© 2026 Edward Chen</p>
   </footer>
 
+  <!-- A picture opened over the page, as on the Play page (js/viewer.js). -->
+  <div class="viewer" id="viewer" hidden tabindex="-1" role="dialog" aria-modal="true" aria-label="Enlarged view">
+    <button class="viewer-close" id="viewer-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <path d="M4.5 4.5 L15.5 15.5 M15.5 4.5 L4.5 15.5" />
+      </svg>
+    </button>
+    <figure class="viewer-frame">
+      <img id="viewer-img" alt="" />
+      <figcaption class="viewer-cap" id="viewer-cap"></figcaption>
+    </figure>
+  </div>
   <script src="../js/nav.js" defer></script>
   <script src="../js/liquid-glass.js" defer></script>
   <script src="../js/cursor.js" defer></script>
   <script src="../js/rail.js" defer></script>
+  <script src="../js/cvs-demos.js" defer></script>
+  <script src="../js/cvs-charts.js" defer></script>
+  <script src="../js/viewer.js" defer></script>
 </body>
 </html>
