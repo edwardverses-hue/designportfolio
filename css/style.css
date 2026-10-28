@@ -4345,10 +4345,13 @@ a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
   user-select: none;
 }
 
+/* The words sit above every card (cards run from z 200 to 780), on a soft
+   white haze, so a card passing the centre never hides them. */
 .beyond__center {
   position: absolute;
   inset: 0;
-  z-index: 500;
+  z-index: 800;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -4359,27 +4362,39 @@ a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
   pointer-events: none;
 }
 
-/* The type system's face and weight, Helvetica Neue Light. The size is the
-   one display size on the site: the globe is built around a heading this big,
-   so it sits outside the five reading sizes rather than at 36px. */
+.beyond__center::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: 26rem;
+  height: 9rem;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 46%, rgba(255, 255, 255, 0) 76%);
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+/* The type system's title, as a case study's (36, light, 1.2), on one line,
+   with the page's 16px reading text a bound's step (10px) under it. */
 .beyond__title {
   margin: 0;
   font-family: inherit;
-  font-size: clamp(4.5rem, 10vw, 9rem);
+  font-size: 36px;
   font-weight: 300;
-  line-height: 0.78;
-  letter-spacing: -0.045em;
+  line-height: 1.2;
+  letter-spacing: normal;
   text-wrap: balance;
 }
 
-.beyond__title span {
-  display: block;
+.beyond__title span + span::before {
+  content: " ";
 }
 
-/* The type system's 16px reading text. */
 .beyond__dek {
   width: min(90%, 31rem);
-  margin: 36px 0 0;
+  margin: 10px 0 0;
   color: #000000;
   font-family: inherit;
   font-size: 16px;
@@ -4486,30 +4501,17 @@ a.beyond__photo:focus-visible {
     isolation: isolate;
   }
 
-  /* A soft white haze behind the words, so they read over cards that are
-     too close to go behind them on a small screen. */
   .beyond__center::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: -1;
     width: min(92vw, 22rem);
-    height: 15rem;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 46%, rgba(255, 255, 255, 0) 76%);
-    filter: blur(4px);
-    pointer-events: none;
+    height: 8rem;
   }
 
   .beyond__title {
-    font-size: clamp(3.05rem, 13.8vw, 4rem);
-    line-height: 0.82;
+    font-size: 30px;
   }
 
   .beyond__dek {
     width: min(82vw, 20rem);
-    margin-top: 36px;
   }
 
   .beyond__photo {
@@ -4525,13 +4527,9 @@ a.beyond__photo:focus-visible {
 @media (max-height: 500px) and (orientation: landscape) {
   .beyond__center { width: min(70vw, 28rem); }
   .beyond__center::before { width: min(70vw, 20rem); height: 10rem; }
-  .beyond__title { font-size: clamp(2.25rem, 12vh, 3.25rem); }
-  .beyond__dek { width: min(70vw, 22rem); font-size: 14px; line-height: 1.5; }
+  .beyond__title { font-size: 30px; }
+  .beyond__dek { width: min(70vw, 22rem); }
   .beyond__photo { width: calc(clamp(4.25rem, 22vh, 5.75rem) * var(--s, 1)); }
-}
-
-@media (max-width: 390px) {
-  .beyond__title { font-size: clamp(2.9rem, 13.5vw, 3.5rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {

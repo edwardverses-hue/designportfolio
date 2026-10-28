@@ -7,9 +7,9 @@
    The cards sit on a fibonacci sphere. Each frame the sphere's orientation,
    kept as a quaternion, turns every point, and the point is projected with a
    camera 3.6 radii out, so near cards come forward and far cards shrink back.
-   A card's depth sets its opacity, its blur and its stacking order, with the
-   heading fixed at z-index 500, so the front half of the globe passes in
-   front of the words and the back half behind them.
+   A card's depth sets its opacity, its blur and its stacking order (200 to
+   780). The heading sits above all of them at 800, on a white haze, so at
+   the type system's 36px no card ever hides the words.
 
    Left alone the globe turns once in 56 seconds about the vertical. Dragging
    turns it by hand and throws it with momentum; a horizontal wheel turns it
