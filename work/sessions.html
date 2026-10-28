@@ -62,6 +62,7 @@
       <a href="#process">Process</a>
       <a href="#system">Components</a>
       <a href="#walkthrough">Design</a>
+      <a href="#secondary">Secondary</a>
       <a href="#reflections">Reflections</a>
     </div>
   </section>
@@ -71,8 +72,19 @@
     <div class="cap-eyebrow">Problem</div>
     <h2 class="cap-title">Focus apps are built for one person</h2>
     <p class="cap-body">
-      Students go to the library at night because it is easier to start when people nearby are working. Study apps give each of them a private timer and a streak counter.
+      Students go to the library at night because it is easier to start when people nearby are working. The study apps they use leave out the people:
     </p>
+
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>Nothing shows who is studying</h3>
+        <p>Each student gets a private timer and a streak counter. Friends working nearby are invisible.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Studying together takes planning</h3>
+        <p>Company means agreeing on a time and a place first, usually over text.</p>
+      </div>
+    </div>
   </section>
 
   <!-- RESEARCH: what classmates said, then three published findings that
@@ -172,11 +184,19 @@
     <div class="cap-eyebrow">Components</div>
     <h2 class="cap-title">Quiet enough to leave open while studying</h2>
     <p class="cap-body">
-      The screen stays open beside someone studying, so nothing on it should pull at their attention: pale blue, warm white, frosted glass, and slate and near-black instead of a bright accent. Frosted panels keep the map, and the friends on it, visible under the controls.
+      The screen stays open beside someone studying, so nothing on it should pull at their attention.
     </p>
-    <p class="cap-body">
-      A brand colour would make the app easier to recognise, but it would compete with friends on the map. The glass and controls follow iOS, so there is nothing new to learn.
-    </p>
+
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>No bright accent</h3>
+        <p>Pale blue, warm white, slate and near-black. A brand colour would compete with friends on the map.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Nothing new to learn</h3>
+        <p>Frosted glass and controls that follow iOS. The panels keep the map visible under them.</p>
+      </div>
+    </div>
 
     <div class="pos-flow is-single">
       <figure class="pos-state">
@@ -199,8 +219,8 @@
        sessions-prototype.html; js/cvs-demos.js plays them. -->
   <section id="walkthrough" class="cap-section">
     <div class="cap-eyebrow">Design Breakdown</div>
-    <h2 class="cap-title">Eleven moments, from setup to a quiet map</h2>
-    <p class="cap-body">Each phone is the working prototype, looping one step. Building it showed what the Figma flow had left out: inviting friends, who sees you, joining, ending early and a quiet map.</p>
+    <h2 class="cap-title">Six moments, from setup to a quiet map</h2>
+    <p class="cap-body">Each phone is the working prototype, looping one step. Building it showed what the Figma flow had left out: inviting friends, joining, ending early and a quiet map.</p>
     <p class="proto-open">
       <a href="sessions-prototype.html" class="pill-button" target="_blank" rel="noopener" data-cursor="view">Open the full prototype</a>
       <button type="button" class="motion-toggle lg-glass" aria-pressed="false">Pause motion</button>
@@ -230,25 +250,6 @@
         <figure class="proto-demo">
           <div class="proto-phone">
             <div class="proto-screen">
-              <img class="proto-poster is-screen" src="../images/sessions/posters/privacy.png" alt="" aria-hidden="true" />
-              <iframe data-src="sessions-prototype.html?embed&amp;scene=privacy" title="Prototype: opening Settings, then choosing who sees you studying" loading="lazy"></iframe>
-            </div>
-            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
-          </div>
-          <figcaption class="proto-cap">Settings, then who sees you</figcaption>
-        </figure>
-      </div>
-      <div class="split-text">
-        <h3 class="cap-moment">Choosing who sees you</h3>
-        <p class="cap-body">New, and in Settings: friends, close friends or only you, and whether a pin shows the building or where you sit. A pin shows only while a public session runs.</p>
-      </div>
-    </div>
-
-    <div class="split-row has-title">
-      <div class="split-art is-phone">
-        <figure class="proto-demo">
-          <div class="proto-phone">
-            <div class="proto-screen">
               <img class="proto-poster is-screen" src="../images/sessions/posters/start.png" alt="" aria-hidden="true" />
               <iframe data-src="sessions-prototype.html?embed&amp;scene=start" title="Prototype: naming a session, setting its length and sliding to start" loading="lazy"></iframe>
             </div>
@@ -263,7 +264,7 @@
       </div>
     </div>
 
-    <div class="split-row is-flipped has-title">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -282,7 +283,7 @@
       </div>
     </div>
 
-    <div class="split-row has-title">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -301,7 +302,7 @@
       </div>
     </div>
 
-    <div class="split-row is-flipped has-title">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -320,7 +321,54 @@
       </div>
     </div>
 
+    <div class="split-row is-flipped has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/quiet.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=quiet" title="Prototype: the map when no friends are studying" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">The map at a quiet hour</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">When no friends are studying</h3>
+        <p class="cap-body">The case I had left open. At a quiet hour the map says so, shows when and where friends usually study, and offers a public session they will see.</p>
+      </div>
+    </div>
+
+</section>
+
+  <!-- AROUND THE SESSION: the screens outside one session, as the CVS page
+       gives the register its own section. -->
+  <section id="secondary" class="cap-section">
+    <div class="cap-eyebrow">Secondary Screens</div>
+    <h2 class="cap-title">Friends, privacy and progress</h2>
+    <p class="cap-body">Five screens sit outside a session: who sees you, adding friends, weekly challenges, history, and a broken streak. Who sees you is new; the Figma flow had put friends on a live map without saying who could see a pin.</p>
+
     <div class="split-row has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/privacy.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=privacy" title="Prototype: opening Settings, then choosing who sees you studying" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Settings, then who sees you</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Choosing who sees you</h3>
+        <p class="cap-body">In Settings: friends, close friends or only you, and whether a pin shows the building or where you sit. A pin shows only while a public session runs.</p>
+      </div>
+    </div>
+
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -339,7 +387,7 @@
       </div>
     </div>
 
-    <div class="split-row is-flipped has-title">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -358,7 +406,7 @@
       </div>
     </div>
 
-    <div class="split-row has-title">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -377,7 +425,7 @@
       </div>
     </div>
 
-    <div class="split-row is-flipped has-title">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -396,24 +444,6 @@
       </div>
     </div>
 
-    <div class="split-row has-title">
-      <div class="split-art is-phone">
-        <figure class="proto-demo">
-          <div class="proto-phone">
-            <div class="proto-screen">
-              <img class="proto-poster is-screen" src="../images/sessions/posters/quiet.png" alt="" aria-hidden="true" />
-              <iframe data-src="sessions-prototype.html?embed&amp;scene=quiet" title="Prototype: the map when no friends are studying" loading="lazy"></iframe>
-            </div>
-            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
-          </div>
-          <figcaption class="proto-cap">The map at a quiet hour</figcaption>
-        </figure>
-      </div>
-      <div class="split-text">
-        <h3 class="cap-moment">When no friends are studying</h3>
-        <p class="cap-body">The case I had left open. At a quiet hour the map says so, shows when and where friends usually study, and offers a public session they will see.</p>
-      </div>
-    </div>
     <p class="case-sources">
       Sources:
       <a href="https://udspace.udel.edu/items/42ce576b-8e1f-429a-8541-e29e48dbcfbb/full" target="_blank" rel="noopener">Silverman and Barasch, Journal of Consumer Research 2023, on broken and repaired streaks</a>.
