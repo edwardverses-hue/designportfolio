@@ -4265,8 +4265,8 @@ html.has-cursor .about-pill:hover {
 .kit-board > a,
 a.pos-plate { display: block; }
 
-/* A sheet that brings its own panels: no grey board around it. */
-.kit-board.is-bare { background: none; padding: 0; border-radius: 0; }
+/* A board for parts drawn on black, as Gemini's are. */
+.kit-board.is-dark { background: #000000; }
 
 /* A poster that is the screen alone, not the phone: it sits in the screen's
    rounded opening under the live prototype, so it never shows past the

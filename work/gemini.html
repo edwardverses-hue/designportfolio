@@ -161,15 +161,15 @@
       <p class="reframe-text">"How might the home screen use what Gemini already knows about you?"</p>
     </div>
 
-    <!-- The set-aside idea as two rows, as the CVS page shows its moments:
-         the problem, then the fix and why it stopped there. -->
+    <!-- The set-aside idea as the CVS page shows its moments: the problem,
+         the fullscreen fix, then the sideways view and why it stopped there. -->
     <div class="split-row has-title">
       <div class="split-art is-still">
         <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge of the screen, cutting off its comments mid-line" />
       </div>
       <div class="split-text">
         <h3 class="cap-moment">An idea I set aside</h3>
-        <p class="cap-body">Code blocks in the chat cut off long lines, including the comments Gemini writes to explain them.</p>
+        <p class="cap-body">Code blocks in the chat cut off long lines, comments included. Smaller code wasn't the answer: Google's designers would have weighed this, so I treated its size as their minimum.</p>
       </div>
     </div>
 
@@ -178,10 +178,15 @@
         <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, every line complete, with the chat input still reachable" />
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">A fullscreen view, and why I stopped</h3>
-        <p class="cap-body">Opened fullscreen, whole lines fit. But few people review code on a phone, and I hadn't checked who had the problem.</p>
+        <h3 class="cap-moment">A fullscreen view</h3>
+        <p class="cap-body">A button opens the block fullscreen, and whole lines fit, until the text size goes up.</p>
       </div>
     </div>
+
+    <div class="full-image is-bare">
+      <img loading="lazy" decoding="async" src="../images/gemini/code-landscape.png" alt="The code view rotated to landscape, with full lines fitting across the wide edge of the screen" />
+    </div>
+    <p class="cap-body">Turned sideways, whole lines fit. But few people review code on a phone, and I hadn't checked who had the problem, so I set it aside.</p>
   </section>
 
   <!-- COMPONENTS: the recreation and the kit it became. -->
@@ -212,8 +217,10 @@
     <p class="cap-body">
       Every part of a chat session is a component in one Figma file, so the stacks match the app.
     </p>
-    <div class="kit-board is-bare">
-      <a href="../images/gemini/kit/components.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/gemini/kit/components.png" width="2960" height="6034" alt="The components, grouped on Gemini's black: the two suggestion stacks added for the redesign; the status bar, top bars and their buttons; the greeting, the text field and a typed prompt; a conversation with its rating row and thank-you; the drawer, chat search and Google sign-in; and the feedback sheet and keyboard" /></a>
+    <!-- Gemini's parts are drawn for its black: most are white text with no
+         fill of their own, so the board is black, not the site's grey. -->
+    <div class="kit-board is-dark">
+      <a href="../images/gemini/kit/canvas.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/gemini/kit/canvas.png" alt="The Figma canvas holding every recreated Gemini component, including phone frames, chat bubbles, two keyboards, the side drawer, the feedback sheets and the suggestion cards" /></a>
     </div>
   </section>
 
