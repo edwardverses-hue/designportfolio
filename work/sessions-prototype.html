@@ -239,6 +239,13 @@ svg.i{display:block;flex:none}
 .askfield input::placeholder{color:var(--ink)}
 .field.askfield .send{background:var(--pale);color:var(--deep);border:1px solid rgba(255,255,255,.25)}
 .iconbtn.askclose{position:absolute;left:20px;top:769px;color:var(--deep);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 2px rgba(255,255,255,.55)}
+/* welcome: the map, crowded. Real pins, fading in one after another, so the first thing you see is what you're missing */
+.crowd{position:absolute;left:0;right:0;top:270px;height:440px;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent,#000 26%,#000 74%,transparent);mask-image:linear-gradient(180deg,transparent,#000 26%,#000 74%,transparent)}
+.crowd .map{top:-200px;opacity:.9}
+.crowd .pin{transform-origin:center bottom;transform:scale(.82);animation:pinIn .6s var(--spring) both}
+.crowd .pin .lab .n{font-size:20px}
+@keyframes pinIn{from{opacity:0;transform:translateY(10px) scale(.7)}to{opacity:1;transform:scale(.82)}}
+@media (prefers-reduced-motion:reduce){.crowd .pin{animation:none}}
 .bgimg{position:absolute;left:0;top:0;width:402px;height:874px;pointer-events:none;user-select:none}
 .bottomrow{position:absolute;left:20px;right:20px;bottom:50px;display:flex;justify-content:space-between;align-items:center}
 .pillbtn{display:flex;align-items:center;gap:20px;padding:0 20px;font-size:24px;color:var(--deep);height:52px}
@@ -266,16 +273,14 @@ svg.i{display:block;flex:none}
 .chip{white-space:nowrap;height:44px;padding:0 10px;border-radius:12.5px;border:1px solid var(--line);font-size:16px;background:var(--bg);transition:background .2s,border-color .2s}
 .chip[aria-pressed="true"]{background:var(--pale);border-color:var(--pale)}
 .chip.add{width:44px;padding:0;display:grid;place-items:center}
-.opt{display:flex;align-items:center;gap:16px;padding:12px 20px;width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:15px;transition:background .3s var(--ease),border-color .3s}
+/* settings choices use the Settings row: line border, radius 15, 20px title over a 16px line, and a thin ink check on the chosen row (iOS list convention) */
+.opt{display:flex;align-items:center;gap:16px;min-height:64px;padding:10px 20px;width:100%;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:15px;transition:border-color .2s}
 .opt .stack{flex:1;min-width:0;gap:2px}
-/* the Public / Private segment, as a list: unselected at ink 50%, the chosen one on the pale knob */
-.opt .t20{font-size:24px;line-height:29px;color:rgba(35,31,32,.5);transition:color .3s var(--ease)}
-.opt .t16{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .35s var(--ease),opacity .25s}
-.opt .t16>span{overflow:hidden}
-.opt[aria-checked="true"]{background:var(--pale);border-color:rgba(255,255,255,.25)}
-.opt[aria-checked="true"] .t20{color:var(--ink)}
-.opt[aria-checked="true"] .t16{grid-template-rows:1fr;opacity:1}
-.opt .chk{display:none}
+.opt .t20{font-size:20px;line-height:24px;color:var(--ink)}
+.opt .t16{font-size:16px;line-height:20px;color:var(--ink50)}
+.opt .chk{width:24px;height:24px;display:grid;place-items:center;flex:none;color:var(--ink);opacity:0;transform:scale(.6);transition:opacity .2s,transform .3s var(--spring)}
+.opt[aria-checked="true"] .chk{opacity:1;transform:none}
+.optlabel{font-size:16px;color:var(--ink50);margin:0 0 -2px 4px}
 /* the switch in the file's own terms: hairline track off; the tab bar's ink pill with a pale-blue knob when on */
 .switch{width:51px;height:31px;border-radius:250px;background:rgba(251,254,255,.5);border:1px solid var(--line);position:relative;flex:none;transition:background .25s,border-color .25s}
 .switch::after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:var(--bg);border:1px solid var(--line);box-shadow:0 1px 2px rgba(52,67,74,.08);transition:transform .3s var(--spring),background .25s,border-color .25s}
@@ -483,10 +488,8 @@ const SCR={
 welcome:{label:'Welcome',html:()=>`${LIGHT.welcome}
   <div class="center wordmark" style="position:absolute;left:35px;right:35px;top:150px" aria-label="Sessions">Sessions</div>
   <p class="center t20 mut" style="position:absolute;left:35px;right:35px;top:237px;margin:0">Study better with friends.</p>
-  <div class="pad stack" style="top:596px;gap:12px" aria-hidden="true">
-    <span class="t12" style="letter-spacing:.3px;padding-left:8px">Happening now near you</span>
-    <div class="mapcard preview" style="position:static;left:auto;right:auto"><span class="who">${I('group',32)}</span><div class="meta"><span class="t20">Library Session</span><span class="t12">5 people studying together<br>Ends in 1h 30m · 1.4 km away</span></div><span class="avs">${['S','E','A'].map(c=>`<i>${c}</i>`).join('')}<i class="more">+2</i></span></div>
-  </div>
+  <div class="crowd" aria-hidden="true"><div class="map"></div><span class="pin" style="left:28px;top:30px;animation-delay:200ms"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Maya</span><span class="e">Ends in 40m</span></span></span><span class="pin grp" style="left:232px;top:16px;animation-delay:290ms"><span class="dot">${I('group',24)}</span><span class="lab"><span class="n">Design Crit</span><span class="e">4 studying</span></span></span><span class="pin" style="left:126px;top:114px;animation-delay:380ms"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Jonah</span><span class="e">Ends in 2h</span></span></span><span class="pin" style="left:276px;top:140px;animation-delay:470ms"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Priya</span><span class="e">Ends in 1h</span></span></span><span class="pin grp" style="left:14px;top:200px;animation-delay:560ms"><span class="dot">${I('group',24)}</span><span class="lab"><span class="n">15-213 Lab</span><span class="e">6 studying</span></span></span><span class="pin" style="left:196px;top:230px;animation-delay:650ms"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Leo</span><span class="e">Ends in 25m</span></span></span><span class="pin" style="left:300px;top:276px;animation-delay:740ms"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Ava</span><span class="e">Ends in 3h</span></span></span><span class="pin grp" style="left:96px;top:322px;animation-delay:830ms"><span class="dot">${I('group',24)}</span><span class="lab"><span class="n">Hunt Library</span><span class="e">5 studying</span></span></span><span class="pin" style="left:236px;top:370px;animation-delay:920ms"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Noah</span><span class="e">Ends in 1h 30m</span></span></span><span class="pin" style="left:10px;top:398px;animation-delay:1010ms"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Iris</span><span class="e">Ends in 50m</span></span></span></div>
+  <p class="center t16 mut" style="position:absolute;left:35px;right:35px;top:716px;margin:0">32 people near you are studying right now.</p>
   <button data-go="name" style="position:absolute;left:20px;right:20px;bottom:50px;height:62px;border-radius:61.8px;background:#231F20;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:5px 5px 5px 25px;font-size:20px">Get Started<span style="width:52px;height:52px;border-radius:50%;background:var(--bg);color:var(--ink);display:grid;place-items:center">${I('right')}</span></button>`},
 
 name:{label:'Your name',html:(o={})=>`${LIGHT.plain}${obHead('name',o.settings)}
@@ -506,14 +509,13 @@ pref:{label:'Study preferences',html:()=>{
 /* NEW: who sees where you study. The file put friends on a live map without
    saying who could see a pin, or when it went away. */
 where:{label:'Who sees you studying',html:o=>{
-  const opt=(k,a,b)=>`<button class="opt" role="radio" data-share="${k}" aria-checked="${S.share===k}"><span class="stack"><span class="t20">${a}</span><span class="t16 mut"><span>${b}</span></span></span><span class="chk">${I('check',16)}</span></button>`;
-  return `${LIGHT.plain}${obHead('where',o.settings)}
+  const opt=(k,a,b)=>`<button class="opt" role="radio" data-share="${k}" aria-checked="${S.share===k}"><span class="stack"><span class="t20">${a}</span><span class="t16">${b}</span></span><span class="chk">${I('check')}</span></button>`;
+  return `${LIGHT.plain}<div class="obhead"><button data-back aria-label="Back" style="width:24px;height:24px">${I('left')}</button></div>
   <div class="obbody"><div class="obtitle"><h1 class="h1">Who sees you studying</h1><p>Your pin shows only while a public session is running, and goes when it ends.</p></div>
-  <div class="stack" role="radiogroup" aria-label="Who sees your sessions" style="gap:6px">
+  <div class="stack" style="gap:10px"><p class="optlabel">Your pin</p><div class="stack" role="radiogroup" aria-label="Who sees your pin" style="gap:10px">
     ${opt('friends','Friends','Everyone you have added')}${opt('close','Close friends','A list you choose')}${opt('me','Only me','Every session is private')}
-  </div>
-  <div><button class="opt" role="checkbox" data-building aria-checked="${S.building}"><span class="stack"><span class="t20">Show the building only</span><span class="t16 mut"><span>Not where you sit inside it</span></span></span><span class="chk">${I('check',16)}</span></button></div></div>
-  <div class="pad" style="bottom:50px"><button class="btn primary" ${o.settings?'data-back':'data-go="invite"'} style="height:48px">${o.settings?'Done':'Next'}</button></div>`},
+  </div></div>
+  <div class="stack" style="gap:10px"><p class="optlabel">Location</p><button class="opt" role="checkbox" data-building aria-checked="${S.building}"><span class="stack"><span class="t20">Show the building only</span><span class="t16">Not where you sit inside it</span></span><span class="chk">${I('check')}</span></button></div></div>`},
   mount(s){s.querySelectorAll('[data-share]').forEach(b=>b.onclick=()=>{S.share=b.dataset.share;s.querySelectorAll('[data-share]').forEach(x=>x.setAttribute('aria-checked',x===b));});
     const sw=s.querySelector('[data-building]');sw.onclick=()=>{S.building=!S.building;sw.setAttribute('aria-checked',S.building);};}},
 
@@ -532,16 +534,15 @@ invite:{label:'Bring your friends',html:()=>{
     s.querySelector('[data-invnext]').onclick=()=>{S.askNotif=true;stack.length=0;go('map',{t:'fade'});};}},
 
 notify:{label:'Notifications',html:o=>{
-  const row=(k,a,b)=>`<button class="opt" role="checkbox" data-nudge="${k}" aria-checked="${S.nudges[k]}"><span class="stack"><span class="t20">${a}</span><span class="t16 mut"><span>${b}</span></span></span><span class="chk">${I('check',16)}</span></button>`;
-  return `${LIGHT.plain}${obHead('notify',o.settings)}
-  <div class="obbody"><div class="obtitle"><h1 class="h1">${o.settings?'Notifications':'When should we nudge you?'}</h1><p>Only for the moments that get you studying. Change these any time in Settings.</p></div>
-  <div class="stack" style="gap:6px">
-    ${row('nearby','Friends start nearby','When someone you added starts a public session')}
-    ${row('filling','A session is filling up','When a group you could join gets busy')}
-    ${row('streak','Streak reminder','The evening before your streak would end')}
-    ${row('quiet','Quiet after 10 pm','Hold everything until the morning')}
-  </div></div>
-  <div class="pad" style="bottom:50px"><button class="btn primary" ${o.settings?'data-back':'data-go="map" data-root'} style="height:48px">${o.settings?'Done':'Start studying'}</button></div>`},
+  const row=(k,a,b)=>`<button class="opt" role="checkbox" data-nudge="${k}" aria-checked="${S.nudges[k]}"><span class="stack"><span class="t20">${a}</span><span class="t16">${b}</span></span><span class="chk">${I('check')}</span></button>`;
+  return `${LIGHT.plain}<div class="obhead"><button data-back aria-label="Back" style="width:24px;height:24px">${I('left')}</button></div>
+  <div class="obbody"><div class="obtitle"><h1 class="h1">Notifications</h1><p>Only for the moments that get you studying.</p></div>
+  <div class="stack" style="gap:10px"><p class="optlabel">Nudge me when</p>
+    ${row('nearby','Friends start nearby','A friend starts a public session')}
+    ${row('filling','A session is filling up','A group you could join gets busy')}
+    ${row('streak','My streak is at risk','The evening before it would end')}
+  </div>
+  <div class="stack" style="gap:10px"><p class="optlabel">Quiet hours</p>${row('quiet','Quiet after 10 pm','Hold everything until the morning')}</div></div>`},
   mount(s){s.querySelectorAll('[data-nudge]').forEach(b=>b.onclick=()=>{const k=b.dataset.nudge;S.nudges[k]=!S.nudges[k];b.setAttribute('aria-checked',S.nudges[k]);});}},
 
 /* NEW: an ongoing session, opened from View on its card or from a friend */
