@@ -4359,8 +4359,8 @@ a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
   pointer-events: none;
 }
 
-/* The type system's title, as a case study's (36, light, 1.2), on one line,
-   with the page's 16px reading text a bound's step (10px) under it. */
+/* The type system's title, as a case study's (36, light, 1.2), one span to
+   a line, with the page's 16px reading text a bound's step (10px) under it. */
 .beyond__title {
   margin: 0;
   font-family: inherit;
@@ -4371,8 +4371,8 @@ a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
   text-wrap: balance;
 }
 
-.beyond__title span + span::before {
-  content: " ";
+.beyond__title span {
+  display: block;
 }
 
 .beyond__dek {
