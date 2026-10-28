@@ -54,8 +54,6 @@
   // For figures their sources give to a tenth, so 48.5% is not shown as 49%.
   function pct1(v) { return (Math.round(v * 10) / 10).toFixed(1) + '%'; }
   function usd(v) { return '$' + Math.round(v); }
-  function hrs1(v) { return (Math.round(v * 10) / 10).toFixed(1) + ' h'; }
-  function hrs(v) { return Math.round(v) + ' h'; }
 
   /* ---------- the figures ---------- */
 
@@ -93,19 +91,17 @@
   /* Sessions. ACHA-NCHA III, Spring 2025, undergraduate reference group:
      48.5% positive for loneliness on the UCLA 3-item scale (6 to 9),
      47,194 undergraduates at 96 schools. */
-  /* Gemini. Karnam et al., "Bowling with ChatGPT", ACM Web Conference 2026,
-     Table 2: hours between a conversation's first and last turn, 16.6 on
-     average in 135K conversations donated by 300 ChatGPT users (2023 to
-     2025), against 0.4 for WildChat's power users. Both are means with wide
-     spreads (SD 198.7 and 4.8), and the page says so. */
-  var RETURN = {
-    bands: [['ChatGPT users’', 'own histories'], ['WildChat’s', 'heaviest users']],
-    values: [16.6, 0.4],
+  /* Gemini. Kuo, Sergeyuk, Chen and Izadi, IUI 2026, a five-day field study
+     of 15 developers and 229 proactive suggestions: engagement was 52% for
+     suggestions after a commit (N=155) and 31% after a declined AI edit
+     (N=39), which were also dismissed 62% of the time. */
+  var BOUNDARY = {
+    bands: [['Right after', 'a commit'], ['Mid-task, after a', 'declined edit']],
+    values: [52, 31],
     focus: [0],
-    max: 20,
-    ticks: [0, 10, 20],
-    fmt: hrs1,
-    tick: hrs
+    max: 100,
+    ticks: [0, 50, 100],
+    fmt: pct
   };
 
   var LONELY = { percent: 48.5, under: 'of undergraduates lonely', fmt: pct1 };
@@ -455,7 +451,7 @@
   /* ---------- wiring ---------- */
   var builders = {
     share: bars(SHARE), substantiation: bars(SUBST), forfeit: gauge(FORFEIT),
-    lonely: gauge(LONELY), returning: bars(RETURN), scheduling: bars(SCHEDULE), presence: bars(PRESENCE)
+    lonely: gauge(LONELY), boundary: bars(BOUNDARY), scheduling: bars(SCHEDULE), presence: bars(PRESENCE)
   };
   var charts = [].slice.call(document.querySelectorAll('.chart[data-chart]')).map(function (fig) {
     var build = builders[fig.getAttribute('data-chart')];

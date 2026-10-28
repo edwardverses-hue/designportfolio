@@ -89,13 +89,13 @@
     </div>
   </section>
 
-  <!-- RESEARCH: what classmates did, checked against published studies.
-       No click rate for suggested prompts in Gemini, ChatGPT or Copilot has
-       been published, so the evidence is the nearest there is, and the page
-       says where it comes from. -->
+  <!-- RESEARCH: what classmates did, checked against published studies from
+       2025 and 2026, one finding for each part of the design: personal over
+       generic, between tasks rather than during them, what Gemini already
+       keeps, and when the time and place help. -->
   <section id="research" class="cap-section">
     <div class="cap-eyebrow">Research</div>
-    <h2 class="cap-title">People skip the prompts and type their own question</h2>
+    <h2 class="cap-title">People skip generic prompts, but use ones drawn from their own work</h2>
     <p class="cap-body">
       I watched classmates open their AI assistants. Almost nobody read the suggested prompts; they typed the question they already had. No assistant publishes how often its suggestions get tapped, so I looked for the closest published studies.
     </p>
@@ -106,17 +106,20 @@
     </p>
 
     <div class="finding">
-      <figure class="chart" data-chart="returning" aria-label="Hours between a conversation's first and last message, on average: 16.6 in ChatGPT users' own histories, 0.4 for WildChat's heaviest users."></figure>
+      <figure class="chart" data-chart="boundary" aria-label="Share of an assistant's suggestions developers engaged with: 52% right after a commit, 31% after declining an edit, mid-task."></figure>
       <div class="finding__text">
-        <h3 class="cap-moment">People come back to chats they have started</h3>
-        <p class="cap-body">In 135,000 conversations donated by 300 regular ChatGPT users, a chat's first and last messages were 16.6 hours apart on average, against 0.4 hours for the heaviest users of WildChat, a free chatbot run by researchers. People leave a chat and come back to it.</p>
-        <p class="finding__cap">Karnam et al., ACM Web Conference 2026, conversations from 2023 to 2025. Both figures are averages, pulled up by a few very long chats.</p>
+        <h3 class="cap-moment">Suggestions land between tasks, not during them</h3>
+        <p class="cap-body">In a five-day field study, developers engaged with 52% of an assistant's suggestions when they came right after a commit. Mid-task, after an edit was declined, they dismissed 62%. Opening an app is a moment between tasks.</p>
+        <p class="finding__cap">Kuo et al., IUI 2026: 15 developers, 229 suggestions in a code editor.</p>
       </div>
     </div>
 
-    <h3 class="cap-moment">Going back to an old chat means remembering it</h3>
+    <h3 class="cap-moment">Gemini remembers your chats, but its home screen doesn't</h3>
     <p class="cap-body">
-      To reopen one, you scroll the list in the side menu or search for it. Either way, you have to remember the chat exists and roughly what it was called.
+      Since August 2025, Gemini learns from past conversations by default, and Google describes the goal as a "personal, proactive" assistant. Yet to reopen a chat, you still scroll the side menu or search for it, and have to remember what it was called.
+    </p>
+    <p class="cap-body">
+      People do come back to chats: in 135,000 conversations donated by 300 ChatGPT users, a chat's first and last messages were 16.6 hours apart on average.
     </p>
     <div class="phone-two">
       <figure class="phone-fig">
@@ -129,24 +132,27 @@
       </figure>
     </div>
 
-    <h3 class="cap-moment">The hour says less on a phone</h3>
+    <h3 class="cap-moment">Time and place matter only some of the time</h3>
     <p class="cap-body">
-      Some requests follow the clock: recipe requests to Claude are 2.3 times as frequent at 6 pm as on average. But in 37.5 million Copilot conversations, health was the top topic on phones at every hour of the day.
+      Some requests follow the clock: recipe requests to Claude are 2.3 times as frequent at 6 pm as on average. But across 37.5 million Copilot conversations, health was the top topic on phones at every hour. In a week-long field study of context-aware suggestions on phones, time and location mattered only in certain situations.
     </p>
 
     <h3 class="cap-moment">Takeaway</h3>
     <p class="cap-body">
-      Generic prompts get skipped, and people come back to chats they have started. The home screen should bring that work back, and use the time and place only when together they point to something specific, like a café open late nearby.
+      Suggestions get used when they come from a person's own chats and show up between tasks, as when the app opens. The time and place should add a card only when together they point to something specific, like dinner near campus at 6 pm.
     </p>
 
     <p class="case-sources">
       Sources:
       <a href="https://www.nngroup.com/articles/discoverability-ai-amazon/" target="_blank" rel="noopener">Nielsen Norman Group on Amazon's Rufus, March 2025</a>;
       <a href="https://arxiv.org/abs/2604.18375" target="_blank" rel="noopener">Zheng et al., IceBreaker, ACL 2026 Industry Track</a>;
+      <a href="https://arxiv.org/abs/2601.10253" target="_blank" rel="noopener">Kuo et al., Developer Interaction Patterns with Proactive AI, IUI 2026</a>;
+      <a href="https://9to5google.com/2025/08/13/gemini-personal-context/" target="_blank" rel="noopener">9to5Google on Gemini's personal context, August 2025</a>;
       <a href="https://arxiv.org/abs/2602.01114" target="_blank" rel="noopener">Karnam et al., Bowling with ChatGPT, ACM Web Conference 2026</a>;
       <a href="https://www.anthropic.com/research/economic-index-june-2026-report" target="_blank" rel="noopener">Anthropic Economic Index, June 2026</a>;
-      <a href="https://arxiv.org/html/2512.11879v1" target="_blank" rel="noopener">Microsoft AI, Copilot Usage Report 2025</a>.
-      The 9.4% is a relative lift over generic starters, in a product the paper does not name.
+      <a href="https://arxiv.org/html/2512.11879v1" target="_blank" rel="noopener">Microsoft AI, Copilot Usage Report 2025</a>;
+      <a href="https://doi.org/10.1145/3706598.3713944" target="_blank" rel="noopener">Chen et al., context-aware text entry on smartphones, CHI 2025</a>.
+      The 9.4% is a relative lift over generic starters, in a product the paper does not name; the 16.6 hours is an average pulled up by a few very long chats.
     </p>
   </section>
 
