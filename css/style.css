@@ -1806,8 +1806,13 @@ h1, h2, h3, h4, h5, h6 {
   max-height: calc(100vh - 170px);
   width: auto;
   height: auto;
-  border-radius: 8px;
+  /* The radius every picture and plate on the site takes, 16px on phones. */
+  border-radius: 24px;
   cursor: default;
+}
+
+@media (max-width: 720px) {
+  .viewer-frame img { border-radius: 16px; }
 }
 
 .viewer-cap {
