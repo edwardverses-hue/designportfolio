@@ -225,15 +225,15 @@ svg.i{display:block;flex:none}
 .hours .big{transition:transform .16s var(--ease)}
 .hours .big.bump{transform:scale(1.02)}
 .go{position:absolute;right:20px;top:764px;width:217px;height:60px;border-radius:250px;display:flex;align-items:center;padding:5px;overflow:hidden;touch-action:none}
-.go .fill{position:absolute;left:0;top:0;bottom:0;width:60px;border-radius:250px;background:rgba(251,254,255,.35);pointer-events:none}
+.go .fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:250px;background:rgba(251,254,255,.35);pointer-events:none}
 .go .lab,.go .chev{transition:opacity .2s ease}
 .go .knob{position:relative;z-index:2;width:50px;height:50px;border-radius:50%;background:var(--pale);border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 2px 8px rgba(52,67,74,.12);display:grid;place-items:center;color:var(--deep);transition:transform .35s var(--ease)}
 .go .lab{position:absolute;left:85px;font-size:24px;line-height:24px;color:var(--deep)}
 .go .chev{position:absolute;right:20px;display:flex;color:var(--deep)}
 .go .chev svg{margin-left:-5px}
 /* name your session: the file's frame 437:1832 */
-.askhead{position:absolute;left:25px;right:25px;top:343px;display:flex;flex-direction:column;align-items:center;text-align:center}
-.g36{margin:0;font-size:32px;line-height:38px;font-weight:300;background:linear-gradient(180deg,#FBFEFF,#D9F4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.askhead{position:absolute;left:25px;right:25px;top:293px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.g36{margin:0;font-size:36px;line-height:42px;font-weight:300;background:linear-gradient(180deg,#FBFEFF,#D9F4FF);-webkit-background-clip:text;background-clip:text;color:transparent}
 .field.askfield{box-sizing:border-box;position:absolute;left:20px;top:519px;width:362px;background:rgba(217,244,255,.35);border:1px solid rgba(255,255,255,.4);box-shadow:inset 0 1px 2px rgba(255,255,255,.4);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .askfield input{color:var(--ink)}
 .askfield input::placeholder{color:var(--ink)}
@@ -250,14 +250,22 @@ svg.i{display:block;flex:none}
 .bottomrow{position:absolute;left:20px;right:20px;bottom:50px;display:flex;justify-content:space-between;align-items:center}
 .pillbtn{display:flex;align-items:center;gap:20px;padding:0 20px;font-size:24px;color:var(--deep);height:52px}
 /* the timer's glass, as the file renders it: almost no fill, a bright 1px rim, an inner highlight, no drop shadow */
-[data-screen=run] .glass{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.75);box-shadow:inset 0 1px 2px rgba(255,255,255,.55),inset 0 -1px 2px rgba(255,255,255,.2)}
+/* Figma's Glass effect (refraction 1, depth 70, light -45°, dispersion 1) has no CSS equivalent, so each glass piece is Figma's own render of it,
+   cut from the frame. Pills stretch from the middle so the rounded ends stay exact at any label width. */
+[data-screen=run] .glass,[data-screen=dial] .seg .knob,[data-screen=dial] .go .knob{background:none!important;border:0;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+[data-screen=run] .tag.glass{border-style:solid;border-width:0 20px;padding:0;border-image:url(sessions-proto/g_tag.png) 0 40 fill / 0 20px stretch;height:52px}
+[data-screen=run] .along.glass{border-style:solid;border-width:0 20px;padding:0;border-image:url(sessions-proto/g_along.png) 0 40 fill / 0 20px stretch;height:52px}
+[data-screen=run] .pillbtn.glass{border-style:solid;border-width:0 20px;padding:0;border-image:url(sessions-proto/g_pause.png) 0 40 fill / 0 20px stretch;height:52px}
+[data-screen=run] .iconbtn.glass{background:url(sessions-proto/g_close.png) 0 0/50px 50px no-repeat!important}
+[data-screen=dial] .seg .knob{background:url(sessions-proto/g_pub.png) 0 0/111px 54px no-repeat!important;border-radius:250px}
+[data-screen=dial] .go .knob{background:url(sessions-proto/g_go.png) 0 0/50px 49px no-repeat!important}
 .along{position:absolute;left:50%;top:670px;transform:translateX(-50%);display:flex;align-items:center;gap:20px;height:52px;padding:0 20px;color:var(--slate);font-size:24px;white-space:nowrap}
 
 /* onboarding */
 .steps{display:flex;gap:6px;flex:1}
-.steps i{position:relative;flex:1;height:5px;border-radius:250px;background:rgba(229,229,229,.5);border:1px solid var(--line);box-sizing:content-box;overflow:hidden}
-.steps i::after{content:"";position:absolute;inset:0;border-radius:250px;background:var(--pale);transform:scaleX(0);transform-origin:left}
-.steps i.on::after{transform:none}
+.steps i{position:relative;flex:1;height:5.625px;border-radius:4.5px;border:.5px solid var(--ink);background:transparent;overflow:hidden;box-sizing:border-box}
+.steps i::after{content:"";position:absolute;inset:0;background:var(--pale);transform:scaleX(0);transform-origin:left}
+.steps i.on::after{transform:none;opacity:.5}
 .steps i.now::after{animation:stepfill .6s var(--ease) .15s both}
 @keyframes stepfill{from{transform:scaleX(0)}to{transform:none}}
 .obhead{position:absolute;left:20px;right:20px;top:100px;display:flex;align-items:center;gap:16px;height:24px}
@@ -270,9 +278,10 @@ svg.i{display:block;flex:none}
 .inputline input::placeholder{color:rgba(35,31,32,.4)}
 .textlink{font-size:16px;color:var(--slate);text-align:center;height:44px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{white-space:nowrap;height:44px;padding:0 10px;border-radius:12.5px;border:1px solid var(--line);font-size:16px;background:var(--bg);transition:background .2s,border-color .2s}
-.chip[aria-pressed="true"]{background:var(--pale);border-color:var(--pale)}
-.chip.add{width:44px;padding:0;display:grid;place-items:center}
+.chip{position:relative;white-space:nowrap;height:39px;padding:0 10px;border-radius:10px;border:1px solid var(--line);font-size:16px;background:transparent;transition:background .2s,border-color .2s}
+.chip::after{content:"";position:absolute;inset:-3px 0}
+.chip[aria-pressed="true"]{background:rgba(217,244,255,.5);border-color:var(--slate)}
+.chip.add{width:39px;padding:0;display:grid;place-items:center}
 /* settings choices use the Settings row: line border, radius 15, 20px title over a 16px line, and a thin ink check on the chosen row (iOS list convention) */
 .opt{display:flex;align-items:center;gap:16px;min-height:64px;padding:10px 20px;width:100%;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:15px;transition:border-color .2s}
 .opt .stack{flex:1;min-width:0;gap:2px}
@@ -616,7 +625,7 @@ map:{label:'Map',html:()=>{
     s.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>b.dataset.view==='library'?go('session',{key:'library'}):go('friend',{key:b.dataset.view}));}},
 
 ask:{label:'Name your session',html:()=>`<img class="bgimg" src="sessions-proto/askbg.jpg" alt="" aria-hidden="true">
-  <div class="askhead" aria-hidden="false"><p class="g36">Hello, ${S.name}</p><h1 class="g36" style="margin-top:32px">What are you<br>studying today?</h1></div>
+  <div class="askhead" aria-hidden="false"><p class="g36">Hello, ${S.name}</p><h1 class="g36" style="margin-top:50px">What are you<br>studying today?</h1></div>
   <form class="field askfield" data-form autocomplete="off"><input data-name aria-label="Session name" placeholder="Session Name" maxlength="24"><button class="send" type="submit" aria-label="Next">${I('right')}</button></form>
   <button class="iconbtn clear askclose" data-back aria-label="Close">${I('close')}</button>`,
   mount(s){const f=s.querySelector('[data-form]'),i=s.querySelector('[data-name]');f.onsubmit=e=>{e.preventDefault();S.subject=i.value.trim()||'Calculus';go('dial');};}},
@@ -627,17 +636,17 @@ dial:{label:'Set the length',html:()=>{
   return `<img class="bgimg" src="sessions-proto/dialbg.jpg" alt="" aria-hidden="true">
   <div class="seg" role="group" aria-label="Who can see this session"><span class="knob" style="${S.pub?'':'left:118px'}"></span><button data-pub="1" aria-pressed="${S.pub}">Public</button><button data-pub="0" aria-pressed="${!S.pub}">Private</button></div>
   <div class="hours" aria-live="polite"><div class="big grad-text" data-big>${L.big}</div><div class="unit" data-unit>${L.unit}</div></div>
-  <svg class="dial" data-dial viewBox="0 0 402 309" fill="none" xmlns="http://www.w3.org/2000/svg" role="slider" tabindex="0" aria-label="Session length" aria-valuemin="15" aria-valuemax="240" aria-valuenow="${S.mins}" aria-valuetext="${L.big} ${L.unit}"> <defs> <linearGradient id="d_fade" x1="201.5" y1="8" x2="201.5" y2="411" gradientUnits="userSpaceOnUse"><stop stop-color="#D9F4FF"/><stop offset="0.4" stop-color="#D9F4FF" stop-opacity="0"/></linearGradient> <linearGradient id="d_mark_mask" x1="201.5" y1="0" x2="201.5" y2="417" gradientUnits="userSpaceOnUse"><stop stop-color="#596E77"/><stop offset="0.4" stop-color="#D9F4FF" stop-opacity="0"/></linearGradient> <linearGradient id="d_mark" x1="202.018" y1="-1.03467" x2="202.018" y2="52.7718" gradientUnits="userSpaceOnUse"><stop stop-color="#596E77"/><stop offset="1" stop-color="#A5CCDD"/></linearGradient> <linearGradient id="d_w" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#D9F4FF"/><stop offset="1" stop-color="#D9F4FF" stop-opacity="0"/></linearGradient> <linearGradient id="d_t" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#D9F4FF"/><stop offset="1" stop-color="#D9F4FF" stop-opacity="0.5"/></linearGradient> <linearGradient id="d_ts" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#D9F4FF"/><stop offset="0.4" stop-color="#D9F4FF" stop-opacity="0"/></linearGradient> <mask id="d_m0" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="8" width="403" height="403"><circle cx="201.5" cy="209.5" r="186.5" stroke="url(#d_fade)" stroke-width="30" stroke-linejoin="round" stroke-dasharray="4 10"/></mask> <mask id="d_m1" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-7" y="0" width="417" height="417"><circle cx="201.5" cy="208.5" r="183.5" stroke="url(#d_mark_mask)" stroke-width="50" stroke-linejoin="round" stroke-dasharray="4 10"/></mask> <mask id="d_m2" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-7" y="0" width="417" height="417"><circle cx="201.5" cy="208.5" r="183.5" stroke="url(#d_fade)" stroke-width="50" stroke-linejoin="round" stroke-dasharray="4 10"/></mask> </defs> <g data-ticks style="transform-origin:201.5px 208.5px"> <g mask="url(#d_m0)"> <rect x="212.027" y="6" width="34.7501" height="48.0387" transform="rotate(7.20802 212.027 6)" fill="url(#d_w)"/> <rect width="34.7501" height="48.0387" transform="matrix(-0.992097 0.125472 0.125472 0.992097 190.477 6)" fill="url(#d_w)"/> <rect width="34.7501" height="48.0387" transform="matrix(-0.927088 0.374843 0.374843 0.927088 136.217 17)" fill="url(#d_w)"/> <rect width="34.7501" height="48.0387" transform="matrix(-0.766992 0.641657 0.641657 0.766992 86.6523 42)" fill="url(#d_w)"/> <rect width="34.7501" height="48.0387" transform="matrix(-0.536912 0.843638 0.843638 0.536912 44.6582 78)" fill="url(#d_w)"/> <rect width="34.7501" height="48.0387" transform="matrix(-0.314247 0.949341 0.949341 0.314247 16.9199 127)" fill="url(#d_w)"/> <rect x="267.527" y="15" width="34.7501" height="48.0387" transform="rotate(22.6863 267.527 15)" fill="url(#d_w)"/> <rect x="316.648" y="41" width="34.7501" height="48.0387" transform="rotate(38.1093 316.648 41)" fill="url(#d_w)"/> <rect x="359.029" y="77" width="34.7501" height="48.0387" transform="rotate(56.4368 359.029 77)" fill="url(#d_w)"/> <rect x="385.773" y="124" width="34.7501" height="48.0387" transform="rotate(65.6713 385.773 124)" fill="url(#d_w)"/> </g> <g mask="url(#d_m2)"> <rect x="144.546" y="8.65052" width="4.13896" height="49.6675" transform="rotate(-15.4697 144.546 8.65052)" fill="url(#d_t)" stroke="url(#d_ts)" stroke-width="4.13896"/> <rect x="91.8249" y="30.8846" width="4.13896" height="49.6675" transform="rotate(-29.8475 91.8249 30.8846)" fill="url(#d_t)" stroke="url(#d_ts)" stroke-width="4.13896"/> <rect x="46.925" y="67.949" width="4.13896" height="49.6675" transform="rotate(-46.9359 46.925 67.949)" fill="url(#d_t)" stroke="url(#d_ts)" stroke-width="4.13896"/> <rect x="15.8422" y="111.383" width="4.13896" height="49.6675" transform="rotate(-58.7987 15.8422 111.383)" fill="url(#d_t)" stroke="url(#d_ts)" stroke-width="4.13896"/> <rect x="307.558" y="29.842" width="4.13896" height="49.6675" transform="rotate(31.1834 307.558 29.842)" fill="url(#d_t)" stroke="url(#d_ts)" stroke-width="4.13896"/> <rect x="350.494" y="64.9264" width="4.13896" height="49.6675" transform="rotate(45.736 350.494 64.9264)" fill="url(#d_t)" stroke="url(#d_ts)" stroke-width="4.13896"/> <rect x="385.682" y="110.754" width="4.13896" height="49.6675" transform="rotate(64.7641 385.682 110.754)" fill="url(#d_t)" stroke="url(#d_ts)" stroke-width="4.13896"/> <rect x="255.018" y="7.52351" width="4.13896" height="49.6675" transform="rotate(14.5691 255.018 7.52351)" fill="url(#d_t)" stroke="url(#d_ts)" stroke-width="4.13896"/> </g> </g> <rect x="199.5" y="0" width="4" height="50" fill="url(#d_mark)"/> </svg>
+  <svg class="dial" data-dial viewBox="0 0 402 309" fill="none" xmlns="http://www.w3.org/2000/svg" role="slider" tabindex="0" aria-label="Session length" aria-valuemin="15" aria-valuemax="240" aria-valuenow="${S.mins}" aria-valuetext="${L.big} ${L.unit}"><defs><linearGradient id="d_tick" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#D9F4FF"/><stop offset="1" stop-color="#D9F4FF" stop-opacity=".35"/></linearGradient><linearGradient id="d_mark" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#596E77"/><stop offset="1" stop-color="#A5CCDD"/></linearGradient><linearGradient id="d_fadeg" x1="0" y1="0" x2="0" y2="167" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="d_fade" maskUnits="userSpaceOnUse" x="0" y="0" width="402" height="309"><rect width="402" height="167" fill="url(#d_fadeg)"/></mask></defs><g data-ticks mask="url(#d_fade)">${Array.from({length:129},(_,i)=>{const k=i-64,m=S.mins+k*15,maj=m%60===0;return `<rect data-k="${k}" x="${maj?199.5:200}" y="${maj?6:9}" width="${maj?4:3}" height="${maj?48:30}" fill="url(#d_tick)"/>`;}).join('')}</g><rect x="199.5" y="0" width="4" height="50" fill="url(#d_mark)"/></svg>
   <button data-back aria-label="Close" style="position:absolute;left:20px;top:769px;width:50px;height:50px;border-radius:50%"></button>
   <div class="go" data-go-slider role="button" tabindex="0" aria-label="Slide to start"><span class="fill" data-fill></span><span class="knob" data-knob>${I('right')}</span><span class="lab">Go</span><span class="chev"><span style="opacity:.25">${I('chevron')}</span><span style="opacity:.5">${I('chevron')}</span><span>${I('chevron')}</span></span></div>`},
   mount(s){
     s.querySelectorAll('[data-pub]').forEach(b=>b.onclick=()=>{S.pub=b.dataset.pub==='1';const k=s.querySelector('.seg .knob');k.style.left=S.pub?'3px':'118px';k.style.width='111px';s.querySelectorAll('[data-pub]').forEach(x=>x.setAttribute('aria-pressed',(x.dataset.pub==='1')===S.pub));});
-    const dial=s.querySelector('[data-dial]'),rings=[...dial.querySelectorAll('mask circle')].filter(c=>!c.closest('#d_m1'));
+    const dial=s.querySelector('[data-dial]'),ticks=[...dial.querySelectorAll('[data-k]')].map(r=>{r.style.transformOrigin='201.5px 208.5px';return [r,+r.dataset.k];});
     const big=s.querySelector('[data-big]'),unit=s.querySelector('[data-unit]');
     /* one tick = 3.1° = 15 minutes; the ring's angle is the single source of truth */
-    const STEP=3.1, base=S.mins; let rot=0;
+    const STEP=4.125, base=S.mins; let rot=0;
     const angleFor=m=>-(m-base)/15*STEP, minsFor=a=>Math.max(15,Math.min(240,base-Math.round(a/STEP)*15));
-    const setRot=(a,animate)=>{rot=Math.max(angleFor(240),Math.min(angleFor(15),a));rings.forEach(c=>{const o0=0;c.style.transition=animate?'stroke-dashoffset .35s var(--ease)':'none';c.style.strokeDashoffset=(o0+rot/STEP*14).toFixed(2);});
+    const setRot=(a,animate)=>{rot=Math.max(angleFor(240),Math.min(angleFor(15),a));ticks.forEach(([r,k])=>{const a=k*STEP+rot,f=Math.abs(a)<1.2||Math.abs(a)>80?0:1;r.style.transition=animate?'transform .35s var(--ease),opacity .35s var(--ease)':'none';r.style.transform=`rotate(${a.toFixed(3)}deg)`;r.style.opacity=f;});
       const m=minsFor(rot);if(m!==S.mins){S.mins=m;const L=minsLabel(m);big.textContent=L.big;unit.textContent=L.unit;dial.setAttribute('aria-valuenow',m);dial.setAttribute('aria-valuetext',L.big+' '+L.unit);big.classList.remove('bump');void big.offsetWidth;big.classList.add('bump');}};
     const snap=()=>setRot(Math.round(rot/STEP)*STEP,true);
     let x0=null,r0=0;
@@ -648,7 +657,7 @@ dial:{label:'Set the length',html:()=>{
     s.nudge=d=>setRot(rot-d*STEP,true);setRot(0,false);
     const sl=s.querySelector('[data-go-slider]'),kn=s.querySelector('[data-knob]'),fill=s.querySelector('[data-fill]'),lab=sl.querySelector('.lab'),chev=sl.querySelector('.chev');const MAX=157;let sx=null,px=0;
     const place=(x,anim)=>{px=Math.max(0,Math.min(MAX,x));const t=anim?`transform .4s ${anim==='spring'?'var(--spring)':'var(--ease)'}`:'none';kn.style.transition=t;fill.style.transition=anim?'width .4s var(--ease)':'none';
-      kn.style.transform=`translateX(${px}px)`;fill.style.width=(px+60)+'px';const p=px/MAX;lab.style.opacity=Math.max(0,1-p*1.6);chev.style.opacity=Math.max(0,1-p*1.3);};
+      kn.style.transform=`translateX(${px}px)`;fill.style.width=(px?px+60:0)+'px';const p=px/MAX;lab.style.opacity=Math.max(0,1-p*1.6);chev.style.opacity=Math.max(0,1-p*1.3);};
     const start=()=>{place(MAX,'ease');setTimeout(()=>{S.elapsed=0;S.running=true;S.joined=false;S.along=3;go('run',{t:'fade'});},reduce?0:420);};
     sl.addEventListener('pointerdown',e=>{sx=e.clientX-px*($('#device').getBoundingClientRect().width/402);sl.setPointerCapture(e.pointerId);});
     sl.addEventListener('pointermove',e=>{if(sx===null)return;const k=$('#device').getBoundingClientRect().width/402;place((e.clientX-sx)/k,false);});
