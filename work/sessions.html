@@ -188,7 +188,7 @@
         <figcaption class="pos-state__cap">Components, each placed on the colour it sits on in the app</figcaption>
       </figure>
       <figure class="pos-state">
-        <a class="pos-plate" href="../images/sessions/kit/timer.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/sessions/kit/timer.png" width="2400" height="1028" alt="The timer's parts on its slate light: the session name tag, the running time with its page dots, studying alongside and pause; the public or private switch, the hours, the dial and the Go slider; and the session name field" /></a>
+        <a class="pos-plate" href="../images/sessions/kit/timer.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/sessions/kit/timer.png" width="2400" height="1028" alt="The timer's parts on its slate light: the session name tag, the running time with its progress dots, studying alongside and pause; the public or private switch, the hours, the dial and the Go slider; and the session name field" /></a>
         <figcaption class="pos-state__cap">The timer, on the dark light that only it uses</figcaption>
       </figure>
     </div>
@@ -199,8 +199,8 @@
        sessions-prototype.html; js/cvs-demos.js plays them. -->
   <section id="walkthrough" class="cap-section">
     <div class="cap-eyebrow">Design Breakdown</div>
-    <h2 class="cap-title">Ten moments, from setup to a quiet map</h2>
-    <p class="cap-body">Each phone is the working prototype, looping one step. Building it showed what the Figma flow had left out: who sees you, joining, ending early and a quiet map.</p>
+    <h2 class="cap-title">Eleven moments, from setup to a quiet map</h2>
+    <p class="cap-body">Each phone is the working prototype, looping one step. Building it showed what the Figma flow had left out: inviting friends, who sees you, joining, ending early and a quiet map.</p>
     <p class="proto-open">
       <a href="sessions-prototype.html" class="pill-button" target="_blank" rel="noopener" data-cursor="view">Open the full prototype</a>
       <button type="button" class="motion-toggle lg-glass" aria-pressed="false">Pause motion</button>
@@ -212,20 +212,39 @@
           <div class="proto-phone">
             <div class="proto-screen">
               <img class="proto-poster is-screen" src="../images/sessions/posters/onboard.png" alt="" aria-hidden="true" />
-              <iframe data-src="sessions-prototype.html?embed&amp;scene=onboard" title="Prototype: choosing study preferences, then who sees you studying" loading="lazy"></iframe>
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=onboard" title="Prototype: entering a name, choosing study preferences, then inviting friends" loading="lazy"></iframe>
             </div>
             <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
           </div>
-          <figcaption class="proto-cap">Choosing preferences, then who sees you</figcaption>
+          <figcaption class="proto-cap">Your name, preferences, then friends</figcaption>
         </figure>
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">Setting up, and who sees you</h3>
-        <p class="cap-body">Setup asks for your subjects, when and how you study, and whether in person or remotely; suggestions use the answers. The next step is new: who sees you studying, and whether a pin shows the building or where you sit.</p>
+        <h3 class="cap-moment">Setting up, and bringing friends</h3>
+        <p class="cap-body">Setup asks your name, then your subjects, when and how you study, and whether in person or remotely; suggestions use the answers. The last step is new: add a few friends, since sessions only work with people you know.</p>
       </div>
     </div>
 
     <div class="split-row is-flipped has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen">
+              <img class="proto-poster is-screen" src="../images/sessions/posters/privacy.png" alt="" aria-hidden="true" />
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=privacy" title="Prototype: opening Settings, then choosing who sees you studying" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Settings, then who sees you</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Choosing who sees you</h3>
+        <p class="cap-body">New, and in Settings: friends, close friends or only you, and whether a pin shows the building or where you sit. A pin shows only while a public session runs.</p>
+      </div>
+    </div>
+
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -244,26 +263,26 @@
       </div>
     </div>
 
-    <div class="split-row has-title">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
             <div class="proto-screen">
               <img class="proto-poster is-screen" src="../images/sessions/posters/run.png" alt="" aria-hidden="true" />
-              <iframe data-src="sessions-prototype.html?embed&amp;scene=run" title="Prototype: paging through the running timer, then pausing it" loading="lazy"></iframe>
+              <iframe data-src="sessions-prototype.html?embed&amp;scene=run" title="Prototype: switching the running timer to time left, then pausing it" loading="lazy"></iframe>
             </div>
             <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
           </div>
-          <figcaption class="proto-cap">Paging through the timer, then pausing</figcaption>
+          <figcaption class="proto-cap">Time in, time left, then pausing</figcaption>
         </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">While the timer runs</h3>
-        <p class="cap-body">The screen shows the time, how many are studying alongside, and pause. Its dots page through time left, today’s total and the streak.</p>
+        <p class="cap-body">The screen shows the time, how many are studying alongside, and pause. Tapping the time switches it to time left, and four dots fill as each quarter of the session passes.</p>
       </div>
     </div>
 
-    <div class="split-row is-flipped has-title">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -282,7 +301,7 @@
       </div>
     </div>
 
-    <div class="split-row has-title">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -301,7 +320,7 @@
       </div>
     </div>
 
-    <div class="split-row is-flipped has-title">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -320,7 +339,7 @@
       </div>
     </div>
 
-    <div class="split-row has-title">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -339,7 +358,7 @@
       </div>
     </div>
 
-    <div class="split-row is-flipped has-title">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -358,7 +377,7 @@
       </div>
     </div>
 
-    <div class="split-row has-title">
+    <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
@@ -377,7 +396,7 @@
       </div>
     </div>
 
-    <div class="split-row is-flipped has-title">
+    <div class="split-row has-title">
       <div class="split-art is-phone">
         <figure class="proto-demo">
           <div class="proto-phone">
