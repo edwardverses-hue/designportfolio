@@ -84,7 +84,7 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Most of the first screen is empty</h3>
-        <p class="cap-body">The space between them is the first thing people see. It holds nothing to use, and nothing hints that the app can read a photo or write code.</p>
+        <p class="cap-body">Between the model picker and the text field there is only the greeting. Nothing on the screen hints that Gemini can read a photo or write code.</p>
       </div>
     </div>
   </section>
@@ -97,26 +97,26 @@
     <div class="cap-eyebrow">Research</div>
     <h2 class="cap-title">People skip the prompts and type their own question</h2>
     <p class="cap-body">
-      I watched classmates open their AI assistants. Almost nobody read the suggested prompts; they typed the question they already had. No assistant publishes how often its prompts are clicked, so below is the nearest evidence.
+      I watched classmates open their AI assistants. Almost nobody read the suggested prompts; they typed the question they already had. No assistant publishes how often its suggestions get tapped, so I looked for the closest published studies.
     </p>
 
     <h3 class="cap-moment">Generic suggestions go unclicked</h3>
     <p class="cap-body">
-      In Nielsen Norman Group's tests of Amazon's shopping assistant, no one clicked a suggested prompt unprompted. Starters built from a person's past chats did better: 9.4% more clicks in a month-long test.
+      In Nielsen Norman Group's 2025 tests of Amazon's shopping assistant, no participant clicked a suggested prompt without being told to. In a 2026 test in a large chat app, starters written from each user's past chats got 9.4% more clicks than generic ones.
     </p>
 
     <div class="finding">
-      <figure class="chart" data-chart="refind" aria-label="As many as 40% of search queries look for something the person found before."></figure>
+      <figure class="chart" data-chart="returning" aria-label="Hours between a conversation's first and last message, on average: 16.6 in ChatGPT users' own histories, 0.4 for WildChat's heaviest users."></figure>
       <div class="finding__text">
-        <h3 class="cap-moment">People go back for what they found before</h3>
-        <p class="cap-body">As many as 40% of searches look for something already found, and people misremember the original search 30% of the time. An old chat asks the same of memory.</p>
-        <p class="finding__cap">Teevan et al., SIGIR 2007: a year of Yahoo logs from 114 people, and a study of 119 volunteers.</p>
+        <h3 class="cap-moment">People come back to chats they have started</h3>
+        <p class="cap-body">In 135,000 conversations donated by 300 regular ChatGPT users, a chat's first and last messages were 16.6 hours apart on average, against 0.4 hours for the heaviest users of WildChat, a free chatbot run by researchers. People leave a chat and come back to it.</p>
+        <p class="finding__cap">Karnam et al., ACM Web Conference 2026, conversations from 2023 to 2025. Both figures are averages, pulled up by a few very long chats.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Going back to an old chat means remembering it</h3>
     <p class="cap-body">
-      Once a chat leaves recents, search is the only way back, and you have to remember it exists and what it was called.
+      To reopen one, you scroll the list in the side menu or search for it. Either way, you have to remember the chat exists and roughly what it was called.
     </p>
     <div class="phone-two">
       <figure class="phone-fig">
@@ -131,22 +131,22 @@
 
     <h3 class="cap-moment">The hour says less on a phone</h3>
     <p class="cap-body">
-      In Claude, recipe requests are 2.3 times as common at 6 pm. But across 37.5 million Copilot chats, the top topic on phones held at every hour.
+      Some requests follow the clock: recipe requests to Claude are 2.3 times as frequent at 6 pm as on average. But in 37.5 million Copilot conversations, health was the top topic on phones at every hour of the day.
     </p>
 
     <h3 class="cap-moment">Takeaway</h3>
     <p class="cap-body">
-      Generic prompts get skipped and people return to old work. The home screen should lead with that, and use the time and place only when they point at something specific.
+      Generic prompts get skipped, and people come back to chats they have started. The home screen should bring that work back, and use the time and place only when together they point to something specific, like a café open late nearby.
     </p>
 
     <p class="case-sources">
       Sources:
       <a href="https://www.nngroup.com/articles/discoverability-ai-amazon/" target="_blank" rel="noopener">Nielsen Norman Group on Amazon's Rufus, March 2025</a>;
-      <a href="https://arxiv.org/abs/2604.18375" target="_blank" rel="noopener">Zheng et al., IceBreaker, April 2026, an industry preprint</a>;
-      <a href="https://people.csail.mit.edu/teevan/work/publications/papers/sigir07.pdf" target="_blank" rel="noopener">Teevan et al., SIGIR 2007</a>;
+      <a href="https://arxiv.org/abs/2604.18375" target="_blank" rel="noopener">Zheng et al., IceBreaker, ACL 2026 Industry Track</a>;
+      <a href="https://arxiv.org/abs/2602.01114" target="_blank" rel="noopener">Karnam et al., Bowling with ChatGPT, ACM Web Conference 2026</a>;
       <a href="https://www.anthropic.com/research/economic-index-june-2026-report" target="_blank" rel="noopener">Anthropic Economic Index, June 2026</a>;
       <a href="https://arxiv.org/html/2512.11879v1" target="_blank" rel="noopener">Microsoft AI, Copilot Usage Report 2025</a>.
-      The search study is about the web, not chat; the 9.4% is a relative lift in an unnamed product.
+      The 9.4% is a relative lift over generic starters, in a product the paper does not name.
     </p>
   </section>
 
@@ -177,7 +177,7 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">An idea I set aside</h3>
-        <p class="cap-body">Code blocks in the chat cut off long lines, comments included. Smaller code wasn't the answer: Google's designers would have weighed this, so I treated its size as their minimum.</p>
+        <p class="cap-body">Code blocks in the chat cut off long lines, comments included. I didn't shrink the text: Google's designers would have weighed that already, so I took the current size as the smallest they would accept.</p>
       </div>
     </div>
 
@@ -190,14 +190,14 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">A fullscreen view</h3>
-        <p class="cap-body">A button opens the block fullscreen, and whole lines fit, until the text size goes up.</p>
+        <p class="cap-body">A button opens the code fullscreen. Whole lines fit, but only at the default text size.</p>
       </div>
     </div>
 
     <div class="full-image is-bare">
       <img loading="lazy" decoding="async" src="../images/gemini/code-landscape.png" alt="The code view rotated to landscape, with full lines fitting across the wide edge of the screen" />
     </div>
-    <p class="cap-body">Turned sideways, whole lines fit. But few people review code on a phone, and I hadn't checked who had the problem, so I set it aside.</p>
+    <p class="cap-body">Turned sideways, even long lines fit. But few people review code on a phone, and I hadn't checked how many people had the problem, so I set the idea aside.</p>
   </section>
 
   <!-- COMPONENTS: the recreation and the kit it became. -->
@@ -205,10 +205,10 @@
     <div class="cap-eyebrow">Components</div>
     <h2 class="cap-title">Rebuilding Gemini before changing it</h2>
     <p class="cap-body">
-      Gemini has no public design kit, so I drew Google Sans Flex, the icons, the status bar and both keyboards as vectors, then rebuilt each screen.
+      Gemini has no public design kit, so I rebuilt its screens from my own screenshots, drawing the icons, the status bar and both keyboards as vectors.
     </p>
     <p class="cap-body">
-      From that I documented its type, colour and components, then added the stacks.
+      Then I documented its type, colour and components, and built the stacks from them.
     </p>
 
     <!-- Type and colour side by side, components under them on a panel, after
@@ -218,15 +218,15 @@
     <div class="kit-duo">
       <h3 class="kit-duo__label is-type">Typography</h3>
       <h3 class="kit-duo__label is-colour">Colour</h3>
-      <p class="kit-duo__text is-type">Google Sans Flex for the app, and SF Pro for anything iOS draws. Each size is recorded where it appears.</p>
-      <p class="kit-duo__text is-colour">Blue from the glow behind the text field, blacks from the surfaces, greys from secondary text.</p>
+      <p class="kit-duo__text is-type">Google Sans Flex for the app's own text, and SF Pro for what iOS draws, like the status bar and keyboard.</p>
+      <p class="kit-duo__text is-colour">Blues from the glow behind the text field, blacks from the backgrounds, greys from secondary text.</p>
       <a class="kit-duo__sheet is-type" href="../images/gemini/kit/typography.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/gemini/kit/typography.png" alt="Typography sheet for the kit, showing Google Sans Flex as the primary face and SF Pro as the secondary, with weight specimens and a scale of headline, text and button sizes" /></a>
       <a class="kit-duo__sheet is-colour" href="../images/gemini/kit/colors.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/gemini/kit/colors.png" alt="Colour sheet for the kit, showing the main blue, black and grey, then three steps within each family with their hex values" /></a>
     </div>
 
     <h3 class="kit-duo__label kit-duo-components">Components</h3>
     <p class="cap-body">
-      Every part of a chat session is a component in one Figma file, so the stacks match the app.
+      Every part of a chat is a component in one Figma file, so the stacks are built from the same parts as the app around them.
     </p>
     <!-- Gemini's parts are drawn for its black: most are white text with no
          fill of their own, so the board is black, not the site's grey. -->
@@ -240,10 +240,10 @@
     <div class="cap-eyebrow">Design Breakdown</div>
     <h2 class="cap-title">Suggestions from the time, the place and your last chat</h2>
     <p class="cap-body">
-      The greeting stays. Two stacks fill the space under it: the time and place on the left, recent work on the right, each card naming something specific.
+      The greeting stays. Under it are two stacks of cards: suggestions for the time and place on the left, recent work on the right. Each card names something specific, like a café or a chat.
     </p>
     <p class="cap-body">
-      The stacks take their space from the text field, so each card has to be more useful than the question you were about to type.
+      They sit just above the text field, so a card is only worth showing if it is more useful than the question you were about to type.
     </p>
     <p class="proto-open">
       <button type="button" class="motion-toggle lg-glass" aria-pressed="false">Pause motion</button>
@@ -273,11 +273,11 @@
         <div class="widget-dots" role="group" aria-label="Pick up where you left off cards"></div>
       </div>
     </div>
-    <p class="widget-cap">Each stack's two cards</p>
+    <p class="widget-cap">The first two cards in each stack</p>
 
     <h3 class="cap-moment">Glass cards</h3>
     <p class="cap-body">
-      The cards are glass so the blue glow behind the text field shows through. A solid fill would read more easily but look stuck on.
+      The cards are frosted glass, so the blue glow behind the text field shows through them. Solid cards would be easier to read but would look added on top of the app.
     </p>
 
     <!-- One phone, its two stacks sliding. The phone is the first screen; over
@@ -307,12 +307,12 @@
               <div class="stack-layer"><img src="../images/gemini/4.png" alt="" /></div>
             </div>
           </div>
-          <figcaption class="proto-cap">The evening stack, then the work stack</figcaption>
+          <figcaption class="proto-cap">Coffee to dinner, then Python to the study app</figcaption>
         </figure>
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">The stacks move independently</h3>
-        <p class="cap-body">The evening stack changes from coffee to dinner, then the work stack changes from the Python chat to the study app project.</p>
+        <h3 class="cap-moment">Each stack changes on its own</h3>
+        <p class="cap-body">Each stack holds several cards, with dots underneath to show how many. They change one at a time, so the screen never shifts all at once: here coffee turns to dinner, then the Python chat to the study app project.</p>
       </div>
     </div>
 
@@ -335,7 +335,7 @@
       </div>
       <div class="split-text">
         <h3 class="cap-moment">A card from recent work picks up the chat</h3>
-        <p class="cap-body">Tapping it reopens the Python chat and sends the card's next step, so Gemini answers where you left off.</p>
+        <p class="cap-body">Tapping it reopens the Python chat and sends the next step the card suggested, so Gemini answers where you left off.</p>
       </div>
     </div>
 
@@ -352,8 +352,8 @@
         </figure>
       </div>
       <div class="split-text">
-        <h3 class="cap-moment">A card for the evening asks for you</h3>
-        <p class="cap-body">Tapping it starts a new chat with the request sent, and Gemini lists places near campus that are open late.</p>
+        <h3 class="cap-moment">A card for the evening asks the question for you</h3>
+        <p class="cap-body">Tapping it starts a new chat with the question already sent, and Gemini answers with places near campus that are open late.</p>
       </div>
     </div>
   </section>
@@ -362,7 +362,7 @@
   <section id="reflections" class="cap-section">
     <div class="cap-eyebrow">Reflections</div>
     <h2 class="cap-title">Check how many people a problem affects before designing for it</h2>
-    <p class="cap-body">I would rebuild the app first again: only at full size could I tell which empty areas were intentional. Two parts are still open.</p>
+    <p class="cap-body">I designed the fullscreen code view before checking how many people review code on a phone; next time I would check first. Rebuilding the app before changing it was worth it: only at full size could I tell which empty space was deliberate. Two parts are still open.</p>
 
     <div class="cap-cards is-pair">
       <div class="cap-card">
