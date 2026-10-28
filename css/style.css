@@ -4345,13 +4345,10 @@ a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
   user-select: none;
 }
 
-/* The words sit above every card (cards run from z 200 to 780), on a soft
-   white haze, so a card passing the centre never hides them. */
 .beyond__center {
   position: absolute;
   inset: 0;
-  z-index: 800;
-  isolation: isolate;
+  z-index: 500;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -4359,20 +4356,6 @@ a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
   width: min(92vw, 70rem);
   margin: auto;
   text-align: center;
-  pointer-events: none;
-}
-
-.beyond__center::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: -1;
-  width: 26rem;
-  height: 9rem;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 46%, rgba(255, 255, 255, 0) 76%);
-  filter: blur(4px);
   pointer-events: none;
 }
 
@@ -4501,9 +4484,20 @@ a.beyond__photo:focus-visible {
     isolation: isolate;
   }
 
+  /* A soft white haze behind the words, so they read over cards that are
+     too close to go behind them on a small screen. */
   .beyond__center::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
     width: min(92vw, 22rem);
     height: 8rem;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.82) 46%, rgba(255, 255, 255, 0) 76%);
+    filter: blur(4px);
+    pointer-events: none;
   }
 
   .beyond__title {
