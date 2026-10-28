@@ -76,8 +76,11 @@
     <!-- The real app, from my phone, unedited, set in the same mockup as the
          renders. -->
     <div class="split-row has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/gemini/original-home.png" width="1200" height="2429" alt="Gemini's home screen on iOS: the model picker, Let's jump in, Edward, and the Ask Gemini field, with the space between them empty" />
+      <div class="split-art is-phone">
+        <figure class="phone-fig">
+          <img loading="lazy" decoding="async" src="../images/gemini/original-home.png" width="1200" height="2429" alt="Gemini's home screen on iOS: the model picker, Let's jump in, Edward, and the Ask Gemini field, with the space between them empty" />
+          <figcaption class="proto-cap">Gemini’s home screen today</figcaption>
+        </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">Most of the first screen is empty</h3>
@@ -111,17 +114,19 @@
       </div>
     </div>
 
-    <div class="split-row has-title">
-      <div class="split-art is-pair">
+    <h3 class="cap-moment">Going back to an old chat means remembering it</h3>
+    <p class="cap-body">
+      Once a chat leaves recents, search is the only way back, and you have to remember it exists and what it was called.
+    </p>
+    <div class="phone-two">
+      <figure class="phone-fig">
         <img loading="lazy" decoding="async" src="../images/gemini/6.png" alt="Search chats screen with the keyboard up and one recent result, Python Script Help, dated today" />
+        <figcaption class="proto-cap">Searching chats</figcaption>
+      </figure>
+      <figure class="phone-fig">
         <img loading="lazy" decoding="async" src="../images/gemini/7.png" alt="A short chat answer explaining a Python if statement with an umbrella analogy, with copy, share, read aloud and rating controls beneath it" />
-      </div>
-      <div class="split-text">
-        <h3 class="cap-moment">Going back to an old chat means remembering it</h3>
-        <p class="cap-body">
-          Once a chat leaves recents, search is the only way back, and you have to remember it exists and what it was called.
-        </p>
-      </div>
+        <figcaption class="proto-cap">The chat it finds</figcaption>
+      </figure>
     </div>
 
     <h3 class="cap-moment">The hour says less on a phone</h3>
@@ -164,8 +169,11 @@
     <!-- The set-aside idea as the CVS page shows its moments: the problem,
          the fullscreen fix, then the sideways view and why it stopped there. -->
     <div class="split-row has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge of the screen, cutting off its comments mid-line" />
+      <div class="split-art is-phone">
+        <figure class="phone-fig">
+          <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge of the screen, cutting off its comments mid-line" />
+          <figcaption class="proto-cap">A long script in the chat</figcaption>
+        </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">An idea I set aside</h3>
@@ -174,8 +182,11 @@
     </div>
 
     <div class="split-row is-flipped has-title">
-      <div class="split-art is-still">
-        <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, every line complete, with the chat input still reachable" />
+      <div class="split-art is-phone">
+        <figure class="phone-fig">
+          <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, every line complete, with the chat input still reachable" />
+          <figcaption class="proto-cap">The same script, fullscreen</figcaption>
+        </figure>
       </div>
       <div class="split-text">
         <h3 class="cap-moment">A fullscreen view</h3>
@@ -226,7 +237,7 @@
 
   <!-- DESIGN -->
   <section id="redesign" class="cap-section">
-    <div class="cap-eyebrow">Design</div>
+    <div class="cap-eyebrow">Design Breakdown</div>
     <h2 class="cap-title">Suggestions from the time, the place and your last chat</h2>
     <p class="cap-body">
       The greeting stays. Two stacks fill the space under it: the time and place on the left, recent work on the right, each card naming something specific.
@@ -276,24 +287,27 @@
          each stack cross-fade between the same screens. -->
     <div class="split-row has-title">
       <div class="split-art is-phone">
-        <figure class="stack-phone" data-stack-phone role="img" aria-label="Redesigned home screen. The evening stack changes from late-night coffee to dinner spots, then the work stack changes from the Python chat to the study app project.">
-          <img class="stack-phone__base" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
-          <div class="stack-win" style="--x:110; --y:1505; --w:480; --h:485">
-            <div class="stack-layer"><img src="../images/gemini/2.png" alt="" /></div>
-            <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+        <figure class="phone-fig">
+          <div class="stack-phone" data-stack-phone role="img" aria-label="Redesigned home screen. The evening stack changes from late-night coffee to dinner spots, then the work stack changes from the Python chat to the study app project.">
+            <img class="stack-phone__base" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
+            <div class="stack-win" style="--x:110; --y:1505; --w:480; --h:485">
+              <div class="stack-layer"><img src="../images/gemini/2.png" alt="" /></div>
+              <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+            </div>
+            <div class="stack-win" style="--x:612; --y:1505; --w:480; --h:485">
+              <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+              <div class="stack-layer"><img src="../images/gemini/4.png" alt="" /></div>
+            </div>
+            <div class="stack-dots" style="--x:300; --y:1996; --w:100; --h:24">
+              <div class="stack-layer"><img src="../images/gemini/2.png" alt="" /></div>
+              <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+            </div>
+            <div class="stack-dots" style="--x:802; --y:1996; --w:100; --h:24">
+              <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
+              <div class="stack-layer"><img src="../images/gemini/4.png" alt="" /></div>
+            </div>
           </div>
-          <div class="stack-win" style="--x:612; --y:1505; --w:480; --h:485">
-            <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
-            <div class="stack-layer"><img src="../images/gemini/4.png" alt="" /></div>
-          </div>
-          <div class="stack-dots" style="--x:300; --y:1996; --w:100; --h:24">
-            <div class="stack-layer"><img src="../images/gemini/2.png" alt="" /></div>
-            <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
-          </div>
-          <div class="stack-dots" style="--x:802; --y:1996; --w:100; --h:24">
-            <div class="stack-layer"><img src="../images/gemini/3.png" alt="" /></div>
-            <div class="stack-layer"><img src="../images/gemini/4.png" alt="" /></div>
-          </div>
+          <figcaption class="proto-cap">The evening stack, then the work stack</figcaption>
         </figure>
       </div>
       <div class="split-text">
@@ -307,11 +321,14 @@
          taps the card and fades the result in. --tx and --ty place the tap on
          the card, in the render's own proportions. -->
     <div class="split-row is-flipped has-title">
-      <div class="split-art is-still">
-        <figure class="tap-demo" data-tap-demo style="--tx:71.2%; --ty:70.6%" role="img" aria-label="Tapping the Python Script Help card reopens that chat with Show me elif chains and nested if statements sent, and Gemini answers with how elif chains work.">
-          <img class="tap-demo__home" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
-          <img class="tap-demo__result" loading="lazy" decoding="async" src="../images/gemini/tap-resume.png" alt="" />
-          <span class="tap-demo__dot" aria-hidden="true"></span>
+      <div class="split-art is-phone">
+        <figure class="phone-fig">
+          <div class="tap-demo" data-tap-demo style="--tx:71.2%; --ty:70.6%" role="img" aria-label="Tapping the Python Script Help card reopens that chat with Show me elif chains and nested if statements sent, and Gemini answers with how elif chains work.">
+            <img class="tap-demo__home" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
+            <img class="tap-demo__result" loading="lazy" decoding="async" src="../images/gemini/tap-resume.png" alt="" />
+            <span class="tap-demo__dot" aria-hidden="true"></span>
+          </div>
+          <figcaption class="proto-cap">Tapping Python Script Help</figcaption>
         </figure>
       </div>
       <div class="split-text">
@@ -321,11 +338,14 @@
     </div>
 
     <div class="split-row has-title">
-      <div class="split-art is-still">
-        <figure class="tap-demo" data-tap-demo style="--tx:29.3%; --ty:70.6%" role="img" aria-label="Tapping the late-night coffee card starts a new chat with that request sent, and Gemini lists coffee shops near Oakland that are open late.">
-          <img class="tap-demo__home" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
-          <img class="tap-demo__result" loading="lazy" decoding="async" src="../images/gemini/tap-evening.png" alt="" />
-          <span class="tap-demo__dot" aria-hidden="true"></span>
+      <div class="split-art is-phone">
+        <figure class="phone-fig">
+          <div class="tap-demo" data-tap-demo style="--tx:29.3%; --ty:70.6%" role="img" aria-label="Tapping the late-night coffee card starts a new chat with that request sent, and Gemini lists coffee shops near Oakland that are open late.">
+            <img class="tap-demo__home" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
+            <img class="tap-demo__result" loading="lazy" decoding="async" src="../images/gemini/tap-evening.png" alt="" />
+            <span class="tap-demo__dot" aria-hidden="true"></span>
+          </div>
+          <figcaption class="proto-cap">Tapping late-night coffee shops</figcaption>
         </figure>
       </div>
       <div class="split-text">

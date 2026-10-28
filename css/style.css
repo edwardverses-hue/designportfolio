@@ -2539,51 +2539,35 @@ mark.draft {
   letter-spacing: 0.01em;
 }
 
-/* Two screens of one moment beside the text that explains them, so the claim
-   and the evidence are read together rather than one after the other. Each
-   phone gives up a little width against a pair on its own (270 rather than
-   300) to leave the text a column of about fifty characters. */
-.split-art.is-pair {
-  flex: 0 1 564px;
-  max-width: 564px;
+/* A rendered phone and its caption, at the CVS breakdown's phone width: the
+   picture in the is-phone column, or two of them side by side under their
+   text. A demo sits in its own box inside the figure, so the caption doesn't
+   change the height its overlays are placed against. */
+.phone-fig {
+  margin: 0;
+}
+
+.phone-fig img {
+  border-radius: 0;
+}
+
+.phone-fig > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.phone-two {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.split-art.is-pair img {
-  border-radius: 0;
-}
-
-/* A single still beside its text, at the width each phone of a pair takes, so
-   the phone stays one size from moment to moment down the page. */
-.split-art.is-still {
-  flex: 0 0 270px;
-  max-width: 270px;
-}
-
-.split-art.is-still img {
-  border-radius: 0;
-}
-
-/* One phone leaves the text a wide column, and on a flipped row the phone
-   would then sit at the far edge of the page from the words about it. The row
-   is held narrower so the two stay together. */
-.cap-page .split-row:has(> .split-art.is-still) {
-  max-width: 800px;
+  grid-template-columns: repeat(2, min(400px, calc(86vh * 1066 / 2198)));
+  column-gap: var(--s-visual);
 }
 
 @media (max-width: 900px) {
-  .split-art.is-pair,
-  .split-row.is-flipped .split-art.is-pair {
-    max-width: 100%;
-    gap: 18px;
-  }
-
-  .split-art.is-still,
-  .split-row.is-flipped .split-art.is-still {
-    max-width: 270px;
-    margin: 0 auto 26px;
+  .phone-two {
+    grid-template-columns: min(100%, 320px);
+    justify-content: center;
+    row-gap: var(--s-visual);
   }
 }
 
@@ -3612,7 +3596,6 @@ html.has-cursor .about-pill:hover {
 .cap-page .cap-cards,
 .cap-page .cap-cards.is-pair,
 .cap-page .split-row,
-.cap-page .split-row:has(> .split-art.is-still),
 .cap-page .handoff,
 .cap-page .full-image,
 .cap-page .kit-duo,
