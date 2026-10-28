@@ -4941,6 +4941,11 @@ a.beyond__photo:focus-visible {
   background: transparent;
 }
 
+/* A film whose frame isn't the box's shape (Gemini's is 4:3) fits inside it
+   whole, as the still it replaces did, rather than being cropped. */
+.hero-film.is-fit { object-fit: contain; }
+.project-card .hero-film.is-fit { inset: 2%; width: 96%; height: 96%; }
+
 /* The Work page's card keeps the grey every project card has; only the
    CVS page's banner goes without it. */
 
