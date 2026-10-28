@@ -317,14 +317,16 @@
     </div>
 
     <!-- What a card opens. Both screens are built from the recreated chat
-         components and set in the same mockup as the home screen; js/tap-demo.js
-         taps the card and fades the result in. --tx and --ty place the tap on
+         components and set in the home screen's own render, so only the
+         conversation changes; js/tap-demo.js taps the card, clears the screen
+         and fades the chat in. --tx and --ty place the tap on
          the card, in the render's own proportions. -->
     <div class="split-row is-flipped has-title">
       <div class="split-art is-phone">
         <figure class="phone-fig">
           <div class="tap-demo" data-tap-demo style="--tx:71.2%; --ty:70.6%" role="img" aria-label="Tapping the Python Script Help card reopens that chat with Show me elif chains and nested if statements sent, and Gemini answers with how elif chains work.">
             <img class="tap-demo__home" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
+            <img class="tap-demo__clear" loading="lazy" decoding="async" src="../images/gemini/tap-clear.png" alt="" />
             <img class="tap-demo__result" loading="lazy" decoding="async" src="../images/gemini/tap-resume.png" alt="" />
             <span class="tap-demo__dot" aria-hidden="true"></span>
           </div>
@@ -342,6 +344,7 @@
         <figure class="phone-fig">
           <div class="tap-demo" data-tap-demo style="--tx:29.3%; --ty:70.6%" role="img" aria-label="Tapping the late-night coffee card starts a new chat with that request sent, and Gemini lists coffee shops near Oakland that are open late.">
             <img class="tap-demo__home" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
+            <img class="tap-demo__clear" loading="lazy" decoding="async" src="../images/gemini/tap-clear.png" alt="" />
             <img class="tap-demo__result" loading="lazy" decoding="async" src="../images/gemini/tap-evening.png" alt="" />
             <span class="tap-demo__dot" aria-hidden="true"></span>
           </div>
