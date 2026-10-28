@@ -69,7 +69,8 @@
   function tick() {
     timer = null;
     if (manual) return;
-    if (visible) {
+    // The page's Pause motion control holds the stacks where they are.
+    if (visible && !document.body.classList.contains('motion-paused')) {
       // Turns run left, right, left, right: each stack moves every other step.
       var s = stacks[turn % stacks.length];
       go(s, (s.index + 1) % s.cards.length);
@@ -118,7 +119,7 @@
   }
 
   function tick() {
-    if (visible) {
+    if (visible && !document.body.classList.contains('motion-paused')) {
       var k = turn % wins.length;
       state[k] = (state[k] + 1) % wins[k].children.length;
       show(k);

@@ -4265,6 +4265,46 @@ html.has-cursor .about-pill:hover {
 .kit-board > a,
 a.pos-plate { display: block; }
 
+/* Gemini's tap demos: the home screen, a tap where the card is, and the
+   screen it opens faded in over it. Both are renders in one mockup, so only
+   the screen changes. js/tap-demo.js drives the classes. */
+.tap-demo {
+  position: relative;
+  margin: 0;
+}
+.tap-demo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.tap-demo__result {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
+}
+.tap-demo.is-open .tap-demo__result { opacity: 1; }
+.tap-demo__dot {
+  position: absolute;
+  left: var(--tx);
+  top: var(--ty);
+  width: 13%;
+  aspect-ratio: 1;
+  margin: -6.5% 0 0 -6.5%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  pointer-events: none;
+}
+.tap-demo.is-tap .tap-demo__dot { animation: tapdemo 0.62s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes tapdemo {
+  0% { opacity: 0; transform: scale(0.6); }
+  25% { opacity: 1; transform: scale(1); }
+  45% { opacity: 1; transform: scale(0.86); }
+  100% { opacity: 0; transform: scale(1.04); }
+}
+
 /* A board for parts drawn on black, as Gemini's are. */
 .kit-board.is-dark { background: #000000; }
 

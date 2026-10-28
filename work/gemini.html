@@ -234,6 +234,9 @@
     <p class="cap-body">
       The stacks take their space from the text field, so each card has to be more useful than the question you were about to type.
     </p>
+    <p class="proto-open">
+      <button type="button" class="motion-toggle lg-glass" aria-pressed="false">Pause motion</button>
+    </p>
 
     <!-- Each stack slides between its cards, the two taking turns, as the
          paragraph below the panel describes. js/widget-slider.js runs it. -->
@@ -298,6 +301,38 @@
         <p class="cap-body">The evening stack changes from coffee to dinner, then the work stack changes from the Python chat to the study app project.</p>
       </div>
     </div>
+
+    <!-- What a card opens. Both screens are built from the recreated chat
+         components and set in the same mockup as the home screen; js/tap-demo.js
+         taps the card and fades the result in. --tx and --ty place the tap on
+         the card, in the render's own proportions. -->
+    <div class="split-row is-flipped has-title">
+      <div class="split-art is-still">
+        <figure class="tap-demo" data-tap-demo style="--tx:71.2%; --ty:70.6%" role="img" aria-label="Tapping the Python Script Help card reopens that chat with Show me elif chains and nested if statements sent, and Gemini answers with how elif chains work.">
+          <img class="tap-demo__home" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
+          <img class="tap-demo__result" loading="lazy" decoding="async" src="../images/gemini/tap-resume.png" alt="" />
+          <span class="tap-demo__dot" aria-hidden="true"></span>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">A card from recent work picks up the chat</h3>
+        <p class="cap-body">Tapping it reopens the Python chat and sends the card's next step, so Gemini answers where you left off.</p>
+      </div>
+    </div>
+
+    <div class="split-row has-title">
+      <div class="split-art is-still">
+        <figure class="tap-demo" data-tap-demo style="--tx:29.3%; --ty:70.6%" role="img" aria-label="Tapping the late-night coffee card starts a new chat with that request sent, and Gemini lists coffee shops near Oakland that are open late.">
+          <img class="tap-demo__home" loading="lazy" decoding="async" src="../images/gemini/2.png" alt="" />
+          <img class="tap-demo__result" loading="lazy" decoding="async" src="../images/gemini/tap-evening.png" alt="" />
+          <span class="tap-demo__dot" aria-hidden="true"></span>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">A card for the evening asks for you</h3>
+        <p class="cap-body">Tapping it starts a new chat with the request sent, and Gemini lists places near campus that are open late.</p>
+      </div>
+    </div>
   </section>
 
   <!-- REFLECTIONS: the one lesson, then what is still open. -->
@@ -349,6 +384,8 @@
   <script src="../js/nav.js" defer></script>
   <script src="../js/liquid-glass.js" defer></script>
   <script src="../js/widget-slider.js" defer></script>
+  <script src="../js/tap-demo.js" defer></script>
+  <script src="../js/cvs-demos.js" defer></script>
   <script src="../js/cursor.js" defer></script>
   <script src="../js/rail.js" defer></script>
   <script src="../js/cvs-charts.js" defer></script>
