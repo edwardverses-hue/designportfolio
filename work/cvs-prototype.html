@@ -8,6 +8,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+/* On phones and tablets the screen is often smaller than the 393 by 852 device, and a grid
+   stops centring a child that is bigger than it, so the scaled device sat low and to the
+   right and was cut off. Pinned to the centre, as embed mode already does, it fits. Desktop
+   widths are left as they are. */
+@media (max-width: 900px) {
+  #scaler { position: absolute; left: 50%; top: 50%; margin: -426px 0 0 -196.5px; }
+}
+</style>
+<style>
 :root{
   --ink:#141416; --sub:#5C6672; --ph:#6B7280; --line:#E3E3E3; --div:#EDEDED; --field:#8F8C89;
   --navy:#1E4B94; --link:#004D99; --red:#CC0000; --alert:#BB2619; --error:#C62828; --green:#127A3E; --check:#1F7A3D; --focus:#0B5FAF;

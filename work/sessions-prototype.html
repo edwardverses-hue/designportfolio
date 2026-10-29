@@ -9,6 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
 <style>[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <style>
+/* On phones and tablets the screen is often smaller than the 402 by 874 device, and a grid
+   stops centring a child that is bigger than it, so the scaled device sat low and to the
+   right and was cut off. Pinned to the centre, as embed mode already does, it fits. Desktop
+   widths are left as they are. */
+@media (max-width: 900px) {
+  #scaler { position: absolute; left: 50%; top: 50%; margin: -437px 0 0 -201px; }
+}
+</style>
+<style>
 /* Sessions, built from the final Figma screens (Personal Work, Study App).
    Every colour, size and blur below is the file's own: the backgrounds are
    its blurred ellipses, the glass is its 10% white with a 25% white edge. */

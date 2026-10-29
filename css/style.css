@@ -4954,3 +4954,70 @@ a.beyond__photo:focus-visible {
     border-radius: 16px;
   }
 }
+
+/* ---------- PHONES: the nav and tap targets ----------
+   Nothing here applies above 900px, so the desktop layout is untouched.
+
+   Under 600px the nav's equal side columns are narrower than the wordmark,
+   which then spilt into the Work/Play pill and stood taller than the links.
+   The side columns still share the space equally, so the pill stays on the
+   page's centre, but never shrink below their own words; every label stays
+   on one line, and the padding comes in so all three fit at 320px. */
+@media (max-width: 600px) {
+  .nav {
+    grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+    column-gap: 4px;
+    padding: 16px;
+  }
+
+  .nav-logo,
+  .nav-right,
+  .nav-center a {
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+
+  .nav-center {
+    gap: 2px;
+  }
+
+  /* Where Pause motion wraps under the prototype link it sat flush against
+     it and 8px in from the column; the row now wraps with one even gap. */
+  .proto-open {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .proto-open .motion-toggle {
+    margin-left: 0;
+  }
+}
+
+/* Each link and pill takes a 44px tall touch area, the size Apple asks for,
+   from an invisible layer around it, so nothing drawn changes. */
+@media (max-width: 900px) {
+  .nav-logo,
+  .nav-right,
+  .pill-button,
+  .about-pill,
+  .case-toc a {
+    position: relative;
+  }
+
+  .nav-logo::after,
+  .nav-right::after,
+  .nav-center a::after,
+  .pill-button::after,
+  .about-pill::after,
+  .case-toc a::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 44px;
+    transform: translateY(-50%);
+  }
+}
