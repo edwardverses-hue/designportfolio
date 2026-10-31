@@ -389,17 +389,21 @@ h1, h2, h3, h4, h5, h6 {
 .about-page {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 120px 56px;
-  gap: 80px;
+  gap: 40px;
+  text-align: center;
 }
 
+/* 250px is the largest that keeps the buttons on screen in a laptop window
+   about 650px tall. The source is 640px, so it stays sharp on 2x screens. */
 .about-image {
-  width: 320px;
-  height: 320px;
+  width: 250px;
+  height: 250px;
   background: #D9D9D9;
-  border-radius: 32px;
+  border-radius: 24px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -412,19 +416,40 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .about-text {
-  max-width: 520px;
+  max-width: 680px;
 }
 
 .about-text p {
-  font-size: 15px;
-  margin-bottom: 18px;
-  line-height: 1.6;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  /* Darker than --grey, which is 2.85:1 on white and meant for small labels.
+     This is the page's main text, so it takes 4.5:1. */
+  color: #767676;
+}
+
+/* Name, school and roles: skimming the black alone still gives the story. */
+.about-key {
+  color: #000000;
 }
 
 .about-buttons {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
-  margin-top: 32px;
+  margin-top: 40px;
+}
+
+@media (max-width: 720px) {
+  .about-image {
+    width: 216px;
+    height: 216px;
+    border-radius: 16px;
+  }
+
+  .about-text p { font-size: 20px; }
 }
 
 .about-pill {
@@ -1625,19 +1650,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .about-page {
-    flex-direction: column;
     padding: 100px 24px;
-    gap: 40px;
-    text-align: center;
-  }
-
-  .about-image {
-    width: 240px;
-    height: 240px;
-  }
-
-  .about-buttons {
-    justify-content: center;
   }
 
   .work-section {
@@ -3937,7 +3950,6 @@ html.has-cursor .about-pill:hover {
 .cap-card p,
 .cap-list dd,
 .kit-duo__text,
-.about-text p,
 .gallery-welcome-sub {
   font-size: 16px;
   line-height: 1.6;
