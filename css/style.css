@@ -25,7 +25,8 @@ html {
 }
 
 body {
-  font-family: 'Helvetica Neue', 'HelveticaNeue', 'Helvetica', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Inter ahead of Helvetica, which Windows quietly swaps for Arial. */
+  font-family: 'Helvetica Neue', 'HelveticaNeue', 'Inter', 'Helvetica', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;
   color: #000000;
   background: #FFFFFF;
@@ -78,6 +79,7 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 100;
   font-size: 16px;
   font-weight: 300;
+  letter-spacing: 0.01em;
 }
 
 .nav-logo   { justify-self: start; }
@@ -138,15 +140,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Which section is current is written into the markup, so the pill is drawn
    from the very first frame with no measuring involved. */
 .nav-center a.is-current {
-  border-color: #000000;
-}
-
-/* Only once a picture is actually behind the pill does the stroke give way to a
-   white fill. Scrolling over body copy keeps the stroke, since a white fill on
-   a white page is invisible. */
-.nav-art .nav-center a.is-current {
-  background: rgba(255, 255, 255, 0.92);
-  border-color: transparent;
+  background: var(--surface);
 }
 
 /* Once the script is up it hands the pill over to a single element that can
@@ -154,26 +148,25 @@ h1, h2, h3, h4, h5, h6 {
    other can only switch one border off and another on, which is a jump; a lone
    element has a position to animate. The static pill above is what shows until
    this takes over, so nothing flashes on load. */
-.nav-js .nav-center a.is-current,
-.nav-js.nav-art .nav-center a.is-current {
-  border-color: transparent;
+.nav-js .nav-center a.is-current {
   background: transparent;
 }
 
 .nav-marker {
   position: absolute;
-  top: 3px;
+  /* The container's 4px padding, so it sits on the link at the link's height,
+     the same as the About pill. */
+  top: 4px;
   left: 0;
-  height: calc(100% - 6px);
+  height: calc(100% - 8px);
   width: 0;
   border-radius: 999px;
-  border: 1px solid #000000;
-  background: transparent;
+  background: var(--surface);
   opacity: 0;
   pointer-events: none;
   transition: transform 0.34s cubic-bezier(0.22, 0.61, 0.36, 1),
               width 0.34s cubic-bezier(0.22, 0.61, 0.36, 1),
-              background 0.3s ease, border-color 0.3s ease, opacity 0.2s ease;
+              opacity 0.2s ease;
 }
 
 .nav-marker.is-set {
@@ -183,11 +176,6 @@ h1, h2, h3, h4, h5, h6 {
 /* Placing it for the first time, or after a resize, must not animate. */
 .nav-marker.no-anim {
   transition: none;
-}
-
-.nav-art .nav-marker {
-  background: rgba(255, 255, 255, 0.92);
-  border-color: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -215,18 +203,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-right {
   font-weight: 300;
-}
-
-/* About is its own pill rather than a stop for the marker, so on its own page
-   it takes the marker's look directly: the black stroke, and the white fill
-   once a picture is behind it. */
-.nav .nav-right.is-current {
-  border-color: #000000;
-}
-
-.nav.nav-art .nav-right.is-current {
-  background: rgba(255, 255, 255, 0.92);
-  border-color: transparent;
 }
 
 /* ---------- HOME PAGE ---------- */
@@ -259,27 +235,33 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   /* wide enough to hold the sentence on a single line, as in the reference */
   max-width: 560px;
-  line-height: 1.5;
+  line-height: 1.6;
   margin-bottom: 18px;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
 }
 
+/* The headline's size, line and tracking: 14px beside 16px, in the same colour
+   and weight, was too close to read as deliberate. Only the space sets it apart. */
 .hero-sub {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
   color: #000000;
   margin-bottom: 28px;
+  text-wrap: balance;
 }
 
 .pill-button {
   display: inline-block;
-  padding: 14px 20px;
+  padding: 10px 20px;
   background: var(--surface);
   border-radius: 999px;
   font-size: 16px;
   font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.01em;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
   transition: background 0.2s ease;
 }
 
@@ -389,17 +371,21 @@ h1, h2, h3, h4, h5, h6 {
 .about-page {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 120px 56px;
-  gap: 80px;
+  gap: 40px;
+  text-align: center;
 }
 
+/* 250px keeps the buttons on screen in a laptop window about 650px tall. The
+   source is 640px, so it stays sharp on 2x screens. */
 .about-image {
-  width: 320px;
-  height: 320px;
+  width: 250px;
+  height: 250px;
   background: #D9D9D9;
-  border-radius: 32px;
+  border-radius: 24px;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -411,34 +397,30 @@ h1, h2, h3, h4, h5, h6 {
   object-fit: cover;
 }
 
+/* The text takes the home hero's headline and sub, so the two pages read the
+   same. The headline's narrower phone width is for a single sentence; here it
+   would leave it narrower than the sub below it. */
 .about-text {
-  max-width: 520px;
+  max-width: 560px;
 }
 
-.about-text p {
-  font-size: 15px;
-  margin-bottom: 18px;
-  line-height: 1.6;
+.about-text .hero-headline {
+  max-width: none;
 }
 
 .about-buttons {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 12px;
-  margin-top: 32px;
 }
 
-.about-pill {
-  padding: 8px 20px;
-  border: 1px solid #000000;
-  border-radius: 999px;
-  font-size: 14px;
-  transition: background 0.2s ease;
-}
-
-.about-pill:hover {
-  background: #000000;
-  color: #FFFFFF;
-  opacity: 1;
+@media (max-width: 720px) {
+  .about-image {
+    width: 216px;
+    height: 216px;
+    border-radius: 16px;
+  }
 }
 
 /* ---------- CASE STUDY PAGE ---------- */
@@ -1152,16 +1134,17 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
   border: 1px solid transparent;
   border-radius: 999px;
-  transition: color 0.25s ease, border-color 0.25s ease;
+  transition: color 0.25s ease, background 0.25s ease;
 }
 
 .case-rail a:hover {
   color: #000000;
 }
 
+/* The grey of the header's current pill and the Get in touch button. */
 .case-rail a.is-here {
   color: #000000;
-  border-color: #1A1A1A;
+  background: var(--surface);
 }
 
 .case-rail a:focus-visible {
@@ -1531,7 +1514,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .pill-button {
-    padding: 13px 18px;
+    padding: 9px 18px;
   }
 
   .project-label {
@@ -1625,19 +1608,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .about-page {
-    flex-direction: column;
     padding: 100px 24px;
-    gap: 40px;
-    text-align: center;
-  }
-
-  .about-image {
-    width: 240px;
-    height: 240px;
-  }
-
-  .about-buttons {
-    justify-content: center;
   }
 
   .work-section {
@@ -3050,6 +3021,7 @@ html.has-cursor * {
   font-size: 14px;
   font-weight: 300;
   line-height: 1;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   color: #000000;
   opacity: 0;
@@ -3075,15 +3047,6 @@ html.has-cursor .proto-screen iframe {
     transition-duration: 0.01s;
     transition-delay: 0s;
   }
-}
-
-/* With the custom cursor on, the cursor is the hover state. The About pills
-   otherwise turn black under it, and the disc flips their middle back to
-   white, leaving two black half-moons. On touch there is no cursor, so the
-   pills keep their fill there. */
-html.has-cursor .about-pill:hover {
-  background: transparent;
-  color: inherit;
 }
 
 /* The glass cursor, switched on by GLASS in js/cursor.js, which also gives
@@ -3211,9 +3174,7 @@ html.has-cursor .about-pill:hover {
 }
 
 /* Over a dark picture or panel (nav.js sets is-dark per pill) the glass is
-   left as it is and only the labels turn white. The current link's marker,
-   a near-white chip over pictures, would hide a white label, so over dark it
-   is a faint lift of light instead. */
+   left as it is and only the labels turn white. */
 .nav .nav-logo.is-dark,
 .nav .nav-right.is-dark,
 .nav .nav-center.is-dark,
@@ -3221,12 +3182,6 @@ html.has-cursor .about-pill:hover {
   color: #FFFFFF;
   transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
               -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease;
-}
-
-.nav .nav-center.is-dark .nav-marker,
-.nav .nav-right.is-current.is-dark {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: transparent;
 }
 
 /* The header in the cursor's lens, switched on by HEADER_LENS in
@@ -3359,12 +3314,25 @@ html.has-cursor .about-pill:hover {
   .lg-glass.is-dark {
     color: #000000;
   }
+}
 
-  .nav .nav-center.is-dark .nav-marker,
-  .nav .nav-right.is-current.is-dark {
-    background: transparent;
-    border-color: #000000;
-  }
+/* The pill on the current page is the Get in touch grey in every state: over
+   white, pictures and dark panels, and with less transparency asked for. The
+   Work and Play marker takes it above; About is its own pill rather than a
+   stop for the marker, so it sits after the glass rules to win over them. */
+.nav .nav-right.is-current {
+  background: var(--surface);
+  border-color: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* The grey stays light over dark, so its own label stays black. Under
+   LABEL_BLEND the difference layer already gets this right. */
+html:not(.nav-blend) .nav .nav-center.is-dark a.is-current,
+html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
+  color: #000000;
 }
 
 /* ---------- GEMINI DESIGN KIT ----------
@@ -3711,7 +3679,6 @@ html.has-cursor .about-pill:hover {
 
 .pos-state__cap .pos-num {
   margin-right: 8px;
-  letter-spacing: 0.02em;
 }
 
 @media (max-width: 720px) {
@@ -3777,7 +3744,6 @@ html.has-cursor .about-pill:hover {
 .pos-row__title .pos-num {
   color: inherit;
   margin-right: 10px;
-  letter-spacing: 0.02em;
 }
 
 .pos-row__text .cap-body {
@@ -3909,12 +3875,15 @@ html.has-cursor .about-pill:hover {
      20px  subhead, card title,
            quote line, list item         line 1.25  tracking -0.01em
      16px  everything read: body, labels,
-           meta, nav, pills              line 1.6 for text, 1.5 for labels
+           meta, nav (14px on phones),
+           pills                         line 1.6 for text, 1.5 for labels
+                                         tracking +0.01em
      14px  everything secondary: captions,
-           rail, controls, sources, footer   line 1.5
+           rail, controls, sources, footer   line 1.5   tracking +0.01em
 
    Labels share the body size and are told apart by the system grey, as the
-   reference does. The one weight above 300 is the filled pill button's 500. */
+   reference does. The one weight above 300 is the filled pill button's 500.
+   The case studies vary this under TYPE AFTER WENDY YU'S CAPSULE below. */
 
 /* 20px */
 .cap-moment,
@@ -3937,7 +3906,6 @@ html.has-cursor .about-pill:hover {
 .cap-card p,
 .cap-list dd,
 .kit-duo__text,
-.about-text p,
 .gallery-welcome-sub {
   font-size: 16px;
   line-height: 1.6;
@@ -3945,6 +3913,7 @@ html.has-cursor .about-pill:hover {
 }
 
 /* 16px, labels and meta, in grey where they label something */
+.project-label,
 .cap-eyebrow,
 .meta-label,
 .meta-value,
@@ -3953,14 +3922,15 @@ html.has-cursor .about-pill:hover {
 .cap-page .meta-label,
 .cap-page .reframe-label,
 .cap-page .meta-value,
-.cap-page .case-toc,
-.about-pill {
+.cap-page .case-toc {
   font-size: 16px;
   line-height: 1.5;
   letter-spacing: 0.01em;
 }
 
 /* 14px, secondary */
+.finding__cap,
+.chart__under,
 .reframe-sub,
 .cap-card-num,
 .proto-cap,
@@ -3971,7 +3941,6 @@ html.has-cursor .about-pill:hover {
 .cap-pair figcaption,
 .cap-cap,
 .case-sources,
-.hero-sub,
 .work-cap,
 .viewer-cap,
 .gallery-hint,
@@ -4003,21 +3972,32 @@ html.has-cursor .about-pill:hover {
   }
 }
 
-/* ---------- TYPE AFTER WENDY YU'S CAPSULE (CVS page) ----------
+/* ---------- TYPE AFTER WENDY YU'S CAPSULE (case studies) ----------
    Measured off wendyyudesign.com/capsule. It uses one weight, Light (300),
    for every line, as this site already does; its hierarchy comes from size,
    leading, tracking and colour:
 
-     36px title, 24px section, 20px subhead    leading 1.2, no tracking
-     15px body                                 leading 22px, +0.03em
-     15px section label and fact label         leading 1.2, #969696
+     36px title (30px on phones), 24px section,
+     20px subhead                              leading 1.2, no tracking
+     16px body                                 leading 1.6, +0.03em
+     16px section label and fact label         leading 1.2, the system grey
 
-   Scoped to the CVS page by .type-wendy on its <html>; take the class off
-   to go back. */
+   Her body and labels are 15px. Here they are the site's 16px: 15px sat only
+   1.07 times the 14px captions, and the 620px measure is set for 16px, at
+   which the longest pages run about 66 characters a line rather than 78. */
+
+   Scoped to the case studies by .type-wendy on their <html>; take the class
+   off to go back. */
 .type-wendy .case-title {
   font-size: 36px;
   line-height: 1.2;
   letter-spacing: normal;
+}
+
+@media (max-width: 720px) {
+  .type-wendy .case-title {
+    font-size: 30px;
+  }
 }
 
 .type-wendy .cap-title {
@@ -4043,8 +4023,8 @@ html.has-cursor .about-pill:hover {
 .type-wendy .cap-list dd,
 .type-wendy .kit-duo__text,
 .type-wendy .meta-value {
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 1.6;
   letter-spacing: 0.03em;
 }
 
@@ -4052,10 +4032,10 @@ html.has-cursor .about-pill:hover {
 .type-wendy .meta-label,
 .type-wendy .reframe-label,
 .type-wendy .kit-duo__label {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.2;
   letter-spacing: normal;
-  color: #969696;
+  color: var(--grey);
 }
 
 /* Weights, after her page. It sets them on its variable font's weight axis
@@ -4372,7 +4352,7 @@ a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
   font-size: 36px;
   font-weight: 300;
   line-height: 1.2;
-  letter-spacing: normal;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
@@ -4616,7 +4596,7 @@ a.beyond__photo:focus-visible {
   font-size: 36px;
   font-weight: 300;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: normal;
   font-variant-numeric: tabular-nums;
 }
 
@@ -5001,7 +4981,6 @@ a.beyond__photo:focus-visible {
   .nav-logo,
   .nav-right,
   .pill-button,
-  .about-pill,
   .case-toc a {
     position: relative;
   }
@@ -5010,7 +4989,6 @@ a.beyond__photo:focus-visible {
   .nav-right::after,
   .nav-center a::after,
   .pill-button::after,
-  .about-pill::after,
   .case-toc a::after {
     content: "";
     position: absolute;
