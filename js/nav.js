@@ -69,8 +69,7 @@
 
   var ART = 'img, .project-card, .case-hero-image, .about-image, .panel';
   // The home page's rain also counts as something behind the bar, so the pills
-  // frost over it. It does not count as a picture for the Work marker below:
-  // thin grey lines are not a reason to swap its stroke for a white fill.
+  // frost over it.
   // It is the rain layer itself that counts, so while it is hidden the hero is
   // plain white again and the pills stay clear over it.
   var BEHIND = ART + ', .rain-hero__sky';
@@ -92,19 +91,12 @@
     return false;
   }
 
-  var onArt = null;
-
   function check() {
     var height = nav.getBoundingClientRect().height;
     var next = window.scrollY > 4 || overlapsBar(height);
     if (next !== lit) {
       lit = next;
       nav.classList.toggle('nav-lit', next);
-    }
-    var art = artBehindMarker();
-    if (art !== onArt) {
-      onArt = art;
-      nav.classList.toggle('nav-art', art);
     }
     // White glass on a white page cannot be seen, so over the rain the pills
     // take the rim the CSS gives them under nav-rain.
@@ -241,30 +233,6 @@
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(function () { place(current, false); });
     }
-  }
-
-  /* ---------- is a picture behind the marker? ---------- */
-
-  // The pill swaps its black stroke for a white fill only when a picture is
-  // genuinely behind it, not merely because the page has been scrolled.
-  // On the About page the current pill is About itself, outside the centre.
-  var currentPill = current || nav.querySelector('.nav-right.is-current');
-
-  function artBehindMarker() {
-    if (!currentPill) return false;
-    var m = currentPill.getBoundingClientRect();
-    var art = document.querySelectorAll(ART);
-    for (var i = 0; i < art.length; i++) {
-      var el = art[i];
-      if (nav.contains(el)) continue;
-      var r = el.getBoundingClientRect();
-      if (!r.width || !r.height) continue;
-      if (r.right <= m.left || r.left >= m.right) continue;
-      if (r.bottom <= m.top || r.top >= m.bottom) continue;
-      if (getComputedStyle(el).visibility === 'hidden') continue;
-      return true;
-    }
-    return false;
   }
 
   /* ---------- is it dark behind a pill? ---------- */
