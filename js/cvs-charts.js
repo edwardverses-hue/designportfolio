@@ -88,9 +88,6 @@
      forfeited funds. */
   var FORFEIT = { percent: 52, under: 'forfeited FSA money' };
 
-  /* Sessions. ACHA-NCHA III, Spring 2025, undergraduate reference group:
-     48.5% positive for loneliness on the UCLA 3-item scale (6 to 9),
-     47,194 undergraduates at 96 schools. */
   /* Gemini. Kuo, Sergeyuk, Chen and Izadi, IUI 2026, a five-day field study
      of 15 developers and 229 proactive suggestions: engagement was 52% for
      suggestions after a commit (N=155) and 31% after a declined AI edit
@@ -104,9 +101,7 @@
     fmt: pct
   };
 
-  var LONELY = { percent: 48.5, under: 'of undergraduates lonely', fmt: pct1 };
-
-  /* Kohli et al., SIGCSE 2023: obstacles students reported in their study
+  /* Sessions. Kohli et al., SIGCSE 2023: obstacles students reported in their study
      groups, 477 students in one remote course, fall 2020. 34.5% reported no
      major obstacle, left out here: it is not an obstacle. */
   var SCHEDULE = {
@@ -120,12 +115,15 @@
   };
 
   /* Sarasso et al., Scientific Reports 2022, experiment 2: memory accuracy
-     with a person in the room, alone, and with a partner on a video call,
-     18 participants each in every condition. */
+     remembering where 16 objects sat, alone, with a person in the room, and
+     with that person on a video call, 18 participants in every condition.
+     Alone comes first as the baseline both others are measured against.
+     Alone against the video call was not significant (p = 0.207), which the
+     page's caption says, so the lower bar does not read as a finding. */
   var PRESENCE = {
-    bands: [['Someone', 'in the room'], ['Alone'], ['Someone on', 'a video call']],
-    values: [79.4, 70.25, 63.77],
-    focus: [0],
+    bands: [['Alone'], ['Someone', 'in the room'], ['Someone on', 'a video call']],
+    values: [70.25, 79.4, 63.77],
+    focus: [1],
     max: 100,
     ticks: [0, 50, 100],
     fmt: pct1,
@@ -451,7 +449,7 @@
   /* ---------- wiring ---------- */
   var builders = {
     share: bars(SHARE), substantiation: bars(SUBST), forfeit: gauge(FORFEIT),
-    lonely: gauge(LONELY), boundary: bars(BOUNDARY), scheduling: bars(SCHEDULE), presence: bars(PRESENCE)
+    boundary: bars(BOUNDARY), scheduling: bars(SCHEDULE), presence: bars(PRESENCE)
   };
   var charts = [].slice.call(document.querySelectorAll('.chart[data-chart]')).map(function (fig) {
     var build = builders[fig.getAttribute('data-chart')];
