@@ -70,26 +70,27 @@
   <!-- PROBLEM -->
   <section id="problem" class="cap-section">
     <div class="cap-eyebrow">Problem</div>
-    <h2 class="cap-title">Focus apps are built for one person</h2>
+    <h2 class="cap-title">Study apps keep friends at a distance</h2>
     <p class="cap-body">
-      Students study in libraries because it is easier to start around other people. Study apps leave those people out.
+      Students study in libraries because it is easier to start around other people. Study apps can share a timer or study hours with friends, but not where they are.
     </p>
 
     <div class="cap-cards is-pair">
       <div class="cap-card">
-        <h3>Nothing shows who is studying</h3>
-        <p>Each student gets a private timer and a streak. Friends nearby are invisible.</p>
+        <h3>Nothing shows where friends are studying</h3>
+        <p>Group timers and rankings show that friends are studying, not where. Friends nearby stay invisible.</p>
       </div>
       <div class="cap-card">
         <h3>Studying together takes planning</h3>
-        <p>Company means agreeing on a time and place first, usually over text.</p>
+        <p>A shared timer needs a room code passed around first. In person, it means agreeing on a time and place, usually over text.</p>
       </div>
     </div>
   </section>
 
-  <!-- RESEARCH: what classmates said, then three published findings that
-       test it, each a chart beside its claim as on the CVS page. The figures
-       are in js/cvs-charts.js with their sources. -->
+  <!-- RESEARCH: what classmates said, then two published findings, each
+       behind a design decision (no scheduling; in person), each a chart beside
+       its claim as on the CVS page. The figures are in js/cvs-charts.js with
+       their sources. -->
   <section id="research" class="cap-section">
     <div class="cap-eyebrow">Research</div>
     <h2 class="cap-title">Students go looking for company to study with</h2>
@@ -103,45 +104,34 @@
     </p>
 
     <div class="finding">
-      <figure class="chart" data-chart="lonely" aria-label="48.5% of undergraduates screened positive for loneliness in spring 2025."></figure>
-      <div class="finding__text">
-        <h3 class="cap-moment">About half of undergraduates are lonely</h3>
-        <p class="cap-body">In spring 2025, 48.5% of undergraduates screened positive for loneliness. Another national survey puts it at 52%.</p>
-        <p class="finding__cap">ACHA's National College Health Assessment, spring 2025: 47,194 undergraduates at 96 schools.</p>
-      </div>
-    </div>
-
-    <div class="finding">
       <figure class="chart" data-chart="scheduling" aria-label="Obstacles students reported in their study groups: finding a time, 48.5%; Zoom fatigue, 31.7%; awkwardness with strangers, 30.7%."></figure>
       <div class="finding__text">
         <h3 class="cap-moment">Finding a time is the hardest part</h3>
-        <p class="cap-body">In a course that matched students into study groups, finding a time was the obstacle reported most, even after matching for availability. Almost a third found studying with strangers awkward.</p>
+        <p class="cap-body">In a course that matched students into study groups, finding a time was the obstacle reported most, even after matching for availability. Almost a third found studying with strangers awkward. So nothing in the app is scheduled: friends join a session that is already running.</p>
         <p class="finding__cap">Kohli et al., SIGCSE 2023: 477 students in one remote course, fall 2020.</p>
       </div>
     </div>
 
     <div class="finding">
-      <figure class="chart" data-chart="presence" aria-label="Memory accuracy in a learning task: 79.4% with someone in the room, 70.3% alone, 63.8% with someone on a video call."></figure>
+      <figure class="chart" data-chart="presence" aria-label="Accuracy remembering where objects were placed: 70.3% alone, 79.4% with someone in the room, 63.8% with someone on a video call. Alone and video call were not significantly different."></figure>
       <div class="finding__text">
         <h3 class="cap-moment">Company helps in person, not on a video call</h3>
         <p class="cap-body">People remembered more with someone in the room than alone, and no more on a video call. So the app is for joining friends in person.</p>
-        <p class="finding__cap">Sarasso et al., Scientific Reports 2022: memory accuracy, 18 people in all three conditions.</p>
+        <p class="finding__cap">Sarasso et al., Scientific Reports 2022: 18 people remembering where 16 objects were placed, in all three conditions. The gap between alone and a video call was not significant.</p>
       </div>
     </div>
 
     <h3 class="cap-moment">Takeaway</h3>
     <p class="cap-body">
-      Students want company, and arranging it is the hard part. The app should show which friends are studying now and let anyone join them in person.
+      Students want company, and arranging it is the hard part. The app should show which friends are studying now and let them join in person.
     </p>
 
     <p class="case-sources">
       Sources:
-      <a href="https://www.acha.org/wp-content/uploads/NCHA-IIIb_SPRING_2025_UNDERGRADUATE_REFERENCE_GROUP_INSTITUTIONAL_EXECUTIVE_SUMMARY.pdf" target="_blank" rel="noopener">ACHA-NCHA III, spring 2025, undergraduates</a>;
-      <a href="https://newsroom.ucla.edu/releases/college-students-mental-health-report-ucla" target="_blank" rel="noopener">UCLA on the Healthy Minds Study, October 2025</a>;
       <a href="https://arxiv.org/pdf/2202.07439" target="_blank" rel="noopener">Kohli et al., SIGCSE 2023</a>;
       <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9732282/" target="_blank" rel="noopener">Sarasso et al., Scientific Reports 2022</a>;
       <a href="https://blog.youtube/culture-and-trends/study-with-me/" target="_blank" rel="noopener">YouTube, February 2024</a>.
-      Classmate conversations were informal. The loneliness figures are self-reported; the study-group and co-presence studies are single studies.
+      Classmate conversations were informal. The study-group and co-presence studies are single studies.
     </p>
   </section>
 
