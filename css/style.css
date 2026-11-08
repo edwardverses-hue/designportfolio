@@ -1924,6 +1924,30 @@ h1, h2, h3, h4, h5, h6 {
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Card becomes the case study. The nav is left unnamed on purpose: a
+   view-transition-name makes it a backdrop root, so its glass pills stop
+   blurring the page behind them, and the blended labels vanish from its
+   snapshot. Unnamed, it rides the 160ms root crossfade, between two
+   identical headers. */
+
+::view-transition-group(proj-cvs),
+::view-transition-group(proj-gemini),
+::view-transition-group(proj-sessions) {
+  animation-duration: 640ms;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 2;
+}
+::view-transition-old(proj-cvs), ::view-transition-new(proj-cvs),
+::view-transition-old(proj-gemini), ::view-transition-new(proj-gemini),
+::view-transition-old(proj-sessions), ::view-transition-new(proj-sessions) {
+  /* The card and the hero differ in shape, so each picture fills the
+     morphing box instead of stretching to it. */
+  height: 100%;
+  object-fit: cover;
+  animation-duration: 640ms;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
