@@ -1944,9 +1944,36 @@ h1, h2, h3, h4, h5, h6 {
      morphing box instead of stretching to it. */
   height: 100%;
   object-fit: cover;
-  animation-duration: 640ms;
-  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+  mix-blend-mode: normal;
 }
+/* The film on the card and the one in the hero are at different frames, so
+   a crossfade as long as the morph shows both at once. Instead the incoming
+   picture fades in over the outgoing one in 160ms, with the page, and the
+   outgoing one goes once it is covered. */
+::view-transition-new(proj-cvs),
+::view-transition-new(proj-gemini),
+::view-transition-new(proj-sessions) {
+  animation-duration: 160ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(proj-cvs),
+::view-transition-old(proj-gemini),
+::view-transition-old(proj-sessions) {
+  animation: vt-fade-out 160ms cubic-bezier(0.4, 0, 0.2, 1) 160ms both;
+}
+/* One with no partner on the other page (on the way to About, or sitting
+   out off screen) fades with the page instead of hanging over it. */
+::view-transition-old(proj-cvs):only-child,
+::view-transition-old(proj-gemini):only-child,
+::view-transition-old(proj-sessions):only-child {
+  animation-delay: 0s;
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+/* Set by js/page-transition.js on a card or hero mostly off screen, so it
+   doesn't streak across the page to meet its partner. */
+.vt-off { view-transition-name: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
