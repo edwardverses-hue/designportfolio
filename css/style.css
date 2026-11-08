@@ -1875,6 +1875,19 @@ h1, h2, h3, h4, h5, h6 {
   max-width: min(460px, calc(100vw - 48px));
   text-align: center;
   z-index: 2;
+  transition: opacity 0.6s ease;
+}
+
+/* Until the script has built the room its pictures and captions sit in a pile
+   at its centre, so the room stays out of sight until then. The words under
+   it wait until it has (nearly) arrived, so the room doesn't rise through
+   them; see the arrival in play.html. */
+.gallery-stage:not(.is-built) .room {
+  visibility: hidden;
+}
+.gallery-stage:not(.is-shown) .gallery-welcome,
+.gallery-stage:not(.is-shown) .gallery-hint {
+  opacity: 0;
 }
 
 .gallery-welcome-title {
