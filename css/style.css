@@ -1949,12 +1949,13 @@ h1, h2, h3, h4, h5, h6 {
 /* The film on the card and the one in the hero are at different frames, so
    a crossfade as long as the morph shows both at once. Instead the incoming
    picture fades in over the outgoing one in 160ms, with the page, and the
-   outgoing one goes once it is covered. */
+   outgoing one goes once it is covered. Both animations are replaced whole:
+   Chromium's own crossfade adds the two pictures together through an
+   animation, which over an opaque picture bleaches to white. */
 ::view-transition-new(proj-cvs),
 ::view-transition-new(proj-gemini),
 ::view-transition-new(proj-sessions) {
-  animation-duration: 160ms;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  animation: vt-fade-in 160ms cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 ::view-transition-old(proj-cvs),
 ::view-transition-old(proj-gemini),
@@ -1967,6 +1968,9 @@ h1, h2, h3, h4, h5, h6 {
 ::view-transition-old(proj-gemini):only-child,
 ::view-transition-old(proj-sessions):only-child {
   animation-delay: 0s;
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
 }
 @keyframes vt-fade-out {
   to { opacity: 0; }

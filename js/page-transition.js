@@ -11,7 +11,9 @@
    Loaded in the head without defer: pagereveal fires before deferred
    scripts run. */
 (function () {
-  var SEL = '.project-card, .case-hero-image';
+  // Whatever carries a name: the card and hero boxes for the films, and the
+  // phones picture itself for Sessions, whose card and hero differ in shape.
+  var SEL = '[style*="view-transition-name"]';
 
   function each(fn) { [].forEach.call(document.querySelectorAll(SEL), fn); }
 
