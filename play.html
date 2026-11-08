@@ -153,6 +153,22 @@
       var cycle = 0;
       var target = 0, current = 0, frame = null, touched = false;
 
+      /* Arriving, the room rises into place from below the fold and turns a
+         little as it comes, as the MoMA gallery at joshpuckett.me/nyc-moma
+         does. Measured from that page, what is left of each movement falls
+         away exponentially: the rise with a time constant near 480ms, the
+         turn faster, near 300ms, and both are settled by two seconds. The
+         room stays hidden until its pictures are built (style.css), so it
+         arrives whole instead of popping in, and the words under it fade in
+         once it is nearly there, as the reference's do. */
+      var viewport = room.parentNode;
+      var RISE     = 0.75;    // of the stage's height, below where it rests
+      var TURN     = 0.25;    // of the stage's width, across the back wall
+      var INTRO_MS = 2000, TAU_RISE = 480, TAU_TURN = 300;
+      var WORDS_AT = 1000;    // when the words fade in, about 80px from rest
+      var lead     = 0;       // turn still to come, in units along the path
+      var arriving = !still;
+
       // Blends the corner parameter between the two scales either side of it, so
       // a work does not visibly change speed as it turns the corner.
       function cornerAngle(t, a, b) {
@@ -286,19 +302,68 @@
         }
       }
 
+      // The reader's turn plus whatever of the arrival's turn is still to come.
+      function render() { draw(current + lead); }
+
       function tick() {
         current += (target - current) * EASE;
         if (Math.abs(target - current) < 0.05) current = target;
-        draw(current);
+        render();
         frame = (current === target) ? null : window.requestAnimationFrame(tick);
       }
 
       function turn(units) {
         target += units;
         if (!touched && hint) { touched = true; hint.style.opacity = '0'; }
-        if (still) { current = target; draw(current); return; }
+        if (still) { current = target; render(); return; }
         if (!frame) frame = window.requestAnimationFrame(tick);
       }
+
+      // 1 at the start, 0 at INTRO_MS, falling away exponentially in between.
+      function remaining(t, tau) {
+        var end = Math.exp(-INTRO_MS / tau);
+        return Math.max(0, (Math.exp(-t / tau) - end) / (1 - end));
+      }
+
+      function arrive() {
+        if (!arriving) {
+          stage.classList.add('is-built', 'is-shown');
+          return;
+        }
+        // A width on screen at the back wall, in units along the path: the
+        // camera is 2000px from the room's centre and the back wall D beyond.
+        var turnBy = TURN * stage.clientWidth * (2000 + geom.D) / 2000;
+        var drop = RISE * stage.clientHeight;
+        lead = -turnBy;
+        viewport.style.transform = 'translateY(' + drop.toFixed(2) + 'px)';
+        render();
+        stage.classList.add('is-built');
+        // Time advances at most 50ms a frame, so a frame that stalls (the
+        // first ones draw every picture for the first time) holds the room
+        // still for a moment instead of letting it jump ahead.
+        var t = 0, last = null;
+        function step(now) {
+          if (last !== null) t += Math.min(now - last, 50);
+          last = now;
+          if (t >= WORDS_AT) stage.classList.add('is-shown');
+          if (t >= INTRO_MS) {
+            lead = 0; arriving = false;
+            viewport.style.transform = '';
+          } else {
+            lead = -turnBy * remaining(t, TAU_TURN);
+            viewport.style.transform = 'translateY(' + (drop * remaining(t, TAU_RISE)).toFixed(2) + 'px)';
+          }
+          render();
+          if (arriving) window.requestAnimationFrame(step);
+        }
+        window.requestAnimationFrame(step);
+      }
+
+      // Should the pictures never all load, show what there is rather than
+      // an empty stage.
+      window.setTimeout(function () {
+        if (!works.length) { arriving = false; stage.classList.add('is-built', 'is-shown'); }
+      }, 5000);
 
       function build() {
         var figures = room.querySelectorAll('.work');
@@ -328,7 +393,8 @@
           });
         }
         measure();
-        draw(current);
+        arrive();
+        if (!arriving) render();
       }
 
       var imgs = room.querySelectorAll('.work img');
@@ -439,7 +505,7 @@
         pending = window.setTimeout(function () {
           if (!works.length) return;
           measure();
-          draw(current);
+          render();
         }, 140);
       });
     })();
