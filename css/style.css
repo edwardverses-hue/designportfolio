@@ -1962,8 +1962,10 @@ h1, h2, h3, h4, h5, h6 {
 ::view-transition-old(proj-sessions) {
   animation: vt-fade-out 160ms cubic-bezier(0.4, 0, 0.2, 1) 160ms both;
 }
-/* One with no partner on the other page (on the way to About, or sitting
-   out off screen) fades with the page instead of hanging over it. */
+/* One with no partner on the other page fades with the page instead of
+   hanging over it. js/page-transition.js keeps such cards out of the
+   transition altogether; this covers a browser that doesn't say where a
+   navigation leads. */
 ::view-transition-old(proj-cvs):only-child,
 ::view-transition-old(proj-gemini):only-child,
 ::view-transition-old(proj-sessions):only-child {
@@ -1975,8 +1977,8 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes vt-fade-out {
   to { opacity: 0; }
 }
-/* Set by js/page-transition.js on a card or hero mostly off screen, so it
-   doesn't streak across the page to meet its partner. */
+/* Set by js/page-transition.js on every card or hero but the one that
+   morphs, so the rest stay in the page, under the header. */
 .vt-off { view-transition-name: none !important; }
 
 @media (prefers-reduced-motion: reduce) {

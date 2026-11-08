@@ -2,11 +2,18 @@
    The names are on the elements and the motion is in style.css under VIEW
    TRANSITIONS.
 
-   The browser pairs the two by name wherever they are, so a hero scrolled
-   far up the page, or a card below the fold, would streak across the screen
-   to meet its partner. So just before each transition, on both pages, a card
-   or hero that is mostly off screen sits it out (.vt-off) and fades with the
-   page instead. It takes its name back once the transition is over.
+   A named element is lifted out of the page onto its own layer, above the
+   page and so above the header. So just before each transition, on both
+   pages, only the one element that has a partner on the other side keeps
+   its name: a card when going to (or coming from) its own case study, the
+   hero when going to (or coming from) the home page. Every other card stays
+   in the page, under the header, and fades with it.
+
+   The partner also has to be on screen. The browser pairs the two wherever
+   they are, so a hero scrolled far up the page, or a card below the fold,
+   would streak across the screen to meet it.
+
+   Names come back once the transition is over, ready for the next one.
 
    Loaded in the head without defer: pagereveal fires before deferred
    scripts run. */
@@ -17,19 +24,39 @@
 
   function each(fn) { [].forEach.call(document.querySelectorAll(SEL), fn); }
 
-  function sitOutOffScreen() {
-    var h = window.innerHeight;
+  // The page at a URL, without its hash, with /index.html and / the same.
+  function page(url) {
+    var u = new URL(url, location.href);
+    return u.origin + u.pathname.replace(/index\.html$/, '');
+  }
+
+  // A card leads to its case study; the hero leads home.
+  function partner(el) {
+    var link = el.closest('a[href]') || document.querySelector('.nav-logo');
+    return link ? page(link.href) : null;
+  }
+
+  function onScreen(el) {
+    var r = el.getBoundingClientRect(), h = window.innerHeight;
+    var shown = Math.min(r.bottom, h) - Math.max(r.top, 0);
+    return shown >= Math.min(r.height, h) / 3;
+  }
+
+  // other: the page on the far side of this transition, if the browser says.
+  function pair(other) {
+    var there = other ? page(other) : null;
     each(function (el) {
-      var r = el.getBoundingClientRect();
-      var shown = Math.min(r.bottom, h) - Math.max(r.top, 0);
-      el.classList.toggle('vt-off', shown < Math.min(r.height, h) / 3);
+      var keep = onScreen(el) && (!there || partner(el) === there);
+      el.classList.toggle('vt-off', !keep);
     });
   }
   function nameAll() { each(function (el) { el.classList.remove('vt-off'); }); }
 
-  // Leaving: the outgoing page is measured where the reader left it.
+  // Leaving: measured where the reader left the page.
   window.addEventListener('pageswap', function (e) {
-    if (e.viewTransition) sitOutOffScreen();
+    if (!e.viewTransition) return;
+    var entry = e.activation && e.activation.entry;
+    pair(entry && entry.url);
   });
 
   // Arriving, or coming back from the back/forward cache with names a
@@ -37,7 +64,8 @@
   window.addEventListener('pagereveal', function (e) {
     nameAll();
     if (!e.viewTransition) return;
-    sitOutOffScreen();
+    var act = window.navigation && navigation.activation;
+    pair(act && act.from && act.from.url);
     e.viewTransition.finished.then(nameAll, nameAll);
   });
 })();
