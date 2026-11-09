@@ -241,6 +241,19 @@
 
       var p0 = { x: 0, z: 0 }, p1 = { x: 0, z: 0 };
 
+      // 24px, 16px on phones: the same as the closer look (style.css).
+      var phone = window.matchMedia('(max-width: 720px)');
+      function radius() { return phone.matches ? 16 : 24; }
+
+      // Where cut i of n falls along a work: the first and last cuts at endCut
+      // from the ends, the rest evenly between.
+      function cutAt(i, n, span, endCut) {
+        if (n === 1) return i ? span : 0;
+        if (i === 0) return 0;
+        if (i === n) return span;
+        return endCut + (span - 2 * endCut) * (i - 1) / (n - 2);
+      }
+
       function layout(work, head) {
         var span = work.w;
         if (head + span <= 0 || head >= geom.length) {
@@ -258,26 +271,41 @@
         var cuts = curved ? FACETS : 1;
         var pad  = curved ? PAD : 0;
 
+        // Rounded corners, the radius every picture on the site takes. Only
+        // the outer corners of the end facets are rounded, so the two end
+        // facets are cut a little wider than the radius (a path unit is at
+        // least one pixel of wall) and the corner always fits inside one
+        // facet; the facets between share the rest evenly. The overlap is
+        // left off the outer edges so the curve sits on the picture's edge.
+        var rad = radius();
+        var endCut = Math.min(rad + 2, span / 3);
+
         for (var i = 0; i < FACETS; i++) {
           var f = work.facets[i];
           if (i >= cuts) { f.style.display = 'none'; continue; }
           f.style.display = '';
 
-          pointAt(head + span * i / cuts, p0);
-          pointAt(head + span * (i + 1) / cuts, p1);
+          var s0 = cutAt(i, cuts, span, endCut), s1 = cutAt(i + 1, cuts, span, endCut);
+          pointAt(head + s0, p0);
+          pointAt(head + s1, p1);
           var dx = p1.x - p0.x, dz = p1.z - p0.z;
           var len = Math.sqrt(dx * dx + dz * dz) || 0.01;
           var ang = Math.atan2(-dz, dx) * 180 / Math.PI;
           var cx = (p0.x + p1.x) / 2, cz = (p0.z + p1.z) / 2;
+          var k = len / (s1 - s0);                  // wall pixels per path unit here
+          var lp = i === 0 ? 0 : pad, rp = i === cuts - 1 ? 0 : pad;
 
-          f.style.width = (len + pad * 2).toFixed(2) + 'px';
+          f.style.width = (len + lp + rp).toFixed(2) + 'px';
           f.style.height = work.h.toFixed(2) + 'px';
-          f.style.backgroundSize = (len * cuts).toFixed(2) + 'px 100%';
-          f.style.backgroundPosition = (pad - i * len).toFixed(2) + 'px 0';
+          f.style.backgroundSize = (k * span).toFixed(2) + 'px 100%';
+          f.style.backgroundPosition = (lp - k * s0).toFixed(2) + 'px 0';
           f.style.transform =
-            'translate3d(' + (cx - len / 2 - pad).toFixed(2) + 'px,' +
+            'translate3d(' + (cx - len / 2 - lp).toFixed(2) + 'px,' +
             (-work.h / 2).toFixed(2) + 'px,' + cz.toFixed(2) + 'px) ' +
             'rotateY(' + ang.toFixed(3) + 'deg)';
+          var r = (i === 0 ? rad : 0) + 'px ' + (i === cuts - 1 ? rad : 0) + 'px ' +
+                  (i === cuts - 1 ? rad : 0) + 'px ' + (i === 0 ? rad : 0) + 'px';
+          if (f._r !== r) { f.style.borderRadius = r; f._r = r; }
         }
 
         pointAt(head + 1, p0);

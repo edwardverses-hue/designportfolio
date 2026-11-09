@@ -7,7 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@700&text=%E9%99%88%E5%AE%B6%E5%BF%97&display=block" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/hero-ink.css" />
   <script src="js/page-transition.js"></script>
 </head>
 <body>
@@ -35,7 +37,7 @@
        on arrival), data-frames (looped while it holds) and data-frames-out
        (played once before it leaves), at 6 frames a second. Add data-bob for
        the slow up-and-down drift. -->
-  <section class="hero rain-hero">
+  <section class="hero rain-hero ink-hero" data-layout="row" data-opacity="1" data-clear="0.38">
     <!-- The rain is hidden for now. Delete the hidden attribute to bring it back. -->
     <div class="rain-hero__sky" aria-hidden="true" hidden><div class="rain-hero__rain"></div></div>
     <!-- The objects are hidden for now: Edward is finding better references.
@@ -93,6 +95,7 @@
   <script src="js/nav.js" defer></script>
   <script src="js/liquid-glass.js" defer></script>
   <script src="js/cursor.js" defer></script>
+  <script src="js/hero-ink.js" defer></script>
   <script src="js/rain-hero.js" defer></script>
   <script src="js/hero-video.js" defer></script>
   <!-- The dandelion field lives in js/dandelion.js and is kept for later. To
