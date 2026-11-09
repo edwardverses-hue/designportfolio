@@ -1,0 +1,14 @@
+/* ---------- Hero: ink ----------
+   Styles for js/hero-ink.js. The canvas fills the hero behind the copy;
+   the copy sits on top and stays clickable. */
+.hero.ink-hero {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  min-height: 640px;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.ink-canvas { position: absolute; inset: 0; z-index: 0; display: block; }
+.ink-hero .hero-copy { position: relative; z-index: 2; pointer-events: none; }
+.ink-hero .hero-copy a { pointer-events: auto; }
