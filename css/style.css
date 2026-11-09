@@ -22,6 +22,18 @@ html {
   /* The secondary text grey: labels, captions, sources, the section menus.
      The same #999999 the design system spec uses for its small print. */
   --grey: #999999;
+  /* Corners. Every picture and plate takes --radius; a picture set inside a
+     plate takes --radius-inset. Pills, circles, and parts of a chart or of a
+     prototype's own screen keep their own. Play's gallery reads the same
+     24 / 16 in play.html, where the pictures are drawn in 3D. */
+  --radius: 24px;
+  --radius-inset: 8px;
+}
+
+@media (max-width: 720px) {
+  :root {
+    --radius: 16px;
+  }
 }
 
 body {
@@ -329,7 +341,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   aspect-ratio: 16 / 9;
   background: var(--surface);
-  border-radius: 48px;
+  border-radius: var(--radius);
   overflow: hidden;
   position: relative;
   transition: transform 0.3s ease;
@@ -385,7 +397,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 250px;
   height: 250px;
   background: #D9D9D9;
-  border-radius: 24px;
+  border-radius: var(--radius);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -419,7 +431,6 @@ h1, h2, h3, h4, h5, h6 {
   .about-image {
     width: 216px;
     height: 216px;
-    border-radius: 16px;
   }
 }
 
@@ -433,7 +444,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   aspect-ratio: 16 / 9;
   background: #FBFEFF;
-  border-radius: 32px;
+  border-radius: var(--radius);
   overflow: hidden;
   position: relative;
 }
@@ -609,7 +620,7 @@ h1, h2, h3, h4, h5, h6 {
 .ba-column {
   padding: 40px;
   background: #FBFEFF;
-  border-radius: 24px;
+  border-radius: var(--radius);
 }
 
 .ba-tag {
@@ -808,7 +819,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .cap-card {
   border: 1px solid #E5E5E5;
-  border-radius: 14px;
+  border-radius: var(--radius);
   padding: 18px 20px 20px;
 }
 
@@ -879,7 +890,7 @@ h1, h2, h3, h4, h5, h6 {
   gap: 16px;
   align-items: stretch;
   background: #F5F5F5;
-  border-radius: 16px;
+  border-radius: var(--radius);
   padding: 16px;
   margin: 20px 0 0;
 }
@@ -910,7 +921,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .spec-card {
   background: #FFFFFF;
-  border-radius: 12px;
+  border-radius: var(--radius-inset);
   padding: 22px;
   height: calc(100% - 41px);
 }
@@ -1010,7 +1021,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .spec-table-box {
   background: #F6F7F8;
-  border-radius: 8px;
+  border-radius: var(--radius-inset);
   padding: 14px 12px;
 }
 
@@ -1204,7 +1215,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 44px 0 0;
   padding: 30px 34px;
   background: #FBFEFF;
-  border-radius: 24px;
+  border-radius: var(--radius);
 }
 
 .takeaway-label {
@@ -1284,7 +1295,7 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 20px;
+  border-radius: var(--radius);
 }
 
 .split-text {
@@ -1354,7 +1365,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .signal-col {
   padding: 30px 28px 32px;
-  border-radius: 24px;
+  border-radius: var(--radius);
   background: #FBFEFF;
   min-width: 0;
 }
@@ -1411,7 +1422,7 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 100%;
   max-height: 82vh;
   margin-inline: auto;
-  border-radius: 24px;
+  border-radius: var(--radius);
   background: #FBFEFF;
 }
 
@@ -1450,7 +1461,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .phone-single img {
   width: 100%;
-  border-radius: 24px;
+  border-radius: var(--radius);
 }
 
 .phone-grid img {
@@ -1461,7 +1472,7 @@ h1, h2, h3, h4, h5, h6 {
   width: auto;
   max-width: 100%;
   margin-inline: auto;
-  border-radius: 24px;
+  border-radius: var(--radius);
   background: transparent;
 }
 
@@ -1519,10 +1530,6 @@ h1, h2, h3, h4, h5, h6 {
 
   .project-label {
     margin-bottom: 28px;
-  }
-
-  .project-card {
-    border-radius: 28px;
   }
 
   .case-title {
@@ -1777,13 +1784,8 @@ h1, h2, h3, h4, h5, h6 {
   max-height: calc(100vh - 170px);
   width: auto;
   height: auto;
-  /* The radius every picture and plate on the site takes, 16px on phones. */
-  border-radius: 24px;
+  border-radius: var(--radius);
   cursor: default;
-}
-
-@media (max-width: 720px) {
-  .viewer-frame img { border-radius: 16px; }
 }
 
 .viewer-cap {
@@ -2033,7 +2035,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 26px 0 14px;
   padding: 68px 32px 58px;
   background: #000000;
-  border-radius: 24px;
+  border-radius: var(--radius);
 }
 
 .widget-col {
@@ -2196,7 +2198,6 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: minmax(0, 320px);
     gap: 46px;
     padding: 44px 20px 36px;
-    border-radius: 20px;
   }
 }
 
@@ -2247,7 +2248,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 20px;
+  border-radius: var(--radius);
   background: transparent;
   -webkit-user-drag: none;
 }
@@ -2511,7 +2512,7 @@ mark.draft {
 
 .cap-pair.is-wide img {
   border: 1px solid #E5E5E5;
-  border-radius: 14px;
+  border-radius: var(--radius);
 }
 
 .cap-pair figcaption {
@@ -2887,7 +2888,7 @@ mark.draft {
   position: relative;
   width: 100%;
   aspect-ratio: 1366 / 768;
-  border-radius: 20px;
+  border-radius: var(--radius);
   overflow: hidden;
   background: var(--surface);
 }
@@ -2901,7 +2902,7 @@ mark.draft {
   inset: 3.2%;
   width: 93.6%;
   height: 93.6%;
-  border-radius: 8px;
+  border-radius: var(--radius-inset);
   background: #FFFFFF;
   opacity: 0;
   z-index: 0;
@@ -3441,7 +3442,7 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 16px;
+  border-radius: var(--radius);
   border: 1px solid #E5E5E5;
 }
 
@@ -3454,7 +3455,7 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   margin: 22px 0 0;
   padding: 28px;
   background: var(--surface);
-  border-radius: 24px;
+  border-radius: var(--radius);
 }
 
 .kit-board img {
@@ -3699,14 +3700,13 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
 
 .pos-plate {
   background: var(--surface);
-  border-radius: 24px;
+  border-radius: var(--radius);
   padding: 28px;
 }
 
 @media (max-width: 720px) {
   .pos-plate {
     padding: 12px;
-    border-radius: 18px;
   }
 }
 
@@ -3730,14 +3730,14 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
 
 .pos-state .pos-plate {
   padding: 18px;
-  border-radius: 20px;
+  border-radius: var(--radius);
 }
 
 .pos-state img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: var(--radius-inset);
   background: #FFFFFF;
 }
 
@@ -3759,7 +3759,6 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
 
   .pos-state .pos-plate {
     padding: 10px;
-    border-radius: 16px;
   }
 }
 
@@ -3792,7 +3791,7 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
 
 .pos-row .pos-plate {
   padding: 22px;
-  border-radius: 24px;
+  border-radius: var(--radius);
   min-width: 0;
 }
 
@@ -3800,7 +3799,7 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: var(--radius-inset);
   background: #FFFFFF;
 }
 
@@ -3837,11 +3836,6 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
 
   .pos-row .pos-plate {
     padding: 12px;
-    border-radius: 18px;
-  }
-
-  .pos-row .pos-plate img {
-    border-radius: 8px;
   }
 }
 
@@ -3926,14 +3920,14 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   margin-top: 14px;
 }
 
-/* A spreadsheet recreation shown as a picture: a hairline round it and a
-   small radius, the way the other stills sit, and the whole sheet visible. */
+/* A spreadsheet recreation shown as a picture: a hairline round it and the
+   corner every picture takes, and the whole sheet visible. */
 .cap-sheet {
   display: block;
   width: 100%;
   height: auto;
   border: 1px solid #E5E5E5;
-  border-radius: 12px;
+  border-radius: var(--radius);
 }
 
 /* ---------- TYPE SYSTEM ----------
@@ -4462,8 +4456,9 @@ a.kit-duo__sheet img { display: block; width: 100%; height: auto; }
   margin: 0;
   padding: 0;
   border: 0;
-  /* The radius every picture and plate on the site takes, 16px on phones. */
-  border-radius: 24px;
+  /* --radius, and 16px from the size where the strip takes its phone layout
+     (below), which is 760px rather than the 720px --radius switches at. */
+  border-radius: var(--radius);
   background: none;
   perspective: 800px;
   transform-origin: 50% center;
@@ -4813,7 +4808,7 @@ a.beyond__photo:focus-visible {
    site's 24px for pictures and plates. For colour, change the four pools. */
 .chart.is-panel {
   padding: 28px 28px 20px;
-  border-radius: 24px;
+  border-radius: var(--radius);
   overflow: hidden;
   isolation: isolate;
   background:
@@ -4987,7 +4982,7 @@ a.beyond__photo:focus-visible {
   height: auto;
   aspect-ratio: 16 / 9;
   margin: 0 24px;
-  border-radius: 24px;
+  border-radius: var(--radius);
   background: transparent;
 }
 
@@ -5001,7 +4996,6 @@ a.beyond__photo:focus-visible {
 @media (max-width: 720px) {
   .cap-page .case-hero-image:has(> .hero-film) {
     margin: 0 20px;
-    border-radius: 16px;
   }
 }
 
