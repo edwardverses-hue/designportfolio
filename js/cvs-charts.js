@@ -101,20 +101,7 @@
     fmt: pct
   };
 
-  /* Sessions. Kohli et al., SIGCSE 2023: obstacles students reported in their study
-     groups, 477 students in one remote course, fall 2020. 34.5% reported no
-     major obstacle, left out here: it is not an obstacle. */
-  var SCHEDULE = {
-    bands: [['Finding a time'], ['Zoom', 'fatigue'], ['Awkward with', 'strangers']],
-    values: [48.5, 31.7, 30.7],
-    focus: [0],
-    max: 100,
-    ticks: [0, 50, 100],
-    fmt: pct1,
-    tick: pct
-  };
-
-  /* Sarasso et al., Scientific Reports 2022, experiment 2: memory accuracy
+  /* Sessions. Sarasso et al., Scientific Reports 2022, experiment 2: memory accuracy
      remembering where 16 objects sat, alone, with a person in the room, and
      with that person on a video call, 18 participants in every condition.
      Alone comes first as the baseline both others are measured against.
@@ -449,7 +436,7 @@
   /* ---------- wiring ---------- */
   var builders = {
     share: bars(SHARE), substantiation: bars(SUBST), forfeit: gauge(FORFEIT),
-    boundary: bars(BOUNDARY), scheduling: bars(SCHEDULE), presence: bars(PRESENCE)
+    boundary: bars(BOUNDARY), presence: bars(PRESENCE)
   };
   var charts = [].slice.call(document.querySelectorAll('.chart[data-chart]')).map(function (fig) {
     var build = builders[fig.getAttribute('data-chart')];
