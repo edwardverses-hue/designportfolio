@@ -147,6 +147,24 @@
     return c.toDataURL();
   }
 
+  // Drawing a map, pixel by pixel, then encoding it as an image, is the costly
+  // part: about 150ms for the header's pills, on every page, and it landed in
+  // the first frames of each page transition, which then stuttered. The
+  // pills are the same sizes on every page, so each map is kept for the rest
+  // of the visit and the next page reuses it. The key carries every setting
+  // the map depends on, so changing the glass draws fresh ones.
+  var MAPS = 'lg-map:' + JSON.stringify([AV, LOOK]) + ':';
+  function kept(kind, args, draw) {
+    var key = MAPS + kind + ':' + args.join('x'), url = null;
+    try { url = sessionStorage.getItem(key); } catch (e) {}
+    if (url) return url;
+    url = draw.apply(null, args);
+    // the cursor's lens passes through many sizes as it grows, so only the
+    // first 80 are kept, which covers every pill several times over
+    try { if (sessionStorage.length < 80) sessionStorage.setItem(key, url); } catch (e) {}  // storage full or off: just not kept
+    return url;
+  }
+
   // Their filter: blur, three displacements a channel each, added back
   // together, then the rim's light added on top.
   function avFilter(id, w, h, radius) {
@@ -156,7 +174,7 @@
       filterUnits: 'userSpaceOnUse', primitiveUnits: 'userSpaceOnUse',
       'color-interpolation-filters': 'sRGB'
     });
-    var url = avMap(w, h, radius);
+    var url = kept('av', [w, h, radius], avMap);
     var map = el('feImage', { x: '0', y: '0', width: w, height: h, preserveAspectRatio: 'none', result: 'map' });
     map.setAttribute('href', url);
     map.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', url);
@@ -299,7 +317,7 @@
       'color-interpolation-filters': 'sRGB'
     });
     var map = el('feImage', { x: '0', y: '0', width: w, height: h, preserveAspectRatio: 'none', result: 'map' });
-    var url = drawMap(w, h, radius, band);
+    var url = kept('map', [w, h, radius, band], drawMap);
     map.setAttribute('href', url);
     map.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', url);
     f.appendChild(map);
