@@ -50,6 +50,17 @@
     'float hh(vec2 p){ p = fract(p * vec2(127.1, 311.7)); p += dot(p, p + 19.19); return fract(p.x * p.y); }\n' +
     'float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f); return mix(mix(hh(i), hh(i + vec2(1, 0)), f.x), mix(hh(i + vec2(0, 1)), hh(i + vec2(1, 1)), f.x), f.y); }\n' +
     'float fbm(vec2 p){ return 0.6 * vn(p) + 0.3 * vn(p * 2.1 + 7.3) + 0.1 * vn(p * 4.3 + 1.7); }\n';
+  // A sharp (Catmull-Rom) sample, held within its four nearest values, so a
+  // thin line carried by the water stays thin instead of blurring away.
+  var CRF =
+    'float cr(sampler2D s, vec2 uv){ vec2 sz = vec2(textureSize(s, 0)); vec2 p = uv * sz - 0.5; vec2 i = floor(p), f = p - i;\n' +
+    '  vec2 w0 = f * (-0.5 + f * (1. - 0.5 * f)), w1 = 1. + f * f * (-2.5 + 1.5 * f), w2 = f * (0.5 + f * (2. - 1.5 * f)), w3 = f * f * (-0.5 + 0.5 * f);\n' +
+    '  float r = 0., lo = 1e9, hi = -1e9; ivec2 m = ivec2(sz) - 1;\n' +
+    '  for (int y = 0; y < 4; y++) { float wy = y == 0 ? w0.y : y == 1 ? w1.y : y == 2 ? w2.y : w3.y;\n' +
+    '    for (int x = 0; x < 4; x++) { float wx = x == 0 ? w0.x : x == 1 ? w1.x : x == 2 ? w2.x : w3.x;\n' +
+    '      float v = texelFetch(s, clamp(ivec2(i) + ivec2(x - 1, y - 1), ivec2(0), m), 0).r; r += wx * wy * v;\n' +
+    '      if ((x == 1 || x == 2) && (y == 1 || y == 2)) { lo = min(lo, v); hi = max(hi, v); } } }\n' +
+    '  return clamp(r, lo, hi); }\n';
 
   var FS = {
     splat: HEAD + 'uniform sampler2D uT; uniform float uAspect; uniform vec3 uColor; uniform vec2 uPoint; uniform float uRadius;\n' +
@@ -60,9 +71,12 @@
       'void main(){ vec2 c = vUv - uDt * texture(uVel, vUv).xy * uVelTexel; vec4 a = texture(uSrc, c);\n' +
       '  vec4 n = 0.25 * (texture(uSrc, c + vec2(uVelTexel.x, 0.)) + texture(uSrc, c - vec2(uVelTexel.x, 0.)) + texture(uSrc, c + vec2(0., uVelTexel.y)) + texture(uSrc, c - vec2(0., uVelTexel.y)));\n' +
       '  o = mix(a, n, uVisc) / (1. + uDiss * uDt); }',
-    // the dye: carried by the water, and pulled back toward the name
-    dye: HEAD + 'uniform sampler2D uVel; uniform sampler2D uSrc; uniform sampler2D uName; uniform vec2 uVelTexel; uniform vec2 uTexel; uniform float uDt; uniform float uRelax; uniform float uSpread; uniform float uFade;\n' +
-      'void main(){ vec2 c = vUv - uDt * texture(uVel, vUv).xy * uVelTexel; float d = texture(uSrc, c).r; float n = texture(uName, vUv).r;\n' +
+    // the dye: carried by the water, and pulled back toward the name. It is
+    // read with the sharp sample: a plain one blurs it a fraction of a pixel
+    // every frame, which erased the thin lines the water folds into the edges.
+    // Measured against the reference's fine lines, this was the difference.
+    dye: HEAD + CRF + 'uniform sampler2D uVel; uniform sampler2D uSrc; uniform sampler2D uName; uniform vec2 uVelTexel; uniform vec2 uTexel; uniform float uDt; uniform float uRelax; uniform float uSpread; uniform float uFade;\n' +
+      'void main(){ vec2 c = vUv - uDt * texture(uVel, vUv).xy * uVelTexel; float d = cr(uSrc, c); float n = texture(uName, vUv).r;\n' +
       '  float nb = 0.25 * (texture(uSrc, c + vec2(uTexel.x, 0.)).r + texture(uSrc, c - vec2(uTexel.x, 0.)).r + texture(uSrc, c + vec2(0., uTexel.y)).r + texture(uSrc, c - vec2(0., uTexel.y)).r);\n' +
       '  d = mix(d, nb, uSpread);\n' +
       '  d = mix(d, n, 1. - exp(-uRelax * uDt)) * exp(-uFade * uDt); o = vec4(d, 0., 0., 1.); }',
