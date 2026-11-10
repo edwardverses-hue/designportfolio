@@ -394,14 +394,20 @@
   // then starts at once if the hero is on screen, or in the next quiet moment
   // if the page opened lower down, so it is ready before the reader scrolls
   // back up.
+  // Starting the ink stalls the screen for a tenth of a second or so while the
+  // GPU builds its programs. On a page opened at the work (the Work link), the
+  // hero is above the screen, so the ink waits until the hero comes into view
+  // rather than stalling the reader's first look at the projects.
   function boot() {
     var arrived = window.pageArrived || Promise.resolve();
     arrived.then(function () {
       var hero = document.querySelector('.ink-hero');
-      var r = hero ? hero.getBoundingClientRect() : null;
-      var onScreen = r && r.bottom > 0 && r.top < window.innerHeight;
-      if (onScreen || !window.requestIdleCallback) start();
-      else window.requestIdleCallback(start, { timeout: 1500 });
+      if (!hero || !('IntersectionObserver' in window)) { start(); return; }
+      var io = new IntersectionObserver(function (es) {
+        if (!es[0].isIntersecting) return;
+        io.disconnect(); start();
+      });
+      io.observe(hero);
     });
   }
   function start() {
