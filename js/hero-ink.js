@@ -378,11 +378,34 @@
     this.queue.push({ p: [p[0], p[1] - k], v: [900, 0], r: 0.0016 });
     this.kick();
   };
-  Ink.prototype.refresh = function () { if (this.ok && this.size()) { this.visible = true; this.last = 0; this.kick(); } };
+  Ink.prototype.refresh = function () {
+    if (!(this.ok && this.size())) return;
+    this.visible = true; this.last = 0; this.kick();
+    // the first time it has drawn, the ink fades in rather than appearing at once
+    var cv = this.canvas;
+    if (cv.style.opacity === '0') requestAnimationFrame(function () { requestAnimationFrame(function () { cv.style.transition = 'opacity 0.6s ease'; cv.style.opacity = '1'; }); });
+  };
 
   var all = [];
+  // Starting the ink is heavy: compiling its shaders, drawing the name and
+  // running the water for a moment before it shows, about 200ms in one go.
+  // Done while the page was arriving, it stalled the transition into the
+  // page. So it waits until the page has arrived (js/page-transition.js),
+  // then starts at once if the hero is on screen, or in the next quiet moment
+  // if the page opened lower down, so it is ready before the reader scrolls
+  // back up.
   function boot() {
-    document.querySelectorAll('.ink-hero').forEach(function (s) { all.push(new Ink(s)); });
+    var arrived = window.pageArrived || Promise.resolve();
+    arrived.then(function () {
+      var hero = document.querySelector('.ink-hero');
+      var r = hero ? hero.getBoundingClientRect() : null;
+      var onScreen = r && r.bottom > 0 && r.top < window.innerHeight;
+      if (onScreen || !window.requestIdleCallback) start();
+      else window.requestIdleCallback(start, { timeout: 1500 });
+    });
+  }
+  function start() {
+    document.querySelectorAll('.ink-hero').forEach(function (s) { var i = new Ink(s); if (!reduce && i.ok) i.canvas.style.opacity = '0'; all.push(i); });
     var rt;
     window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { all.forEach(function (i) { if (!i.s.hidden) i.refresh(); }); }, 150); });
     var ready = document.fonts ? document.fonts.load('700 40px ' + FONT, NAME.join('')) : Promise.resolve();

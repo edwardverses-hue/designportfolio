@@ -16,9 +16,24 @@
 
   function paused() { return document.body.classList.contains('motion-paused'); }
 
+  // Arriving from a film's own case study, its banner has just shrunk into
+  // the card showing the finished picture. Building it again from blank
+  // would undo that, so a film that builds once keeps the finished picture
+  // the first time it is seen, and builds as usual whenever it comes back.
+  var built = new Set();
+  var from = window.navigation && navigation.activation && navigation.activation.from;
+  if (from && from.url) {
+    var fromPage = new URL(from.url).pathname;
+    films.forEach(function (v) {
+      var a = v.closest('a[href]');
+      if (!v.loop && a && new URL(a.href, location.href).pathname === fromPage) built.add(v);
+    });
+  }
+
   var seen = new Map();
   function sync(v, entered) {
     if (reduce || paused() || !seen.get(v)) { if (!v.paused) v.pause(); return; }
+    if (entered && built.has(v)) { built.delete(v); return; }
     if (!v.loop && v.ended) { if (!entered) return; v.currentTime = 0; }
     if (v.preload !== 'auto') v.preload = 'auto';
     var p = v.play();

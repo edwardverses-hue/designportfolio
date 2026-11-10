@@ -4,12 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edward Chen</title>
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@700&text=%E9%99%88%E5%AE%B6%E5%BF%97&display=block" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/hero-ink.css" />
+  <!-- Hold the first paint until the last card is in the page, so a visit to
+       #work, #work-gemini or #work-sessions opens there rather than at the top. -->
+  <link rel="expect" href="#work-sessions" blocking="render" />
   <script src="js/page-transition.js"></script>
 </head>
 <body>
@@ -73,7 +78,7 @@
       </div>
     </div>
 
-    <div class="project">
+    <div class="project" id="work-gemini">
       <p class="project-label">Google Gemini Smart Context</p>
       <div class="project-frame">
         <a href="work/gemini.html" class="project-card" style="view-transition-name: proj-gemini">
@@ -82,7 +87,7 @@
       </div>
     </div>
 
-    <div class="project">
+    <div class="project" id="work-sessions">
       <p class="project-label">Sessions</p>
       <div class="project-frame">
         <a href="work/sessions.html" class="project-card">
