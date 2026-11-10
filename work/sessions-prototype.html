@@ -120,7 +120,7 @@ svg.i{display:block;flex:none}
 .iconbtn.pale{background:rgba(217,244,255,.5);border:1px solid rgba(255,255,255,.25)}
 .iconbtn.clear{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25)}
 .small{position:relative;display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 20px;border-radius:10px;font-size:16px}
-.small::after{content:"";position:absolute;inset:-4px 0}
+.small::after{content:"";position:absolute;inset:-5px 0}
 .small.blue{background:var(--pale)}
 .small.line{border:1px solid var(--line);background:var(--bg)}
 
@@ -139,9 +139,9 @@ svg.i{display:block;flex:none}
 /* tab bar: near-black, the active tab under a glass lens */
 #tabbar{position:absolute;left:20px;bottom:50px;width:362px;height:47px;border-radius:36.654px;background:#231F20;z-index:40;display:none}
 #tabbar.on{display:block}
-#tabbar .lens{position:absolute;top:0;left:0;width:88.3px;height:46.9px;border-radius:36.654px;background:rgba(217,244,255,.2);border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 2.8px 2.8px rgba(0,0,0,.25),0 2.8px 2.8px rgba(0,0,0,.25);transition:left .45s var(--spring)}
+#tabbar .lens{position:absolute;top:0;left:0;width:88.3px;height:46.9px;border-radius:36.654px;background:rgba(217,244,255,.4);border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 2.8px 2.8px rgba(0,0,0,.25),0 2.8px 2.8px rgba(0,0,0,.25);transition:left .45s var(--spring)}
 #tabbar .tabs{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 54px 0 53px}
-#tabbar button{width:44px;height:44px;display:grid;place-items:center;color:rgba(217,244,255,.75);position:relative;z-index:1}
+#tabbar button{width:44px;height:44px;display:grid;place-items:center;color:rgba(217,244,255,.7);position:relative;z-index:1}
 #tabbar button[aria-current="page"]{color:#D9F4FF}
 
 /* sheets */
@@ -189,7 +189,9 @@ svg.i{display:block;flex:none}
 /* the session in view rises and whitens; the others step back */
 .pin.on{transform:translateY(-3px);z-index:5}
 .pin.on .dot,.pin.on .lab{background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(251,254,255,.62))}
-.pin.dim{opacity:.8}
+.sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+h1{font-weight:inherit;margin:0}
+.pin.dim{opacity:1}
 .pin.grp .dot,.pin.grp .lab{background:linear-gradient(135deg,rgba(217,244,255,.75),rgba(254,219,199,.75))}
 .pin.grp.on .dot,.pin.grp.on .lab{background:linear-gradient(135deg,#D9F4FF,#FEDBC7)}
 .mapcard{position:absolute;left:28px;right:28px;top:626px;z-index:5;display:flex;gap:12px;align-items:center;padding:12px 10px 12px 16px;border-radius:15px;background:var(--frost-bg);border:1px solid var(--frost-edge);-webkit-backdrop-filter:var(--frost-blur);backdrop-filter:var(--frost-blur);box-shadow:var(--frost-shadow)}
@@ -211,7 +213,7 @@ svg.i{display:block;flex:none}
 
 /* timer screens */
 .timer-dark .glow{will-change:auto}
-.tag{position:absolute;top:100px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;height:52px;padding:0 20px;color:var(--slate);font-size:24px;white-space:nowrap}
+.tag{position:absolute;top:100px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;height:52px;padding:0 20px;color:var(--deep);font-size:24px;white-space:nowrap}
 .readout{position:absolute;left:0;right:0;top:354px;text-align:center}
 .readout .num{font-size:96px;line-height:113px;letter-spacing:-1px;font-variant-numeric:tabular-nums}
 .readout .lab{font-size:20px;color:#FBFEFF;margin-top:10px}
@@ -223,14 +225,15 @@ svg.i{display:block;flex:none}
 .readout .num.bump{transform:scale(1.03)}
 .seg{position:absolute;top:100px;left:84px;width:234px;height:60px;border-radius:250px;display:flex;align-items:center;padding:3px;box-sizing:border-box}
 .seg .knob{position:absolute;top:2px;left:3px;width:111px;height:54px;border-radius:250px;background:var(--pale);border:1px solid rgba(255,255,255,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 2px 8px rgba(52,67,74,.1);transition:left .4s var(--spring),width .4s var(--spring)}
-.seg button{position:relative;z-index:1;flex:1;height:54px;font-size:24px;color:rgba(35,31,32,.5);transition:color .25s}
+.seg button{position:relative;z-index:1;flex:1;height:54px;font-size:24px;color:var(--ink50);transition:color .25s}
 .seg button[aria-pressed="true"]{color:var(--ink)}
 .hours{position:absolute;left:0;right:0;top:390px;text-align:center}
 .hours .big{font-size:96px;line-height:113px;letter-spacing:-1px;font-variant-numeric:tabular-nums}
-.hours .unit{font-size:20px;color:#FBFEFF;margin-top:10px}
+.hours .unit{font-size:24px;line-height:28px;color:#FBFEFF;margin-top:6px}
 .dial{position:absolute;left:0;top:565px;width:402px;height:309px;overflow:visible;touch-action:none;cursor:grab}
 .dial:active{cursor:grabbing}
-.dial:focus,.dial:focus-visible{outline:none}
+.dial:focus{outline:none}
+.dial:focus-visible{outline:2px solid var(--deep);outline-offset:-10px;border-radius:24px}
 .hours .big{transition:transform .16s var(--ease)}
 .hours .big.bump{transform:scale(1.02)}
 .go{position:absolute;right:20px;top:764px;width:217px;height:60px;border-radius:250px;display:flex;align-items:center;padding:5px;overflow:hidden;touch-action:none}
@@ -268,13 +271,13 @@ svg.i{display:block;flex:none}
 [data-screen=run] .iconbtn.glass{background:url(sessions-proto/g_close.png) 0 0/50px 50px no-repeat!important}
 [data-screen=dial] .seg .knob{background:url(sessions-proto/g_pub.png) 0 0/111px 54px no-repeat!important;border-radius:250px}
 [data-screen=dial] .go .knob{background:url(sessions-proto/g_go.png) 0 0/50px 49px no-repeat!important}
-.along{position:absolute;left:50%;top:670px;transform:translateX(-50%);display:flex;align-items:center;gap:20px;height:52px;padding:0 20px;color:var(--slate);font-size:24px;white-space:nowrap}
+.along{position:absolute;left:50%;top:670px;transform:translateX(-50%);display:flex;align-items:center;gap:20px;height:52px;padding:0 20px;color:var(--deep);font-size:24px;white-space:nowrap}
 
 /* onboarding */
 .steps{display:flex;gap:6px;flex:1}
-.steps i{position:relative;flex:1;height:5.625px;border-radius:4.5px;border:.5px solid var(--ink);background:transparent;overflow:hidden;box-sizing:border-box}
-.steps i::after{content:"";position:absolute;inset:0;background:var(--pale);transform:scaleX(0);transform-origin:left}
-.steps i.on::after{transform:none;opacity:.5}
+.steps i{position:relative;flex:1;height:5px;border-radius:250px;background:rgba(229,229,229,.5);overflow:hidden}
+.steps i::after{content:"";position:absolute;inset:0;border-radius:250px;background:var(--pale);transform:scaleX(0);transform-origin:left}
+.steps i.on::after{transform:none}
 .steps i.now::after{animation:stepfill .6s var(--ease) .15s both}
 @keyframes stepfill{from{transform:scaleX(0)}to{transform:none}}
 .obhead{position:absolute;left:20px;right:20px;top:100px;display:flex;align-items:center;gap:16px;height:24px}
@@ -283,12 +286,12 @@ svg.i{display:block;flex:none}
 .obtitle .h1{text-wrap:balance}
 .obtitle p{margin:0;font-size:16px;line-height:1.4;color:var(--ink50)}
 .inputline{display:flex;align-items:center;height:56px;padding:0 20px;border-radius:15px;border:1px solid var(--line);background:var(--bg);font-size:20px}
-.inputline input{flex:1;border:0;outline:none;background:none;font:inherit;font-weight:300;color:var(--ink);min-width:0}
+.inputline input{flex:1;align-self:stretch;border:0;outline:none;background:none;font:inherit;font-weight:300;color:var(--ink);min-width:0}
 .inputline input::placeholder{color:rgba(35,31,32,.4)}
 .textlink{font-size:16px;color:var(--slate);text-align:center;height:44px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{position:relative;white-space:nowrap;height:39px;padding:0 10px;border-radius:10px;border:1px solid var(--line);font-size:16px;background:transparent;transition:background .2s,border-color .2s}
-.chip::after{content:"";position:absolute;inset:-3px 0}
+.chip::after{content:"";position:absolute;inset:-3px -3px}
 .chip[aria-pressed="true"]{background:rgba(217,244,255,.5);border-color:var(--slate)}
 .chip.add{width:39px;padding:0;display:grid;place-items:center}
 /* settings choices use the Settings row: line border, radius 15, 20px title over a 16px line, and a thin ink check on the chosen row (iOS list convention) */
@@ -307,7 +310,7 @@ svg.i{display:block;flex:none}
 
 /* field */
 .field{display:flex;align-items:center;justify-content:space-between;height:62px;padding:5px 5px 5px 25px;border-radius:61.8px;background:var(--frost-bg);border:1px solid var(--frost-edge);-webkit-backdrop-filter:var(--frost-blur);backdrop-filter:var(--frost-blur);box-shadow:var(--frost-shadow);width:100%}
-.field input{flex:1;background:none;border:0;outline:none;font-size:20px;color:var(--ink);min-width:0}
+.field input{flex:1;align-self:stretch;background:none;border:0;outline:none;font-size:20px;color:var(--ink);min-width:0}
 .field input::placeholder{color:var(--ink50)}
 .field .send{width:52px;height:52px;border-radius:50%;background:var(--ink);display:grid;place-items:center;color:var(--bg);flex:none}
 .search{display:flex;align-items:center;gap:20px;height:44px;padding:0 25px;border-radius:250px;background:rgba(217,244,255,.25);border:1px solid rgba(255,255,255,.25);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 1px 1px rgba(255,255,255,.6);font-size:20px}
@@ -413,7 +416,7 @@ const LIGHT={
 };
 
 /* street and place names, from the map's label layers (map coordinates, 900 × 876) */
-const MAPLABELS=(()=>{const L=[['Forbes Ave',271.7,120.9,-2.7,12,500,'#4F6670'],['Forbes Ave',877.6,235.1,52.1,12,500,'#4F6670'],['Schenley Dr',370.7,777.6,-31.3,12,500,'#4F6670'],['Tech St',519.3,638.9,-71.3,12,500,'#4F6670'],['Frew St',554.1,723.1,15.5,12,500,'#4F6670'],['Penton Rd',820.3,76.5,13,12,500,'#4F6670'],['Flagstaff Hill',260.4,758.4,0,13,300,'#4F6670'],['Westinghouse Pond',360.3,843,0,13,300,'#4F6670'],['Gesling Stadium',657.7,314.5,0,13,500,'#4F6670'],['Carnegie Mellon University',318,308.5,0,14,500,'#4F6670']];
+const MAPLABELS=(()=>{const L=[['Forbes Ave',271.7,120.9,-2.7,12,500,'#4F6670'],['Forbes Ave',877.6,235.1,52.1,12,500,'#4F6670'],['Schenley Dr',370.7,777.6,-31.3,12,500,'#4F6670'],['Tech St',519.3,638.9,-71.3,12,500,'#4F6670'],['Frew St',554.1,723.1,15.5,12,500,'#4F6670'],['Penton Rd',820.3,76.5,13,12,500,'#4F6670'],['Flagstaff Hill',260.4,758.4,0,13,300,'#4F6670'],['Westinghouse Pond',360.3,843,0,13,300,'#4F6670'],['Gesling Stadium',657.7,314.5,0,13,500,'#4F6670'],['Carnegie Mellon University',270,538.5,0,14,500,'#4F6670']];
   return `<svg class="maplabels" viewBox="0 0 900 876" aria-hidden="true">${L.map(([t,x,y,r,sz,w,c])=>`<text transform="translate(${x} ${y}) rotate(${r})" y="${(sz*.92).toFixed(1)}" font-size="${sz}" font-weight="${w}" fill="${c}" letter-spacing="${sz===12?.3:0}">${t}</text>`).join('')}</svg>`;})();
 
 /* ---------- state ---------- */
@@ -456,10 +459,13 @@ function setTab(id){
   TB.querySelector('.lens').style.left=[31,137,242][i]+'px';
   TB.querySelectorAll('button').forEach((b,k)=>{b.innerHTML=I(['pin','users','user'][k],32);b.toggleAttribute('aria-current',k===i);if(k===i)b.setAttribute('aria-current','page');});
 }
+document.documentElement.lang='en';
 function go(id,o={}){
   const t=o.t||'push';
   const s=el(`<section class="screen" data-screen="${id}" aria-label="${(SCR[id].label||id)}"></section>`);
   s.innerHTML=SCR[id].html(o);
+  const vh=s.querySelector('.h1:not(h1),.g36:not(h1)');if(vh&&!s.querySelector('h1')){const h=document.createElement('h1');h.className=vh.className;h.style.cssText=vh.style.cssText;h.innerHTML=vh.innerHTML;vh.replaceWith(h);}
+  if(!s.querySelector('h1'))s.insertAdjacentHTML('afterbegin',`<h1 class="sr">${SCR[id].label||id}</h1>`);
   VP.appendChild(s);
   if(SCR[id].mount)SCR[id].mount(s,o);
   const prev=cur;
@@ -482,16 +488,19 @@ let sheetClose=null;
 function openSheet(html,mount){
   closeSheet(true);
   const sh=el(`<div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div>`);
-  OV.appendChild(sh);
+  const back_=document.activeElement;OV.appendChild(sh);sh.tabIndex=-1;
+  const ttl=sh.querySelector('.h1,.t24,.t20,p');if(ttl){ttl.id=ttl.id||'sheet-t';sh.setAttribute('aria-labelledby',ttl.id);}
+  setTimeout(()=>{(sh.querySelector('button,[href],input,[tabindex]:not([tabindex="-1"])')||sh).focus({preventScroll:true});},60);
+  sh.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});sh._back=back_;
   requestAnimationFrame(()=>requestAnimationFrame(()=>OV.classList.add('on')));
   if(mount)mount(sh);
   sheetClose=()=>{OV.classList.remove('on');setTimeout(()=>sh.remove(),reduce?0:450);};
 }
-function closeSheet(now){const s=OV.querySelector('.sheet');if(!s)return;if(now){OV.classList.remove('on');s.remove();return;}sheetClose&&sheetClose();}
+function closeSheet(now){const s=OV.querySelector('.sheet');if(!s)return;const bk=s._back;setTimeout(()=>{try{bk&&bk.isConnected&&bk.focus({preventScroll:true})}catch(e){}},0);if(now){OV.classList.remove('on');s.remove();return;}sheetClose&&sheetClose();}
 OV.querySelector('.scrim').addEventListener('click',()=>closeSheet());
 
 /* notification */
-function sysAlert(){const a=$('#sysalert');a.hidden=false;requestAnimationFrame(()=>a.classList.add('show'));a.querySelectorAll('[data-sa]').forEach(b=>b.onclick=()=>{const on=b.dataset.sa==='1';Object.keys(S.nudges).forEach(k=>S.nudges[k]=on&&k!=='quiet');a.classList.remove('show');setTimeout(()=>a.hidden=true,200);});}
+function sysAlert(){const a=$('#sysalert');a.hidden=false;requestAnimationFrame(()=>a.classList.add('show'));setTimeout(()=>a.querySelector('[data-sa="1"]').focus({preventScroll:true}),60);a.querySelectorAll('[data-sa]').forEach(b=>b.onclick=()=>{const on=b.dataset.sa==='1';Object.keys(S.nudges).forEach(k=>S.nudges[k]=on&&k!=='quiet');a.classList.remove('show');setTimeout(()=>a.hidden=true,200);});}
 function notify(html,onTap){const n=$('#note');n.innerHTML=`<span class="app" aria-hidden="true">${I('users',20)}</span><span style="flex:1;min-width:0">${html}</span>`;n.onclick=()=>{n.classList.remove('show');onTap&&onTap();};n.classList.add('show');}
 function unnotify(){$('#note').classList.remove('show');}
 
@@ -600,11 +609,11 @@ settings:{label:'Settings',html:()=>{
 
 map:{label:'Map',html:()=>{
   const quiet=S.quiet;
-  const pins=quiet?`<div class="pin" style="left:315px;top:479px"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">You</span></span></div>`:
-   `<button class="pin" data-pin="eileen" aria-label="Eileen" style="left:265px;top:247px"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Eileen</span><span class="e">Ends in 1h 15m</span></span></button>
-    <button class="pin" data-pin="sean" aria-label="Sean" style="left:109px;top:176px"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Sean</span><span class="e">Ends in 2h</span></span></button>
-    <button class="pin grp" data-pin="library" aria-label="Library Session" style="left:28px;top:402px"><span class="dot">${I('group',24)}</span><span class="lab"><span class="n">Library Session</span><span class="e">Ends in 1h 30m</span></span></button>
-    <div class="pin" style="left:315px;top:479px"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">You</span></span></div>`;
+  const pins=quiet?`<div class="pin" style="left:270px;top:482px"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">You</span></span></div>`:
+   `<button class="pin" data-pin="eileen" aria-label="Eileen" style="left:238px;top:232px"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Eileen</span><span class="e">Ends in 1h 15m</span></span></button>
+    <button class="pin" data-pin="sean" aria-label="Sean" style="left:42px;top:186px"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">Sean</span><span class="e">Ends in 2h</span></span></button>
+    <button class="pin grp" data-pin="library" aria-label="Library Session" style="left:84px;top:360px"><span class="dot">${I('group',24)}</span><span class="lab"><span class="n">Library Session</span><span class="e">Ends in 1h 30m</span></span></button>
+    <div class="pin" style="left:270px;top:482px"><span class="dot">${I('user',24)}</span><span class="lab"><span class="n">You</span></span></div>`;
   const cards=LIVE.map((L,i)=>`<div class="mapcard${i===S.card?' on':''}" data-card="${L.key}" role="group" aria-roledescription="slide" aria-label="${L.name}, ${i+1} of ${LIVE.length}"><span class="who">${I(L.icon,32)}</span><div class="meta"><span class="t20">${L.name}</span><span class="t12">${L.lines.join('<br>')}</span></div><div class="stack" style="gap:8px;flex:none"><button class="small blue" data-join="${L.key}">Join</button><button class="small line" data-view="${L.key}">View</button></div></div>`).join('');
   const card=quiet?
    `<div class="mapcard" style="flex-direction:column;align-items:stretch;gap:12px;top:auto;bottom:150px"><div class="stack" style="gap:4px"><span class="t20">Usually busy after 8 pm</span><span class="t12 mut" style="line-height:1.4">Sean and Eileen study at Hunt Library most weeknights. Start one now and friends nearby will see it.</span></div><button class="small blue" data-go="ask" style="height:40px">Start a public session</button></div>`:
@@ -762,7 +771,7 @@ challenge:{label:'Weekly challenge',html:()=>{
     <div class="stack" style="gap:10px">${mem.map(([n,h,w])=>`<${n==='You'?'div':`button data-friend="${n.toLowerCase()}"`} class="card stack" style="padding:10px;gap:10px;width:100%;text-align:left"><div style="display:flex;align-items:center;justify-content:space-between"><span style="display:flex;align-items:center;gap:20px"><span class="avatar">${I('user')}</span><span class="t16">${n}</span></span><span class="t16">${h}</span></div><div class="bar"><i style="width:${w/342*100}%"></i></div></${n==='You'?'div':'button'}>`).join('')}</div>
     <div style="position:relative;overflow:hidden;margin-top:20px;border:1px solid var(--line);border-radius:15px;padding:20px" class="stack">${G(220,-20,150,186,'#D9F4FF',31)}${G(170,0,120,90,'rgba(254,219,199,.5)',31)}<span class="t20" style="position:relative">3.3h left to hit the goal</span><span class="t16 mut" style="position:relative;margin-top:5px">Invite your friends and reach your goal</span><button class="btn primary" data-go="ask" style="position:relative;margin-top:16px">Start session now</button></div>
     <div class="t20" style="margin:30px 0 10px">Past challenges</div>
-    <div class="stack" style="gap:10px"><div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:14px"><span class="stack"><span class="t20">Last week</span><span class="t12 mut">10h/10h completed</span></span><span class="t20 accent">completed</span></div>
+    <div class="stack" style="gap:10px"><div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:14px"><span class="stack"><span class="t20">Last week</span><span class="t12 mut">10h/10h completed</span></span><span class="t20">completed</span></div>
       <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:14px"><span class="stack"><span class="t20">2 weeks ago</span><span class="t12 mut">7h/10h completed</span></span><span class="t20 mut">incomplete</span></div></div>
   </div></div><div class="fade-bottom"></div>`}},
 
@@ -773,7 +782,7 @@ history:{label:'Session history',html:()=>{
     <div style="display:flex;align-items:center;gap:25px">${back_}<h1 class="h1">Session History</h1></div>
     <div class="stack center" style="margin-top:20px;gap:5px"><span style="font-size:48px;line-height:56px;color:var(--ink)">30h</span><span class="t16 mut">Studied in total</span></div>
     <div style="display:flex;justify-content:space-between;margin-top:20px" class="t20"><span>This week</span><span>June 7–13th</span></div>
-    <div style="display:flex;gap:4.5px;align-items:flex-end;height:60px;margin-top:20px">${days.map(([d,h],i)=>`<div class="stack center" style="width:48px;gap:5px;justify-content:flex-end;height:100%"><span data-bar style="display:block;height:${Math.max(h,5.6)}px;border:.5px solid var(--ink);border-radius:2px;background:${h?`linear-gradient(${i>3?'180deg':'0deg'},#FEDBC7,#D9F4FF)`:'transparent'};transform-origin:bottom"></span><span class="t12">${d}</span></div>`).join('')}</div>
+    <div style="display:flex;gap:4.5px;align-items:flex-end;height:60px;margin-top:20px">${days.map(([d,h],i)=>`<div class="stack center" style="width:48px;gap:5px;justify-content:flex-end;height:100%"><span data-bar style="display:block;height:${Math.max(h,5.6)}px;border-radius:4px;background:${h?'linear-gradient(180deg,#FEDBC7,#D9F4FF)':'rgba(229,229,229,.5)'};transform-origin:bottom"></span><span class="t12 mut">${d}</span></div>`).join('')}</div>
     <div style="display:flex;justify-content:space-around;margin-top:20px">${[['8h','This week'],['4','Sessions'],['2h','Average']].map(([a,b])=>`<div class="stack center" style="gap:5px"><span class="t20">${a}</span><span class="t12 mut">${b}</span></div>`).join('')}</div>
     <div class="t20" style="margin:30px 0 10px">Sessions</div></div>
     <div class="scroll hlist" data-scroll style="position:relative;flex:1;min-height:0;padding:10px 20px 50px"><div class="stack" style="gap:10px">${ses.map(([s1,p,d,h,o,w])=>`<div class="card stack" style="padding:10px;gap:10px"><div style="display:flex;justify-content:space-between"><span class="stack" style="gap:5px"><span class="t16">${s1}</span><span class="t12 mut">${p} ⋅ ${d}</span></span><span class="stack" style="gap:5px;align-items:flex-end"><span class="t16">${h}</span><span class="t12 mut">${o}</span></span></div><div class="bar"><i style="width:${w}%"></i></div></div>`).join('')}</div></div>
@@ -782,19 +791,19 @@ history:{label:'Session history',html:()=>{
 streak:{label:'Streak lost',html:()=>`${LIGHT.cold}
   <div class="center" style="position:absolute;left:83px;right:83px;top:100px"><div class="h1">You went cold.</div><div class="t16 mut" style="margin-top:12px;line-height:1.4">Your 14 day streak is lost.<br>Your friends noticed.</div></div>
   <div style="position:absolute;left:89px;top:204px">${ART.ice}</div>
-  <div class="pad stack" style="top:430px;gap:20px">
-    <div style="display:flex;gap:50px;justify-content:center;padding:20px 10px;border-radius:15px;background:rgba(217,244,255,.5);border:1px solid rgba(255,255,255,.25)"><div class="stack center" style="gap:5px;width:110px"><span class="t16 mut">Streak lost</span><span class="mut" style="font-size:32px;text-decoration:line-through;text-decoration-thickness:1px">14 days</span></div><div class="stack center" style="gap:5px"><span class="t16">New streak</span><span style="font-size:32px">0 days</span></div></div>
-    <div class="stack center" style="gap:12px;padding:20px 10px;border-radius:15px;background:rgba(217,244,255,.5);border:1px solid rgba(255,255,255,.25)"><span class="t20">Rebuild it</span><span class="t16">Study 3 sessions in 3 days to get back on track!</span>
-      <div style="display:flex;gap:6px;justify-content:center;margin-top:6px">${[1,2,3].map(d=>`<div class="stack center" style="gap:5px"><span style="display:block;width:100px;height:6px;border-radius:4.5px;border:.5px solid var(--ink);background:${d===1?'linear-gradient(90deg,#FEDBC7,#D9F4FF)':'var(--bg)'}"></span><span class="t12">Day ${d}</span></div>`).join('')}</div></div>
+  <div class="pad stack" style="top:420px;gap:12px">
+    <div style="display:flex;gap:40px;justify-content:center;padding:20px 10px;border-radius:15px;background:rgba(217,244,255,.5);border:1px solid rgba(255,255,255,.25)"><div class="stack center" style="gap:5px;width:120px;white-space:nowrap"><span class="t16 mut">Streak lost</span><span class="mut" style="font-size:32px;text-decoration:line-through;text-decoration-thickness:1px">14 days</span></div><div class="stack center" style="gap:5px"><span class="t16">New streak</span><span style="font-size:32px">0 days</span></div></div>
+    <div class="stack center" style="gap:12px;padding:20px 10px;border-radius:15px;background:rgba(217,244,255,.5);border:1px solid rgba(255,255,255,.25)"><span class="t20">Rebuild it</span><span class="t16">Study 3 days in a row to get it back.</span>
+      <div style="display:flex;gap:6px;justify-content:center;margin-top:6px">${[1,2,3].map(d=>`<div class="stack center" style="gap:5px"><span style="display:block;width:100px;height:5px;border-radius:250px;background:${d===1?'linear-gradient(90deg,#FEDBC7,#D9F4FF)':'rgba(229,229,229,.5)'}"></span><span class="t12 mut">Day ${d}</span></div>`).join('')}</div></div>
   </div>
-  <div class="pad stack" style="bottom:50px;gap:20px"><button class="btn primary" data-go="ask">Start session now</button><button class="btn secondary" data-go="map" data-root>Maybe later</button></div>`},
+  <div class="pad stack" style="bottom:50px;gap:12px"><button class="btn primary" data-go="ask">Start session now</button><button class="btn secondary" data-go="map" data-root>Maybe later</button></div>`},
 
 milestone:{label:'Milestone reached',html:()=>`${LIGHT.cool}
   <div class="center t20" style="position:absolute;left:0;right:0;top:100px">Milestone reached</div>
   <div style="position:absolute;left:53px;top:174px;transform:scale(1.1);transform-origin:top left">${ART.popper('#D9F4FF','#FBFEFF','pb')}</div>
   <div class="pad stack" style="top:401px;gap:50px"><div class="stack center" style="gap:10px"><div class="h1">10 hours</div><div class="t20">You've put in some serious work.</div></div>
     <div class="stack" style="gap:20px"><div class="row" style="padding:10px"><span class="avatar">${I('user')}</span><span class="txt"><span class="a">Profile badge</span><span class="b">Shown on your pin and friends list</span></span></div>
-      <div class="card stack" style="padding:10px;gap:10px"><span class="t20 center">Next milestone</span><div style="display:flex;justify-content:space-between" class="t16"><span class="accent">10h to go</span><span>20 hours</span></div><div class="bar"><i style="width:50%"></i></div></div></div></div>
+      <div class="card stack" style="padding:10px;gap:10px"><span class="t20 center">Next milestone</span><div style="display:flex;justify-content:space-between" class="t16"><span class="mut">10h to go</span><span>20 hours</span></div><div class="bar"><i style="width:50%"></i></div></div></div></div>
   <div class="pad" style="bottom:50px"><button class="btn primary" data-go="map" data-root style="border-radius:250px;height:48px">Keep going</button></div>`}
 };
 
