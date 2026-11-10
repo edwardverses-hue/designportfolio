@@ -56,6 +56,10 @@
       <p class="hero-sub">Studying Design &amp; HCI @ Carnegie Mellon University</p>
       <a href="mailto:edwardchen530@gmail.com" class="pill-button">Get in touch</a>
     </div>
+    <!-- Stops the ink and the card film below it, as WCAG 2.2.2 asks of motion
+         that starts by itself and runs past five seconds. js/cvs-demos.js runs it,
+         as on the case studies. -->
+    <button type="button" class="motion-toggle lg-glass">Pause motion</button>
   </section>
 
   <!-- WORK -->
@@ -98,6 +102,7 @@
   <script src="js/hero-ink.js" defer></script>
   <script src="js/rain-hero.js" defer></script>
   <script src="js/hero-video.js" defer></script>
+  <script src="js/cvs-demos.js" defer></script>
   <!-- The dandelion field lives in js/dandelion.js and is kept for later. To
        put it back: load the script here, and add
        <canvas class="dandelion-field" aria-hidden="true"></canvas> as the
