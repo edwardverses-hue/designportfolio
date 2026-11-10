@@ -18,6 +18,9 @@
   var NAME = ['陈', '家', '志'];   // 陈 家 志
   var FONT = '"Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // The water holds still for a reader whose system asks for reduced motion,
+  // and while the page's Pause motion control is on (it sets this class).
+  function still() { return reduce || document.body.classList.contains('motion-paused'); }
 
   // Colour, measured off the reference: its inked pixels sorted into twelve
   // steps from paper to core, and the mean colour of each step, palest first.
@@ -332,15 +335,16 @@
       var vx = 0.42 * 0.17 * Math.cos(t * 0.17), vy = 0.22 * 0.29 * Math.cos(t * 0.29 + 1.0);
       if (false) this.queue.push({ p: [gx, gy], v: [vx * 420 * this.aspect, vy * 420], r: 0.004 });
     }
-    if (!reduce) this.step(dt, t);
+    var hold = still();
+    if (!hold) this.step(dt, t);
     this.run('show', null, { uDye: this.dye.r.t, uFilm: this.film.r.t, uVel: this.vel.r.t, uRamp: this.rampTex }, { uInk: INK, uFilmT: FILMT, uOpacity: this.opacity, uReveal: this.reveal, uCopy: this.copyBox, uAspect: this.aspect, uClear: this.clear }, [this.canvas.width, this.canvas.height]);
-    if (!reduce) this.kick();
+    if (!hold) this.kick();
   };
   Ink.prototype.kick = function () { var self = this; if (!this.raf && this.visible && !this.s.hidden) this.raf = requestAnimationFrame(function (n) { self.frame(n); }); };
 
   Ink.prototype.uv = function (e) { var r = this.s.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, 1 - (e.clientY - r.top) / r.height]; };
   Ink.prototype.move = function (e) {
-    if (this.s.hidden) return;
+    if (this.s.hidden || still()) return;
     var r = this.s.getBoundingClientRect();
     if (e.clientY < r.top || e.clientY > r.bottom) return;
     var p = this.uv(e);
@@ -352,6 +356,7 @@
   };
   Ink.prototype.press = function (e) {
     // a press stirs: four pushes around the point, turning the same way
+    if (still()) return;
     var p = this.uv(e), k = 0.018;
     this.queue.push({ p: [p[0] + k / this.aspect, p[1]], v: [0, 900], r: 0.0016 });
     this.queue.push({ p: [p[0] - k / this.aspect, p[1]], v: [0, -900], r: 0.0016 });
@@ -368,6 +373,9 @@
     window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { all.forEach(function (i) { if (!i.s.hidden) i.refresh(); }); }, 150); });
     var ready = document.fonts ? document.fonts.load('700 40px ' + FONT, NAME.join('')) : Promise.resolve();
     ready.then(function () { all.forEach(function (i) { if (!i.s.hidden) i.refresh(); }); });
+    // Play motion again: start the loop back up where it stopped.
+    new MutationObserver(function () { if (!still()) all.forEach(function (i) { i.last = 0; i.kick(); }); })
+      .observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
   window.heroInk = { refresh: function (section) { all.forEach(function (i) { if (i.s === section) i.refresh(); }); } };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

@@ -12,3 +12,10 @@
 .ink-canvas { position: absolute; inset: 0; z-index: 0; display: block; }
 .ink-hero .hero-copy { position: relative; z-index: 2; pointer-events: none; }
 .ink-hero .hero-copy a { pointer-events: auto; }
+
+/* The Pause motion control, in the hero's bottom-left corner, in line with
+   the logo. The page has no empty margin for it to stay fixed in, as it does
+   beside the case studies' rail, so it stays with the motion it stops. */
+.ink-hero .motion-toggle { position: absolute; z-index: 3; left: 56px; bottom: 24px; margin: 0; }
+@media (max-width: 900px) { .ink-hero .motion-toggle { left: 24px; } }
+@media (max-width: 600px) { .ink-hero .motion-toggle { left: 16px; bottom: 16px; } }

@@ -18,14 +18,26 @@
   var paused = false;
   var onPause = [];
 
+  // The label says what a press will do, Pause or Play, and that is the whole
+  // of its state: no aria-pressed as well, which would have a reader hear
+  // "Play motion, pressed". The choice is remembered on this browser, so a
+  // reader who stops the motion once finds it stopped on every page after.
+  var KEY = 'motion-paused';
   var toggle = document.querySelector('.motion-toggle');
+  function show() {
+    toggle.textContent = paused ? 'Play motion' : 'Pause motion';
+    document.body.classList.toggle('motion-paused', paused);
+  }
   if (toggle) {
     if (reduce) toggle.hidden = true;
+    else {
+      try { paused = localStorage.getItem(KEY) === '1'; } catch (e) {}
+      if (paused) show();
+    }
     toggle.addEventListener('click', function () {
       paused = !paused;
-      toggle.textContent = paused ? 'Play motion' : 'Pause motion';
-      toggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
-      document.body.classList.toggle('motion-paused', paused);
+      show();
+      try { localStorage.setItem(KEY, paused ? '1' : '0'); } catch (e) {}
       onPause.forEach(function (f) { f(); });
     });
   }
