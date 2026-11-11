@@ -19,8 +19,11 @@
   var FONT = '"Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // The water holds still for a reader whose system asks for reduced motion,
-  // and while the page's Pause motion control is on (it sets this class).
-  function still() { return reduce || document.body.classList.contains('motion-paused'); }
+  // and while the page's Pause motion control is on (it sets this class). It
+  // also holds while the loading screen's words come and go (js/intro.js sets
+  // intro-still): drawing the water under them made their fades stutter, and
+  // Butter, which the loading screen follows, stops its scene the same way.
+  function still() { return reduce || document.body.classList.contains('motion-paused') || document.documentElement.classList.contains('intro-still'); }
 
   // Colour, measured off the reference: its inked pixels sorted into twelve
   // steps from paper to core, and the mean colour of each step, palest first.
@@ -416,9 +419,11 @@
     window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { all.forEach(function (i) { if (!i.s.hidden) i.refresh(); }); }, 150); });
     var ready = document.fonts ? document.fonts.load('700 40px ' + FONT, NAME.join('')) : Promise.resolve();
     ready.then(function () { all.forEach(function (i) { if (!i.s.hidden) i.refresh(); }); });
-    // Play motion again: start the loop back up where it stopped.
-    new MutationObserver(function () { if (!still()) all.forEach(function (i) { i.last = 0; i.kick(); }); })
-      .observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    // Play motion again, or the loading screen gone: start the loop back up
+    // where it stopped.
+    var go = new MutationObserver(function () { if (!still()) all.forEach(function (i) { i.last = 0; i.kick(); }); });
+    go.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    go.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
   }
   window.heroInk = { refresh: function (section) { all.forEach(function (i) { if (i.s === section) i.refresh(); }); } };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

@@ -1915,6 +1915,73 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 2;
 }
 
+/* ---------- LOADING SCREEN ----------
+   After butter.video's, taken from its code: one line, its words faded in one
+   after another, held, faded out the same way, then the whole screen fades
+   to show the page. js/intro.js decides when it plays.
+
+   Butter's timings (GSAP): a second's wait; each word in over 0.4s, 0.03s
+   after the one before; 0.45s after the last is in, each out over 0.4s,
+   0.03s apart; then the screen out over 0.5s. Its two curves are its own
+   "in" and "out" eases. Its line is in its site's running text style and its
+   screen in its page's grey; this one takes this site's: the hero headline's
+   type on this page's white. For a line of --n words:
+     word i in:   1s + i*0.03s
+     word i out:  1s + (n-1)*0.03s + 0.4s + 0.45s + i*0.03s
+     screen out:  that for the last word, + 0.4s */
+.intro-screen {
+  display: none;
+}
+html.intro .intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;          /* over the page and header, under the cursor (10000) */
+  pointer-events: none;
+  background: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* A hair short of opaque, which can't be seen (under a quarter of a level
+     of colour). Fully opaque, the browser skips drawing the page beneath, and
+     has it all to draw at once the moment the fade begins, stalling the fade
+     for a fifth of a second or more. Like this the page is drawn while the
+     screen waits, before the words come. */
+  opacity: 0.999;
+  will-change: opacity;
+  animation: intro-hide 0.5s cubic-bezier(0.815, 0.005, 0.810, 0.195) calc(2.25s + 2 * (var(--n) - 1) * 0.03s) forwards;
+}
+/* Set as the hero headline the words come from (.hero-headline), as Butter
+   sets its line in its own running text style. */
+.intro-screen__line {
+  margin: 0;
+  font-family: 'Helvetica Neue', 'HelveticaNeue', 'Inter', 'Helvetica', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: #000000;
+}
+.intro-screen__line span {
+  /* each word a box of its own, so its fade runs on the compositor and
+     keeps going while the page underneath is still starting up */
+  display: inline-block;
+  opacity: 0;
+  will-change: opacity;
+  animation:
+    intro-word-in 0.4s cubic-bezier(0.815, 0.005, 0.810, 0.195) calc(1s + var(--i) * 0.03s) both,
+    intro-word-out 0.4s cubic-bezier(0.200, 0.715, 0.205, 0.990) calc(1.85s + (var(--n) - 1) * 0.03s + var(--i) * 0.03s) forwards;
+}
+@keyframes intro-word-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes intro-word-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes intro-hide { to { opacity: 0; } }
+/* As Butter does for reduced motion: the line shown whole, and the screen
+   fading straight away. */
+@media (prefers-reduced-motion: reduce) {
+  html.intro .intro-screen { animation-delay: 0s; }
+  .intro-screen__line span { animation: none; opacity: 1; }
+}
+
 /* Page transitions.
 
    The browser runs these itself, which is the whole point: a hand-rolled fade
