@@ -12,6 +12,36 @@
   var nav = document.querySelector('.nav');
   if (!nav) return;
 
+  // The thread (js/intro.js, js/hero-ink.js): the logo, clicked on any page
+  // but the home page, leaves a note of where it was clicked, as a share of
+  // the window, for the home page's ink to start its line from. A keyboard
+  // has no pointer, so it starts from the middle of the logo. The link then
+  // goes home as it always has.
+  var logo = nav.querySelector('.nav-logo');
+  var home = /\/(index\.html)?$/.test(location.pathname);
+  // On the home page itself the logo glides back to the top instead of
+  // loading the page again, so the ink carries on rather than starting over.
+  // The address drops any #work the Work link left, as the link's own
+  // address (index.html) has none. A new tab or window still opens normally.
+  if (logo && home) {
+    logo.addEventListener('click', function (e) {
+      if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // 'instant', not 'auto': auto takes the page's smooth scrolling
+      window.scrollTo({ top: 0, behavior: still ? 'instant' : 'smooth' });
+      if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
+    });
+  }
+  if (logo && !home) {
+    logo.addEventListener('click', function (e) {
+      if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;  // a new tab or window: no line
+      var x = e.clientX, y = e.clientY;
+      if (!e.detail) { var r = logo.getBoundingClientRect(); x = r.left + r.width / 2; y = r.top + r.height / 2; }
+      try { sessionStorage.setItem('inkThread', JSON.stringify({ x: x / innerWidth, y: y / innerHeight, at: Date.now() })); } catch (err) {}
+    });
+  }
+
   // The header's words drawn white in difference, as the cursor's "View" is,
   // so they come out black over light and white over dark by themselves.
   // Difference only reaches what shares a layer with the words, and the

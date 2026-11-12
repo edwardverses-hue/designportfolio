@@ -13,6 +13,30 @@
 .ink-hero .hero-copy { position: relative; z-index: 2; pointer-events: none; }
 .ink-hero .hero-copy a { pointer-events: auto; }
 
+/* The thread (js/hero-ink.js): the copy waits while the line of ink runs in,
+   then fades up where it is. html.thread is set before the first frame
+   (js/intro.js); thread-copy is added 0.9s into the line. */
+html.thread .ink-hero .hero-headline,
+html.thread .ink-hero .hero-sub,
+html.thread .ink-hero .pill-button,
+html.thread .ink-hero .motion-toggle { opacity: 0; transition: opacity 0.5s ease; }
+html.thread.thread-copy .ink-hero .hero-headline,
+html.thread.thread-copy .ink-hero .hero-sub,
+html.thread.thread-copy .ink-hero .pill-button,
+html.thread.thread-copy .ink-hero .motion-toggle { opacity: 1; }
+
+/* Arriving at the site, the name is written on an empty page (js/intro.js,
+   js/hero-ink.js): the header waits too, and comes up with the copy. */
+html.inkintro .nav,
+html.inkintro .nav-ghost { opacity: 0; transition: opacity 0.5s ease; }
+html.inkintro.thread-copy .nav,
+html.inkintro.thread-copy .nav-ghost { opacity: 1; }
+
+/* Hidden, they can't be clicked either, until they come up. */
+html.inkintro:not(.thread-copy) .nav,
+html.thread:not(.thread-copy) .ink-hero .pill-button,
+html.thread:not(.thread-copy) .ink-hero .motion-toggle { pointer-events: none; }
+
 /* The Pause motion control, in the hero's bottom-left corner, in line with
    the logo. The page has no empty margin for it to stay fixed in, as it does
    beside the case studies' rail, so it stays with the motion it stops. */
