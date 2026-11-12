@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en" class="type-wendy space-system">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TypePass — Edward Chen</title>
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <script src="../js/intro.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/page-transition.js"></script>
+</head>
+<body class="cap-page">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Edward Chen</a>
+    <div class="nav-center">
+      <a href="../index.html#work-typepass" class="is-current">Work</a>
+      <a href="../play.html">Play</a>
+    </div>
+    <a href="../about.html" class="nav-right">About</a>
+  </nav>
+
+  <!-- HERO IMAGE: two screens of the prototype, captured from it, until there
+       is a render. The ground is the Work card's grey, not the pale blue the
+       hero takes from Sessions' palette: TypePass has no blue, and the card
+       grows into this box without changing colour. -->
+  <section class="case-hero">
+    <div class="case-hero-image" style="background: var(--surface)">
+      <img src="../images/typepass/hero.png" srcset="../images/typepass/hero-1100.png 1100w, ../images/typepass/hero-2100.png 2100w, ../images/typepass/hero.png 3018w" sizes="(max-width: 600px) 100vw, 1050px" alt="Two phones running TypePass: the Library with Lapture in focus, and the Accessibility tab checking Lapture Display Regular for size, contrast and look-alikes" class="art-fit" style="view-transition-name: proj-typepass" />
+    </div>
+  </section>
+
+  <!-- TITLE + INTRO -->
+  <section class="case-intro">
+    <h1 class="case-title">TypePass</h1>
+    <p class="case-description">
+      An iOS app for trying a display typeface and checking whether it stays readable: contrast at each size, letters that look alike, and how large to set it on a sign.
+    </p>
+
+    <div class="case-meta">
+      <div class="meta-block">
+        <div class="meta-label">Timeline</div>
+        <div class="meta-value">2 weeks</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Team</div>
+        <div class="meta-value">Independent</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Product Designer</div>
+      </div>
+      <div class="meta-block">
+        <div class="meta-label">Focus</div>
+        <div class="meta-value">Mobile Design<br/>Interaction Design<br/>Accessibility</div>
+      </div>
+    </div>
+
+    <!-- Section jump links -->
+    <div class="case-toc">
+      <a href="#problem">Problem</a>
+      <a href="#research">Research</a>
+      <a href="#reframe">Reframe</a>
+      <a href="#process">Process</a>
+      <a href="#testing">Testing</a>
+      <a href="#system">Components</a>
+      <a href="#walkthrough">Design</a>
+      <a href="#reflections">Reflections</a>
+    </div>
+  </section>
+
+  <!-- PROBLEM: from the walkthrough video's opening captions (Figma file,
+       "video · walkthrough captions"), and the Text and Display cuts as JAF
+       describes them. -->
+  <section id="problem" class="cap-section">
+    <div class="cap-eyebrow">Problem</div>
+    <h2 class="cap-title">A specimen shows the letters, not whether they read</h2>
+    <p class="cap-body">
+      Pitching a typeface to a client on site, a PDF specimen shows the letters. It can't tell you if people can read them.
+    </p>
+
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>Text and Display sit apart</h3>
+        <p>Lapture's Display cut is drawn for large sizes and its Text cut for small text. Specimens list them as separate styles, never side by side.</p>
+      </div>
+      <div class="cap-card">
+        <h3>The guidance lives elsewhere</h3>
+        <p>Contrast, sign sizes and the letter pairs readers confuse all have published guidance. None of it is in the specimen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH: the competitive analysis from the Figma file's Competitive
+       Analysis page. The chart keeps the rows that describe the finished app;
+       the file's other rows (the camera, the client's storefront, real examples
+       in use, sending a preview) were the first concept's, and were cut. -->
+  <section id="research" class="cap-section">
+    <div class="cap-eyebrow">Research</div>
+    <h2 class="cap-title">Six specimens and apps, and what they leave out</h2>
+    <p class="cap-body">
+      I compared Lapture's foundry page and its Adobe Fonts listing with four apps designers already use for type: Typography Insight, WhatTheFont, Adobe Capture and Fontstand.
+    </p>
+
+    <figure class="cmp">
+      <div class="cmp-scroll">
+        <table class="cmp-table">
+          <thead>
+            <tr><th scope="col"><span class="cmp-sr">Feature</span></th><th scope="col">Typography<br/>Insight</th><th scope="col">JAF<br/>Lapture page</th><th scope="col">Adobe<br/>Fonts</th><th scope="col">What<br/>TheFont</th><th scope="col">Adobe<br/>Capture</th><th scope="col">Fontstand<br/>(iPad)</th><th scope="col" class="is-us">TypePass</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Works on a phone</th><td class="is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td><td class="is-q"><span aria-hidden="true">?</span><span class="cmp-sr">Not confirmed</span></td><td class="is-q"><span aria-hidden="true">?</span><span class="cmp-sr">Not confirmed</span></td><td class="is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td><td class="is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-us is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td></tr>
+            <tr><th scope="row">Type your own text</th><td class="is-q"><span aria-hidden="true">?</span><span class="cmp-sr">Not confirmed</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-q"><span aria-hidden="true">?</span><span class="cmp-sr">Not confirmed</span></td><td class="is-us is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td></tr>
+            <tr><th scope="row">Close look at letter anatomy</th><td class="is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-us is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td></tr>
+            <tr><th scope="row">Text and Display compared</th><td class="is-q"><span aria-hidden="true">?</span><span class="cmp-sr">Not confirmed</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-q"><span aria-hidden="true">?</span><span class="cmp-sr">Not confirmed</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg><span class="cmp-sr">Lacks</span></td><td class="is-us is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="cmp-sr">Has</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption class="cmp-key"><span class="is-y"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg> has</span><span class="is-n"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7"/></svg> lacks</span><span class="is-q">? not confirmed</span></figcaption>
+    </figure>
+
+    <h3 class="cap-moment">Tracing one task</h3>
+    <p class="cap-body">
+      Naming the font on Gmail's Compose button from a photo in WhatTheFont: the camera and its dashed boxes made the next step obvious, but nothing said which box to tap, and the top matches looked nothing like Gmail's sans.
+    </p>
+
+    <h3 class="cap-moment">Takeaway</h3>
+    <p class="cap-body">
+      Each covers a piece. Typography Insight looks closely at letters, Adobe Fonts lets you type your own text, and none compares Text and Display. TypePass puts them in one app on a phone, then adds the accessibility checks.
+    </p>
+
+    <p class="case-sources">
+      Sources:
+      <a href="https://justanotherfoundry.com/lapture" target="_blank" rel="noopener">Just Another Foundry, Lapture</a>;
+      <a href="https://fonts.adobe.com/fonts/jaf-lapture" target="_blank" rel="noopener">Adobe Fonts, JAF Lapture</a>;
+      App Store listings for Typography Insight, WhatTheFont, Adobe Capture and Fontstand for iPad. Checked October 27, 2026.
+    </p>
+  </section>
+
+  <!-- REFRAME: the first concept (the Figma file's low-fi page, "low fi camera
+       mockup idea") and why it was narrowed, in Edward's words: one strong
+       concept over a jack of all trades, and readability as the thing typeface
+       apps leave out. The quotes are the walkthrough video's own lines. -->
+  <section id="reframe" class="cap-section">
+    <div class="cap-eyebrow">Reframe</div>
+    <h2 class="cap-title">One strong idea instead of three</h2>
+    <p class="cap-body">
+      My first concept tried to cover all three opportunities: Lapture on the client's storefront through the camera, three checks, and a link to send the client mock-ups. It did a little of everything and nothing well. So I kept the one idea I hadn't seen typeface apps take on: whether the type is readable.
+    </p>
+    <figure class="full-image is-surface">
+      <a href="../images/typepass/process/first-concept.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/typepass/process/first-concept.png" width="3889" height="3228" alt="The first concept in low fidelity: eleven screens across Home, Chart, Check and In Use tabs, from starting a project with the client's name to three checks (Sign Distance, Old but Readable, Details), the name on a photo of the storefront, and a link of mock-ups sent to the client" /></a>
+    </figure>
+
+    <div class="reframe">
+      <p class="reframe-label">From</p>
+      <p class="reframe-text is-from">"Pitching a typeface to a client, on site."</p>
+      <p class="reframe-label">To</p>
+      <p class="reframe-text">"A specimen app that tells you if your typeface passes."</p>
+    </div>
+  </section>
+
+  <!-- PROCESS: the flow of the finished app (User Flow v7), the two features
+       cut on the way ("Process · cut features"), and two explorations from the
+       hi-fi page with the reasons noted beside them in the file. -->
+  <section id="process" class="cap-section">
+    <div class="cap-eyebrow">Process</div>
+    <h2 class="cap-title">Set it up in Library, check it in Accessibility</h2>
+    <p class="cap-body">
+      The flow took seven versions to get here. In the final one, you pick Lapture in Library and set its cut, weight and preview text, and Accessibility checks that same setup.
+    </p>
+    <figure class="full-image is-surface">
+      <a href="../images/typepass/Flow.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/typepass/Flow.png" width="3192" height="1566" alt="The app's flow: Library leads to search and filter and to the Lapture page, with Specimen, Characters, character detail and Credits; Accessibility leads to Size and contrast with its colour sheet, Look-alikes and Signage" /></a>
+    </figure>
+
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>Saving was cut</h3>
+        <p>An earlier version saved styles for Accessibility to check. Nothing else read the saved list, so Accessibility now checks what is set on the Lapture page.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Signage is always on</h3>
+        <p>Sign distance is the one opportunity I kept from the first concept, so it isn't hidden behind a switch.</p>
+      </div>
+    </div>
+
+    <h3 class="cap-moment">Five ways to pick a weight, then a sixth</h3>
+    <p class="cap-body">
+      I tried the weight picker as circles, a stepped slider, a list, a dial and a type strip. I kept a sixth: the letters do the comparing and only the pick gets a black circle, the same rule as the tab bar's black pill. One shape instead of five keeps the card quiet next to the specimen.
+    </p>
+    <figure class="full-image is-surface">
+      <a href="../images/typepass/process/weight-picker.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/typepass/process/weight-picker.png" width="3889" height="2009" alt="Six weight pickers on the Lapture page, each with notes: circles, a stepped slider, a weight list, a gauge dial, a type strip with a dot, and the chosen type with one black circle" /></a>
+    </figure>
+
+    <div class="split-row">
+      <div class="split-art">
+        <a href="../images/typepass/process/accessibility-cards.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/typepass/process/accessibility-cards.png" width="2174" height="3933" alt="Each Accessibility card drawn three ways with notes: look-alikes as tiles, ranked bars or overlaid pairs; size and contrast as two cards, one card or sample first; distance as a sentence, two numbers or letters at their ratio" /></a>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Three versions of each check</h3>
+        <p class="cap-body">Each Accessibility card went through three versions, judged against WCAG and the app's own rules. Look-alikes went from yellow tiles to ranked bars: the tiles showed risk by colour alone, and yellow already meant the live result. Size and contrast became one card, because WCAG's contrast rule depends on the size of the text.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTING: the hi-fi prototype tested in pairs in class. What Edward says
+       the feedback covered (microinteractions, shape language, onboarding), and
+       what changed, from the microinteractions spec, the squircle explorations
+       and the first concept's opening screens. -->
+  <section id="testing" class="cap-section">
+    <div class="cap-eyebrow">Testing</div>
+    <h2 class="cap-title">What testing in pairs changed</h2>
+    <p class="cap-body">
+      I tested the hi-fi prototype with classmates in pairs. Their feedback came down to three things.
+    </p>
+
+    <div class="cap-cards">
+      <div class="cap-card">
+        <h3>Microinteractions</h3>
+        <p>Every tap now gets a response. One spring runs almost everything, so the app feels like one thing, and a bouncier one is kept for things that pop in.</p>
+      </div>
+      <div class="cap-card">
+        <h3>One shape language</h3>
+        <p>Cards, rows and buttons now share one squircle corner, after I worked out what a squircle actually is.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Onboarding</h3>
+        <p>The app used to start by asking for a client's name. Now it opens straight on the Library.</p>
+      </div>
+    </div>
+
+    <figure class="full-image is-surface">
+      <a href="../images/typepass/process/squircle.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/typepass/process/squircle.png" width="3640" height="1640" alt="What a squircle actually is: a rounded rectangle, iOS's continuous corner, an icon-style squircle and a true superellipse, each drawn as an open card, a list pill and a square" /></a>
+    </figure>
+  </section>
+
+  <!-- COMPONENTS: the style guide's type and colour, then every part of the
+       finished screens, from the Figma file's components page. The copy is
+       the style guide's own rules. -->
+  <section id="system" class="cap-section">
+    <div class="cap-eyebrow">Components</div>
+    <h2 class="cap-title">Everything but Lapture stays in the background</h2>
+    <p class="cap-body">
+      The interface is set in SF Pro on greys. Lapture only appears where you're judging it: the specimens, the characters and the samples.
+    </p>
+
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>Yellow only means look here</h3>
+        <p>Paper, surface, ink and one highlighter. Yellow is the only accent, and it always sits under ink: the live result, a selection, a value you set.</p>
+      </div>
+      <div class="cap-card">
+        <h3>A mark must read without the yellow</h3>
+        <p>Anything the app points out is marked like a highlighter on a proof. If a mark doesn't read without the yellow, it is wrong.</p>
+      </div>
+    </div>
+
+    <div class="pos-flow is-single">
+      <figure class="pos-state">
+        <a class="pos-plate" href="../images/typepass/Identity.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/typepass/Identity.png" width="3200" height="2472" alt="Visual identity: SF Pro, with highlighter #FFE56B, surface #E8E8E8, paper #F4F4F4, ink #1C1C1C and line, ink at 48%" /></a>
+        <figcaption class="pos-state__cap">Type and colour</figcaption>
+      </figure>
+      <figure class="pos-state">
+        <a class="pos-plate" href="../images/typepass/kit/components.png" data-viewer data-cursor="view"><img loading="lazy" decoding="async" src="../images/typepass/kit/components.png" width="4067" height="2648" alt="The components: the floating tab bar on each tab, back, glass and in-content buttons; filter and view chips, the Display or Text style picker and the weight picker; search, preview text and Library rows; the Library card and the character card; and the Size and contrast, Look-alikes and Signage cards with the Text colour sheet" /></a>
+        <figcaption class="pos-state__cap">Components, on the colours they sit on</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- DESIGN BREAKDOWN: the working prototype, one moment per phone, in the
+       order someone meets them. Scenes are at the end of
+       typepass-prototype.html; js/cvs-demos.js plays them. -->
+  <section id="walkthrough" class="cap-section">
+    <div class="cap-eyebrow">Design Breakdown</div>
+    <h2 class="cap-title">Six moments, from the Library to a sign</h2>
+    <p class="cap-body">Each phone is the working prototype, looping one step.</p>
+    <p class="proto-open">
+      <a href="typepass-prototype.html" class="pill-button" target="_blank" rel="noopener" data-cursor="view">Open the full prototype</a>
+      <button type="button" class="motion-toggle lg-glass">Pause motion</button>
+    </p>
+
+    <div class="split-row has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen is-square">
+              <img class="proto-poster is-screen" src="../images/typepass/posters/library.png" alt="" aria-hidden="true" />
+              <iframe data-src="typepass-prototype.html?embed&amp;scene=library" title="Prototype: scrolling the typeface list, filtering to sans, then searching for Lapture" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Scroll, filter, then search</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Finding a typeface</h3>
+        <p class="cap-body">The Library opens on Lapture in focus. Scroll the stack, filter to Serif, Sans or Other, or search by name.</p>
+      </div>
+    </div>
+
+    <div class="split-row is-flipped has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen is-square">
+              <img class="proto-poster is-screen" src="../images/typepass/posters/specimen.png" alt="" aria-hidden="true" />
+              <iframe data-src="typepass-prototype.html?embed&amp;scene=specimen" title="Prototype: opening Lapture, choosing a weight, typing a preview, then switching to the Text cut" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">A weight, your own words, then Text</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Setting a style</h3>
+        <p class="cap-body">Pick one of five weights, type your own words, and switch between the Display cut for large sizes and the Text cut for small text. Text only has Regular and Bold, so the weights follow.</p>
+      </div>
+    </div>
+
+    <div class="split-row has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen is-square">
+              <img class="proto-poster is-screen" src="../images/typepass/posters/characters.png" alt="" aria-hidden="true" />
+              <iframe data-src="typepass-prototype.html?embed&amp;scene=characters" title="Prototype: the character grid, one letter up close, the next two, then Black" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">One letter, the next, then Black</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Every character</h3>
+        <p class="cap-body">The full character set in a grid. Tap one to see it large against its ascender, cap height, x-height, baseline and descender, then step to the next.</p>
+      </div>
+    </div>
+
+    <div class="split-row is-flipped has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen is-square">
+              <img class="proto-poster is-screen" src="../images/typepass/posters/contrast.png" alt="" aria-hidden="true" />
+              <iframe data-src="typepass-prototype.html?embed&amp;scene=contrast" title="Prototype: lightening the text colour until it fails, then taking the nearest colour that passes" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Too light, then the nearest pass</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Contrast</h3>
+        <p class="cap-body">Change the text or background colour and every size is checked against WCAG as you drag. When a colour fails, the app offers the nearest one that passes.</p>
+      </div>
+    </div>
+
+    <div class="split-row has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen is-square">
+              <img class="proto-poster is-screen" src="../images/typepass/posters/readability.png" alt="" aria-hidden="true" />
+              <iframe data-src="typepass-prototype.html?embed&amp;scene=readability" title="Prototype: all twelve look-alike pairs, then the sign&#8217;s cap height following the viewing distance" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Look-alikes, then distance and cap height</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Look-alikes and signage</h3>
+        <p class="cap-body">Look-alikes ranks the letter pairs readers most often confuse by how much they overlap in this style. Signage turns a viewing distance into a minimum cap height, from the ADA standard.</p>
+      </div>
+    </div>
+
+    <div class="split-row is-flipped has-title">
+      <div class="split-art is-phone">
+        <figure class="proto-demo">
+          <div class="proto-phone">
+            <div class="proto-screen is-square">
+              <img class="proto-poster is-screen" src="../images/typepass/posters/credits.png" alt="" aria-hidden="true" />
+              <iframe data-src="typepass-prototype.html?embed&amp;scene=credits" title="Prototype: opening Lapture&#8217;s credits and the sources behind the accessibility checks" loading="lazy"></iframe>
+            </div>
+            <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+          </div>
+          <figcaption class="proto-cap">Credits, and the sources behind the checks</figcaption>
+        </figure>
+      </div>
+      <div class="split-text">
+        <h3 class="cap-moment">Credits and sources</h3>
+        <p class="cap-body">Credits names Lapture&#8217;s designers and foundry, and the sources behind every check.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFLECTIONS: the limits the app states itself, on its Credits screen. -->
+  <section id="reflections" class="cap-section">
+    <div class="cap-eyebrow">Reflections</div>
+    <h2 class="cap-title">What the checks can't say yet</h2>
+    <p class="cap-body">Two limits are still open.</p>
+
+    <div class="cap-cards is-pair">
+      <div class="cap-card">
+        <h3>Look-alikes have no pass mark</h3>
+        <p>Scores come from overlapping each pair's letter shapes. There is no agreed cut-off, so pairs are ranked rather than passed or failed.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Scored on a stand-in</h3>
+        <p>Lapture comes from Adobe Fonts, which can't be put on a website, so the coded prototype uses Grenze. The look-alike scores were measured on Grenze, not Lapture.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT PROJECT -->
+  <section class="case-next">
+    <a href="../index.html" class="next-link">
+      <span class="next-label">Back to Work</span>
+      <span class="next-arrow">←</span>
+    </a>
+  </section>
+
+  <footer class="footer">
+    <p>© 2026 Edward Chen</p>
+  </footer>
+
+  <!-- A picture opened over the page, as on the Play page (js/viewer.js). -->
+  <div class="viewer" id="viewer" hidden tabindex="-1" role="dialog" aria-modal="true" aria-label="Enlarged view">
+    <button class="viewer-close" id="viewer-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <path d="M4.5 4.5 L15.5 15.5 M15.5 4.5 L4.5 15.5" />
+      </svg>
+    </button>
+    <figure class="viewer-frame">
+      <img id="viewer-img" alt="" />
+      <figcaption class="viewer-cap" id="viewer-cap"></figcaption>
+    </figure>
+  </div>
+  <script src="../js/nav.js" defer></script>
+  <script src="../js/liquid-glass.js" defer></script>
+  <script src="../js/cursor.js" defer></script>
+  <script src="../js/rail.js" defer></script>
+  <script src="../js/cvs-demos.js" defer></script>
+  <script src="../js/cvs-charts.js" defer></script>
+  <script src="../js/viewer.js" defer></script>
+</body>
+</html>

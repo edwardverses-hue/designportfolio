@@ -14,7 +14,8 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/hero-ink.css" />
   <!-- Hold the first paint until the last card is in the page, so a visit to
-       #work, #work-gemini or #work-sessions opens there rather than at the top. -->
+       #work, #work-gemini, #work-typepass or #work-sessions opens there rather
+       than at the top. -->
   <link rel="expect" href="#work-sessions" blocking="render" />
   <script src="js/page-transition.js"></script>
 </head>
@@ -84,6 +85,15 @@
       <div class="project-frame">
         <a href="work/gemini.html" class="project-card" style="view-transition-name: proj-gemini">
           <video class="hero-film is-fit" data-film src="images/gemini/hero.webm" poster="images/gemini/hero-poster.webp" muted playsinline preload="metadata" aria-label="Two phones on a Google G, each showing the redesigned Gemini home screen with its two stacks of suggestions"></video>
+        </a>
+      </div>
+    </div>
+
+    <div class="project" id="work-typepass">
+      <p class="project-label">TypePass</p>
+      <div class="project-frame">
+        <a href="work/typepass.html" class="project-card">
+          <img src="images/typepass/hero.png" srcset="images/typepass/hero-1100.png 1100w, images/typepass/hero-2100.png 2100w, images/typepass/hero.png 3018w" sizes="(max-width: 600px) 100vw, 1050px" alt="TypePass typeface app" class="art-fit" style="view-transition-name: proj-typepass" />
         </a>
       </div>
     </div>
