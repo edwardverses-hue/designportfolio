@@ -99,9 +99,11 @@
   // fit); the brush's pace along each stroke (a CSS cubic-bezier); its half
   // width as a share of a character's height; the ink across a stroke at its
   // densest; how much it moves the water (a share of the cursor's push);
-  // and the wet edge it leaves: film (the hero's pale wash) this many times
-  // the stroke's width, at this much across
-  var WRITE = { time: 2.2, base: 0.06, lift: 0.04, gap: 0.14, pace: [0.3, 0, 0.25, 1], half: 0.07, ink: 0.65, wake: 0, bleed: 3, wash: 0.3 };
+  // the wet edge it leaves: film (the hero's pale wash) this many times
+  // the stroke's width, at this much across; the lift's extra time per height
+  // the brush travels between strokes (none: measured, it made the writing
+  // less even); and the points to each span of a stroke's smoothed centre line
+  var WRITE = { time: 2.2, base: 0.06, lift: 0.04, gap: 0.14, pace: [0.3, 0, 0.25, 1], half: 0.07, ink: 0.65, wake: 0, bleed: 3, wash: 0.3, air: 0, curve: 6 };
   // The writing uncovers the hero's own ink, already running underneath, so
   // what is written is the hero itself and nothing changes shape after: the
   // brush paints a mask the ink shows through, its half width a share of a
@@ -111,7 +113,15 @@
   // over REVEAL.local seconds, out to REVEAL.reach of its box's half size
   // (localAmt across at its middle), so the last fade is only the wash far
   // from the letters.
-  var REVEAL = { half: 0.24, amt: 2.5, fill: 2.0, lead: 0, film: 10, local: 1.6, localAmt: 3, reach: 0.9 };
+  // What the brush uncovers soaks in over REVEAL.soak seconds (a time
+  // constant) rather than all at once. Measured frame by frame (60 fps) over
+  // the writing, against no soak, the wider brush (0.24) and straight
+  // strokes: the ink arriving each frame varied 0.81 times its mean, from
+  // 2.28; the change from one frame to the next fell from 0.94 to 0.21 of
+  // its mean; and the narrower brush shows only what has been written, where
+  // the wider one uncovered strokes before the brush reached them. The name
+  // reads the same once written (0.71, 0.70 at 4.2 and 8 seconds).
+  var REVEAL = { half: 0.18, amt: 2.5, fill: 2.0, lead: 0, film: 10, local: 1.6, localAmt: 3, reach: 0.9, soak: 0.1 };
   // During the writing the ink is pulled to the name harder than the hero's
   // usual pull, so the name it uncovers reads more clearly: READ.pull, the
   // point where readability stopped gaining (measured 0.25 to 2: 0.49, 0.63,
@@ -208,6 +218,10 @@
       '  f = mix(f, max(f, texture(uInk, vUv).r), 1. - exp(-uShed * uDt));\n' +
       '  f = mix(f, texture(uTarget, vUv).r, (1. - exp(-uPullT * uDt)) * front());\n' +
       '  o = vec4(f * exp(-uDecay * uDt), 0., 0., 1.); }',
+    // the writing's mask as seen: carried by the water as the painted one is,
+    // and soaking up to it (uK this frame), as ink takes a moment to sink in
+    soak: HEAD + 'uniform sampler2D uVel; uniform sampler2D uSrc; uniform sampler2D uTo; uniform vec2 uVelTexel; uniform float uDt; uniform float uK;\n' +
+      'void main(){ vec2 c = vUv - uDt * texture(uVel, vUv).xy * uVelTexel; o = vec4(mix(texture(uSrc, c).r, texture(uTo, vUv).r, uK), 0., 0., 1.); }',
     // the picture: how dark each point is, from paper (0) to core (1), read
     // through the reference's measured colours. The ink sets it; where there
     // is only film, it stays in the reference's palest steps.
@@ -553,6 +567,7 @@
         this.run('splat', this.mask.w, { uT: this.mask.r.t }, { uAspect: this.aspect, uPoint: q4.p, uColor: [q4.a, 0, 0], uRadius: q4.r }, D); this.mask.swap();
       }
       this.run('advect', this.mask.w, { uVel: this.vel.r.t, uSrc: this.mask.r.t }, { uVelTexel: vt, uDt: dt, uDiss: 0, uVisc: 0 }, D); this.mask.swap();
+      if (REVEAL.soak) { this.run('soak', this.seen.w, { uVel: this.vel.r.t, uSrc: this.seen.r.t, uTo: this.mask.r.t }, { uVelTexel: vt, uDt: dt, uK: 1 - Math.exp(-dt / REVEAL.soak) }, D); this.seen.swap(); }
     }
     this.marks.length = 0;
   };
@@ -592,7 +607,7 @@
     if (!hold && this.th) this.thread(dt);
     if (!hold) this.step(dt, t);
     var rv = this.th && this.th.reveal ? this.th : null;
-    this.run('show', null, { uDye: this.dye.r.t, uFilm: this.film.r.t, uVel: this.vel.r.t, uRamp: this.rampTex, uMask: rv ? this.mask.r.t : this.dye.r.t }, { uInk: INK, uFilmT: FILMT, uOpacity: this.opacity, uReveal: this.reveal, uCopy: this.copyBox, uAspect: this.aspect, uClear: this.clearNow == null ? this.clear : this.clearNow, uMaskOn: rv ? 1 : 0, uMaskAll: rv ? rv.all : 1, uMaskFilm: REVEAL.film }, [this.canvas.width, this.canvas.height]);
+    this.run('show', null, { uDye: this.dye.r.t, uFilm: this.film.r.t, uVel: this.vel.r.t, uRamp: this.rampTex, uMask: rv ? (REVEAL.soak ? this.seen : this.mask).r.t : this.dye.r.t }, { uInk: INK, uFilmT: FILMT, uOpacity: this.opacity, uReveal: this.reveal, uCopy: this.copyBox, uAspect: this.aspect, uClear: this.clearNow == null ? this.clear : this.clearNow, uMaskOn: rv ? 1 : 0, uMaskAll: rv ? rv.all : 1, uMaskFilm: REVEAL.film }, [this.canvas.width, this.canvas.height]);
     // in the thread the canvas shows at once, from its first, empty frame
     if (this.th && this.canvas.style.opacity === '0') { this.canvas.style.transition = 'none'; this.canvas.style.opacity = '1'; }
     if (!hold) this.kick();
@@ -662,14 +677,16 @@
   // The writing's plan: every stroke as points in the water, in order, with
   // its length (in heights, the splats' units) and when it starts and ends.
   Ink.prototype.plan = function () {
-    var self = this, A = this.aspect, raw = [], t = 0;
+    var self = this, A = this.aspect, raw = [], t = 0, last = null;
     HANZI.forEach(function (hz, k) {
       var ob = hz[0], gb = self.glyphs[k];
       if (k) t += WRITE.gap;
       hz[1].forEach(function (med, j) {
-        if (j) t += WRITE.lift;
         // the character's outline box onto the box the font draws it in
-        var pts = med.map(function (q) { return [gb[0] + (q[0] - ob[0]) / (ob[2] - ob[0]) * (gb[2] - gb[0]), gb[1] + (q[1] - ob[1]) / (ob[3] - ob[1]) * (gb[3] - gb[1])]; });
+        var pts = curve(med.map(function (q) { return [gb[0] + (q[0] - ob[0]) / (ob[2] - ob[0]) * (gb[2] - gb[0]), gb[1] + (q[1] - ob[1]) / (ob[3] - ob[1]) * (gb[3] - gb[1])]; }), A);
+        // the lift: a moment, and longer the further the brush has to travel
+        if (j) t += WRITE.lift + WRITE.air * Math.hypot((pts[0][0] - last[0]) * A, pts[0][1] - last[1]);
+        last = pts[pts.length - 1];
         var cum = [0];
         for (var i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot((pts[i][0] - pts[i - 1][0]) * A, pts[i][1] - pts[i - 1][1]));
         var len = cum[cum.length - 1], dur = WRITE.base + len;
@@ -681,6 +698,30 @@
     raw.forEach(function (s) { s.start *= k; s.dur *= k; });
     return raw;
   };
+  // A stroke's centre line through its points as a smooth curve (centripetal
+  // Catmull-Rom, WRITE.curve points to each span), so the brush turns its
+  // corners rather than snapping from one straight piece to the next.
+  function curve(P, A) {
+    var n = WRITE.curve; if (!n || P.length < 3) return P;
+    var out = [P[0]];
+    function d(a, b) { return Math.pow(Math.hypot((b[0] - a[0]) * A, b[1] - a[1]), 0.5) || 1e-6; }
+    for (var i = 0; i < P.length - 1; i++) {
+      var p0 = P[Math.max(0, i - 1)], p1 = P[i], p2 = P[i + 1], p3 = P[Math.min(P.length - 1, i + 2)];
+      if (i === 0) p0 = [2 * p1[0] - p2[0], 2 * p1[1] - p2[1]];
+      if (i === P.length - 2) p3 = [2 * p2[0] - p1[0], 2 * p2[1] - p1[1]];
+      var t1 = d(p0, p1), t2 = t1 + d(p1, p2), t3 = t2 + d(p2, p3);
+      for (var s = 1; s <= n; s++) {
+        var u = t1 + (t2 - t1) * s / n, q = [0, 0];
+        for (var c = 0; c < 2; c++) {
+          var a1 = ((t1 - u) * p0[c] + u * p1[c]) / t1, a2 = ((t2 - u) * p1[c] + (u - t1) * p2[c]) / (t2 - t1), a3 = ((t3 - u) * p2[c] + (u - t2) * p3[c]) / (t3 - t2);
+          var b1 = ((t2 - u) * a1 + u * a2) / t2, b2 = ((t3 - u) * a2 + (u - t1) * a3) / (t3 - t1);
+          q[c] = ((t2 - u) * b1 + (u - t1) * b2) / (t2 - t1);
+        }
+        out.push(q);
+      }
+    }
+    return out;
+  }
   // the point at length d along a stroke
   function along(s, d) {
     var c = s.cum, i = 1;
@@ -759,6 +800,10 @@
       var gm = this.gl;
       if (!this.mask || this.mask.r.w !== this.dyeW || this.mask.r.h !== this.dyeH) this.mask = this.double(this.dyeW, this.dyeH, gm.R16F, gm.RED);
       this.run('clear', this.mask.w, { uT: this.mask.r.t }, { uV: 0 }, [this.dyeW, this.dyeH]); this.mask.swap();
+      if (REVEAL.soak) {
+        if (!this.seen || this.seen.r.w !== this.dyeW || this.seen.r.h !== this.dyeH) this.seen = this.double(this.dyeW, this.dyeH, gm.R16F, gm.RED);
+        this.run('clear', this.seen.w, { uT: this.seen.r.t }, { uV: 0 }, [this.dyeW, this.dyeH]); this.seen.swap();
+      }
       this.th.reveal = true; this.th.all = 0; this.pullNow = READ.pull; this.pullBack = null;
       this.queue.length = 0; this.drops.length = 0; this.wash.length = 0; this.marks.length = 0;
       this.pullT = 0; this.grow = ALL; this.twin = null;

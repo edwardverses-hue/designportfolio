@@ -1,0 +1,1729 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>TypePass Prototype</title>
+<script>document.documentElement.classList.toggle('embed',new URLSearchParams(location.search).has('embed'));</script></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="typepass-proto/fonts.css">
+<style>
+/* one phone, centred. app palette: warm surface, white cards, ink, highlighter only marks things to notice (letters in your text, look-alike pairs) */
+:root{
+  --paper:#F4F4F4; --surface:#E8E8E8; --ink:#1C1C1C; --highlighter:#FFE56B;
+  --ui:-apple-system,"SF Pro Text","SF Pro",system-ui,"Helvetica Neue",Arial,sans-serif;
+  --glass:0 4px 16px rgba(0,0,0,.06),inset 1px 1px 0 rgba(255,255,255,.75),inset -1px -1px 0 rgba(255,255,255,.3),inset 0 0 0 .5px rgba(255,255,255,.35);
+  --glassbg:rgba(255,255,255,.12);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:var(--ui);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:14px}
+.stage{flex:1 1 auto;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+.device{position:relative;height:min(100%,852px);aspect-ratio:393/852;max-width:100%;border-radius:46px;overflow:hidden;background:var(--surface);
+  box-shadow:0 0 0 10px var(--ink),0 24px 60px rgba(1,13,1,.22)}
+.screen{position:absolute;left:0;top:0;width:393px;height:852px;transform-origin:0 0}
+.status{position:absolute;left:0;right:0;top:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 32px 0 46px;font:600 17px/1 var(--ui);z-index:50;pointer-events:none}
+/* status bar: the Figma Status Bar component (SF Pro 17 Semibold time, SF Symbols cellularbars, wifi, battery.100), outlined */
+/* the Dynamic Island, as the Sessions and CVS prototypes draw it (126 x 36, 11 from the top, round, black), centred on this 393 screen.
+   On the screen itself, above every page and sheet, so no page has to carry its own */
+#screen::after{content:"";position:absolute;left:133.5px;top:11px;width:126px;height:36px;border-radius:18px;background:#000;z-index:95;pointer-events:none}
+.status .r{display:flex;gap:6px;align-items:center}
+.status .bat{width:25px;height:12px;border-radius:4px;border:1.5px solid currentColor;position:relative}
+.status .bat::after{content:"";position:absolute;inset:1.5px;border-radius:2px;background:currentColor}
+header.top{position:absolute;left:16px;right:16px;top:58px;display:flex;align-items:flex-end;justify-content:space-between;z-index:20;pointer-events:none}
+header.top h1{margin:0;font:700 34px/41px var(--ui);letter-spacing:-.01em}
+header.top span{font:400 15px/20px var(--ui);padding-bottom:3px}
+/* the scroller only provides scroll + snap; rows are positioned from its scroll offset */
+.scroller{position:absolute;left:0;right:0;top:0;bottom:0;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;z-index:10;outline:none}
+.scroller::-webkit-scrollbar{display:none}
+.snap{height:60px;scroll-snap-align:start}
+.rows{position:absolute;inset:0;z-index:5;pointer-events:none;background:var(--surface)}
+.tools{position:absolute;left:0;right:0;top:106px;z-index:20}
+.search{margin:0 16px;height:44px;border-radius:22px;background:var(--glassbg);box-shadow:var(--glass);display:flex;align-items:center;gap:8.5px;padding:0 14px 0 15.5px}
+.search svg{flex:none}
+.search input{flex:1;min-width:0;border:0;background:transparent;font:400 17px/1 var(--ui);color:var(--ink);outline:none;height:44px}
+.search input::placeholder{color:var(--ink);opacity:1}.search input::-webkit-search-cancel-button,.search input::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
+.search:focus-within{box-shadow:0 0 0 2px var(--ink),var(--glass)}
+.search .clear{flex:none;width:44px;height:44px;margin-right:-11.5px;border:0;background:transparent;align-items:center;justify-content:center;cursor:pointer;color:var(--ink)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:8px 16px 8px;margin-top:0}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;height:36px;padding:0 16px;border-radius:18px;border:0;background:var(--glassbg);color:var(--ink);font:400 15px/1 var(--ui);box-shadow:var(--glass);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:600;box-shadow:none}
+.chip:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.edge{position:absolute;left:0;right:0;pointer-events:none;z-index:15}
+.edge.top{top:0;height:232px;background:linear-gradient(to bottom,rgba(232,232,232,.96) 0%,rgba(232,232,232,.9) 45%,rgba(232,232,232,.8) 80%,rgba(232,232,232,0) 100%);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(to bottom,#000 86%,transparent 100%);mask-image:linear-gradient(to bottom,#000 86%,transparent 100%)}
+.edge.bottom{bottom:0;height:150px;background:linear-gradient(to bottom,rgba(232,232,232,0) 0%,rgba(232,232,232,.35) 50%,rgba(232,232,232,.6) 100%);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 55%);mask-image:linear-gradient(to bottom,transparent 0%,#000 55%)}
+.empty{position:absolute;left:20px;right:20px;top:330px;text-align:center;font:400 17px/1.4 var(--ui);display:none;z-index:6}
+.row{position:absolute;left:0;top:0;will-change:transform;pointer-events:auto;cursor:pointer}
+.row .cb{position:absolute;inset:0;background:var(--paper);overflow:hidden;border-radius:inherit}
+.row .ic{position:absolute;left:8px;top:8px;width:36px;height:36px;border-radius:18px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:15px;line-height:1}
+.row .nm{position:absolute;left:54px;top:0;height:52px;display:flex;align-items:center;font-size:18px;line-height:1;white-space:nowrap}
+.row .cl{position:absolute;right:16px;top:0;height:52px;display:flex;align-items:center;font:400 13px/1 var(--ui)}
+.row .body{position:absolute;left:0;top:52px;right:0;bottom:0;opacity:0}
+.row .big{top:22px!important;left:24px!important;right:24px;font-size:150px!important;white-space:nowrap;overflow:hidden}
+.row .sample{top:152px!important;left:24px!important}
+.row .src{left:24px!important;bottom:24px!important;line-height:18px!important}
+.row .open{right:24px!important;bottom:15px!important}
+.row .big{position:absolute;left:20px;top:6px;font-size:120px;line-height:1}
+.row .sample{position:absolute;left:20px;top:142px;font-size:30px;line-height:1.1;white-space:nowrap}
+.row .src{position:absolute;left:20px;bottom:28px;font:400 13px/1 var(--ui);white-space:nowrap;max-width:269px;overflow:hidden;text-overflow:ellipsis}
+.row .open{position:absolute;right:16px;bottom:16px;width:36px;height:36px;padding:0;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:flex-end;cursor:pointer}
+.row .open:focus-visible{outline:0}.row::after{content:"";position:absolute;left:-5px;top:-5px;right:-5px;bottom:-5px;background:var(--ink);clip-path:var(--ring);opacity:0;pointer-events:none}.row:has(.open:focus-visible)::after{opacity:1} /* ring drawn from the card's own squircle */
+.nav{position:absolute;left:50%;bottom:34px;transform:translateX(-50%);display:flex;gap:4px;padding:4px;border-radius:28px;background:var(--glassbg);box-shadow:var(--glass);z-index:30}
+.nav .on{height:48px;padding:0 18px 0 16px;border-radius:24px;background:var(--ink);color:var(--paper);display:flex;align-items:center;gap:8px;font:600 15px/1 var(--ui)}
+.nav .on b{font:400 17px/1 var(--ui)}
+.nav .off{width:56px;height:48px;display:flex;align-items:center;justify-content:center;color:var(--ink)}
+.homebar{position:absolute;left:129.5px;bottom:9px;width:134px;height:5px;border-radius:3px;background:var(--ink);z-index:30}
+.detail{position:absolute;inset:0;z-index:60;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.detail img{display:block;width:100%;height:100%}
+.detail.on{opacity:1;pointer-events:auto}
+.detail button{position:absolute;left:14px;top:59px;width:44px;height:44px;border-radius:22px;border:0;background:transparent;cursor:pointer}
+.detail button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.note{margin:0;font-size:13px;text-align:center;max-width:34em}
+@media (prefers-reduced-motion:reduce){.detail{transition:none}}
+.acc{position:absolute;inset:0;background:var(--surface)}
+.acc .as{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none;padding:0 0 130px}
+.acc .as::-webkit-scrollbar{display:none}
+.acc .atop{position:absolute;left:0;right:0;top:0;height:60px;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(232,232,232,.96) 70%,rgba(232,232,232,0));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent);mask-image:linear-gradient(to bottom,#000 70%,transparent)}
+.acc .abot{position:absolute;left:0;right:0;bottom:0;height:130px;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(232,232,232,0),rgba(232,232,232,.6));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 55%);mask-image:linear-gradient(to bottom,transparent,#000 55%)}
+.acc .status{z-index:3}.acc .nav{z-index:3}
+.acc h2{margin:58px 16px 0;font:700 34px/41px var(--ui);letter-spacing:-.01em}
+.acc .ctx{display:inline-flex;align-items:center;gap:5px;margin:-8px 16px -12px;padding:12px 0;border:0;background:transparent;color:var(--ink);font:400 15px/20px var(--ui);cursor:pointer}.acc .ctx b{font-weight:600}.acc .ctx .sf{margin-left:2px}
+.acc .achips{display:flex;gap:8px;padding:16px 16px 0}
+.acc .afield{margin:16px 16px 0;height:44px;border-radius:22px;background:var(--glassbg);box-shadow:var(--glass);display:flex;align-items:center;gap:8.5px;padding:0 14px 0 15.5px}
+.acc .afield:focus-within{box-shadow:0 0 0 2px var(--ink),var(--glass)}
+.acc .afield input{flex:1;min-width:0;border:0;background:transparent;font:400 17px/1 var(--ui);color:var(--ink);outline:none;height:44px}
+.acc .afield input::placeholder{color:var(--ink);opacity:1}
+.acc .acard{margin:16px 16px 0;background:var(--paper);border-radius:36px;padding:20px}
+.acc .ah{display:flex;justify-content:space-between;align-items:baseline;font:600 15px/20px var(--ui);margin-bottom:16px}
+.acc .ah b{font:400 15px/20px var(--ui)}.acc .ah span{font-weight:400}
+.acc .pairs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.acc .pair{height:76px;border-radius:16px;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.acc .pair.watch{background:var(--highlighter)}
+.acc .pair i{font:600 26px/1 "Grenze",Georgia,serif;font-style:normal}
+.acc .pair small{font:400 12px/1 var(--ui)}
+.acc .note{font:400 13px/18px var(--ui);margin:12px 0 0;text-align:left;max-width:none}
+.acc .srow{display:grid;grid-template-columns:108px 1fr;align-items:center;min-height:34px}
+.acc .srow span{font:400 13px/1 var(--ui)}
+.acc .srow p{margin:0;font-family:"Grenze",Georgia,serif;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:filter .1s}
+.acc input[type=range]{padding:8px 0;box-sizing:content-box;margin:-8px 0!important;-webkit-appearance:none;appearance:none;width:100%;height:28px;background:transparent;margin:0}
+.acc input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(to right,var(--ink) var(--p,0%),var(--surface) var(--p,0%))}
+.acc input[type=range]::-moz-range-track{height:4px;border-radius:2px;background:var(--surface)}
+.acc input[type=range]::-moz-range-progress{height:4px;border-radius:2px;background:var(--ink)}
+.acc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--paper);box-shadow:0 2px 6px rgba(0,0,0,.18);margin-top:-10px}
+.acc input[type=range]::-moz-range-thumb{width:24px;height:24px;border:0;border-radius:50%;background:var(--paper);box-shadow:0 2px 6px rgba(0,0,0,.18)}
+.acc input[type=range]:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:8px}
+.acc .cprev{margin:0 0 6px;padding:14px 16px;border-radius:14px;font-family:"Grenze",Georgia,serif;font-size:17px;line-height:22px;font-weight:var(--wt,400)}
+.acc .crow{display:flex;align-items:center;gap:10px;min-height:48px;font:400 15px/1 var(--ui);position:relative;cursor:pointer}
+.acc .crow+.crow{margin-left:38px;padding-left:0}
+.acc .crow+.crow .sw{margin-left:-38px}
+.acc .sw{width:28px;height:28px;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.12);flex:none}
+.acc .crow em{margin-left:auto;font-style:normal;font-variant-numeric:tabular-nums}
+.acc .crow input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.acc .pass{font:400 13px/18px var(--ui);margin-top:8px}
+.acc .tgl{width:51px;height:31px;border-radius:16px;border:0;background:var(--surface);position:relative;cursor:pointer;padding:0;flex:none}
+.acc .tgl::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:var(--paper);box-shadow:0 2px 4px rgba(0,0,0,.15);transition:transform .2s}
+.acc .tgl[aria-checked="true"]{background:var(--ink)}.acc .tgl[aria-checked="true"]::after{transform:translateX(20px)}
+.acc .tgl:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.acc .dbig{font:700 28px/34px var(--ui)}
+.acc .drow{display:flex;justify-content:space-between;font:400 13px/18px var(--ui)}.acc .drow b{font-weight:400;font-variant-numeric:tabular-nums} /* same label row as Lightness in the colour sheet */.acc .dres{font:600 17px/22px var(--ui);margin-top:10px}
+.hs{position:absolute;background:transparent;border:0;padding:0;margin:0;cursor:pointer;border-radius:14px}
+.hs:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.flash .hs{background:rgba(255,229,107,.5)}
+.nav .off{cursor:pointer;border:0;background:transparent;font:inherit}
+.cred{position:absolute;inset:0;z-index:61;background:var(--surface)}
+.cred .cs{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}
+.cred .cs::-webkit-scrollbar{display:none}
+.cred .cs{padding:104px 16px 130px}
+.cred .cn{margin:0;font:600 56px/83px "Grenze",Georgia,serif}
+.cred .cby{margin:4px 0 0;font:600 17px/22px var(--ui)}
+.cred .caf{margin:2px 0 0;font:400 15px/20px var(--ui)}
+.cred .ccard{margin:16px 0 0;padding:20px 0 10px;background:var(--paper)}
+.cred .ch{margin:0 20px 6px;font:600 15px/20px var(--ui)} /* 6 + the row's 10 = the 16pt header gap used in every card */
+.cred .grp{list-style:none;margin:0;padding:0}
+.cred .grp a{display:flex;align-items:center;gap:12px;min-height:62px;padding:10px 20px 10px 20px;color:var(--ink);text-decoration:none;transition:background-color .15s ease}
+.cred .grp a:active{background:var(--surface)}
+.cred .grp a:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
+.cred .grp span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.cred .grp b{font:400 17px/22px var(--ui)}.cred .grp small{font:400 13px/18px var(--ui)}
+.cred .ailog li span{display:flex;flex-direction:column;gap:2px;min-height:62px;justify-content:center;padding:10px 20px 10px 20px}
+.cred .cnote{margin:2px 20px 10px;font:400 13px/18px var(--ui)} /* 12pt after the last row, 20pt to the card edge */
+.cred .ctl{position:absolute;left:0;right:0;top:70px;margin:0;text-align:center;font:600 17px/22px var(--ui);z-index:3;pointer-events:none}
+.cred .gb{z-index:3}
+.cred .nav{z-index:2}
+.cred .ctop{position:absolute;left:0;right:0;top:0;height:112px;z-index:2;pointer-events:none;background:linear-gradient(to bottom,rgba(232,232,232,.96) 70%,rgba(232,232,232,0));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent);mask-image:linear-gradient(to bottom,#000 70%,transparent)}
+.cred .status{z-index:3}
+
+/* ===== motion. springs are SwiftUI's spring(response:.5) at three dampings, sampled into CSS linear():
+   --sp  damping .825 (SwiftUI default spring)   --spb damping .7 (.bouncy)   --sps damping 1 (.smooth)   --spp response .25 (press) */
+:root{--sp:linear(0.0,0.0188,0.0671,0.1347,0.2137,0.298,0.383,0.4656,0.5435,0.6153,0.6801,0.7377,0.7881,0.8316,0.8685,0.8996,0.9253,0.9462,0.9631,0.9764,0.9868,0.9946,1.0004,1.0045,1.0073,1.009,1.0099,1.0102,1.01,1.0096,1.0089,1.0081,1.0072,1.0064,1.0055,1.0047,1.004,1.0033,1.0027,1.0022,1);--spt:0.653s;--spb:linear(0.0,0.0241,0.0861,0.1727,0.2731,0.3788,0.4837,0.5831,0.674,0.7546,0.824,0.8823,0.9298,0.9673,0.9959,1.0168,1.0311,1.0401,1.0447,1.046,1.0448,1.0419,1.0379,1.0333,1.0284,1.0236,1.0191,1.0149,1.0112,1.008,1.0054,1.0032,1.0015,1.0002,0.9992,0.9986,0.9981,0.9979,0.9979,0.9979,1);--spbt:0.738s;--sps:linear(0.0,0.02,0.0695,0.1365,0.2123,0.291,0.3687,0.4428,0.5119,0.575,0.632,0.6828,0.7277,0.7671,0.8014,0.8312,0.8569,0.8789,0.8978,0.9139,0.9276,0.9392,0.949,0.9573,0.9643,0.9702,0.9752,0.9793,0.9828,0.9857,0.9881,0.9901,0.9918,0.9932,0.9944,0.9953,0.9961,0.9968,0.9974,0.9978,1);--spst:0.683s;--spp:linear(0.0,0.0189,0.0671,0.1341,0.212,0.2948,0.3779,0.4584,0.5342,0.604,0.667,0.7231,0.7724,0.815,0.8515,0.8824,0.9083,0.9297,0.9472,0.9614,0.9727,0.9816,0.9886,0.9938,0.9977,1.0005,1.0025,1.0038,1.0046,1.0049,1.005,1.0049,1.0046,1.0043,1.0039,1.0035,1.0031,1.0027,1.0023,1.0019,1);--sppt:0.328s}
+.sf{display:block;flex:none}
+/* press feedback: glass grows and brightens (iOS 26 interactive glass), solid controls shrink a touch */
+[data-press]{transition:transform var(--sppt) var(--spp),background-color .2s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent}
+[data-press=text].down{opacity:.4} /* plain text buttons dim, like iOS */
+.cred .grp a.down{background:var(--surface)} /* list rows highlight like the Text and Background rows */
+[data-press=glass].down{transform:scale(1.08);background-color:rgba(255,255,255,.42)}
+[data-press=icon].down{transform:scale(.88)}
+[data-press=solid].down{transform:scale(.96)}
+.row .cb{transition:transform var(--sppt) var(--spp)}
+.row.down .cb{transform:scale(.97)}
+.search{transition:box-shadow .2s ease}
+.search .clear{display:flex;transform:scale(0);opacity:0;pointer-events:none;transition:transform .35s var(--spb),opacity .15s}
+.search.has .clear{transform:scale(1);opacity:1;pointer-events:auto}
+.chip{transition:transform var(--sppt) var(--spp)} /* selection swaps at once: a 250ms colour fade left both chips grey with dim yellow text, so neither read as selected */
+#chips .chip.down{transform:scale(1.08)}.vt .chip.down,#styChips .chip.down{transform:scale(.96)} /* same rule as the buttons: glass grows, solid shrinks */
+.status{z-index:90}.homebar{z-index:90}
+/* one tab bar for the whole app; the ink selection slides and resizes between tabs */
+.nav{z-index:80;height:56px;width:187px;gap:4px;transition:width var(--spt) var(--sp)}
+.nav .ind{position:absolute;left:4px;top:4px;height:48px;width:119px;border-radius:24px;background:var(--ink);transition:transform var(--spt) var(--sp),width var(--spt) var(--sp)}
+.nav .tab{position:relative;height:48px;border:0;background:transparent;padding:0;display:flex;align-items:center;color:var(--ink);font:600 15px/1 var(--ui);cursor:pointer;overflow:hidden;white-space:nowrap;border-radius:24px;flex:none;transition:width var(--spt) var(--sp),color .2s ease}
+.nav .tab .ico{flex:none;width:24px;height:24px;margin-left:16px;display:flex;align-items:center;justify-content:center}
+.nav .tab .lbl{margin-left:8px;opacity:0;transition:opacity .15s ease}
+.nav .tab[aria-selected=true]{color:var(--paper)}
+.nav .tab[aria-selected=true] .lbl{opacity:1;transition:opacity .25s ease .1s}
+.nav .tab:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.nav .tab.down .ico{transform:scale(.88)}.nav .tab .ico{transition:transform var(--sppt) var(--spp)}
+/* Lapture page, live (geometry from Figma 181:32 / 181:92) */
+.det{position:absolute;inset:0;z-index:60;background:var(--surface);visibility:hidden}
+.det.on{visibility:visible}
+.gb{position:absolute;top:59px;width:44px;height:44px;border-radius:22px;border:0;padding:0;background:var(--glassbg);box-shadow:var(--glass);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.gb:focus-visible,.tbar button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.det .back{left:16px}
+.tbar{position:absolute;left:281px;top:59px;width:96px;height:44px;display:flex;gap:8px}
+.tbar button{position:relative;width:44px;height:44px;border:0;background:var(--glassbg);box-shadow:var(--glass);border-radius:22px;padding:0;color:var(--ink);cursor:pointer}
+.tbar .sw{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .4s var(--spb),opacity .18s ease,filter .18s ease}
+.tbar .sw.out{transform:scale(.4);opacity:0;filter:blur(3px)}
+.tbar .aa{font:600 15px/1 var(--ui)}
+.tbar .bounce{animation:bounce .5s var(--sp)}
+@keyframes bounce{0%{transform:scale(1)}30%{transform:scale(.78)}65%{transform:scale(1.14)}100%{transform:scale(1)}}
+.card{position:absolute;}
+.card>.cb{position:absolute;inset:0;background:var(--paper)}
+.spec{left:16px;top:112px;width:361px;height:440px;border-radius:48px;transition:height .55s var(--sp)}
+.spec.tall{height:440px}
+.spec>.cb{transition:clip-path .55s var(--sp)}
+.vt{position:absolute;left:24px;top:76px;display:flex;gap:8px}
+.spec.tall .pf{opacity:0;pointer-events:none;transition:opacity .12s ease}.pf{transition:box-shadow .2s ease,opacity .2s ease .1s}
+.adj{transition:opacity .2s ease,transform .45s var(--sp)}.adj.away{opacity:0;transform:translateY(16px);pointer-events:none}
+.spec .tn{position:absolute;left:24px;top:24px;margin:0;font:600 30px/44px "Grenze",Georgia,serif}
+.spec .stb{position:absolute;left:259px;top:24px;width:94px;height:44px;border:0;border-radius:22px;background:transparent;padding:0 0 0 12px;display:flex;align-items:center;gap:4px;color:var(--ink);font:400 15px/1 var(--ui);cursor:pointer}
+.spec .stb:focus-visible{outline:3px solid var(--ink);outline-offset:-2px}
+.menu{position:absolute;right:16px;top:72px;width:244px;padding:0 0 6px;border-radius:22px;background:var(--glassbg);box-shadow:var(--glass),0 12px 32px rgba(0,0,0,.08);transform-origin:calc(100% - 30px) -10px;transform:scale(.4);opacity:0;pointer-events:none;z-index:5;
+  transition:transform .45s var(--sp),opacity .15s ease}
+.menu.on{transform:none;opacity:1;pointer-events:auto}
+.menu .mt{margin:0;padding:12px 16px 8px 40px;font:400 13px/18px var(--ui);box-shadow:inset 0 -.5px 0 rgba(28,28,28,.12)}
+.menu button{display:flex;align-items:center;width:100%;min-height:58px;border:0;background:transparent;padding:0 16px 0 0;font:400 17px/1 var(--ui);color:var(--ink);cursor:pointer;text-align:left}
+.menu button .ck{width:40px;display:flex;justify-content:center;visibility:hidden}
+.menu button[aria-checked=true] .ck{visibility:visible}
+.menu button.down,.menu button:focus-visible{background:rgba(0,0,0,.06);outline:0}.menu button:focus-visible{box-shadow:inset 0 0 0 3px var(--ink)}#scroller:focus-visible{box-shadow:inset 0 0 0 3px var(--ink)}
+.menu .mx{display:flex;flex-direction:column;gap:0;margin-top:-.5px} /* Figma 354:1235: label 17/22 at y8.5, subtitle 13/18 at y30 */
+.menu .mx{line-height:22px}
+/* glass edge from Figma: inner shadows 1,1 white 75%, -1,-1 white 30%, 0.5 inset white 35%, all on the squircle */
+.menu .medge{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}.menu>*:not(.medge){position:relative;z-index:1}.menu button small{font:400 13px/18px var(--ui)}
+.view{position:absolute;transition:opacity .2s ease .1s,transform .45s var(--sp)}
+.view.hide{opacity:0;transform:scale(.96);pointer-events:none;transition:opacity .12s ease,transform .45s var(--sp)} /* out fast, then in: the Aa and the letter grid never sit on top of each other */
+.aaV{left:0;top:0;width:361px;height:440px;pointer-events:none}
+.aaV .sx{position:absolute;left:0;right:0;top:126px;height:226px;display:flex;align-items:center;justify-content:center;white-space:nowrap;font-family:"Grenze",Georgia,serif;line-height:1}
+.aaV .sx span{position:absolute;transition:opacity .2s ease}
+.gridV{left:24px;top:124px;width:313px;height:300px;overflow-y:auto;scrollbar-width:none;padding:8px 0;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 10px,#000 calc(100% - 16px),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 10px,#000 calc(100% - 16px),transparent 100%)}
+.gridV::-webkit-scrollbar{display:none}
+.gridV .gh{margin:14px 0 4px;font:400 13px/18px var(--ui)}.gridV .gh:first-child{margin-top:4px}
+.gridV .g{display:grid;grid-template-columns:repeat(6,1fr);column-gap:4px;row-gap:4px} /* six columns across the card's 24pt insets, so headers line up with the title and chips at 40 */
+.gridV button{position:relative;width:100%;height:50px;border:0;border-radius:10px;background:transparent;padding:0;color:var(--ink);font-size:27px;font-family:"Grenze",Georgia,serif;cursor:pointer;transition:background-color .2s ease,transform var(--sppt) var(--spp)}
+.gridV button::after{content:"";position:absolute;left:calc(50% - 7px);top:41px;width:14px;height:2px;background:var(--ink);transform:scaleX(0);transition:transform .3s var(--sp)}
+.gridV button{isolation:isolate}.gridV button::before{content:"";position:absolute;inset:0;z-index:-1;background:transparent;clip-path:var(--cellsq);transition:background-color .2s ease}.gridV button.hit::before{background:var(--highlighter)} /* squircle, not a 10pt rounded rect */.gridV button.hit::after{transform:none}
+.gridV button.down{transform:scale(.9)}
+.gridV button:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.pf{position:absolute;left:24px;top:368px;width:313px;height:48px;border-radius:24px;background:var(--surface);display:flex;align-items:center;transition:box-shadow .2s ease}
+.pf:focus-within{box-shadow:0 0 0 2px var(--ink)}
+.pf .sf:first-child{margin-left:16px}
+.pf input{flex:1;min-width:0;height:48px;border:0;background:transparent;outline:0;margin-left:11px;font:400 17px/1 var(--ui);color:var(--ink)}
+.pf input::placeholder{color:var(--ink);opacity:1}
+.xc{flex:none;width:44px;height:44px;border:0;background:transparent;padding:0;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;transform:scale(0);opacity:0;pointer-events:none;transition:transform .35s var(--spb),opacity .15s}
+.has>.xc{transform:scale(1);opacity:1;pointer-events:auto}
+.adj{left:16px;top:568px;width:361px;height:154px;border-radius:36px} /* 20 + label 20 + 16 + picker 78 (names end at 62 + 16) + 20 */
+.adj .lb{position:absolute;left:20px;top:20px;font:600 15px/20px var(--ui)}
+.well{position:absolute;left:20px;top:56px;width:321px;height:76px;touch-action:none}
+.well .ind{position:absolute;left:0;top:0;width:56px;height:56px;border-radius:50%;background:var(--ink);transition:transform .5s var(--sp)}
+.well.drag .ind{transform-origin:center}
+.well button{position:absolute;top:0;width:56px;height:76px;border:0;background:transparent;border-radius:28px;padding:0;color:var(--ink);cursor:pointer}
+.well button[aria-checked=true] i{color:var(--ink)}
+/* the yellow Aa is a copy clipped to the ink thumb, so the highlight travels with the thumb instead of jumping ahead of it */
+.well .hl{position:absolute;left:0;top:0;width:100%;height:56px;pointer-events:none;z-index:2;clip-path:circle(28px at var(--cx,28px) 28px);transition:clip-path .5s var(--sp)}
+.well .hl i{position:absolute;top:0;width:56px;height:56px;font:22px/56px "Grenze",Georgia,serif;font-style:normal;text-align:center;color:var(--highlighter)}
+.well button[hidden]{display:none}
+.well button i{position:absolute;left:0;top:0;width:56px;height:56px;border-radius:50%;background:transparent;font:22px/56px "Grenze",Georgia,serif;font-style:normal;text-align:center;transition:color .2s ease,background-color .2s ease,transform var(--sppt) var(--spp)}
+.well button small{position:absolute;left:-8px;right:-8px;top:62px;font:400 12px/16px var(--ui);text-align:center}
+.well button[aria-checked=true] small{font-weight:600}
+.well button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.well button.down i,.well button.down small{transform:scale(.92)}
+.well button i,.well button small{transition:transform var(--sppt) var(--spp)}
+.cred{transform:translateX(393px);visibility:hidden;box-shadow:-8px 0 30px rgba(0,0,0,.08)}
+.cred.on{visibility:visible}
+.acc{display:block;visibility:hidden;z-index:62}
+.acc.on{visibility:visible}
+.acc .pass{display:flex;gap:14px;align-items:center}
+.acc .pass span{display:inline-flex;align-items:center;gap:5px}
+.acc .pass .mk{position:relative;width:11px;height:11px}
+.acc .pass .mk>span{position:absolute;inset:0;transition:transform .35s var(--spb),opacity .15s}.acc .pass .mk svg{position:absolute;inset:0;transition:transform .35s var(--spb),opacity .15s}
+.acc .pass .mk .no{transform:scale(.3);opacity:0}.acc .pass .ko .yes{transform:scale(.3);opacity:0}.acc .pass .ko .no{transform:none;opacity:1}
+.acc .tgl::after{transition:transform .3s var(--sp),width .2s var(--sp)}
+.acc .tgl.down::after{width:34px}.acc .tgl[aria-checked="true"].down::after{transform:translateX(13px)}
+.acc .tgl{transition:background-color .25s ease}
+.acc input[type=range]::-webkit-slider-thumb{transition:transform .25s var(--sp)}
+.acc input[type=range]:active::-webkit-slider-thumb{transform:scale(1.3)}
+.acc input[type=range]::-moz-range-thumb{transition:transform .25s var(--sp)}
+.acc input[type=range]:active::-moz-range-thumb{transform:scale(1.3)}
+.acc .crow{isolation:isolate}.acc .crow::before{content:"";position:absolute;inset:0;z-index:-1;background:transparent;clip-path:var(--sq);transition:background-color .15s ease}.acc .crow.down::before{background:var(--surface)} /* squircle, not a 12pt rounded rect */
+.exp{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--sp)}
+.exp>div{overflow:hidden;min-height:0}
+.exp.open{grid-template-rows:1fr}
+.acc .srow p{font-weight:var(--wt,400)}
+@media (prefers-reduced-motion:reduce){
+  [data-press].down,.row.down .cb,.nav .tab.down .ico,.chip.down{transform:none}
+  .view.hide{transform:none}.menu{transform:none}
+  .tbar .sw.out{transform:none;filter:none}.tbar .bounce{animation:none}
+  .nav,.nav .ind,.nav .tab,.well .ind,.exp,.gridV button::after{transition-duration:.01s}
+}
+
+/* yellow glow = the live result of your choices. centred on the glyph ink (ink sits at 24–88% of a Grenze line box), 1.2× its width, 1.6× its height */
+.lv{position:relative;z-index:0}
+.lv::before,.aaV .sx span::before{content:"";position:absolute;left:-10%;right:-10%;top:5%;bottom:-7%;z-index:-1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,229,107,.7),rgba(255,229,107,.32) 50%,rgba(255,229,107,0))}
+.row .big{overflow:visible!important} /* nothing to clip: bigFit keeps letters + glow inside the card, and a clip cut the glow into hard edges */
+.row .big .lv::before{opacity:var(--g,0)}
+.aaV .sx span{z-index:0}
+#device,#screen{overflow:clip}
+/* styles to check */
+.acc .sty{padding:12px 16px 0;margin:0}.acc .sty[hidden]{display:none}
+.acc .sty .chip{display:inline-flex;align-items:center;position:relative}
+.chip{position:relative}.chip::after{content:"";position:absolute;left:0;right:0;top:-4px;bottom:-4px} /* 44pt touch target (HIG), 36pt visual */
+.acc .sty .rmv{width:36px;padding:0;justify-content:center;margin-left:-4px}
+.acc #styNote{margin:8px 16px 0}
+.toast{position:absolute;left:50%;bottom:97px;z-index:85;height:44px;display:flex;align-items:center;gap:12px;padding:0 8px 0 18px;border-radius:22px;white-space:nowrap;
+  background:var(--glassbg);box-shadow:var(--glass),0 12px 32px rgba(0,0,0,.08);
+  font:400 15px/1 var(--ui);color:var(--ink);transform:translate(-50%,16px) scale(.96);opacity:0;pointer-events:none;transition:transform .5s var(--sp),opacity .2s ease}
+.toast.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+.toast button{height:32px;padding:0 12px;border:0;border-radius:16px;background:var(--ink);color:var(--paper);font:600 15px/1 var(--ui);cursor:pointer}
+.toast button[hidden]{display:none}
+
+/* clear glass everywhere (no frost). refraction follows aave's "building glass for the web": a displacement map bends what's under the rim, blur 0,
+   rim light at 45°. Chromium renders the bend; other browsers fall back to the same clear glass without it */
+#styleMenu{-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}#styleMenu.lens{backdrop-filter:url(#lensMenu) blur(6px)}
+/* while the menu is open the specimen steps back, so menu text sits on paper instead of on the black letters */
+.aaV,.gridV{transition:opacity .2s ease .1s,transform .45s var(--sp)}.aaV.hide,.gridV.hide{transition:opacity .12s ease,transform .45s var(--sp)}
+.vt{transition:opacity .25s ease}
+
+
+.gly{z-index:61}
+.gly .cs{padding:0}
+.gcard{left:16px;top:112px;width:361px;height:420px;border-radius:48px} /* hugs its content: 24 + drawing area 204 + 24 + weight row 76 + 24 + arrows 44 + 24 = 420 */
+.gcard #gSvg{position:absolute;left:0;top:0}
+/* the same weight picker as the Lapture page, showing this character in each weight; 24pt below the deepest glyph and 24pt above the arrows (252 + 76 = 328 = 352 - 24) */
+.gcard .gwell{left:24px;top:252px;width:313px}
+.gnav .gb:disabled{opacity:.35}
+.gcard svg text.lbl{font:400 12px var(--ui);fill:var(--ink)}
+.gcard svg line{stroke:var(--ink);stroke-opacity:.18;stroke-width:1}
+.gcard svg line.base{stroke-opacity:.45}
+.gnav{position:absolute;left:24px;right:24px;bottom:24px;display:flex;align-items:center;justify-content:space-between}
+.gnav .gb{position:static}
+.gnav span{font:400 15px/20px var(--ui)}
+.gly .ginfo{position:absolute;left:16px;top:568px;width:361px}
+.gly .ginfo li{display:block;min-height:auto}
+.gly .ginfo li span{display:flex;justify-content:space-between;align-items:center;padding:13px 20px 13px 20px}
+
+.gly .ginfo small{font:400 15px/20px var(--ui)}.gly .ginfo b{font:400 15px/20px var(--ui);text-align:right}
+.gly .grp span{flex-direction:row}
+
+/* look-alikes as ranked bars */
+.acc .pairs{display:block}
+.acc .pairs .pg{margin:6px 0 4px;font:400 13px/18px var(--ui)}
+.acc .pairs .pg:not(:first-child){margin-top:14px}
+.acc .pairs ul{list-style:none;margin:0;padding:0}
+.acc .pr{display:grid;grid-template-columns:64px 1fr 44px;align-items:center;gap:10px;height:30px}
+.acc .pr.big{height:34px}
+.acc .pr i{font-family:"Grenze",Georgia,serif;font-style:normal;font-size:18px;line-height:1}
+.acc .pr.big i{font-size:22px}
+.acc .pr .bar{height:6px;border-radius:3px;background:var(--surface);overflow:hidden}
+.acc .pr .bar span{display:block;height:100%;border-radius:3px;background:var(--ink);transition:width .45s var(--sp)}
+.acc .pr b{font:400 13px/1 var(--ui);text-align:right}.acc .pr.big b{font-weight:600}
+/* size × contrast */
+.acc .well2{margin:2px 0 10px;padding:6px 14px;border-radius:16px}
+.acc .sz{display:grid;grid-template-columns:88px 1fr 18px;align-items:center;min-height:40px;gap:8px}
+.acc .sz span{font:400 12px/16px var(--ui);white-space:nowrap}
+.acc .sz p{margin:0;font-family:"Grenze",Georgia,serif;font-weight:var(--wt,400);white-space:nowrap;overflow:hidden;line-height:1.15}
+.acc .sz .mk{position:relative;width:11px;height:11px;justify-self:end;margin-right:1.3px}
+.acc .sz .mk>span{position:absolute;inset:0;transition:transform .35s var(--spb),opacity .15s}
+.acc .sz .mk .no{transform:scale(.3);opacity:0}.acc .sz.ko .mk .yes{transform:scale(.3);opacity:0}.acc .sz.ko .mk .no{transform:none;opacity:1}
+.acc .sw{box-shadow:0 0 0 3px var(--surface)}
+/* distance as two numbers */
+.acc .dtiles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.acc .dtile{background:var(--surface);border-radius:16px;padding:12px 14px}
+.acc .dtile small{display:block;font:400 13px/18px var(--ui)}.acc .dtile b{display:block;margin-top:4px;font:700 22px/28px var(--ui)}
+
+/* content layer: no glass (HIG). glass stays on nav layer only */
+.vt .chip:not([aria-pressed="true"]),.gnav .gb,#styChips .chip:not([aria-pressed="true"]),#styChips button{background:rgba(28,28,28,.06);box-shadow:none}
+.acc .afield{background:var(--paper);}
+@media (prefers-reduced-motion:no-preference){.menu{transform-origin:calc(100% - 30px) -28px;transform:scale(.15)}}
+.acc .atop{position:absolute;left:0;right:0;top:0;height:64px;z-index:25;pointer-events:none;background:linear-gradient(to bottom,rgba(232,232,232,.96) 70%,rgba(232,232,232,0));-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent);mask-image:linear-gradient(to bottom,#000 70%,transparent)}
+#detSave[aria-pressed="true"]{background:var(--ink);color:var(--paper);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+
+.sqb{position:relative;isolation:isolate;background:transparent!important}
+.sqb::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--sqbg,var(--paper));clip-path:var(--sq);pointer-events:none}
+#detSave,#styChips,#styNote{display:none!important}
+.tbar{left:333px;width:44px}
+
+/* WCAG pass */
+.vt .chip[data-on="true"]{background:var(--ink)!important;color:var(--paper);font-weight:600;box-shadow:none}
+/* 1.4.11: off switch and empty slider track need 3:1 against the card (ink 48% on #F4F4F4 = 3.0:1) */
+.acc .tgl{background:rgba(28,28,28,.48)}
+.acc input[type=range]::-webkit-slider-runnable-track{background:linear-gradient(to right,var(--ink) var(--p,0%),rgba(28,28,28,.48) var(--p,0%))}
+.acc input[type=range]::-moz-range-track{background:rgba(28,28,28,.48)}
+/* 2.4.11: focused items never hide under the floating tab bar */
+#accScroll,#credScroll{scroll-padding-top:110px;scroll-padding-bottom:130px}
+/* bottom edge behind the tab bar on the scrolling tabs, as in Figma */
+.acc .abot,.cred .cbot{position:absolute;left:0;right:0;bottom:0;height:150px;z-index:25;pointer-events:none;background:linear-gradient(to bottom,rgba(232,232,232,0) 0%,rgba(232,232,232,.35) 50%,rgba(232,232,232,.6) 100%);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 55%);mask-image:linear-gradient(to bottom,transparent 0%,#000 55%)}
+
+.gly .ginfo.grp,.gly ul.ginfo{padding:6px 0}
+/* Chrome clips a backdrop-filter to border-radius, not to clip-path: 26px is the round corner that stays inside the 22 squircle (pokes out 0.37px at most, under the 1px rim) */
+#styleMenu.sqb{position:absolute;border-radius:26px;box-shadow:none;clip-path:var(--sq)}.menu.msh{background:none;box-shadow:none;padding:0;overflow:visible;pointer-events:none!important;z-index:4}.menu.msh.on{pointer-events:none}
+
+/* card audit: E cut to the Unicode next to the counter; J tiles lose their boxes; I has no switch */
+.gly .ginfo{display:none!important}
+#dTgl,#dHint{display:none!important}
+.acc .dtile{background:none!important;padding:0!important;clip-path:none!important}
+.acc .dtiles{margin-top:16px}
+
+/* colour sheet: the app's own floating material (the style menu's white glass), 16pt screen margins, controls from the design system
+   (glass close button, pill field like Search, the Viewing distance slider, a black pill for the one action) */
+.acc .crow{width:100%;border:0;background:none;padding:0;color:var(--ink);text-align:left}
+.acc .crow+.crow{width:calc(100% - 38px)}
+.csheet{position:absolute;left:0;right:0;bottom:0;height:300px;z-index:70;transform:translateY(105%);transition:transform .5s var(--sp),visibility 0s .5s;visibility:hidden;outline:none}
+.csheet.on{transform:none;visibility:visible;transition:transform .5s var(--sp)}
+.csheet::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);clip-path:var(--sq);pointer-events:none}
+.csheet .cst{position:absolute;left:76px;right:76px;top:16px;height:44px;margin:0;display:flex;align-items:center;justify-content:center;font:600 17px/22px var(--ui)}
+.csheet .csx{position:absolute;top:16px;right:16px}
+.csfield{position:absolute;left:16px;right:16px;top:76px;height:44px;border-radius:22px;background:rgba(28,28,28,.06);display:flex;align-items:center;padding:0 14px;gap:4px;font:400 17px/22px var(--ui)}
+.csfield input{flex:1;min-width:0;height:44px;border:0;background:transparent;outline:none;font:400 17px/22px var(--ui);color:var(--ink);text-transform:uppercase;font-variant-numeric:tabular-nums}
+.csfield:focus-within{box-shadow:0 0 0 2px var(--ink)}
+.csrow{position:absolute;left:16px;right:16px;top:136px;display:flex;justify-content:space-between;font:400 13px/18px var(--ui)}
+.csrow b{font-weight:400;font-variant-numeric:tabular-nums}
+.acc .csheet input[type=range]{position:absolute;left:16px;width:361px;top:158px}
+.csfix,.csok{position:absolute;left:16px;right:16px;top:206px;height:44px;margin:0;border-radius:22px;display:flex;align-items:center;justify-content:center;gap:6px;font:600 15px/20px var(--ui)}
+.csfix{border:0;background:var(--ink);color:var(--paper);cursor:pointer}
+.csok{font-weight:400}
+/* the fix button and the pass line trade places with a short fade instead of popping while you drag */
+.csfix,.csok{transition:opacity .15s ease,transform var(--sppt) var(--spp)}.csfix.off,.csok.off{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .15s ease,visibility 0s .15s}
+.csheet{z-index:85} /* above the tab bar, so the bar never sits on the rising sheet */
+.csheet [hidden]{display:none!important}
+.nav.undersheet{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(24px);transition:opacity .06s ease,transform .5s var(--sp)}
+/* the sheet lives inside the Accessibility page, under the bar, so the bar has to be gone before the sheet's edge reaches it (~50ms)
+   and only comes back once the sheet has slid past it on the way down */
+.nav{transition:width var(--spt) var(--sp),opacity .2s ease .22s,transform .5s var(--sp)} /* the sheet covers the tab bar, as iOS sheets do */
+
+/* distance ticks: one per metre across the card, a taller tick every 5 m, the current one tallest.
+   Ticks up to the distance are ink; the rest are ink 48% (3 : 1 on paper, WCAG 1.4.11). The value rides above in a black pill. */
+.acc .dticks{position:relative;margin-top:42px;height:32px;outline:none;touch-action:pan-y;cursor:pointer;user-select:none;-webkit-user-select:none}
+.acc .dticks::before{content:"";position:absolute;left:0;right:0;top:-6px;bottom:-6px} /* 44pt touch target */
+.acc .dticks:focus-visible{box-shadow:0 0 0 2px var(--ink);border-radius:4px}
+.acc .dticks i{position:absolute;width:2px;margin-left:-1px;border-radius:1px;background:rgba(28,28,28,.48);transition:height .25s var(--sp),top .25s var(--sp),background-color .15s ease}
+.acc .dticks i.on{background:var(--ink)}
+.acc .dbadge{position:absolute;top:-34px;height:28px;padding:0 10px;border-radius:14px;background:var(--ink);color:var(--paper);font:600 13px/28px var(--ui);white-space:nowrap;transform:translateX(-50%);transition:left .25s var(--sp);font-variant-numeric:tabular-nums;pointer-events:none}
+.acc .dends{display:flex;justify-content:space-between;margin-top:6px;font:400 13px/18px var(--ui)}
+
+
+/* Lightness slider, built only from parts the app already has:
+   track = a 361 x 44 capsule like the hex field above it (and Search), filled with this hue's own lightness ramp;
+   handle = the colour-row swatch (28pt colour inside a 3pt ring), inset in the track like the tab bar's thumb; the ring is
+   surface #E8E8E8 like the rows, or ink when the colour is light, whichever stands out more from the colour under it;
+   pass range = the Look-alikes bar (6pt, surface rail, ink fill) with a 13/18 caption like the Signage slider's ends. */
+.csheet{height:356px}
+.cstrack{position:absolute;left:16px;width:361px;top:162px;height:44px;border-radius:22px;background:var(--ramp,#888);pointer-events:none}
+.acc .csheet input[type=range]{-webkit-appearance:none;appearance:none;left:24px;width:345px;top:162px;height:44px;margin:0;background:transparent;cursor:pointer}
+.acc .csheet input[type=range]::-webkit-slider-runnable-track{height:44px;background:transparent}
+.acc .csheet input[type=range]::-moz-range-track{height:44px;background:transparent}
+.acc .csheet input[type=range]::-moz-range-progress{background:transparent}
+.acc .csheet input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:8px;border-radius:50%;background:var(--c,#1c1c1c);box-shadow:0 0 0 3px var(--ring,var(--surface))}
+.acc .csheet input[type=range]::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:50%;background:var(--c,#1c1c1c);box-shadow:0 0 0 3px var(--ring,var(--surface))}
+.acc .csheet input[type=range]:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:22px}
+.cspass{position:absolute;left:16px;width:361px;top:218px;height:28px;pointer-events:none}
+.cspass .rail{position:absolute;left:0;right:0;top:0;height:6px;border-radius:3px;background:var(--surface)}
+.cspass i{position:absolute;top:0;height:6px;border-radius:3px;background:var(--ink)}
+.cspass span{position:absolute;top:10px;font:400 13px/18px var(--ui);white-space:nowrap}
+.csfix,.csok{top:262px}
+
+.acc .lamore{display:flex;align-items:center;justify-content:center;width:100%;height:44px;margin:12px 0 0;border:0;border-radius:22px;background:rgba(28,28,28,.06);color:var(--ink);font:400 15px/20px var(--ui);cursor:pointer} /* same pill as the hex field and Preview text */
+.acc .lamore:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+/* ===== SELECTED = YELLOW (one block, easy to revert) =====
+   Whatever is selected is filled ink; its label or icon is drawn in the highlighter yellow (#FFE56B on #1C1C1C, 13.6 : 1, AAA),
+   the way iOS draws the selected tab in the app's tint colour. Only selections: value badges, the "Use #…" action and the toast
+   button stay paper. The yellow glow behind the specimen stays: it marks the live result of these same choices. */
+.chip[aria-pressed="true"],.vt .chip[data-on="true"],.nav .tab[aria-selected=true],#detSave[aria-pressed="true"]{color:var(--highlighter)}
+/* the Signage badge is the value you picked on that slider, the same job as the weight thumb */
+.acc .dbadge{color:var(--highlighter)}
+.acc .dticks.drag .dbadge{transition:left .08s linear} /* a tap glides; a drag keeps up with the finger instead of trailing it by a quarter second */
+/* ===== end SELECTED = YELLOW ===== */
+
+/* line breaks: every wrapped line in the app is chosen, not left to chance. Short notes are balanced so no line is a stub,
+   longer text avoids a short last line, and values like "3 : 1", "17 pt" and "10 m" never split (see nbspPass) */
+#screen{text-wrap-style:pretty}
+#screen .note,#screen .cnote,#screen .dhint,#screen [class*="note"],#screen .acc p,#screen .cred p,#screen .ginfo small{text-wrap:balance}
+/* SF Symbols centre the advance box, not the ink: chevron.left draws 1pt left of centre, chevron.right 1pt right */
+#back svg,#glyBack svg,#credBack svg,#gPrev svg{transform:translateX(-1px)}#gNext svg{transform:translateX(1px)}
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="s-chevron-left" viewBox="0 0 9 15"><path fill="currentColor" d="M0 7.4541C0.00553385 7.28255 0.038737 7.12484 0.0996094 6.98096C0.166016 6.83708 0.265625 6.69873 0.398438 6.56592L6.79004 0.31543C7.00033 0.105143 7.25765 0 7.56201 0C7.7723 0 7.96045 0.0498047 8.12646 0.149414C8.29801 0.249023 8.43359 0.384603 8.5332 0.556152C8.63835 0.722168 8.69092 0.907552 8.69092 1.1123C8.69092 1.4222 8.57471 1.69336 8.34229 1.92578L2.65625 7.4541L8.34229 12.9824C8.57471 13.2204 8.69092 13.4915 8.69092 13.7959C8.69092 14.0062 8.63835 14.1943 8.5332 14.3604C8.43359 14.5264 8.29801 14.6592 8.12646 14.7588C7.96045 14.8584 7.7723 14.9082 7.56201 14.9082C7.25765 14.9082 7.00033 14.8031 6.79004 14.5928L0.398438 8.34229C0.260091 8.20947 0.157715 8.07113 0.0913086 7.92725C0.0304362 7.77783 0 7.62012 0 7.4541Z"/></symbol><symbol id="s-info" viewBox="0 0 8 14"><path fill="currentColor" d="M0 12.8936C0 12.6826 0.0703125 12.5127 0.210938 12.3838C0.351562 12.249 0.539062 12.1816 0.773438 12.1816H2.94434V6.11719H1.01953C0.791016 6.11719 0.603516 6.0498 0.457031 5.91504C0.316406 5.78027 0.246094 5.60449 0.246094 5.3877C0.246094 5.17676 0.316406 5.00684 0.457031 4.87793C0.603516 4.74902 0.791016 4.68457 1.01953 4.68457H3.80566C4.03418 4.68457 4.21875 4.75781 4.35938 4.9043C4.5 5.04492 4.57031 5.23535 4.57031 5.47559V12.1816H6.33691C6.57129 12.1816 6.75879 12.249 6.89941 12.3838C7.04004 12.5127 7.11035 12.6826 7.11035 12.8936C7.11035 13.1104 7.04004 13.2861 6.89941 13.4209C6.75879 13.5498 6.57129 13.6143 6.33691 13.6143H0.773438C0.539062 13.6143 0.351562 13.5498 0.210938 13.4209C0.0703125 13.2861 0 13.1104 0 12.8936ZM2.17969 1.27441C2.17969 0.916992 2.30273 0.615234 2.54883 0.369141C2.79492 0.123047 3.09375 0 3.44531 0C3.79688 0 4.09277 0.123047 4.33301 0.369141C4.5791 0.615234 4.70215 0.916992 4.70215 1.27441C4.70215 1.62598 4.5791 1.9248 4.33301 2.1709C4.09277 2.41699 3.79688 2.54004 3.44531 2.54004C3.09375 2.54004 2.79492 2.41699 2.54883 2.1709C2.30273 1.9248 2.17969 1.62598 2.17969 1.27441Z"/></symbol><symbol id="s-grid" viewBox="0 0 21 17"><path fill="currentColor" d="M6.43359 15.873V0.316406H7.84863V15.873H6.43359ZM12.876 15.873V0.316406H14.291V15.873H12.876ZM0.316406 6.33691V4.92188H20.417V6.33691H0.316406ZM0.316406 11.2676V9.85254H20.417V11.2676H0.316406ZM2.75977 16.1807C1.83984 16.1807 1.14844 15.9521 0.685547 15.4951C0.228516 15.0439 0 14.3672 0 13.4648V2.72461C0 1.81641 0.228516 1.13672 0.685547 0.685547C1.14844 0.228516 1.83984 0 2.75977 0H17.9648C18.8906 0 19.582 0.228516 20.0391 0.685547C20.4961 1.14258 20.7246 1.82227 20.7246 2.72461V13.4648C20.7246 14.3672 20.4961 15.0439 20.0391 15.4951C19.582 15.9521 18.8906 16.1807 17.9648 16.1807H2.75977ZM2.77734 14.7656H17.9473C18.3809 14.7656 18.7148 14.6514 18.9492 14.4229C19.1895 14.1885 19.3096 13.8428 19.3096 13.3857V2.80371C19.3096 2.34668 19.1895 2.00098 18.9492 1.7666C18.7148 1.53223 18.3809 1.41504 17.9473 1.41504H2.77734C2.33789 1.41504 2.00098 1.53223 1.7666 1.7666C1.53223 2.00098 1.41504 2.34668 1.41504 2.80371V13.3857C1.41504 13.8428 1.53223 14.1885 1.7666 14.4229C2.00098 14.6514 2.33789 14.7656 2.77734 14.7656Z"/></symbol><symbol id="s-bookmark" viewBox="0 0 12 19"><path fill="currentColor" d="M0.931641 18.8525C0.638672 18.8525 0.410156 18.7588 0.246094 18.5713C0.0820312 18.3838 0 18.1201 0 17.7803V2.52246C0 1.68457 0.208008 1.05469 0.624023 0.632812C1.04004 0.210938 1.66113 0 2.4873 0H9.36035C10.1865 0 10.8076 0.210938 11.2236 0.632812C11.6396 1.05469 11.8477 1.68457 11.8477 2.52246V17.7803C11.8477 18.1201 11.7656 18.3838 11.6016 18.5713C11.4375 18.7588 11.209 18.8525 10.916 18.8525C10.6992 18.8525 10.4971 18.7793 10.3096 18.6328C10.1279 18.4863 9.83789 18.2227 9.43945 17.8418L6.00293 14.458C5.9502 14.3994 5.89746 14.3994 5.84473 14.458L2.4082 17.8418C2.00977 18.2285 1.7168 18.4922 1.5293 18.6328C1.3418 18.7793 1.14258 18.8525 0.931641 18.8525ZM1.65234 16.4795L5.45801 12.7881C5.59863 12.6533 5.75391 12.5859 5.92383 12.5859C6.09375 12.5859 6.24902 12.6533 6.38965 12.7881L10.1953 16.4795C10.2598 16.5381 10.3184 16.5586 10.3711 16.541C10.4297 16.5293 10.459 16.4795 10.459 16.3916V2.54004C10.459 2.15918 10.3594 1.87207 10.1602 1.67871C9.9668 1.48535 9.67969 1.38867 9.29883 1.38867H2.55762C2.1709 1.38867 1.87793 1.48535 1.67871 1.67871C1.48535 1.87207 1.38867 2.15918 1.38867 2.54004V16.3916C1.38867 16.4795 1.41504 16.5293 1.46777 16.541C1.52637 16.5586 1.58789 16.5381 1.65234 16.4795Z"/></symbol><symbol id="s-bookmark-fill" viewBox="0 0 12 19"><path fill="currentColor" d="M0.931641 18.8525C0.638672 18.8525 0.410156 18.7588 0.246094 18.5713C0.0820312 18.3838 0 18.1201 0 17.7803V2.52246C0 1.68457 0.208008 1.05469 0.624023 0.632812C1.04004 0.210938 1.66113 0 2.4873 0H9.36035C10.1865 0 10.8076 0.210938 11.2236 0.632812C11.6396 1.05469 11.8477 1.68457 11.8477 2.52246V17.7803C11.8477 18.1201 11.7656 18.3838 11.6016 18.5713C11.4375 18.7588 11.209 18.8525 10.916 18.8525C10.6992 18.8525 10.4971 18.7793 10.3096 18.6328C10.1279 18.4863 9.83789 18.2227 9.43945 17.8418L6.00293 14.458C5.9502 14.3994 5.89746 14.3994 5.84473 14.458L2.4082 17.8418C2.00977 18.2285 1.7168 18.4922 1.5293 18.6328C1.3418 18.7793 1.14258 18.8525 0.931641 18.8525Z"/></symbol><symbol id="s-chevron-down" viewBox="0 0 11 7"><path fill="currentColor" d="M5.26758 6.13477C5.03711 6.13477 4.82617 6.04102 4.63477 5.85352L0.222656 1.3418C0.148438 1.26367 0.0917969 1.17969 0.0527344 1.08984C0.0175781 1 0 0.900391 0 0.791016C0 0.646484 0.0351562 0.513672 0.105469 0.392578C0.175781 0.271484 0.269531 0.175781 0.386719 0.105469C0.507812 0.0351562 0.640625 0 0.785156 0C1.00391 0 1.19531 0.0800781 1.35938 0.240234L5.53711 4.5293H5.00391L9.16992 0.240234C9.33398 0.0800781 9.52539 0 9.74414 0C9.88867 0 10.0195 0.0351562 10.1367 0.105469C10.2578 0.175781 10.3535 0.271484 10.4238 0.392578C10.4941 0.513672 10.5293 0.646484 10.5293 0.791016C10.5293 1.00586 10.4531 1.1875 10.3008 1.33594L5.90039 5.85352C5.80664 5.94727 5.70703 6.01758 5.60156 6.06445C5.5 6.10742 5.38867 6.13086 5.26758 6.13477Z"/></symbol><symbol id="s-ibeam" viewBox="0 0 19 20"><path fill="currentColor" d="M0.779297 16.4951C0.538086 16.4951 0.346354 16.4302 0.204102 16.3003C0.0680339 16.1642 0 15.9787 0 15.7437C0 15.5767 0.0340169 15.4097 0.102051 15.2427L4.45312 3.646C4.65723 3.08317 5.04688 2.80176 5.62207 2.80176C5.91895 2.80176 6.16325 2.87288 6.35498 3.01514C6.54671 3.1512 6.69824 3.36458 6.80957 3.65527L11.1606 15.2334C11.2287 15.4251 11.2627 15.5921 11.2627 15.7344C11.2627 15.9694 11.1885 16.1549 11.04 16.291C10.8978 16.4271 10.703 16.4951 10.4556 16.4951C10.2144 16.4951 10.0257 16.4425 9.88965 16.3374C9.75358 16.2323 9.64225 16.0529 9.55566 15.7993L8.35889 12.5151H2.88525L1.68848 15.7993C1.60189 16.0529 1.49056 16.2323 1.35449 16.3374C1.21842 16.4425 1.02669 16.4951 0.779297 16.4951ZM3.3584 11.0957H7.91357L5.65918 4.85205H5.61279L3.3584 11.0957ZM12.4409 19.3154C12.0142 19.3154 11.8008 19.133 11.8008 18.7681C11.8008 18.4093 12.0142 18.23 12.4409 18.23H14.5283V1.07617H12.4409C12.0142 1.07617 11.8008 0.893717 11.8008 0.528809C11.8008 0.17627 12.0142 0 12.4409 0H17.8589C18.2918 0 18.5083 0.17627 18.5083 0.528809C18.5083 0.893717 18.2918 1.07617 17.8589 1.07617H15.7808V18.23H17.8589C18.2918 18.23 18.5083 18.4093 18.5083 18.7681C18.5083 19.133 18.2918 19.3154 17.8589 19.3154H12.4409Z"/></symbol><symbol id="s-textformat" viewBox="0 0 20 13"><path fill="currentColor" d="M14.6509 12.2603C14.0643 12.2603 13.5469 12.1496 13.0986 11.9282C12.6504 11.7069 12.299 11.397 12.0444 10.9985C11.7954 10.6001 11.6709 10.138 11.6709 9.6123C11.6709 8.83757 11.9531 8.22054 12.5176 7.76123C13.082 7.29639 13.89 7.0363 14.9414 6.98096L17.6226 6.83154V6.11768C17.6226 5.53662 17.4399 5.07731 17.0747 4.73975C16.7095 4.39665 16.2031 4.2251 15.5557 4.2251C15.0133 4.2251 14.5596 4.34131 14.1943 4.57373C13.8346 4.80615 13.5386 5.16309 13.3062 5.64453C13.2453 5.76074 13.165 5.84652 13.0654 5.90186C12.9658 5.95166 12.8524 5.97656 12.7251 5.97656C12.5425 5.97656 12.3903 5.92122 12.2686 5.81055C12.1523 5.69987 12.0942 5.55322 12.0942 5.37061C12.0942 5.28206 12.1081 5.18799 12.1357 5.08838C12.1634 4.98877 12.2021 4.88916 12.252 4.78955C12.4899 4.25277 12.9105 3.82666 13.5137 3.51123C14.1169 3.19027 14.8086 3.02979 15.5889 3.02979C16.2917 3.02979 16.9004 3.15153 17.415 3.39502C17.9297 3.63851 18.3254 3.98438 18.6021 4.43262C18.8843 4.87533 19.0254 5.39827 19.0254 6.00146V11.5464C19.0254 11.7677 18.9618 11.9448 18.8345 12.0776C18.7072 12.2049 18.5439 12.2686 18.3447 12.2686C18.151 12.2686 17.9906 12.2049 17.8633 12.0776C17.736 11.9504 17.6724 11.7843 17.6724 11.5796V10.4839H17.6392C17.4676 10.8436 17.2297 11.1562 16.9253 11.4219C16.6209 11.6875 16.2723 11.895 15.8794 12.0444C15.4865 12.1883 15.077 12.2603 14.6509 12.2603ZM14.9912 11.1064C15.4782 11.1064 15.9209 11.0013 16.3193 10.791C16.7178 10.5807 17.0332 10.2985 17.2656 9.94434C17.5036 9.58464 17.6226 9.1862 17.6226 8.74902V7.86914L15.1157 8.02686C14.4627 8.07113 13.9647 8.23161 13.6216 8.5083C13.2785 8.77946 13.1069 9.13639 13.1069 9.5791C13.1069 10.0329 13.2785 10.4009 13.6216 10.6831C13.9702 10.9653 14.4268 11.1064 14.9912 11.1064ZM0.697266 12.2603C0.481445 12.2603 0.309896 12.2021 0.182617 12.0859C0.0608724 11.9642 0 11.7982 0 11.5879C0 11.4606 0.0304362 11.3112 0.0913086 11.1396L3.98438 0.755371C4.16699 0.25179 4.51562 0 5.03027 0C5.2959 0 5.51449 0.0636393 5.68604 0.190918C5.85758 0.318197 5.99316 0.509115 6.09277 0.763672L9.98584 11.1313C10.0467 11.3029 10.0771 11.4523 10.0771 11.5796C10.0771 11.7899 10.0107 11.9559 9.87793 12.0776C9.75065 12.1994 9.57633 12.2603 9.35498 12.2603C9.13916 12.2603 8.97038 12.2132 8.84863 12.1191C8.72689 12.0251 8.62728 11.8618 8.5498 11.6294L7.479 8.69922H2.58154L1.51074 11.6294C1.43327 11.8618 1.33366 12.0251 1.21191 12.1191C1.09017 12.2132 0.91862 12.2603 0.697266 12.2603ZM2.98828 7.4375H7.06396L5.04688 1.85107H5.00537L2.98828 7.4375Z"/></symbol><symbol id="s-accessibility" viewBox="0 0 20 20"><path fill="currentColor" d="M9.96094 19.9219C8.58724 19.9219 7.29818 19.6615 6.09375 19.1406C4.88932 18.6263 3.83138 17.9134 2.91992 17.002C2.00846 16.0905 1.29232 15.0326 0.771484 13.8281C0.257161 12.6237 0 11.3346 0 9.96094C0 8.58724 0.257161 7.29818 0.771484 6.09375C1.29232 4.88932 2.00846 3.83138 2.91992 2.91992C3.83138 2.00195 4.88932 1.28581 6.09375 0.771484C7.29818 0.257161 8.58724 0 9.96094 0C11.3346 0 12.6237 0.257161 13.8281 0.771484C15.0326 1.28581 16.0905 2.00195 17.002 2.91992C17.9134 3.83138 18.6263 4.88932 19.1406 6.09375C19.6615 7.29818 19.9219 8.58724 19.9219 9.96094C19.9219 11.3346 19.6615 12.6237 19.1406 13.8281C18.6263 15.0326 17.9134 16.0905 17.002 17.002C16.0905 17.9134 15.0326 18.6263 13.8281 19.1406C12.6237 19.6615 11.3346 19.9219 9.96094 19.9219ZM9.96094 18.2617C11.1068 18.2617 12.181 18.0469 13.1836 17.6172C14.1862 17.1875 15.0684 16.5918 15.8301 15.8301C16.5918 15.0684 17.1875 14.1862 17.6172 13.1836C18.0469 12.181 18.2617 11.1068 18.2617 9.96094C18.2617 8.8151 18.0469 7.74089 17.6172 6.73828C17.1875 5.72917 16.5918 4.84701 15.8301 4.0918C15.0684 3.33008 14.1862 2.73438 13.1836 2.30469C12.181 1.875 11.1068 1.66016 9.96094 1.66016C8.8151 1.66016 7.74089 1.875 6.73828 2.30469C5.73568 2.73438 4.85352 3.33008 4.0918 4.0918C3.33008 4.84701 2.73438 5.72917 2.30469 6.73828C1.875 7.74089 1.66016 8.8151 1.66016 9.96094C1.66016 11.1068 1.875 12.181 2.30469 13.1836C2.73438 14.1862 3.33008 15.0684 4.0918 15.8301C4.85352 16.5918 5.73568 17.1875 6.73828 17.6172C7.74089 18.0469 8.8151 18.2617 9.96094 18.2617ZM9.95117 6.65039C10.4134 6.65039 10.918 6.63086 11.4648 6.5918C12.0117 6.54622 12.5326 6.49414 13.0273 6.43555C13.5286 6.37695 13.9355 6.32487 14.248 6.2793C14.2936 6.27279 14.3359 6.26628 14.375 6.25977C14.4206 6.24674 14.4661 6.24023 14.5117 6.24023C14.6289 6.24023 14.7428 6.28906 14.8535 6.38672C14.9642 6.48438 15.0195 6.62109 15.0195 6.79688C15.0195 7.08984 14.8796 7.27214 14.5996 7.34375C14.5215 7.36979 14.3457 7.40234 14.0723 7.44141C13.8053 7.48047 13.5059 7.52279 13.1738 7.56836C12.8483 7.60742 12.5521 7.64648 12.2852 7.68555C12.0182 7.7181 11.8522 7.74089 11.7871 7.75391C11.4941 7.81901 11.3477 8.02734 11.3477 8.37891C11.3477 8.54818 11.3477 8.8151 11.3477 9.17969C11.3542 9.53776 11.3639 9.91211 11.377 10.3027C11.39 10.6868 11.416 10.9993 11.4551 11.2402C11.4811 11.39 11.5299 11.6309 11.6016 11.9629C11.6732 12.2949 11.7546 12.666 11.8457 13.0762C11.9434 13.4798 12.0378 13.8737 12.1289 14.2578C12.2201 14.6354 12.2949 14.9577 12.3535 15.2246C12.4186 15.485 12.4544 15.6283 12.4609 15.6543C12.513 15.8431 12.4902 16.0124 12.3926 16.1621C12.2949 16.3053 12.1517 16.377 11.9629 16.377C11.6764 16.377 11.4876 16.2044 11.3965 15.8594C11.3574 15.6836 11.2923 15.4199 11.2012 15.0684C11.11 14.7168 11.0124 14.3424 10.9082 13.9453C10.8105 13.5417 10.7161 13.1738 10.625 12.8418C10.5339 12.5033 10.4688 12.2591 10.4297 12.1094C10.3581 11.901 10.2897 11.7546 10.2246 11.6699C10.1595 11.5788 10.0684 11.5332 9.95117 11.5332C9.82747 11.5332 9.73307 11.5788 9.66797 11.6699C9.60286 11.7546 9.54102 11.901 9.48242 12.1094C9.43685 12.2591 9.36849 12.5033 9.27734 12.8418C9.1862 13.1738 9.08854 13.5417 8.98438 13.9453C8.88021 14.3424 8.78255 14.7168 8.69141 15.0684C8.60677 15.4199 8.54492 15.6836 8.50586 15.8594C8.4082 16.2044 8.2194 16.377 7.93945 16.377C7.75065 16.377 7.60417 16.3053 7.5 16.1621C7.40234 16.0124 7.37956 15.8431 7.43164 15.6543C7.43815 15.6283 7.47396 15.485 7.53906 15.2246C7.60417 14.9577 7.68229 14.6354 7.77344 14.2578C7.86458 13.8737 7.95573 13.4798 8.04688 13.0762C8.14453 12.666 8.22917 12.2949 8.30078 11.9629C8.3724 11.6309 8.41797 11.39 8.4375 11.2402C8.48307 10.9993 8.51237 10.6868 8.52539 10.3027C8.54492 9.91211 8.55469 9.53776 8.55469 9.17969C8.5612 8.8151 8.56445 8.54818 8.56445 8.37891C8.55143 8.02083 8.40169 7.8125 8.11523 7.75391C8.04362 7.74089 7.87435 7.7181 7.60742 7.68555C7.34049 7.64648 7.04427 7.60742 6.71875 7.56836C6.39323 7.52279 6.09375 7.48047 5.82031 7.44141C5.54688 7.40234 5.37109 7.36979 5.29297 7.34375C5.01953 7.27865 4.88281 7.09635 4.88281 6.79688C4.88281 6.62109 4.9349 6.48438 5.03906 6.38672C5.14323 6.28906 5.25716 6.24023 5.38086 6.24023C5.42643 6.24023 5.47201 6.24674 5.51758 6.25977C5.56315 6.26628 5.60547 6.27279 5.64453 6.2793C5.96354 6.32487 6.37044 6.37695 6.86523 6.43555C7.36654 6.49414 7.89062 6.54622 8.4375 6.5918C8.98438 6.63086 9.48893 6.65039 9.95117 6.65039ZM9.95117 6.01562C9.59961 6.01562 9.30013 5.89193 9.05273 5.64453C8.80534 5.39062 8.68164 5.09115 8.68164 4.74609C8.68164 4.39453 8.80534 4.09505 9.05273 3.84766C9.30013 3.60026 9.59961 3.47656 9.95117 3.47656C10.3027 3.47656 10.6022 3.60026 10.8496 3.84766C11.097 4.09505 11.2207 4.39453 11.2207 4.74609C11.2207 5.09115 11.097 5.39062 10.8496 5.64453C10.6022 5.89193 10.3027 6.01562 9.95117 6.01562Z"/></symbol><symbol id="s-xmark-circle-fill" viewBox="0 0 17 17"><path fill="currentColor" d="M8.4668 16.9346C7.29915 16.9346 6.20345 16.7132 5.17969 16.2705C4.15592 15.8333 3.25667 15.2274 2.48193 14.4526C1.70719 13.6724 1.09847 12.7731 0.655762 11.7549C0.218587 10.7311 0 9.63542 0 8.46777C0 7.30013 0.218587 6.20443 0.655762 5.18066C1.09847 4.1569 1.70719 3.25765 2.48193 2.48291C3.25667 1.70817 4.15592 1.10221 5.17969 0.665039C6.20345 0.222331 7.29915 0.000976562 8.4668 0.000976562C9.63444 0.000976562 10.7301 0.222331 11.7539 0.665039C12.7777 1.10221 13.6769 1.70817 14.4517 2.48291C15.2264 3.25765 15.8324 4.1569 16.2695 5.18066C16.7122 6.20443 16.9336 7.30013 16.9336 8.46777C16.9336 9.63542 16.7122 10.7311 16.2695 11.7549C15.8324 12.7731 15.2264 13.6724 14.4517 14.4526C13.6769 15.2274 12.7777 15.8333 11.7539 16.2705C10.7301 16.7132 9.63444 16.9346 8.4668 16.9346ZM5.67773 11.9541C5.87695 11.9541 6.04574 11.8877 6.18408 11.7549L8.4751 9.44727L10.7744 11.7549C10.9017 11.8877 11.0649 11.9541 11.2642 11.9541C11.4578 11.9541 11.6211 11.8877 11.7539 11.7549C11.8867 11.6165 11.9531 11.4533 11.9531 11.2651C11.9531 11.0604 11.8867 10.8971 11.7539 10.7754L9.44629 8.47607L11.7622 6.16846C11.895 6.03011 11.9614 5.86686 11.9614 5.67871C11.9614 5.49056 11.895 5.33008 11.7622 5.19727C11.6294 5.06445 11.4689 4.99805 11.2808 4.99805C11.0981 4.99805 10.9404 5.06445 10.8076 5.19727L8.4751 7.51318L6.15918 5.20557C6.02083 5.07829 5.86035 5.01465 5.67773 5.01465C5.48958 5.01465 5.3291 5.08105 5.19629 5.21387C5.06348 5.34115 4.99707 5.50163 4.99707 5.69531C4.99707 5.87793 5.06348 6.03841 5.19629 6.17676L7.50391 8.47607L5.19629 10.7837C5.06348 10.9165 4.99707 11.077 4.99707 11.2651C4.99707 11.4533 5.06348 11.6165 5.19629 11.7549C5.3291 11.8877 5.48958 11.9541 5.67773 11.9541Z"/></symbol><symbol id="s-checkmark" viewBox="0 0 11 11"><path fill="currentColor" d="M4.13867 10.8501C3.889 10.8501 3.66895 10.7274 3.47852 10.4819L0.184082 6.28613C0.120605 6.20996 0.074056 6.13379 0.0444336 6.05762C0.0148112 5.97721 0 5.89893 0 5.82275C0 5.64925 0.0571289 5.50749 0.171387 5.39746C0.285645 5.2832 0.431641 5.22607 0.609375 5.22607C0.820964 5.22607 1.00293 5.32975 1.15527 5.53711L4.11328 9.40918L9.81348 0.325684C9.88965 0.207194 9.96794 0.124674 10.0483 0.078125C10.1287 0.0273438 10.2324 0.00195312 10.3594 0.00195312C10.5329 0.00195312 10.6725 0.0548503 10.7783 0.160645C10.8841 0.266439 10.937 0.406087 10.937 0.57959C10.937 0.655762 10.9243 0.731934 10.8989 0.808105C10.8735 0.880046 10.8333 0.960449 10.7783 1.04932L4.77979 10.4946C4.62321 10.7316 4.40951 10.8501 4.13867 10.8501Z"/></symbol><symbol id="s-xmark" viewBox="0 0 11 11"><path fill="currentColor" d="M0.184082 9.91699C0.10791 9.84505 0.0571289 9.76042 0.0317383 9.66309C0.0105794 9.56576 0.0126953 9.46842 0.0380859 9.37109C0.0634766 9.27376 0.112142 9.18913 0.184082 9.11719L4.24658 5.04834L0.184082 0.98584C0.112142 0.9139 0.0634766 0.829264 0.0380859 0.731934C0.0169271 0.634603 0.0169271 0.537272 0.0380859 0.439941C0.0634766 0.342611 0.112142 0.257975 0.184082 0.186035C0.256022 0.109863 0.340658 0.0611979 0.437988 0.0400391C0.535319 0.0146484 0.63265 0.0146484 0.72998 0.0400391C0.831543 0.0611979 0.918294 0.109863 0.990234 0.186035L5.05273 4.24854L9.11523 0.186035C9.18717 0.109863 9.27181 0.0611979 9.36914 0.0400391C9.46647 0.0146484 9.5638 0.0146484 9.66113 0.0400391C9.75846 0.0611979 9.84521 0.109863 9.92139 0.186035C9.99333 0.257975 10.042 0.342611 10.0674 0.439941C10.0928 0.537272 10.0928 0.634603 10.0674 0.731934C10.042 0.829264 9.99333 0.9139 9.92139 0.98584L5.85889 5.04834L9.92139 9.11719C9.99333 9.18913 10.0399 9.27376 10.061 9.37109C10.0864 9.46842 10.0864 9.56576 10.061 9.66309C10.0399 9.76042 9.99333 9.84505 9.92139 9.91699C9.84945 9.99316 9.7627 10.0418 9.66113 10.063C9.5638 10.0884 9.46647 10.0884 9.36914 10.063C9.27181 10.0376 9.18717 9.98893 9.11523 9.91699L5.05273 5.85449L0.990234 9.91699C0.918294 9.98893 0.833659 10.0376 0.736328 10.063C0.638997 10.0884 0.541667 10.0884 0.444336 10.063C0.347005 10.0376 0.260254 9.98893 0.184082 9.91699Z"/></symbol><symbol id="s-magnifyingglass" viewBox="0 0 17 17"><path fill="currentColor" d="M0 6.62402C0 5.71094 0.171549 4.85596 0.514648 4.05908C0.857747 3.25667 1.33366 2.55111 1.94238 1.94238C2.55111 1.33366 3.25391 0.857747 4.05078 0.514648C4.85319 0.171549 5.71094 0 6.62402 0C7.53711 0 8.39209 0.171549 9.18896 0.514648C9.99137 0.857747 10.6969 1.33366 11.3057 1.94238C11.9144 2.55111 12.3903 3.25667 12.7334 4.05908C13.0765 4.85596 13.248 5.71094 13.248 6.62402C13.248 7.38216 13.1263 8.10156 12.8828 8.78223C12.6449 9.46289 12.3128 10.0799 11.8867 10.6333L15.9458 14.7173C16.0343 14.8058 16.1007 14.9082 16.145 15.0244C16.1948 15.1406 16.2197 15.2651 16.2197 15.3979C16.2197 15.5806 16.1782 15.7466 16.0952 15.896C16.0177 16.0454 15.9071 16.1616 15.7632 16.2446C15.6193 16.3332 15.4533 16.3774 15.2651 16.3774C15.1323 16.3774 15.005 16.3525 14.8833 16.3027C14.7671 16.2585 14.6592 16.1893 14.5596 16.0952L10.4756 12.0029C9.93327 12.3903 9.33561 12.6947 8.68262 12.916C8.02962 13.1374 7.34342 13.248 6.62402 13.248C5.71094 13.248 4.85319 13.0765 4.05078 12.7334C3.25391 12.3903 2.55111 11.9144 1.94238 11.3057C1.33366 10.6969 0.857747 9.99414 0.514648 9.19727C0.171549 8.39486 0 7.53711 0 6.62402ZM1.41943 6.62402C1.41943 7.34342 1.55225 8.01855 1.81787 8.64941C2.08903 9.27474 2.46257 9.82536 2.93848 10.3013C3.41992 10.7772 3.97331 11.1507 4.59863 11.4219C5.22949 11.693 5.90462 11.8286 6.62402 11.8286C7.34342 11.8286 8.01579 11.693 8.64111 11.4219C9.27197 11.1507 9.82536 10.7772 10.3013 10.3013C10.7772 9.82536 11.1507 9.27474 11.4219 8.64941C11.693 8.01855 11.8286 7.34342 11.8286 6.62402C11.8286 5.90462 11.693 5.23226 11.4219 4.60693C11.1507 3.97607 10.7772 3.42269 10.3013 2.94678C9.82536 2.46533 9.27197 2.0918 8.64111 1.82617C8.01579 1.55501 7.34342 1.41943 6.62402 1.41943C5.90462 1.41943 5.22949 1.55501 4.59863 1.82617C3.97331 2.0918 3.41992 2.46533 2.93848 2.94678C2.46257 3.42269 2.08903 3.97607 1.81787 4.60693C1.55225 5.23226 1.41943 5.90462 1.41943 6.62402Z"/></symbol><symbol id="s-chevron-right" viewBox="0 0 8 13"><path fill="currentColor" d="M7.15723 6.13867C7.15723 6.27539 7.12988 6.40527 7.0752 6.52832C7.02507 6.64681 6.94303 6.76074 6.8291 6.87012L1.57227 12.0176C1.39453 12.1908 1.17806 12.2773 0.922852 12.2773C0.758789 12.2773 0.60612 12.2363 0.464844 12.1543C0.323568 12.0723 0.209635 11.9629 0.123047 11.8262C0.0410156 11.6895 0 11.5345 0 11.3613C0 11.1107 0.0957031 10.8874 0.287109 10.6914L4.96973 6.13867L0.287109 1.58594C0.0957031 1.39453 0 1.17122 0 0.916016C0 0.747396 0.0410156 0.594727 0.123047 0.458008C0.209635 0.316732 0.323568 0.205078 0.464844 0.123047C0.60612 0.0410156 0.758789 0 0.922852 0C1.17806 0 1.39453 0.0865885 1.57227 0.259766L6.8291 5.40723C6.93848 5.5166 7.02051 5.63053 7.0752 5.74902C7.12988 5.86751 7.15723 5.9974 7.15723 6.13867Z"/></symbol></defs></svg>
+
+<div class="stage">
+  <div class="device" id="device">
+    <div class="screen" id="screen">
+      <div class="status"><svg style="position:absolute;left:46.43px;top:20.72px" width="33" height="13" viewBox="0 0 33 13"><path fill="currentColor" d="M4.44091 0C5.08284 0 5.69156 0.118978 6.26708 0.356934C6.8426 0.589355 7.35172 0.95459 7.79443 1.45264C8.24267 1.94515 8.59407 2.57878 8.84863 3.35352C9.10318 4.12272 9.23046 5.04964 9.23046 6.13428V6.15088C9.23046 7.49561 9.03678 8.64665 8.64941 9.604C8.26204 10.5614 7.70589 11.2974 6.98095 11.812C6.26155 12.3211 5.40104 12.5757 4.39941 12.5757C3.66341 12.5757 2.99934 12.4429 2.40722 12.1772C1.82063 11.9061 1.33365 11.5353 0.946283 11.0649C0.564447 10.589 0.307123 10.0467 0.174311 9.43799L0.157709 9.34668H2.25781L2.29101 9.42969C2.39615 9.70638 2.54557 9.94987 2.73925 10.1602C2.93847 10.3704 3.17643 10.5337 3.45312 10.6499C3.73535 10.7606 4.05078 10.8159 4.39941 10.8159C5.03027 10.8159 5.54492 10.6305 5.94335 10.2598C6.34733 9.88346 6.64892 9.38265 6.84814 8.75732C7.05289 8.12646 7.1691 7.4292 7.19677 6.66553C7.20231 6.58252 7.20507 6.50228 7.20507 6.4248C7.20507 6.3418 7.20507 6.26156 7.20507 6.18408L6.83154 4.18359C6.83154 3.72982 6.72639 3.31755 6.51611 2.94678C6.30582 2.57601 6.02083 2.28271 5.66113 2.06689C5.30696 1.85107 4.90576 1.74316 4.45751 1.74316C4.02587 1.74316 3.6302 1.84831 3.2705 2.05859C2.9108 2.26888 2.62304 2.55664 2.40722 2.92188C2.1914 3.28158 2.08349 3.68555 2.08349 4.13379V4.15039C2.08349 4.61523 2.18587 5.02751 2.39062 5.38721C2.59537 5.74137 2.87483 6.02083 3.229 6.22559C3.58316 6.43034 3.98714 6.53271 4.44091 6.53271C4.89469 6.53271 5.30143 6.43311 5.66113 6.23389C6.02083 6.03467 6.30582 5.75798 6.51611 5.40381C6.72639 5.04964 6.83154 4.64844 6.83154 4.2002V4.18359H7.32958V6.3916H7.03906C6.89518 6.70703 6.68212 7.00033 6.3999 7.27148C6.11767 7.54264 5.76904 7.76123 5.354 7.92725C4.94449 8.09326 4.46305 8.17627 3.90966 8.17627C3.14599 8.17627 2.47086 8.00472 1.88427 7.66162C1.29768 7.31852 0.835606 6.84814 0.498041 6.25049C0.16601 5.65283 0 4.9777 0 4.2251V4.2085C0 3.39502 0.188145 2.67285 0.564447 2.04199C0.946283 1.4056 1.472 0.907552 2.1416 0.547852C2.81673 0.182617 3.58316 0 4.44091 0ZM12.599 10.6665C12.2227 10.6665 11.9073 10.542 11.6527 10.293C11.4037 10.0384 11.2792 9.72852 11.2792 9.36328C11.2792 8.99251 11.4037 8.68262 11.6527 8.43359C11.9073 8.17904 12.2227 8.05176 12.599 8.05176C12.9809 8.05176 13.2963 8.17904 13.5453 8.43359C13.7943 8.68262 13.9188 8.99251 13.9188 9.36328C13.9188 9.72852 13.7943 10.0384 13.5453 10.293C13.2963 10.542 12.9809 10.6665 12.599 10.6665ZM12.599 4.50732C12.2227 4.50732 11.9073 4.38281 11.6527 4.13379C11.4037 3.87923 11.2792 3.56934 11.2792 3.2041C11.2792 2.83333 11.4037 2.52344 11.6527 2.27441C11.9073 2.01986 12.2227 1.89258 12.599 1.89258C12.9809 1.89258 13.2963 2.01986 13.5453 2.27441C13.7943 2.52344 13.9188 2.83333 13.9188 3.2041C13.9188 3.56934 13.7943 3.87923 13.5453 4.13379C13.2963 4.38281 12.9809 4.50732 12.599 4.50732ZM21.7781 12.2769V9.97754H15.9178V8.22607C16.2332 7.68929 16.5486 7.14974 16.8641 6.60742C17.185 6.0651 17.5088 5.52555 17.8353 4.98877C18.1673 4.44645 18.4965 3.91243 18.823 3.38672C19.1551 2.85547 19.4843 2.33252 19.8108 1.81787C20.1429 1.29769 20.4749 0.791341 20.8069 0.298828H23.8201V8.20947H25.4388V9.97754H23.8201V12.2769H21.7781ZM17.91 8.25928H21.8113V2.00879H21.6868C21.4433 2.38509 21.1915 2.77246 20.9314 3.1709C20.6769 3.56934 20.4196 3.97607 20.1595 4.39111C19.8994 4.80615 19.6421 5.22396 19.3875 5.64453C19.1329 6.05957 18.8811 6.47738 18.6321 6.89795C18.3831 7.31299 18.1424 7.72526 17.91 8.13477V8.25928ZM29.9943 12.2769V2.40723H29.8449L26.8649 4.50732V2.49854L29.9943 0.298828H32.1276V12.2769H29.9943Z"/></svg><svg style="position:absolute;left:284.35px;top:21.91px" width="20" height="13" viewBox="0 0 20 13"><path fill="currentColor" d="M0.984375 12.3184C0.692708 12.3184 0.455729 12.2272 0.273438 12.0449C0.0911458 11.8672 0 11.6348 0 11.3477V8.44238C0 8.15527 0.0911458 7.92285 0.273438 7.74512C0.455729 7.56738 0.692708 7.47852 0.984375 7.47852H2.47461C2.77083 7.47852 3.00781 7.56738 3.18555 7.74512C3.36784 7.92285 3.45898 8.15527 3.45898 8.44238V11.3477C3.45898 11.6348 3.36784 11.8672 3.18555 12.0449C3.00781 12.2272 2.77083 12.3184 2.47461 12.3184H0.984375ZM6.26855 12.3184C5.97233 12.3184 5.73307 12.2272 5.55078 12.0449C5.37305 11.8672 5.28418 11.6348 5.28418 11.3477V6.31641C5.28418 6.02474 5.37305 5.79004 5.55078 5.6123C5.73307 5.43457 5.97233 5.3457 6.26855 5.3457H7.75879C8.05501 5.3457 8.29199 5.43457 8.46973 5.6123C8.65202 5.79004 8.74316 6.02474 8.74316 6.31641V11.3477C8.74316 11.6348 8.65202 11.8672 8.46973 12.0449C8.29199 12.2272 8.05501 12.3184 7.75879 12.3184H6.26855ZM11.5459 12.3184C11.2542 12.3184 11.0173 12.2272 10.835 12.0449C10.6527 11.8672 10.5615 11.6348 10.5615 11.3477V3.7666C10.5615 3.47493 10.6527 3.24023 10.835 3.0625C11.0173 2.88021 11.2542 2.78906 11.5459 2.78906H13.043C13.3346 2.78906 13.5716 2.88021 13.7539 3.0625C13.9362 3.24023 14.0273 3.47493 14.0273 3.7666V11.3477C14.0273 11.6348 13.9362 11.8672 13.7539 12.0449C13.5716 12.2272 13.3346 12.3184 13.043 12.3184H11.5459ZM16.8232 12.3184C16.5316 12.3184 16.2946 12.2272 16.1123 12.0449C15.93 11.8672 15.8389 11.6348 15.8389 11.3477V0.970703C15.8389 0.679036 15.93 0.444336 16.1123 0.266602C16.2946 0.0888672 16.5316 0 16.8232 0H18.3271C18.6188 0 18.8535 0.0888672 19.0312 0.266602C19.2135 0.444336 19.3047 0.679036 19.3047 0.970703V11.3477C19.3047 11.6348 19.2135 11.8672 19.0312 12.0449C18.8535 12.2272 18.6188 12.3184 18.3271 12.3184H16.8232Z"/></svg><svg style="position:absolute;left:308.95px;top:22.25px" width="17" height="12" viewBox="0 0 17 12"><path fill="currentColor" d="M8.0459 11.6484C7.95475 11.6484 7.86361 11.6234 7.77246 11.5732C7.68587 11.5231 7.57422 11.4297 7.4375 11.293L5.74902 9.67285C5.68522 9.60905 5.64421 9.54069 5.62598 9.46777C5.6123 9.3903 5.62598 9.31738 5.66699 9.24902C5.91764 8.91634 6.2526 8.63835 6.67188 8.41504C7.0957 8.18717 7.55371 8.07324 8.0459 8.07324C8.52441 8.07324 8.97103 8.18034 9.38574 8.39453C9.80046 8.60872 10.1331 8.87305 10.3838 9.1875C10.4476 9.26497 10.4727 9.34928 10.459 9.44043C10.4499 9.53158 10.4111 9.60905 10.3428 9.67285L8.6543 11.293C8.51758 11.4297 8.40365 11.5231 8.3125 11.5732C8.22591 11.6234 8.13704 11.6484 8.0459 11.6484ZM3.95117 7.82031L2.86426 6.76074C2.7959 6.69238 2.75944 6.61719 2.75488 6.53516C2.75033 6.44857 2.77767 6.36882 2.83691 6.2959C3.2015 5.86296 3.65267 5.48014 4.19043 5.14746C4.72819 4.81022 5.3252 4.5459 5.98145 4.35449C6.64225 4.16309 7.3304 4.06738 8.0459 4.06738C8.76139 4.06738 9.44727 4.16309 10.1035 4.35449C10.7598 4.5459 11.3568 4.81022 11.8945 5.14746C12.4368 5.48014 12.888 5.86296 13.248 6.2959C13.3118 6.36882 13.3392 6.44857 13.3301 6.53516C13.3255 6.62174 13.2891 6.69694 13.2207 6.76074L12.1338 7.82031C12.0472 7.90234 11.9538 7.94336 11.8535 7.94336C11.7578 7.94336 11.6712 7.90234 11.5938 7.82031C11.1608 7.36003 10.6299 6.98405 10.001 6.69238C9.37663 6.40072 8.72493 6.25716 8.0459 6.26172C7.37598 6.25716 6.72656 6.39844 6.09766 6.68555C5.47331 6.9681 4.94922 7.33724 4.52539 7.79297C4.44336 7.88411 4.34766 7.93424 4.23828 7.94336C4.13346 7.94792 4.03776 7.9069 3.95117 7.82031ZM1.08008 4.9834L0.116211 3.99902C0.0478516 3.92611 0.0113932 3.84635 0.00683594 3.75977C0.00227865 3.66862 0.0296224 3.58887 0.0888672 3.52051C0.640299 2.83236 1.33529 2.22396 2.17383 1.69531C3.01237 1.16211 3.93294 0.747396 4.93555 0.451172C5.94271 0.150391 6.97949 0 8.0459 0C9.10775 0 10.1423 0.150391 11.1494 0.451172C12.1566 0.751953 13.0771 1.16667 13.9111 1.69531C14.7497 2.22396 15.4447 2.83236 15.9961 3.52051C16.0599 3.58887 16.0895 3.66862 16.085 3.75977C16.085 3.84635 16.0485 3.92611 15.9756 3.99902L15.0049 4.96973C14.9274 5.0472 14.8363 5.08822 14.7314 5.09277C14.6266 5.09733 14.5355 5.06087 14.458 4.9834C13.6195 4.08105 12.6533 3.39746 11.5596 2.93262C10.4704 2.46322 9.29915 2.22852 8.0459 2.22852C6.80176 2.22852 5.63509 2.46322 4.5459 2.93262C3.45671 3.39746 2.48828 4.07878 1.64062 4.97656C1.56315 5.05859 1.46973 5.10189 1.36035 5.10645C1.25553 5.10645 1.16211 5.06543 1.08008 4.9834Z"/></svg><svg style="position:absolute;left:335.37px;top:22.06px" width="26" height="12" viewBox="0 0 26 12"><path fill="currentColor" d="M4.18359 8.94824C3.95117 8.94824 3.75749 8.92887 3.60254 8.89014C3.45312 8.84587 3.32861 8.77393 3.229 8.67432C3.12386 8.57471 3.05192 8.4502 3.01318 8.30078C2.97445 8.14583 2.95508 7.94938 2.95508 7.71143V4.19189C2.95508 3.9484 2.97445 3.75195 3.01318 3.60254C3.05192 3.44759 3.12386 3.32031 3.229 3.2207C3.32308 3.11556 3.44759 3.04362 3.60254 3.00488C3.75749 2.96615 3.95671 2.94678 4.2002 2.94678H18.1206C18.3586 2.94678 18.5522 2.96615 18.7017 3.00488C18.8511 3.04362 18.9784 3.11556 19.0835 3.2207C19.1831 3.32031 19.2523 3.44482 19.291 3.59424C19.3298 3.74365 19.3491 3.93734 19.3491 4.17529V7.71143C19.3491 8.1652 19.2606 8.48617 19.0835 8.67432C18.9784 8.77393 18.8511 8.84587 18.7017 8.89014C18.5522 8.92887 18.3586 8.94824 18.1206 8.94824H4.18359ZM4.64844 11.895C3.86263 11.895 3.1709 11.8286 2.57324 11.6958C1.98112 11.5575 1.46924 11.2752 1.0376 10.8491C0.605957 10.423 0.32373 9.9139 0.190918 9.32178C0.0636393 8.72965 0 8.03516 0 7.23828V4.63184C0 3.85156 0.0664062 3.16813 0.199219 2.58154C0.332031 1.98942 0.611491 1.47754 1.0376 1.0459C1.46924 0.619792 1.98112 0.340332 2.57324 0.20752C3.1709 0.0691732 3.85986 0 4.64014 0H17.6475C18.4388 0 19.1305 0.0664062 19.7227 0.199219C20.3203 0.332031 20.835 0.614258 21.2666 1.0459C21.6927 1.47201 21.9722 1.98112 22.105 2.57324C22.2378 3.16536 22.3042 3.8571 22.3042 4.64844V7.23828C22.3042 8.03516 22.2378 8.72965 22.105 9.32178C21.9722 9.90837 21.6927 10.4175 21.2666 10.8491C20.835 11.2752 20.3203 11.5575 19.7227 11.6958C19.1305 11.8286 18.4388 11.895 17.6475 11.895H4.64844ZM4.42432 10.0439H17.8799C18.3115 10.0439 18.7044 10.008 19.0586 9.93604C19.4128 9.85856 19.6978 9.71191 19.9136 9.49609C20.1294 9.27474 20.2733 8.99251 20.3452 8.64941C20.4227 8.30078 20.4614 7.90788 20.4614 7.4707V4.41602C20.4614 3.98438 20.4227 3.59424 20.3452 3.24561C20.2733 2.89697 20.1294 2.61475 19.9136 2.39893C19.6978 2.18311 19.4128 2.03923 19.0586 1.96729C18.7044 1.88981 18.3115 1.85107 17.8799 1.85107H4.44092C4.00374 1.85107 3.60531 1.88704 3.24561 1.95898C2.8859 2.03092 2.60091 2.17757 2.39062 2.39893C2.1748 2.61475 2.02816 2.89697 1.95068 3.24561C1.87874 3.59424 1.84277 3.98991 1.84277 4.43262V7.4707C1.84277 7.90788 1.87874 8.30078 1.95068 8.64941C2.02816 8.99805 2.1748 9.28027 2.39062 9.49609C2.60645 9.71191 2.89144 9.85856 3.24561 9.93604C3.59977 10.008 3.99268 10.0439 4.42432 10.0439ZM23.5742 8.27588V3.61914C23.8122 3.63021 24.0584 3.73535 24.313 3.93457C24.5731 4.12826 24.7917 4.39665 24.9688 4.73975C25.1514 5.08285 25.2427 5.48405 25.2427 5.94336C25.2427 6.40267 25.1514 6.80387 24.9688 7.14697C24.7917 7.49007 24.5731 7.76123 24.313 7.96045C24.0584 8.15413 23.8122 8.25928 23.5742 8.27588Z"/></svg></div>
+      <header class="top"><h1>Library</h1><span id="count"></span></header>
+      <div class="tools">
+        <label class="search" id="searchBox"><svg class="sf" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><use href="#s-magnifyingglass"/></svg>
+          <input id="q" type="search" placeholder="Search typefaces" aria-label="Search typefaces" autocomplete="off"><button class="clear" id="clear" type="button" data-press="icon" aria-label="Clear search"><svg class="sf" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><use href="#s-xmark-circle-fill"/></svg></button></label>
+        <div class="chips" id="chips" role="group" aria-label="Category"></div>
+      </div>
+      <div class="rows" id="rows"></div>
+      <div class="edge top"></div><div class="edge bottom"></div>
+      <p class="empty" id="empty">No typefaces match.</p>
+      <div class="scroller" id="scroller" tabindex="0" role="group" aria-label="Typefaces, A to Z. Scroll to bring one into focus."></div>
+      
+      
+      <nav class="nav" id="nav" aria-label="Tabs" role="tablist"><span class="ind" id="navInd" aria-hidden="true"></span><button class="tab" id="tabLib" type="button" role="tab" aria-selected="true" style="width:119px"><span class="ico"><svg class="sf" width="20" height="13" viewBox="0 0 20 13" aria-hidden="true"><use href="#s-textformat"/></svg></span><span class="lbl">Library</span></button><button class="tab" id="tabAcc" type="button" role="tab" aria-selected="false" style="width:56px"><span class="ico"><svg class="sf" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><use href="#s-accessibility"/></svg></span><span class="lbl">Accessibility</span></button></nav><div class="toast" id="toast" role="status" aria-live="polite"><span id="toastMsg"></span><button id="toastAct" type="button" data-press="solid" hidden></button></div><div class="homebar"></div>
+      <div class="det" id="detail" aria-hidden="true" aria-label="Lapture">
+        <button class="gb back" id="back" type="button" aria-label="Back to Library" data-press="glass"><svg class="sf" width="9" height="15" viewBox="0 0 9 15" aria-hidden="true"><use href="#s-chevron-left"/></svg></button>
+        <div class="tbar"><button id="detInfo" type="button" aria-label="Credits" data-press="glass"><span class="sw"><svg class="sf" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><use href="#s-info"/></svg></span></button><button id="detSave" type="button" aria-label="Save Lapture" aria-pressed="false" data-press="glass"><span class="sw" id="icBm"><svg class="sf" width="12" height="19" viewBox="0 0 12 19" aria-hidden="true"><use href="#s-bookmark"/></svg></span><span class="sw out" id="icBmF"><svg class="sf" width="12" height="19" viewBox="0 0 12 19" aria-hidden="true"><use href="#s-bookmark-fill"/></svg></span></button></div>
+        <section class="card spec" id="specCard"><div class="cb"></div>
+          <h2 class="tn">Lapture</h2>
+          <button class="stb" id="styleBtn" type="button" aria-haspopup="menu" aria-expanded="false" data-press="solid"><span id="styleLbl">Display</span><svg class="sf" width="11" height="7" viewBox="0 0 11 7" aria-hidden="true"><use href="#s-chevron-down"/></svg></button>
+          <svg class="menu msh" id="menuSh" aria-hidden="true" focusable="false"><defs><filter id="mshF" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity=".08"/><feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity=".06"/></filter><mask id="mshM" maskUnits="userSpaceOnUse" x="-80" y="-80" width="404" height="400"><rect x="-80" y="-80" width="404" height="400" fill="#fff"/><path id="mshCut" fill="#000"/></mask></defs><g mask="url(#mshM)"><path id="mshP" fill="#fff" filter="url(#mshF)"/></g></svg><div class="menu" id="styleMenu" role="menu" aria-labelledby="menuTitle"><svg class="medge" aria-hidden="true" focusable="false"><defs><mask id="meM1" maskUnits="userSpaceOnUse" x="-4" y="-4" width="400" height="400"><rect x="-4" y="-4" width="400" height="400" fill="#fff"/><path class="meS" fill="#000" transform="translate(1 1)"/></mask><mask id="meM2" maskUnits="userSpaceOnUse" x="-4" y="-4" width="400" height="400"><rect x="-4" y="-4" width="400" height="400" fill="#fff"/><path class="meS" fill="#000" transform="translate(-1 -1)"/></mask></defs><path class="meS" fill="#fff" fill-opacity=".75" mask="url(#meM1)"/><path class="meS" fill="#fff" fill-opacity=".3" mask="url(#meM2)"/><path class="meS" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1"/></svg><p class="mt" id="menuTitle">Optical size</p><button type="button" role="menuitemradio" aria-checked="true" data-s="Display"><span class="ck"><svg class="sf" width="14" height="14" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-checkmark"/></svg></span><span class="mx">Display<small>Large sizes · 5 weights</small></span></button><button type="button" role="menuitemradio" aria-checked="false" data-s="Text"><span class="ck"><svg class="sf" width="14" height="14" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-checkmark"/></svg></span><span class="mx">Text<small>Small sizes · Regular and Bold</small></span></button></div>
+          <div class="vt" role="tablist" aria-label="View"><button type="button" class="chip" id="vSpec" role="tab" aria-selected="true" data-on="true">Specimen</button><button type="button" class="chip" id="vChar" role="tab" aria-selected="false" data-on="false">Characters</button></div><div class="view aaV" id="aaV"><div class="sx" id="sx"><span id="sxA">Aa</span><span id="sxB" style="opacity:0"></span></div></div>
+          <div class="view gridV hide" id="gridV" aria-label="Characters"><div id="glyphs"></div></div>
+          <label class="pf" id="pf"><svg class="sf" width="19" height="20" viewBox="0 0 19 20" aria-hidden="true"><use href="#s-ibeam"/></svg><input id="detText" type="text" placeholder="Preview text" aria-label="Preview text" autocomplete="off" enterkeyhint="done"><button class="xc" id="detClear" type="button" data-press="icon" aria-label="Clear preview text" tabindex="-1"><svg class="sf" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><use href="#s-xmark-circle-fill"/></svg></button></label>
+        </section>
+        <section class="card adj"><div class="cb"></div><span class="lb" id="wLbl">Weight</span>
+          <div class="well" id="well" role="radiogroup" aria-labelledby="wLbl"><span class="ind" id="wInd"></span><button type="button" role="radio" aria-checked="true" data-w="400" data-n="Regular" style="left:0px"><i style="font-weight:400">Aa</i><small>Regular</small></button><button type="button" role="radio" aria-checked="false" data-w="600" data-n="Semibold" style="left:68.25px"><i style="font-weight:600">Aa</i><small>Semibold</small></button><button type="button" role="radio" aria-checked="false" data-w="700" data-n="Bold" style="left:136.5px"><i style="font-weight:700">Aa</i><small>Bold</small></button><button type="button" role="radio" aria-checked="false" data-w="800" data-n="Extrabold" style="left:204.75px"><i style="font-weight:800">Aa</i><small>Extrabold</small></button><button type="button" role="radio" aria-checked="false" data-w="900" data-n="Black" style="left:273px"><i style="font-weight:900">Aa</i><small>Black</small></button></div></section>
+      </div>
+      <div class="gly cred" id="gly" aria-hidden="true" aria-label="Character"><div class="cs">
+          <section class="card gcard" id="gCard"><div class="cb"></div><svg id="gSvg" width="361" height="252" viewBox="0 0 361 252" aria-hidden="true"></svg>
+            <div class="well gwell" id="gWell" role="radiogroup" aria-label="Weight"><span class="ind" id="gInd"></span><button type="button" role="radio" aria-checked="false" data-w="400"><i style="font-weight:400"></i><small>Regular</small></button><button type="button" role="radio" aria-checked="false" data-w="600"><i style="font-weight:600"></i><small>Semibold</small></button><button type="button" role="radio" aria-checked="false" data-w="700"><i style="font-weight:700"></i><small>Bold</small></button><button type="button" role="radio" aria-checked="false" data-w="800"><i style="font-weight:800"></i><small>Extrabold</small></button><button type="button" role="radio" aria-checked="false" data-w="900"><i style="font-weight:900"></i><small>Black</small></button></div>
+            <div class="gnav"><button class="gb" id="gPrev" type="button" aria-label="Previous character" data-press="solid"><svg class="sf" width="9" height="15" viewBox="0 0 9 15" aria-hidden="true"><use href="#s-chevron-left"/></svg></button><span id="gPos"></span><button class="gb" id="gNext" type="button" aria-label="Next character" data-press="solid"><svg class="sf" width="8" height="13" viewBox="0 0 8 13" aria-hidden="true"><use href="#s-chevron-right"/></svg></button></div></section>
+          <ul class="grp ginfo"><li><span><small>Name</small><b id="gName"></b></span></li><li><span><small>Unicode</small><b id="gCode"></b></span></li><li><span><small>Group · weight</small><b id="gGroup"></b></span></li></ul>
+        </div><div class="ctop"></div><p class="ctl">Character</p><button class="gb" id="glyBack" type="button" aria-label="Back to characters" data-press="glass" style="left:16px"><svg class="sf" width="9" height="15" viewBox="0 0 9 15" aria-hidden="true"><use href="#s-chevron-left"/></svg></button></div>
+      <div class="cred" id="cred" aria-hidden="true" aria-label="Credits"><div class="cbot" aria-hidden="true"></div><div class="cs" id="credScroll">
+          <h2 class="cn">Lapture</h2><p class="cby">Tim Ahrens and Oleg Macujev</p><p class="caf">Just Another Foundry</p><p class="caf">after Leipziger Antiqua by Albert Kapr, Typoart</p>
+          <section class="ccard"><h3 class="ch">About the typeface</h3><ul class="grp"><li><a href="https://justanotherfoundry.com/lapture" target="_blank" rel="noopener"><span><b>JAF Lapture</b><small>Just Another Foundry</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li><li><a href="https://typographica.org/?p=3800" target="_blank" rel="noopener"><span><b>Tim Ahrens’ Tribute to Albert Kapr</b><small>Typographica</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li><li><a href="https://news.fontstand.com/font-reviews/jaf-lapture/" target="_blank" rel="noopener"><span><b>JAF Lapture review</b><small>Fontstand News</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li></ul><p class="cnote">This version is set in Grenze in place of Lapture, which can’t load on this page.</p></section>
+          <section class="ccard"><h3 class="ch">Accessibility sources</h3><ul class="grp"><li><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html" target="_blank" rel="noopener"><span><b>WCAG 2.2 · 1.4.3</b><small>Contrast: 4.5 : 1 for body text (AA)</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li><li><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced.html" target="_blank" rel="noopener"><span><b>WCAG 2.2 · 1.4.6</b><small>Contrast: 7 : 1 for body text (AAA)</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li><li><a href="https://developer.apple.com/design/human-interface-guidelines/typography" target="_blank" rel="noopener"><span><b>Apple HIG · Typography</b><small>Small sizes: 17 pt default, 11 pt minimum</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li><li><a href="https://www.access-board.gov/ada/#ada-703" target="_blank" rel="noopener"><span><b>2010 ADA Standards · 703.5.5</b><small>Signage: cap height by viewing distance</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li><li><a href="https://typography.guru/journal/letters-symbols-misrecognition/" target="_blank" rel="noopener"><span><b>Thomas Bohm · Typography Guru</b><small>Look-alikes: the pairs readers often misread</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li><li><a href="https://www.microsoft.com/en-us/research/uploads/prod/2021/06/Beier-Larson-2010-Design-Improvements-for-Frequently-Misrecognized-Letters.pdf" target="_blank" rel="noopener"><span><b>Beier and Larson · 2010</b><small>Look-alikes: tested rates of misread letters</small></span><svg class="sf" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M11.2134 8.30566C11.2134 8.57422 11.123 8.79883 10.9424 8.97949C10.7617 9.16016 10.5493 9.25049 10.3052 9.25049C10.0562 9.25049 9.84619 9.16016 9.67529 8.97949C9.50928 8.79395 9.42627 8.57422 9.42627 8.32031V5.55908L9.53613 2.82715L8.36426 4.14551L1.59668 10.9058C1.39648 11.106 1.17432 11.2061 0.930176 11.2061C0.76416 11.2061 0.610352 11.1621 0.46875 11.0742C0.332031 10.9863 0.219727 10.8716 0.131836 10.73C0.0439453 10.5835 0 10.4321 0 10.2759C0 10.0317 0.100098 9.80957 0.300293 9.60938L7.06055 2.83447L8.37158 1.67725L5.52979 1.77979H2.87842C2.62939 1.77979 2.41211 1.69434 2.22656 1.52344C2.0459 1.35254 1.95557 1.14502 1.95557 0.900879C1.95557 0.656738 2.04346 0.446777 2.21924 0.270996C2.3999 0.090332 2.62451 0 2.89307 0H10.2393C10.5371 0 10.7715 0.090332 10.9424 0.270996C11.1182 0.446777 11.2061 0.67627 11.2061 0.959473L11.2134 8.30566Z"/></svg></a></li></ul>
+          <p class="cnote" style="white-space:pre-line">Look-alike scores measure letter overlap.
+There’s no agreed threshold, so pairs are ranked.</p></section>
+        </div><p class="ctl">Credits</p><button class="gb" id="credBack" type="button" aria-label="Back to Lapture" data-press="glass" style="left:16px"><svg class="sf" width="9" height="15" viewBox="0 0 9 15" aria-hidden="true"><use href="#s-chevron-left"/></svg></button></div>
+      <div class="acc" id="acc" aria-hidden="true"><div class="atop" aria-hidden="true"></div><div class="abot" aria-hidden="true"></div><div class="as" id="accScroll">
+        <h2>Accessibility</h2><button class="ctx" id="ctxBtn" type="button" data-press="text"><span>Checking</span> <b id="ctxStyle">Lapture · Display Regular</b><svg class="sf" width="8" height="13" viewBox="0 0 8 13" aria-hidden="true"><use href="#s-chevron-right"/></svg></button><div class="chips sty" id="styChips" role="radiogroup" aria-label="Style to check"></div><p class="note" id="styNote">Save a style on the Lapture page with the bookmark to check it here.</p>
+                <label class="afield" id="accField" style="display:none"><span aria-hidden="true" style="font:400 19px/1 var(--ui)">A&#x2336;</span><input id="accText" type="text" placeholder="Test your own words" aria-label="Your own text" autocomplete="off"><button class="xc" id="accClear" type="button" data-press="icon" aria-label="Clear your text" tabindex="-1" style="margin-right:-11.5px"><svg class="sf" width="17" height="17" viewBox="0 0 17 17" aria-hidden="true"><use href="#s-xmark-circle-fill"/></svg></button></label>
+        <section class="acard" aria-labelledby="lc"><div class="ah"><span id="lc" role="heading" aria-level="3" style="font-weight:600">Size and contrast</span><b id="cr" role="status" aria-live="polite"></b></div>
+          <div class="well2" id="cWell"><div class="sz" data-min="3"><span>24 pt · large</span><p data-s="24"></p><span class="mk"><span class="yes"><svg class="sf" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-checkmark"/></svg></span><span class="no"><svg class="sf" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-xmark"/></svg></span></span></div><div class="sz" data-min="4.5"><span>17 pt · body</span><p data-s="17"></p><span class="mk"><span class="yes"><svg class="sf" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-checkmark"/></svg></span><span class="no"><svg class="sf" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-xmark"/></svg></span></span></div><div class="sz" data-min="4.5"><span>11 pt · minimum</span><p data-s="11"></p><span class="mk"><span class="yes"><svg class="sf" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-checkmark"/></svg></span><span class="no"><svg class="sf" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-xmark"/></svg></span></span></div></div>
+          <button class="crow" type="button" id="rowT" data-k="T" aria-haspopup="dialog"><span class="sw" id="swT"></span>Text<em id="hexT"></em><svg class="sf" width="8" height="13" viewBox="0 0 8 13" aria-hidden="true"><use href="#s-chevron-right"/></svg></button>
+          <button class="crow" type="button" id="rowB" data-k="B" aria-haspopup="dialog"><span class="sw" id="swB"></span>Background<em id="hexB"></em><svg class="sf" width="8" height="13" viewBox="0 0 8 13" aria-hidden="true"><use href="#s-chevron-right"/></svg></button>
+          <p class="note" id="smallHint" style="white-space:pre-line">WCAG AA: 4.5 : 1 below 24 pt, 3 : 1 at 24 pt and up.</p></section>
+        <section class="acard" aria-labelledby="la"><div class="ah"><span id="la" role="heading" aria-level="3" style="font-weight:600">Look-alikes</span></div><div class="pairs"></div>
+          <p class="note">Longer bars overlap more in the style you’re checking, so those pairs are easier to misread.</p></section>
+        
+        
+        <section class="acard" aria-labelledby="ld"><div class="ah" style="align-items:center;margin-bottom:0"><span id="ld" role="heading" aria-level="3" style="font-weight:600">Signage</span><button class="tgl" id="dTgl" role="switch" aria-checked="false" aria-label="Size letters for a viewing distance"></button></div>
+          <p class="note" id="dHint">For print and signs: turn on to size the letters for how far away people stand.</p>
+          <div class="exp" id="dExp"><div><div id="dBody"><p class="note" id="dLbl" style="margin:16px 0 0">Viewing distance</p>
+            <input id="dist" type="range" min="1" max="40" step="1" value="10" hidden>
+            <div class="dticks" id="dial" role="slider" tabindex="0" aria-labelledby="dLbl" aria-valuemin="1" aria-valuemax="40" aria-valuenow="10" aria-valuetext="10 metres"><b class="dbadge" id="dOut" aria-hidden="true">10 m</b></div>
+            <div class="dends" aria-hidden="true"><span>1 m</span><span>40 m</span></div>
+            <p class="note" style="margin:16px 0 0">Minimum cap height</p><div class="dbig" id="dCap"></div>
+            <p class="note" style="margin:12px 0 0">Measured on the capital I, for a sign 1.0 to 1.8 m above the floor (ADA 703.5.5).</p></div></div></div></section>
+      </div><div class="atop"></div><div class="abot"></div><div class="csheet" id="cSheet" role="dialog" aria-labelledby="csT" aria-hidden="true" inert tabindex="-1">
+          <input type="hidden" id="colT" value="#1c1c1c"><input type="hidden" id="colB" value="#f4f4f4">
+          <p class="cst" id="csT">Text colour</p>
+          <button class="gb csx" id="csClose" type="button" aria-label="Done" data-press="glass"><svg class="sf" width="13" height="13" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-xmark"/></svg></button>
+          <label class="csfield"><span aria-hidden="true">#</span><input id="csHex" type="text" maxlength="7" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Hex colour" aria-describedby="csOk"></label>
+          <div class="csrow"><span id="csLl">Lightness</span><b id="csLv"></b></div>
+          <div class="cstrack" id="csTrack" aria-hidden="true"></div><input type="range" id="csL" min="0" max="100" step="0.5" aria-labelledby="csLl"><div class="cspass" id="csPass" aria-hidden="true"></div>
+          <button class="csfix" id="csFix" type="button" data-press="solid"></button><p class="csok" id="csOk" role="status"><svg class="sf" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-checkmark"/></svg><span>Passes AA at every size</span></p>
+        </div></div>
+    </div>
+  </div>
+</div>
+<footer class="note">opens straight into the Library. scroll the list, search, filter, open Lapture: type a preview, pick a weight, flip to the glyph grid, open a character, open credits. swipe from the left edge to go back. the Accessibility tab keeps your place in Library.</footer>
+
+<script>
+// figma-squircle 1.1.0 (MIT, Tien Pham): Figma's corner-smoothing squircle as an SVG path
+// src/distribute.ts
+function distributeAndNormalize({
+  topLeftCornerRadius,
+  topRightCornerRadius,
+  bottomRightCornerRadius,
+  bottomLeftCornerRadius,
+  width,
+  height
+}) {
+  const roundingAndSmoothingBudgetMap = {
+    topLeft: -1,
+    topRight: -1,
+    bottomLeft: -1,
+    bottomRight: -1
+  };
+  const cornerRadiusMap = {
+    topLeft: topLeftCornerRadius,
+    topRight: topRightCornerRadius,
+    bottomLeft: bottomLeftCornerRadius,
+    bottomRight: bottomRightCornerRadius
+  };
+  Object.entries(cornerRadiusMap).sort(([, radius1], [, radius2]) => {
+    return radius2 - radius1;
+  }).forEach(([cornerName, radius]) => {
+    const corner = cornerName;
+    const adjacents = adjacentsByCorner[corner];
+    const budget = Math.min(
+      ...adjacents.map((adjacent) => {
+        const adjacentCornerRadius = cornerRadiusMap[adjacent.corner];
+        if (radius === 0 && adjacentCornerRadius === 0) {
+          return 0;
+        }
+        const adjacentCornerBudget = roundingAndSmoothingBudgetMap[adjacent.corner];
+        const sideLength = adjacent.side === "top" || adjacent.side === "bottom" ? width : height;
+        if (adjacentCornerBudget >= 0) {
+          return sideLength - roundingAndSmoothingBudgetMap[adjacent.corner];
+        } else {
+          return radius / (radius + adjacentCornerRadius) * sideLength;
+        }
+      })
+    );
+    roundingAndSmoothingBudgetMap[corner] = budget;
+    cornerRadiusMap[corner] = Math.min(radius, budget);
+  });
+  return {
+    topLeft: {
+      radius: cornerRadiusMap.topLeft,
+      roundingAndSmoothingBudget: roundingAndSmoothingBudgetMap.topLeft
+    },
+    topRight: {
+      radius: cornerRadiusMap.topRight,
+      roundingAndSmoothingBudget: roundingAndSmoothingBudgetMap.topRight
+    },
+    bottomLeft: {
+      radius: cornerRadiusMap.bottomLeft,
+      roundingAndSmoothingBudget: roundingAndSmoothingBudgetMap.bottomLeft
+    },
+    bottomRight: {
+      radius: cornerRadiusMap.bottomRight,
+      roundingAndSmoothingBudget: roundingAndSmoothingBudgetMap.bottomRight
+    }
+  };
+}
+var adjacentsByCorner = {
+  topLeft: [
+    {
+      corner: "topRight",
+      side: "top"
+    },
+    {
+      corner: "bottomLeft",
+      side: "left"
+    }
+  ],
+  topRight: [
+    {
+      corner: "topLeft",
+      side: "top"
+    },
+    {
+      corner: "bottomRight",
+      side: "right"
+    }
+  ],
+  bottomLeft: [
+    {
+      corner: "bottomRight",
+      side: "bottom"
+    },
+    {
+      corner: "topLeft",
+      side: "left"
+    }
+  ],
+  bottomRight: [
+    {
+      corner: "bottomLeft",
+      side: "bottom"
+    },
+    {
+      corner: "topRight",
+      side: "right"
+    }
+  ]
+};
+
+// src/draw.ts
+function getPathParamsForCorner({
+  cornerRadius,
+  cornerSmoothing,
+  preserveSmoothing,
+  roundingAndSmoothingBudget
+}) {
+  let p = (1 + cornerSmoothing) * cornerRadius;
+  if (!preserveSmoothing) {
+    const maxCornerSmoothing = roundingAndSmoothingBudget / cornerRadius - 1;
+    cornerSmoothing = Math.min(cornerSmoothing, maxCornerSmoothing);
+    p = Math.min(p, roundingAndSmoothingBudget);
+  }
+  const arcMeasure = 90 * (1 - cornerSmoothing);
+  const arcSectionLength = Math.sin(toRadians(arcMeasure / 2)) * cornerRadius * Math.sqrt(2);
+  const angleAlpha = (90 - arcMeasure) / 2;
+  const p3ToP4Distance = cornerRadius * Math.tan(toRadians(angleAlpha / 2));
+  const angleBeta = 45 * cornerSmoothing;
+  const c = p3ToP4Distance * Math.cos(toRadians(angleBeta));
+  const d = c * Math.tan(toRadians(angleBeta));
+  let b = (p - arcSectionLength - c - d) / 3;
+  let a = 2 * b;
+  if (preserveSmoothing && p > roundingAndSmoothingBudget) {
+    const p1ToP3MaxDistance = roundingAndSmoothingBudget - d - arcSectionLength - c;
+    const minA = p1ToP3MaxDistance / 6;
+    const maxB = p1ToP3MaxDistance - minA;
+    b = Math.min(b, maxB);
+    a = p1ToP3MaxDistance - b;
+    p = Math.min(p, roundingAndSmoothingBudget);
+  }
+  return {
+    a,
+    b,
+    c,
+    d,
+    p,
+    arcSectionLength,
+    cornerRadius
+  };
+}
+function getSVGPathFromPathParams({
+  width,
+  height,
+  topLeftPathParams,
+  topRightPathParams,
+  bottomLeftPathParams,
+  bottomRightPathParams
+}) {
+  return `
+    M ${width - topRightPathParams.p} 0
+    ${drawTopRightPath(topRightPathParams)}
+    L ${width} ${height - bottomRightPathParams.p}
+    ${drawBottomRightPath(bottomRightPathParams)}
+    L ${bottomLeftPathParams.p} ${height}
+    ${drawBottomLeftPath(bottomLeftPathParams)}
+    L 0 ${topLeftPathParams.p}
+    ${drawTopLeftPath(topLeftPathParams)}
+    Z
+  `.replace(/[\t\s\n]+/g, " ").trim();
+}
+function drawTopRightPath({
+  cornerRadius,
+  a,
+  b,
+  c,
+  d,
+  p,
+  arcSectionLength
+}) {
+  if (cornerRadius) {
+    return rounded`
+    c ${a} 0 ${a + b} 0 ${a + b + c} ${d}
+    a ${cornerRadius} ${cornerRadius} 0 0 1 ${arcSectionLength} ${arcSectionLength}
+    c ${d} ${c}
+        ${d} ${b + c}
+        ${d} ${a + b + c}`;
+  } else {
+    return rounded`l ${p} 0`;
+  }
+}
+function drawBottomRightPath({
+  cornerRadius,
+  a,
+  b,
+  c,
+  d,
+  p,
+  arcSectionLength
+}) {
+  if (cornerRadius) {
+    return rounded`
+    c 0 ${a}
+      0 ${a + b}
+      ${-d} ${a + b + c}
+    a ${cornerRadius} ${cornerRadius} 0 0 1 -${arcSectionLength} ${arcSectionLength}
+    c ${-c} ${d}
+      ${-(b + c)} ${d}
+      ${-(a + b + c)} ${d}`;
+  } else {
+    return rounded`l 0 ${p}`;
+  }
+}
+function drawBottomLeftPath({
+  cornerRadius,
+  a,
+  b,
+  c,
+  d,
+  p,
+  arcSectionLength
+}) {
+  if (cornerRadius) {
+    return rounded`
+    c ${-a} 0
+      ${-(a + b)} 0
+      ${-(a + b + c)} ${-d}
+    a ${cornerRadius} ${cornerRadius} 0 0 1 -${arcSectionLength} -${arcSectionLength}
+    c ${-d} ${-c}
+      ${-d} ${-(b + c)}
+      ${-d} ${-(a + b + c)}`;
+  } else {
+    return rounded`l ${-p} 0`;
+  }
+}
+function drawTopLeftPath({
+  cornerRadius,
+  a,
+  b,
+  c,
+  d,
+  p,
+  arcSectionLength
+}) {
+  if (cornerRadius) {
+    return rounded`
+    c 0 ${-a}
+      0 ${-(a + b)}
+      ${d} ${-(a + b + c)}
+    a ${cornerRadius} ${cornerRadius} 0 0 1 ${arcSectionLength} -${arcSectionLength}
+    c ${c} ${-d}
+      ${b + c} ${-d}
+      ${a + b + c} ${-d}`;
+  } else {
+    return rounded`l 0 ${-p}`;
+  }
+}
+function toRadians(degrees) {
+  return degrees * Math.PI / 180;
+}
+function rounded(strings, ...values) {
+  return strings.reduce((acc, str, i) => {
+    const value = values[i];
+    if (typeof value === "number") {
+      return acc + str + value.toFixed(4);
+    } else {
+      return acc + str + (value ?? "");
+    }
+  }, "");
+}
+
+// src/index.ts
+// Edward's squircle (components page · 'Squircle'): each corner is one cubic, starting 1.6×r from the corner, handles at 0.1765 of that
+function sqd(w,h,r){const e=Math.min(1.6*r,w/2,h/2),k=e*(5.8598/33.2),f=v=>+v.toFixed(3);
+  return `M 0 ${f(e)} C 0 ${f(k)} ${f(k)} 0 ${f(e)} 0 L ${f(w-e)} 0 C ${f(w-k)} 0 ${f(w)} ${f(k)} ${f(w)} ${f(e)} L ${f(w)} ${f(h-e)} C ${f(w)} ${f(h-k)} ${f(w-k)} ${f(h)} ${f(w-e)} ${f(h)} L ${f(e)} ${f(h)} C ${f(k)} ${f(h)} 0 ${f(h-k)} 0 ${f(h-e)} Z`;}
+function getSvgPath({
+  cornerRadius = 0,
+  topLeftCornerRadius,
+  topRightCornerRadius,
+  bottomRightCornerRadius,
+  bottomLeftCornerRadius,
+  cornerSmoothing,
+  width,
+  height,
+  preserveSmoothing = false
+}) {
+  topLeftCornerRadius = topLeftCornerRadius ?? cornerRadius;
+  topRightCornerRadius = topRightCornerRadius ?? cornerRadius;
+  bottomLeftCornerRadius = bottomLeftCornerRadius ?? cornerRadius;
+  bottomRightCornerRadius = bottomRightCornerRadius ?? cornerRadius;
+  if (topLeftCornerRadius === topRightCornerRadius && topRightCornerRadius === bottomRightCornerRadius && bottomRightCornerRadius === bottomLeftCornerRadius && bottomLeftCornerRadius === topLeftCornerRadius) {
+    const roundingAndSmoothingBudget = Math.min(width, height) / 2;
+    const cornerRadius2 = Math.min(
+      topLeftCornerRadius,
+      roundingAndSmoothingBudget
+    );
+    const pathParams = getPathParamsForCorner({
+      cornerRadius: cornerRadius2,
+      cornerSmoothing,
+      preserveSmoothing,
+      roundingAndSmoothingBudget
+    });
+    return getSVGPathFromPathParams({
+      width,
+      height,
+      topLeftPathParams: pathParams,
+      topRightPathParams: pathParams,
+      bottomLeftPathParams: pathParams,
+      bottomRightPathParams: pathParams
+    });
+  }
+  const { topLeft, topRight, bottomLeft, bottomRight } = distributeAndNormalize(
+    {
+      topLeftCornerRadius,
+      topRightCornerRadius,
+      bottomRightCornerRadius,
+      bottomLeftCornerRadius,
+      width,
+      height
+    }
+  );
+  return getSVGPathFromPathParams({
+    width,
+    height,
+    topLeftPathParams: getPathParamsForCorner({
+      cornerSmoothing,
+      preserveSmoothing,
+      cornerRadius: topLeft.radius,
+      roundingAndSmoothingBudget: topLeft.roundingAndSmoothingBudget
+    }),
+    topRightPathParams: getPathParamsForCorner({
+      cornerSmoothing,
+      preserveSmoothing,
+      cornerRadius: topRight.radius,
+      roundingAndSmoothingBudget: topRight.roundingAndSmoothingBudget
+    }),
+    bottomRightPathParams: getPathParamsForCorner({
+      cornerSmoothing,
+      preserveSmoothing,
+      cornerRadius: bottomRight.radius,
+      roundingAndSmoothingBudget: bottomRight.roundingAndSmoothingBudget
+    }),
+    bottomLeftPathParams: getPathParamsForCorner({
+      cornerSmoothing,
+      preserveSmoothing,
+      cornerRadius: bottomLeft.radius,
+      roundingAndSmoothingBudget: bottomLeft.roundingAndSmoothingBudget
+    })
+  });
+}
+
+
+// name, css family, weight, style, classification, designer · styles (from each family's METADATA.pb in github.com/google/fonts: named weights in the wght range, times two if it has italics)
+const F=[
+ ['Abril Fatface','"Abril Fatface",serif',400,'normal','Serif','TypeTogether · 1 style'],
+ ['Anton','"Anton",sans-serif',400,'normal','Sans','Vernon Adams · 1 style'],
+ ['Archivo Black','"Archivo Black",sans-serif',400,'normal','Sans','Omnibus-Type · 1 style'],
+ ['Bebas Neue','"Bebas Neue",sans-serif',400,'normal','Sans','Ryoichi Tsunekawa · 1 style'],
+ ['Big Shoulders','"Big Shoulders Display",sans-serif',900,'normal','Sans','Patric King · 9 styles'],
+ ['Bodoni Moda','"Bodoni Moda",serif',700,'normal','Serif','Owen Earl · 12 styles'],
+ ['Bricolage Grotesque','"Bricolage Grotesque",sans-serif',800,'normal','Sans','Mathieu Triay · 7 styles'],
+ ['Cormorant Garamond','"Cormorant Garamond",serif',600,'italic','Serif','Christian Thalmann · 10 styles'],
+ ['DM Serif Display','"DM Serif Display",serif',400,'normal','Serif','Colophon Foundry · 2 styles'],
+ ['Doto','"Doto",monospace',700,'normal','Mono','Óliver Lalan · 9 styles'],
+ ['EB Garamond','"EB Garamond",serif',500,'normal','Serif','Georg Duffner, Octavio Pardo · 10 styles'],
+ ['Fraunces','"Fraunces",serif',900,'normal','Serif','Undercase Type and 2 others · 18 styles'],
+ ['Gloock','"Gloock",serif',400,'normal','Serif','Duarte Pinto · 1 style'],
+ ['Instrument Serif','"Instrument Serif",serif',400,'normal','Serif','Rodrigo Fuenzalida, Jordan Egstad · 2 styles'],
+ ['Italiana','"Italiana",serif',400,'normal','Serif','Santiago Orozco · 1 style'],
+ ['Lapture','"Grenze",Georgia,serif',400,'normal','Serif','Just Another Foundry · 19 styles',true],
+ ['Pixelify Sans','"Pixelify Sans",sans-serif',600,'normal','Pixel','Stefie Justprince · 4 styles'],
+ ['Playfair Display','"Playfair Display",serif',900,'normal','Serif','Claus Eggers Sørensen · 12 styles'],
+ ['Righteous','"Righteous",sans-serif',400,'normal','Display','Astigmatic · 1 style'],
+ ['Rozha One','"Rozha One",serif',400,'normal','Serif','Indian Type Foundry · 1 style'],
+ ['Space Mono','"Space Mono",monospace',700,'normal','Mono','Colophon Foundry · 4 styles'],
+ ['Syne','"Syne",sans-serif',800,'normal','Sans','Bonjour Monde and 2 others · 5 styles'],
+ ['Unbounded','"Unbounded",sans-serif',700,'normal','Sans','NaN · 8 styles'],
+ ['Young Serif','"Young Serif",serif',400,'normal','Serif','Bastien Sozeau · 1 style']
+];
+const LAP=F.findIndex(f=>f[6]);
+const PILL=52,CARD=300,GAP=8,STEP=PILL+GAP,TOP=330,LISTTOP=0;   // the focused card's top edge sits at y=330
+const W0=329,W1=361;
+const $=id=>document.getElementById(id);
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)), lerp=(a,b,k)=>a+(b-a)*k;
+const ease=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;   // symmetric: ease(x)+ease(1-x)=1, so total expansion stays constant
+
+const rowsEl=$('rows');
+const R=F.map((f,i)=>{
+  const r=document.createElement('div');r.className='row';r.setAttribute('aria-label',f[0]+', '+f[4]);
+  const ff=`font-family:${f[1]};font-weight:${f[2]};font-style:${f[3]}`;
+  r.innerHTML=`<div class="cb"><div class="ic" style='${ff}'>Aa</div><div class="nm" style='${ff}'>${f[0]}</div><div class="cl">${f[4]}</div>
+   <div class="body"><div class="big" style='${ff}'><span class="lv">Aa</span></div><div class="src">${f[5]}</div>
+   ${f[6]?'<button class="open" type="button" tabindex="-1" aria-label="Open Lapture"><svg class="sf" width="8" height="13" viewBox="0 0 8 13" aria-hidden="true"><use href="#s-chevron-right"/></svg></button>':'<span class="open" aria-hidden="true"><svg class="sf" width="8" height="13" viewBox="0 0 8 13"><use href="#s-chevron-right"/></svg></span>'}</div></div>`;
+  rowsEl.appendChild(r);return r;
+});
+
+// filtered list: indices into F
+let L=F.map((_,i)=>i), cat='All', q='';
+const sc=$('scroller');
+function buildScroll(){
+  sc.innerHTML='';
+  const head=document.createElement('div');head.style.height=(TOP-LISTTOP)+'px';sc.appendChild(head);
+  L.forEach(()=>{const s=document.createElement('div');s.className='snap';s.style.scrollMarginTop=(TOP-LISTTOP)+'px';sc.appendChild(s);});
+  const tail=document.createElement('div');tail.style.height=(852-LISTTOP-(TOP-LISTTOP)-STEP)+'px';sc.appendChild(tail);
+}
+let ticking=false;
+function layout(){
+  ticking=false;
+  const f=sc.scrollTop/STEP;
+  // each row moves exactly STEP per index; rows below an open card are pushed down by how much the cards above them have grown.
+  // every term only ever moves rows upward as you scroll down, so nothing reverses direction mid-scroll (that was the jiggle)
+  let grown=0;const visible=new Set(L);
+  R.forEach((r,i)=>{if(!visible.has(i))r.style.visibility='hidden';});
+  L.forEach((i,k)=>{
+    const r=R[i],e=ease(clamp(1-Math.abs(k-f))),h=lerp(PILL,CARD,e);
+    const top=TOP+(k-f)*STEP+grown;grown+=h-PILL;
+    const w=lerp(W0,W1,e),bottom=top+h;
+    const op=1;
+    if(bottom<-10||top>862){r.style.visibility='hidden';return;}
+    r.style.visibility='visible';
+    r.style.width=w.toFixed(2)+'px';r.style.height=h.toFixed(2)+'px';r.style.transform=`translate3d(${((393-w)/2).toFixed(2)}px,${top.toFixed(2)}px,0)`;
+    // collapsed rows are full capsules; the open card is a hero card (radius 48 = 24 padding + the 24 of its inner pills), easing from 26 as it opens
+    const rad=Math.min(h/2,lerp(h/2,48,e)),pk=w.toFixed(1)+'|'+h.toFixed(1);
+    if(e<.001){r._pk='pill';r.firstElementChild.style.clipPath='';r.style.borderRadius=(h/2)+'px';}   // collapsed pills: full capsule
+    else{if(r._pk!==pk){r._pk=pk;r.firstElementChild.style.clipPath=`path('${sqd(w,h,rad)}')`;}
+      r.style.borderRadius=rad.toFixed(1)+'px';}   // only shapes the soft shadow behind the clip
+    r.style.filter='';
+    const ic=r.querySelector('.ic'),nm=r.querySelector('.nm'),cl=r.querySelector('.cl');
+    ic.style.left=ic.style.top=lerp(8,24,e).toFixed(1)+'px';nm.style.left=lerp(54,70,e).toFixed(1)+'px';nm.style.top=lerp(0,16,e).toFixed(1)+'px';
+    cl.style.right=lerp(16,24,e).toFixed(1)+'px';cl.style.top=lerp(0,16,e).toFixed(1)+'px';r.style.opacity=op.toFixed(3);
+    const key=e.toFixed(3)+'|'+top.toFixed(1);if(r._k===key)return;r._k=key;
+    // no shadow: rows and cards sit in the content layer; their fill against the background already defines the edge
+    r.style.zIndex=Math.round(100+e*10);
+    r.querySelector('.body').style.opacity=clamp((e-.6)/.35).toFixed(3);
+    
+    r.style.setProperty('--g',clamp((e-.3)/.7).toFixed(3));
+    const o=r.querySelector('button.open');if(o)o.tabIndex=e>.9?0:-1;
+  });
+  $('empty').style.display=L.length?'none':'block';
+}
+const req=()=>{if(!ticking){ticking=true;requestAnimationFrame(layout);}};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function goTo(k){sc.scrollTo({top:k*STEP,behavior:reduce?'auto':'smooth'});}
+sc.addEventListener('scroll',req,{passive:true});
+sc.addEventListener('keydown',e=>{const k=Math.round(sc.scrollTop/STEP);
+  if(e.key==='ArrowDown'){e.preventDefault();goTo(Math.min(L.length-1,k+1));}
+  if(e.key==='ArrowUp'){e.preventDefault();goTo(Math.max(0,k-1));}
+  if((e.key==='Enter'||e.key===' ')&&L[k]===LAP){e.preventDefault();openDetail();}});
+// rows sit under the scroller; forward taps to the row underneath
+sc.addEventListener('click',e=>{sc.style.pointerEvents='none';const el=document.elementFromPoint(e.clientX,e.clientY);sc.style.pointerEvents='';
+  const row=el&&el.closest('.row');if(!row)return;const i=R.indexOf(row),k=L.indexOf(i);
+  const focus=Math.round(sc.scrollTop/STEP);
+  if(i===LAP&&k===focus)openDetail();else if(k>=0)goTo(k);});   // the whole focused Lapture card opens it
+
+// filters
+function apply(keepIndex){
+  const prev=L[Math.round(sc.scrollTop/STEP)];
+  L=F.map((_,i)=>i).filter(i=>(cat==='All'||(cat==='Other'?(F[i][4]!=='Serif'&&F[i][4]!=='Sans'):F[i][4]===cat))&&F[i][0].toLowerCase().includes(q));
+  $('count').textContent=L.length+(L.length===1?' typeface':' typefaces');
+  buildScroll();
+  let k=L.indexOf(keepIndex!=null?keepIndex:prev);if(k<0)k=L.indexOf(LAP);if(k<0)k=0;
+  sc.scrollTop=k*STEP;layout();
+}
+const CATS=['All','Serif','Sans','Other'];
+CATS.forEach(c=>{const b=document.createElement('button');b.className='chip';b.type='button';b.textContent=c;b.setAttribute('aria-pressed',c===cat);
+  b.onclick=()=>{cat=c;$('chips').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x.textContent===c));apply();};$('chips').appendChild(b);});
+
+$('q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();$('searchBox').classList.toggle('has',!!e.target.value);apply();});
+$('clear').onclick=()=>{$('q').value='';q='';$('searchBox').classList.remove('has');apply();$('q').focus();};
+
+function fit(){$('screen').style.transform=`scale(${$('device').clientHeight/852})`;}
+addEventListener('resize',fit);fit();
+apply(LAP);
+document.fonts&&document.fonts.ready.then(()=>{document.querySelectorAll('.row .big').forEach(e=>bigFit(e,($('accText')||{}).value?$('accText').value.trim():''));layout();});
+
+
+// ---- Accessibility tab: a general readability check of the current style (no sign setup)
+const PAIRS=[['b','d'],['p','q'],['I','l'],['I','1'],['l','1'],['8','B'],['rn','m'],['O','0'],['2','Z'],['cl','d'],['5','S'],['vv','w']];
+// overlap = shared ink / combined ink of the two shapes, centred, on one baseline; the higher of as-is and flipped (catches b d, p q)
+const pairCache={};
+function measurePairs(w){if(pairCache[w])return pairCache[w];const S=200,W=400,H=320,B=240;
+  const mask=(t,flip)=>{const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.font=`${w} ${S}px Grenze`;const m=x.measureText(t);
+    const ox=(W-(m.actualBoundingBoxLeft+m.actualBoundingBoxRight))/2+m.actualBoundingBoxLeft;x.save();if(flip){x.translate(W,0);x.scale(-1,1);}x.fillText(t,ox,B);x.restore();return x.getImageData(0,0,W,H).data;};
+  const iou=(a,b)=>{let i=0,u=0;for(let k=3;k<a.length;k+=4){const A=a[k]>127,Bb=b[k]>127;if(A&&Bb)i++;if(A||Bb)u++;}return u?i/u:0;};
+  return pairCache[w]=PAIRS.map(([s,t])=>{const a=mask(s);return [s+' '+t,Math.round(100*Math.max(iou(a,mask(t)),iou(a,mask(t,true))))];}).sort((x,y)=>y[1]-x[1]);}
+function renderPairs(w){const P=measurePairs(w);
+  const row=([p,v],big)=>`<li class="pr${big?' big':''}" aria-label="${p.split(' ').join(' and ')}: ${v}% overlap"><i style="font-weight:${w}">${p}</i><span class="bar"><span style="width:${v}%"></span></span><b>${v}%</b></li>`;
+  // the six most-confused pairs first; the rest fold away behind one button (same expand as the Signage card)
+  acc.querySelector('.pairs').innerHTML=`<ul>${P.slice(0,6).map(p=>row(p,0)).join('')}</ul><div class="exp${laOpen?' open':''}" id="laMore"><div><ul ${laOpen?'':'inert'}>${P.slice(6).map(p=>row(p,0)).join('')}</ul></div></div>`+
+    `<button class="lamore" type="button" data-press="solid" id="laBtn" aria-expanded="${laOpen}" aria-controls="laMore">${laOpen?'Show top 6':'Show all '+P.length+' pairs'}</button>`;
+  pressable($('laBtn'));$('laBtn').onclick=()=>{laOpen=!laOpen;const m=$('laMore');m.classList.toggle('open',laOpen);m.querySelector('ul').inert=!laOpen;$('laBtn').setAttribute('aria-expanded',laOpen);$('laBtn').textContent=laOpen?'Show top 6':'Show all '+P.length+' pairs';};}
+let laOpen=false;
+const TEST='Can you read this?';
+const acc=$('acc');
+document.fonts.ready.then(()=>renderPairs(+getComputedStyle($('screen')).getPropertyValue('--wt')||400));
+$('accText').addEventListener('input',accRender);
+// Fit each Library sample to the open card: wide faces (Syne) shrink until the sample and its glow fit 24pt inside both edges,
+// and drop by half the difference so they stay centred where the 150pt sample sits.
+function bigFit(e,own){const sp=e.firstChild;sp.textContent=own||'Aa';const room=(W1-48)/1.2;   // the glow reaches 10% past the letters on each side, so letters + glow fit the card
+  let fs=own?Math.max(34,Math.min(150,Math.round(room/(own.length*.56)))):150;e.style.setProperty('font-size',fs+'px','important');
+  const w=sp.offsetWidth;if(w>room){fs=Math.floor(fs*room/w);e.style.setProperty('font-size',fs+'px','important');}
+  e.style.top=fs<150?((own?18:22)+(150-fs)/2)+'px':'';}
+function accRender(){const own=$('accText').value.trim();$('accField').classList.toggle('has',!!own);if($('detText').value!==$('accText').value)$('detText').value=$('accText').value;if(window.detSync)detSync();document.querySelectorAll('.row .big').forEach(e=>bigFit(e,own));const t=own||TEST;acc.querySelectorAll('.sz p').forEach(p=>{p.textContent=t;p.style.fontSize=p.dataset.s+'px';});if(window.applyCheck)applyCheck();}
+
+const lumi=h=>{const v=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4));return .2126*v[0]+.7152*v[1]+.0722*v[2];};
+function contrast(){const a=$('colT').value,b=$('colB').value,L1=lumi(a),L2=lumi(b),r=(Math.max(L1,L2)+.05)/(Math.min(L1,L2)+.05);
+  $('swT').style.background=a;$('swB').style.background=b;$('hexT').textContent=a.toUpperCase();$('hexB').textContent=b.toUpperCase();$('cr').textContent=r.toFixed(1)+' : 1 · '+(r>=7?'AAA':r>=4.5?'AA':r>=3?'large text only':'fails');$('cWell').style.background=b;$('cWell').style.color=a;acc.querySelectorAll('.sz').forEach(z=>z.classList.toggle('ko',r<+z.dataset.min));
+  }
+contrast();
+// ---- colour sheet: hex, lightness, and the nearest colour that passes AA (4.5 : 1, the bar for the 17 and 11 pt rows)
+const hx2rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255);
+const rgb2hx=c=>'#'+c.map(v=>Math.round(Math.min(1,Math.max(0,v))*255).toString(16).padStart(2,'0')).join('');
+function rgb2hsl([r,g,b]){const mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2;let h=0,s=0;if(mx!==mn){const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);h=mx===r?(g-b)/d+(g<b?6:0):mx===g?(b-r)/d+2:(r-g)/d+4;h/=6;}return [h,s,l];}
+function hsl2rgb([h,s,l]){if(!s)return [l,l,l];const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q,f=t=>{t=(t+1)%1;return t<1/6?p+(q-p)*6*t:t<1/2?q:t<2/3?p+(q-p)*(2/3-t)*6:p;};return [f(h+1/3),f(h),f(h-1/3)];}
+const ratioOf=(a,b)=>{const A=lumi(a),B=lumi(b);return (Math.max(A,B)+.05)/(Math.min(A,B)+.05);};
+let csK='T',csHS=[0,0];
+const csIn=()=>$(csK==='T'?'colT':'colB'),csOther=()=>$(csK==='T'?'colB':'colT').value;
+function csNearest(){const c=csIn().value,o=csOther();if(ratioOf(c,o)>=4.5)return null;const [h,s,l]=rgb2hsl(hx2rgb(c));let best=null;
+  for(const dir of [-1,1]){for(let L=l;L>=0&&L<=1;L+=dir*.001){const x=rgb2hx(hsl2rgb([h,s,L]));if(ratioOf(x,o)>=4.5){const d=Math.abs(L-l);if(!best||d<best.d)best={x,d};break;}}}
+  return best&&best.x;}
+function csPaint(fromSlider){const c=csIn().value;if(document.activeElement!==$('csHex'))$('csHex').value=c.slice(1).toUpperCase();
+  const [h,s,l]=rgb2hsl(hx2rgb(c));if(!fromSlider){csHS=[h,s];$('csL').value=(l*100).toFixed(1);}$('csLv').textContent=Math.round(l*100)+'%';$('csL').style.setProperty('--p',$('csL').value+'%');
+  csRamp();const fix=csNearest();$('csFix').hidden=false;$('csOk').hidden=false;$('csFix').classList.toggle('off',!fix);$('csOk').classList.toggle('off',!!fix);$('csFix').inert=!fix;$('csOk').setAttribute('aria-hidden',!!fix);if(fix){$('csFix').textContent=`Use ${fix.toUpperCase()} · passes AA`;$('csFix').dataset.x=fix;}}
+// the track shows this hue at every lightness. The handle's centre travels 22 to 339 of the 361pt track (the input is inset 8pt
+// so the swatch sits 5pt inside the capsule's ends), so the ramp and the pass range are mapped to that same stretch.
+const csX=L=>22+L*317;
+function csRamp(){const [h,sat]=csHS,o=csOther(),st=[],ok=[],c=csIn().value;
+  for(let k=0;k<=20;k++){const L=k/20;st.push(`${rgb2hx(hsl2rgb([h,sat,L]))} ${(csX(L)/361*100).toFixed(2)}%`);}
+  $('csTrack').style.setProperty('--ramp',`linear-gradient(to right,${st.join(',')})`);
+  $('csL').style.setProperty('--c',c);$('csL').style.setProperty('--ring',ratioOf(c,'#e8e8e8')>=ratioOf(c,'#1c1c1c')?'var(--surface)':'var(--ink)');
+  for(let v=0;v<=1000;v+=5)ok.push(ratioOf(rgb2hx(hsl2rgb([h,sat,v/1000])),o)>=4.5);
+  const seg=[];let a=null;ok.forEach((g,i)=>{if(g&&a===null)a=i;if((!g||i===ok.length-1)&&a!==null){seg.push([a,g?i:i-1]);a=null;}});
+  $('csPass').innerHTML='<span class="rail"></span>'+seg.map(([a,b])=>{const x0=a===0?0:csX(a/200),x1=b===200?361:csX(b/200),w=Math.max(6,x1-x0); // an end of the range at 0% or 100% runs to the end of the rail
+    const lab=a===0?`left:0`:b===200?`right:0`:`left:${(x0+x1)/2}px;transform:translateX(-50%)`;
+    return `<i style="left:${x0}px;width:${w}px"></i><span style="${lab}">Passes AA</span>`;}).join('');}
+function csSet(x,fromSlider){const i=csIn();i.value=x;contrast();csPaint(fromSlider);}
+function csOpen(k){csK=k;$('csT').textContent=k==='T'?'Text colour':'Background colour';const sh=$('cSheet');
+  const sc=$('accScroll'),card=$('rowT').closest('.acard');sc.scrollTo({top:card.offsetTop-66,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  sh.inert=false;sh.setAttribute('aria-hidden','false');sh.classList.add('on');$('nav').classList.add('undersheet');csPaint();setTimeout(()=>sh.focus({preventScroll:true}),60);csOpen.from=$(k==='T'?'rowT':'rowB');}
+function csClose(){const sh=$('cSheet');sh.classList.remove('on');$('nav').classList.remove('undersheet');sh.setAttribute('aria-hidden','true');sh.inert=true;if(csOpen.from)csOpen.from.focus({preventScroll:true});}
+$('rowT').onclick=()=>csOpen('T');$('rowB').onclick=()=>csOpen('B');$('csClose').onclick=csClose;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('cSheet').classList.contains('on')){e.stopPropagation();csClose();}},true);
+$('csHex').addEventListener('input',e=>{const v=e.target.value.replace(/[^0-9a-f]/gi,'').slice(0,6);if(e.target.value!==v)e.target.value=v;if(v.length===6)csSet('#'+v.toLowerCase());else if(v.length===3)csSet('#'+v.split('').map(c=>c+c).join('').toLowerCase());});
+$('csHex').addEventListener('blur',()=>csPaint());$('csHex').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur();});
+$('csL').addEventListener('input',()=>{csSet(rgb2hx(hsl2rgb([csHS[0],csHS[1],+$('csL').value/100])),true);});
+// the fix glides the swatch to the passing colour, so you see where on the scale the answer sits
+$('csFix').onclick=()=>{const x=$('csFix').dataset.x;if(RM.matches){csSet(x);return;}
+  const [h,sat,l1]=rgb2hsl(hx2rgb(x)),l0=+$('csL').value/100,t0=performance.now(),D=420,ease=t=>1-Math.pow(1-t,3);
+  const f=now=>{const t=Math.min(1,(now-t0)/D),l=l0+(l1-l0)*ease(t);$('csL').value=(l*100).toFixed(1);if(t<1){csSet(rgb2hx(hsl2rgb([h,sat,l])),true);requestAnimationFrame(f);}else csSet(x);};
+  requestAnimationFrame(f);};
+
+const dist=$('dist');
+function xRatio(){const x=document.createElement('canvas').getContext('2d');const w=+getComputedStyle($('screen')).getPropertyValue('--wt')||400;x.font=`${w} 200px Grenze`;return x.measureText('xvwz').actualBoundingBoxAscent/x.measureText('HEIT').actualBoundingBoxAscent;}
+function setDist(on){$('dTgl').setAttribute('aria-checked',on);$('dExp').classList.toggle('open',on);$('dHint').hidden=on;$('dBody').inert=!on;distOut();}
+function distOut(){const m=+dist.value;dist.style.setProperty('--p',(m-1)/39*100+'%');$('dOut').textContent=m+' m';const ft=m*3.28084,inch=.625+Math.max(0,ft-6)/8,cm=inch*2.54,r=xRatio();$('dCap').textContent=`${cm.toFixed(1)} cm`;}
+/*dial*/setDist(true); // Distance is always on: Sign Distance is one of the three opportunities, so it isn't hidden behind a switch
+dist.addEventListener('input',distOut);
+// ---- distance ticks (B): 40 ticks, 1 to 40 m, snapping to whole metres
+{const D=$('dial'),BD=$('dOut'),MIN=1,MAX=40;
+ D.insertAdjacentHTML('afterbegin',Array.from({length:MAX},(_,i)=>`<i></i>`).join(''));const T=[...D.querySelectorAll('i')];
+ const W=()=>D.offsetWidth,X=m=>(m-MIN)/(MAX-MIN)*(W()-2)+1,H=(m,v)=>m===v?32:(m%5===0?24:14);
+ const set=m=>{const v=Math.max(MIN,Math.min(MAX,Math.round(m)));T.forEach((t,i)=>{const n=i+1,h=H(n,v);t.style.left=X(n)+'px';t.style.height=h+'px';t.style.top=(32-h)/2+'px';t.classList.toggle('on',n<=v);});
+   BD.style.left=Math.max(BD.offsetWidth/2,Math.min(W()-BD.offsetWidth/2,X(v)))+'px';
+   if(+dist.value!==v){dist.value=v;distOut();}D.setAttribute('aria-valuenow',v);D.setAttribute('aria-valuetext',v+(v===1?' metre':' metres'));};
+ const at=e=>{const r=D.getBoundingClientRect();return MIN+(e.clientX-r.left)/r.width*(MAX-MIN);};let dn=false;
+ D.addEventListener('pointerdown',e=>{dn=true;D.setPointerCapture(e.pointerId);set(at(e));});D.addEventListener('pointermove',e=>{if(dn){D.classList.add('drag');set(at(e));}});
+ D.addEventListener('pointerup',()=>{dn=false;D.classList.remove('drag');});D.addEventListener('pointercancel',()=>{dn=false;D.classList.remove('drag');});
+ D.addEventListener('keydown',e=>{const v=+dist.value,k={ArrowRight:1,ArrowUp:1,ArrowLeft:-1,ArrowDown:-1,PageUp:5,PageDown:-5}[e.key];
+   if(k){e.preventDefault();set(v+k);}else if(e.key==='Home'){e.preventDefault();set(MIN);}else if(e.key==='End'){e.preventDefault();set(MAX);}});
+ new ResizeObserver(()=>set(+dist.value)).observe(D);set(+dist.value);}
+
+accRender();setDist(true);
+
+// ================= navigation + microinteractions =================
+// model: two tabs. Library keeps its own stack (list → Lapture → Credits) while you visit Accessibility, like an iOS tab bar.
+// tapping the tab you're already on pops that tab to its root.
+const det=$('detail'),cred=$('cred'),scr=$('screen');
+const RM=matchMedia('(prefers-reduced-motion: reduce)');
+const cssv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const SP=cssv('--sp'),SPT=parseFloat(cssv('--spt'))*1000;
+const nav={tab:'lib',detail:false,cred:false,gly:false,busy:false};
+let kb=false;addEventListener('keydown',()=>kb=true,true);addEventListener('pointerdown',()=>kb=false,true);
+const focusIf=el=>{if(kb)el.focus({preventScroll:true});};
+const scale=()=>scr.getBoundingClientRect().height/852;
+
+// ---- press feedback: one pointer handler for everything marked data-press, grid cells, weights, rows, switches
+function pressable(el,{onCancelMove=true}={}){
+  let id=null,x0=0,y0=0;
+  const up=()=>{el.classList.remove('down');id=null;};
+  el.addEventListener('pointerdown',e=>{if(e.button)return;id=e.pointerId;x0=e.clientX;y0=e.clientY;el.classList.add('down');});
+  el.addEventListener('pointermove',e=>{if(id===e.pointerId&&onCancelMove&&Math.hypot(e.clientX-x0,e.clientY-y0)>10)up();});
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>el.addEventListener(t,up));
+}
+document.querySelectorAll('[data-press],.chip,.menu button,.well button,.acc .crow,.acc .tgl,.nav .tab,.cred .grp a').forEach(el=>pressable(el));
+
+// ---- tab bar: the ink selection slides to the tapped tab and resizes (119 ↔ 158), the label fades in after it lands
+const TABW={lib:[119,56],acc:[56,158]};
+function paintNav(){
+  const t=nav.tab,[wl,wa]=TABW[t];
+  $('tabLib').style.width=wl+'px';$('tabAcc').style.width=wa+'px';
+  $('tabLib').setAttribute('aria-selected',t==='lib');$('tabAcc').setAttribute('aria-selected',t==='acc');
+  $('nav').style.width=(4+wl+4+wa+4)+'px';
+  $('navInd').style.width=(t==='lib'?wl:wa)+'px';$('navInd').style.transform=`translateX(${t==='lib'?0:wl+4}px)`;
+}
+// Tabs swap pages without a crossfade: two dense opaque pages fading through each other read as a double exposure.
+// The outgoing page goes at once and only the incoming page's content fades up on the (identical) grey surface.
+function showAcc(on){acc.classList.toggle('on',on);acc.setAttribute('aria-hidden',!on);
+  if(RM.matches)return;const ease={duration:180,easing:'cubic-bezier(.2,.8,.2,1)'};
+  if(on){$('accScroll').animate([{opacity:0},{opacity:1}],ease);}
+  else{[...scr.children].filter(e=>e!==acc&&!e.matches('.nav,.status,.homebar,.toast,script,style')&&getComputedStyle(e).visibility!=='hidden').forEach(e=>e.animate([{opacity:0},{opacity:1}],ease));}}
+$('tabLib').onclick=()=>{
+  if(nav.tab==='lib'){            // already here: pop to root, or scroll the list back to the top
+    if(nav.cred||nav.gly){closeCred(true);closeGly(true);closeDetail();}
+    else if(nav.detail)closeDetail();
+    else goTo(0);
+    return;}
+  nav.tab='lib';paintNav();showAcc(false);
+};
+$('tabAcc').onclick=()=>{
+  if(nav.tab==='acc'){$('accScroll').scrollTo({top:0,behavior:RM.matches?'auto':'smooth'});return;}
+  nav.tab='acc';paintNav();showAcc(true);
+};
+paintNav();
+
+// ---- Library → Lapture: zoom out of the card you tapped (iOS 18 zoom transition), back zooms into it again
+function cardRect(){const r=R[LAP].getBoundingClientRect(),s0=scr.getBoundingClientRect(),k=scale();
+  return {x:(r.left-s0.left)/k,y:(r.top-s0.top)/k,w:r.width/k,h:r.height/k};}
+function zoomFrom(rc){  // transform + clip that make the full page sit exactly on the card
+  const s=rc.w/361,tx=rc.x-16*s,ty=rc.y-112*s,ch=rc.h/s;
+  return {t:`translate(${tx}px,${ty}px) scale(${s})`,c:`inset(112px 12px ${852-112-ch}px 12px round ${66/s}px)`};}
+function setT(el,tr){el.style.transition=tr;}
+// Shared element: the "Aa" on the Library card and the specimen "Aa" are the same object, so it travels and grows between
+// the two places on the same spring as the card. The card shell is paper in both states and stays opaque the whole time
+// (no fade through the background); only what differs between the two (title row, chips, preview field, weight card,
+// top buttons) fades, 200ms in after the shell starts moving, and out before it finishes coming back.
+function detParts(){const sp=$('specCard');return [...det.children].filter(c=>c!==sp).concat([...sp.children].filter(c=>!c.classList.contains('cb')&&!c.classList.contains('aaV')));}
+function aaMorph(){ // transform that puts the specimen Aa where the Library card's Aa is (det must be at rest when called)
+  if($('aaV').classList.contains('hide'))return null;
+  const k=scale(),ink=el=>{const r=document.createRange();r.selectNodeContents(el);return r.getBoundingClientRect();},a=ink(R[LAP].querySelector('.big .lv')),sx=$('sx'),b=ink($('sxA')),o=sx.getBoundingClientRect(); // text content boxes, so line-height can't skew the match
+  if(!a.width||!b.width)return null;
+  const m=a.width/b.width,ox=(b.left-o.left)/k,oy=(b.top-o.top)/k;
+  const S=scr.getBoundingClientRect();return {origin:`${ox}px ${oy}px`,lib:{x:(a.left-S.left)/k,y:(a.top-S.top)/k},fin:{x:(b.left-S.left)/k,y:(b.top-S.top)/k},m};}
+function openDetail(){
+  if(nav.detail||nav.busy)return;nav.detail=true;nav.busy=true;
+  setView('aa',true);setStyle(curStyle,true);
+  det.classList.add('on');det.setAttribute('aria-hidden','false');
+  if(RM.matches){det.style.opacity=0;requestAnimationFrame(()=>{setT(det,'opacity .2s ease');det.style.opacity=1;});setTimeout(done,220);}
+  else{
+    setT(det,'none');det.style.transform='';det.style.clipPath='';det.style.opacity=1;det.style.transformOrigin='0 0';
+    const am=aaMorph(),z=zoomFrom(cardRect()),sx=$('sx'),parts=detParts();
+    det.style.transform=z.t;det.style.clipPath=z.c;
+    parts.forEach(e=>{e.style.transition='none';e.style.opacity=0;});
+    if(am){const s=cardRect().w/361,zt=z.t.match(/-?[\d.]+/g).map(Number);
+      const dx=(am.lib.x-(zt[0]+s*am.fin.x))/s,dy=(am.lib.y-(zt[1]+s*am.fin.y))/s;
+      sx.style.transition='none';sx.style.transformOrigin=am.origin;sx.style.transform=`translate(${dx}px,${dy}px) scale(${am.m/s})`;}
+    R[LAP].style.opacity=0;
+    det.getBoundingClientRect();
+    setT(det,`transform ${SPT}ms ${SP},clip-path ${SPT}ms ${SP}`);
+    det.style.transform='translate(0px,0px) scale(1)';det.style.clipPath='inset(0px 0px 0px 0px round 0px)';
+    if(am){sx.style.transition=`transform ${SPT}ms ${SP}`;sx.style.transform='none';}
+    parts.forEach(e=>{e.style.transition='opacity 180ms ease';e.style.opacity='';});
+    setTimeout(done,SPT);
+  }
+  function done(){setT(det,'none');det.style.transform='';det.style.clipPath='';det.style.transformOrigin='';const sx=$('sx');sx.style.transition='';sx.style.transform='';sx.style.transformOrigin='';
+    detParts().forEach(e=>{e.style.transition='';e.style.opacity='';});nav.busy=false;focusIf($('back'));}
+}
+function closeDetail(){
+  if(!nav.detail)return;nav.detail=false;nav.busy=true;menu(false);$('detText').blur();
+  const sx=$('sx'),parts=detParts();
+  const fin=()=>{det.classList.remove('on');det.setAttribute('aria-hidden','true');setT(det,'none');det.style.transform='';det.style.clipPath='';det.style.opacity='';det.style.transformOrigin='';
+    sx.style.transition='';sx.style.transform='';sx.style.transformOrigin='';parts.forEach(e=>{e.style.transition='';e.style.opacity='';});R[LAP].style.opacity='';nav.busy=false;focusIf(sc);};
+  if(RM.matches){setT(det,'opacity .2s ease');det.style.opacity=0;setTimeout(fin,220);return;}
+  setT(det,'none');det.style.transform='';det.style.clipPath='';det.style.transformOrigin='0 0';
+  const am=aaMorph(),z=zoomFrom(cardRect());
+  det.style.transform='translate(0px,0px) scale(1)';det.style.clipPath='inset(0px 0px 0px 0px round 0px)';
+  det.getBoundingClientRect();
+  setT(det,`transform ${SPT}ms ${SP},clip-path ${SPT}ms ${SP},opacity 140ms ease ${SPT-140}ms`);
+  det.style.transform=z.t;det.style.clipPath=z.c;det.style.opacity=0;
+  if(am){const s=cardRect().w/361,zt=z.t.match(/-?[\d.]+/g).map(Number);
+    const dx=(am.lib.x-(zt[0]+s*am.fin.x))/s,dy=(am.lib.y-(zt[1]+s*am.fin.y))/s;
+    sx.style.transformOrigin=am.origin;sx.style.transition=`transform ${SPT}ms ${SP}`;sx.style.transform=`translate(${dx}px,${dy}px) scale(${am.m/s})`;}
+  parts.forEach(e=>{e.style.transition='opacity 150ms ease';e.style.opacity=0;});
+  R[LAP].style.opacity='';
+  setTimeout(fin,SPT);
+}
+$('back').onclick=closeDetail;
+
+// ---- Credits: a push. Credits slides in from the right, Lapture slides a third of the way left underneath
+function openCred(){
+  if(nav.cred||nav.busy)return;nav.cred=true;menu(false);
+  cred.classList.add('on');cred.setAttribute('aria-hidden','false');$('credScroll').scrollTop=0;
+  if(RM.matches){setT(cred,'opacity .2s');cred.style.transform='none';cred.style.opacity=0;requestAnimationFrame(()=>cred.style.opacity=1);}
+  else{setT(cred,'none');cred.style.transform='translateX(393px)';cred.getBoundingClientRect();
+    setT(cred,`transform ${SPT}ms ${SP}`);setT(det,`transform ${SPT}ms ${SP}`);
+    cred.style.transform='translateX(0px)';det.style.transform='translateX(-118px)';}
+  setTimeout(()=>focusIf($('credBack')),50);
+}
+function closeCred(instant){
+  if(!nav.cred)return;nav.cred=false;
+  const fin=()=>{cred.classList.remove('on');cred.setAttribute('aria-hidden','true');cred.style.opacity='';};
+  if(instant||RM.matches){setT(cred,'none');setT(det,'none');cred.style.transform='translateX(393px)';det.style.transform='';fin();return;}
+  setT(cred,`transform ${SPT}ms ${SP}`);setT(det,`transform ${SPT}ms ${SP}`);
+  cred.style.transform='translateX(393px)';det.style.transform='translateX(0px)';
+  setTimeout(()=>{if(!nav.cred){fin();setT(det,'none');det.style.transform='';}},SPT);
+}
+{const ctop=document.createElement('div');ctop.className='ctop';cred.appendChild(ctop);}
+$('detInfo').onclick=openCred;$('credBack').onclick=()=>closeCred();
+
+// ---- swipe from the left edge to go back (interactive, follows the finger, springs back if you don't go far enough)
+function edgeSwipe(layer,{move,commit,cancel}){
+  let x0=null,t0=0,dx=0,pid=null;
+  layer.addEventListener('pointerdown',e=>{const k=scale(),lx=(e.clientX-scr.getBoundingClientRect().left)/k;if(lx>12||nav.busy)return;
+    x0=e.clientX;t0=performance.now();dx=0;pid=e.pointerId;layer.setPointerCapture(pid);});
+  layer.addEventListener('pointermove',e=>{if(e.pointerId!==pid||x0==null)return;dx=Math.max(0,(e.clientX-x0)/scale());move(dx);});
+  const end=e=>{if(e.pointerId!==pid||x0==null)return;const v=dx/Math.max(1,performance.now()-t0);x0=null;pid=null;
+    if(dx>393/3||v>.5)commit(dx);else cancel(dx);};
+  layer.addEventListener('pointerup',end);layer.addEventListener('pointercancel',end);
+}
+edgeSwipe(cred,{
+  move:dx=>{setT(cred,'none');setT(det,'none');cred.style.transform=`translateX(${dx}px)`;det.style.transform=`translateX(${-118+dx*.3}px)`;},
+  commit:()=>closeCred(),
+  cancel:()=>{setT(cred,`transform ${SPT}ms ${SP}`);setT(det,`transform ${SPT}ms ${SP}`);cred.style.transform='translateX(0px)';det.style.transform='translateX(-118px)';}
+});
+
+// ---- glyph detail: one character big, with the font's own vertical metrics measured live
+const MARKS={'̀':'grave','́':'acute','̂':'circumflex','̃':'tilde','̈':'diaeresis','̊':'ring above','̧':'cedilla'};
+const SPECIAL={'Ø':'Latin capital letter O with stroke','ø':'Latin small letter o with stroke','ß':'Latin small letter sharp s','æ':'Latin small letter ae','œ':'Latin small ligature oe',
+'.':'Full stop',',':'Comma',':':'Colon',';':'Semicolon','!':'Exclamation mark','?':'Question mark','¡':'Inverted exclamation mark','¿':'Inverted question mark','&':'Ampersand',"'":'Apostrophe','"':'Quotation mark',
+'‘':'Left single quotation mark','’':'Right single quotation mark','“':'Left double quotation mark','”':'Right double quotation mark','«':'Left-pointing double angle quotation mark','»':'Right-pointing double angle quotation mark',
+'(':'Left parenthesis',')':'Right parenthesis','-':'Hyphen-minus','–':'En dash','—':'Em dash','…':'Horizontal ellipsis','·':'Middle dot',
+'@':'Commercial at','#':'Number sign','$':'Dollar sign','%':'Percent sign','*':'Asterisk','+':'Plus sign','=':'Equals sign','/':'Solidus','\\':'Reverse solidus','|':'Vertical line','_':'Low line','~':'Tilde','^':'Circumflex accent',
+'<':'Less-than sign','>':'Greater-than sign','[':'Left square bracket',']':'Right square bracket','{':'Left curly bracket','}':'Right curly bracket','€':'Euro sign','£':'Pound sign','¥':'Yen sign','¢':'Cent sign','©':'Copyright sign','®':'Registered sign','™':'Trade mark sign','°':'Degree sign'};
+const DIG=['zero','one','two','three','four','five','six','seven','eight','nine'];
+function uname(c){if(SPECIAL[c])return SPECIAL[c];if(/[0-9]/.test(c))return 'Digit '+DIG[+c];
+  const d=c.normalize('NFD'),b=d[0],m=d.slice(1);const up=b===b.toUpperCase()&&b!==b.toLowerCase();
+  let n=`Latin ${up?'capital':'small'} letter ${b.toUpperCase()}`;if(m&&MARKS[m])n+=' with '+MARKS[m];return n;}
+let gi=0;const gly=$('gly');
+// Grenze's vertical metrics in font units (UPM 1000), read from the embedded fonts with fontTools:
+// ascender = tallest of d h k l, cap height = tallest of H E I T, x-height = tallest of x v w z, descender = deepest of p q g y.
+// Glyph size 180pt (3/4 of the old 240): the largest size at which the letter can sit on the card's centre line (x 180.5, shared with
+// the title and the counter) while the widest glyph in the set, W at Black, still clears the label column by 8pt (93.6 vs 85.4).
+const GS=180;
+const FM={400:[646,603,455,181],600:[654,607,463,183],700:[657,608,468,184],800:[661,610,472,185],900:[665,612,476,186]};
+function metrics(w){const f=FM[w]||FM[600],k=GS/1000;return {asc:f[0]*k,cap:f[1]*k,xh:f[2]*k,desc:f[3]*k};}
+function paintGly(){const g=GL[gi],m=metrics(curW),B=184,ns='http://www.w3.org/2000/svg';
+  // B: the baseline is fixed for every weight so switching weights never moves it. The drawing area is exactly as tall as the
+  // set needs: the tallest glyph (Black Å, 159.3 above the baseline) sits 24pt below the card top and the deepest (Black Ç,
+  // 43.9 below) 24pt above the weight row, the card's padding on every side. The glyph can't grow to fill more height because
+  // its size is set by width (see GS), so any extra height would only be empty card.
+  const L=[['Ascender',B-m.asc],['Cap height',B-m.cap],['x-height',B-m.xh],['Baseline',B],['Descender',B+m.desc]];
+  // Labels alternate sides, top to bottom: Ascender left, Cap height right, x-height left, Baseline right, Descender left.
+  // Ascender and cap height are only 7.7 to 9.5pt apart at 180pt, less than a label is tall, so they can never share a side;
+  // alternating keeps every label centred on its own line with nothing stacked. Both gutters are as wide as the widest label
+  // ("Cap height", 61.4pt in SF Pro 12): left 24 to 86, right 275 to 337. The lines run between them (94 to 267, 8pt from each),
+  // which is exactly the room the widest glyph needs (Black W, 93.6 to 267.6), so no glyph can reach a label.
+  let s='';L.forEach(([n,y])=>{s+=`<line x1="94" x2="267" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" class="${n==='Baseline'?'base':''}"/>`;});
+  L.forEach(([n,y],i)=>{const r=i%2===1;s+=`<text class="lbl" x="${r?337:24}" text-anchor="${r?'end':'start'}" y="${(y+4.2).toFixed(1)}">${n}</text>`;});
+  s+=`<g class="gg"><text x="180.5" y="${B}" text-anchor="middle" font-family="Grenze" font-size="${GS}" font-weight="${curW}" fill="var(--ink)">${hx(g.c)}</text></g>`;
+  $('gSvg').innerHTML=s;syncGW(g.c);
+  $('gPos').textContent=`${gi+1} of ${GL.length}`;$('gName').textContent=uname(g.c);
+  $('gCode').textContent='U+'+g.c.codePointAt(0).toString(16).toUpperCase().padStart(4,'0');
+  $('gPos').textContent=`${gi+1} of ${GL.length} · ${$('gCode').textContent}`;$('gPos').setAttribute('aria-label',`${uname(g.c)}, ${$('gCode').textContent}, ${gi+1} of ${GL.length}`);
+  $('gGroup').textContent=`${g.g} · ${WN[curW]}`;
+  $('gPrev').disabled=gi===0;$('gNext').disabled=gi===GL.length-1;}
+// Character detail opens in place: both screens share the same card shell, so the content cross-fades instead of sliding.
+// (Sliding now means 'next character' on this screen, so opening it must not slide too.)
+const GF='opacity 300ms cubic-bezier(.2,.8,.2,1)';
+function openGly(i){gi=i;paintGly();if(nav.gly||nav.busy)return;nav.gly=true;menu(false);
+  gly.style.transform='none';gly.classList.add('on');gly.setAttribute('aria-hidden','false');
+  if(RM.matches){setT(gly,'none');gly.style.opacity='1';}
+  else{setT(gly,'none');gly.style.opacity='0';gly.getBoundingClientRect();setT(gly,'opacity 220ms cubic-bezier(.2,.8,.2,1) 100ms');gly.style.opacity='1';
+    // the letter grid leaves first (120ms) so it never shows through the character card; the card shells stay put
+    const out=specInner().map(e=>e.animate([{opacity:1},{opacity:0}],{duration:120,easing:'ease-in',fill:'forwards'}));setTimeout(()=>out.forEach(a=>a.cancel()),340);}
+  setTimeout(()=>focusIf($('glyBack')),50);}
+function specInner(){return ['specCard','well'].map($).flatMap(c=>c.id==='well'?[c.closest('.card')].flatMap(k=>[...k.children].filter(e=>!e.classList.contains('cb'))):[...c.children].filter(e=>!e.classList.contains('cb'))).filter(e=>{const cs=getComputedStyle(e);return cs.visibility!=='hidden'&&+cs.opacity>.01&&!e.classList.contains('hide')&&!e.matches('.menu');});}   // only what's showing; animating a hidden view would flash it
+function closeGly(instant){if(!nav.gly)return;nav.gly=false;const fin=()=>{gly.classList.remove('on');gly.setAttribute('aria-hidden','true');gly.style.opacity='';setT(gly,'none');};
+  if(instant||RM.matches){fin();return;}
+  setT(gly,'opacity 120ms ease-in');gly.style.opacity='0';
+  specInner().forEach(e=>e.animate([{opacity:0},{opacity:0,offset:.35},{opacity:1}],{duration:320,easing:'cubic-bezier(.2,.8,.2,1)'}));   // in after the card has gone
+  setTimeout(()=>{if(!nav.gly)fin();},130);}
+// arrows page the whole glyph card: the old card slides out, the next one slides in 16pt behind it; info rows cross-fade
+const step=d=>{const j=Math.max(0,Math.min(GL.length-1,gi+d));if(j===gi)return;
+  const card=$('gCard');let ghost=null;
+  if(!RM.matches){ghost=card.cloneNode(true);ghost.removeAttribute('id');ghost.querySelectorAll('[id]').forEach(e=>{if(e.id==='gSvg'){e.style.position='absolute';e.style.left='0';e.style.top='0';}e.removeAttribute('id');});ghost.setAttribute('aria-hidden','true');ghost.inert=true;card.after(ghost);}
+  gi=j;paintGly();if(!ghost)return;
+  const D=361+16,o={duration:SPT,easing:SP};
+  card.getAnimations().forEach(a=>a.cancel());
+  ghost.animate([{transform:'translateX(0)'},{transform:`translateX(${-d*D}px)`}],o).onfinish=()=>ghost.remove();
+  card.animate([{transform:`translateX(${d*D}px)`},{transform:'translateX(0)'}],o);
+  for(const id of ['gName','gCode','gGroup'])$(id).animate([{opacity:0},{opacity:1}],{duration:200,easing:'ease'});};
+$('gPrev').onclick=()=>step(-1);$('gNext').onclick=()=>step(1);$('glyBack').onclick=()=>closeGly();
+gly.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1);});
+{let x0=null;$('gCard').addEventListener('pointerdown',e=>{if(!e.target.closest('button'))x0=e.clientX;});
+ $('gCard').addEventListener('pointerup',e=>{if(x0==null)return;const dx=(e.clientX-x0)/scale();x0=null;if(Math.abs(dx)>50)step(dx<0?1:-1);});}
+edgeSwipe(gly,{move:dx=>{setT(gly,'none');gly.style.opacity=String(Math.max(0,1-dx/240));},
+  commit:()=>closeGly(),cancel:()=>{setT(gly,GF);gly.style.opacity='1';}});
+edgeSwipe(det,{   // zoom page: shrinks toward the card as you drag, like the iOS zoom transition's interactive dismiss
+  move:dx=>{if(nav.cred)return;const p=Math.min(1,dx/393),s=1-p*.25;setT(det,'none');
+    det.style.transform=`translate(${dx*.5}px,${p*80}px) scale(${s})`;det.style.clipPath=`inset(0px round ${46*p}px)`;det.style.transformOrigin='50% 50%';},
+  commit:()=>{det.style.transformOrigin='0 0';const cur=det.getBoundingClientRect(),s0=scr.getBoundingClientRect(),k=scale();
+    det.style.transform=`translate(${(cur.left-s0.left)/k}px,${(cur.top-s0.top)/k}px) scale(${cur.width/k/393})`;det.style.clipPath='inset(0px 0px 0px 0px round 46px)';closeDetail();},
+  cancel:()=>{setT(det,`transform ${SPT}ms ${SP},clip-path ${SPT}ms ${SP}`);det.style.transform='translate(0px,0px) scale(1)';det.style.clipPath='inset(0px round 0px)';
+    setTimeout(()=>{if(nav.detail&&!nav.busy){setT(det,'none');det.style.transform='';det.style.clipPath='';det.style.transformOrigin='';}},SPT);}
+});
+
+// ---- squircles on the two cards (same figma-squircle path as the Library cards)
+const sqPath=(w,hh,r)=>`path('${sqd(w,hh,r)}')`;
+$('gCard').firstElementChild.style.clipPath=sqPath(361,420,48);
+[['specCard',361,440,48],[null,361,154,36]].forEach(([id,w,hh,r],i)=>{
+  const el=id?$(id):document.querySelector('.adj');
+  el.firstElementChild.style.clipPath=sqPath(w,hh,r);});
+
+// ---- specimen: Aa, or your own text fitted to the card; crossfades when it changes weight
+const meas=document.createElement('span');meas.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;font-family:"Grenze",Georgia,serif;font-size:100px;line-height:1;left:-9999px';scr.appendChild(meas);
+let curW=400,curStyle='Display',inspect=null,front='sxA';
+function fitSize(txt,w){meas.style.fontWeight=w;meas.textContent=txt;const wd=meas.getBoundingClientRect().width/scale();return Math.max(28,Math.min(220,Math.floor(100*313/Math.max(1,wd))));}
+function paintSpec(fade){
+  const own=$('detText').value.trim(),txt=inspect||own||'Aa';
+  const back=front==='sxA'?'sxB':'sxA',el=$(fade?back:front),old=$(front);
+  el.textContent=txt;el.style.fontWeight=curW;el.style.fontSize=(txt==='Aa'&&!inspect?220:fitSize(txt,curW))+'px';
+  if(fade&&!RM.matches){el.style.opacity=1;old.style.opacity=0;front=back;}else{el.style.opacity=1;}
+}
+// ---- glyph grid: tap a glyph to see it big; glyphs that are in your preview text get the highlighter
+const GROUPS=[['Uppercase','ABCDEFGHIJKLMNOPQRSTUVWXYZ'],['Lowercase','abcdefghijklmnopqrstuvwxyz'],['Numbers','0123456789'],['Punctuation',".,:;!?¡¿&'\"‘’“”«»()-–—…·"],['Symbols','@#$%*+=/\\|_~^<>[]{}€£¥¢©®™°'],['Accents','ÀÁÂÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÖØÙÚÛÜàáâäåçèéêëìíîïñòóôöøùúûüßæœ']];
+const hx=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const GL=[];GROUPS.forEach(([n,s])=>[...s].forEach(c=>GL.push({c,g:n})));
+$('glyphs').innerHTML=GROUPS.map(([n,s])=>`<h3 class="gh">${n}</h3><div class="g">`+[...s].map(c=>`<button type="button" aria-label="${hx(uname(c))}">${hx(c)}</button>`).join('')+'</div>').join('');
+const cells=[...$('glyphs').querySelectorAll('button')];cells.forEach((b,i)=>{pressable(b);b.onclick=()=>openGly(i);});
+function paintGrid(){cells.forEach(b=>{b.style.fontWeight=curW;});}
+let view='aa';
+function setView(v,instant){view=v;const g=v==='grid';
+  $('gridV').classList.toggle('hide',!g);$('aaV').classList.toggle('hide',g);
+  [['vSpec',!g],['vChar',g]].forEach(([id,on])=>{$(id).setAttribute('aria-selected',on);$(id).dataset.on=on;});
+  $('specCard').classList.toggle('tall',g);$('specCard').firstElementChild.style.clipPath=sqPath(361,440,48);
+  $('pf').inert=g;
+  if(instant){[$('specCard'),$('specCard').firstElementChild].forEach(e=>{e.style.transition='none';e.getBoundingClientRect();e.style.transition='';});}
+  if(instant)[$('gridV'),$('aaV')].forEach(e=>{e.style.transition='none';e.getBoundingClientRect();e.style.transition='';});
+  if(g)$('gridV').scrollTop=0;}
+$('vSpec').onclick=()=>{if(view!=='aa')setView('aa');};$('vChar').onclick=()=>{if(view!=='grid'){inspect=null;paintSpec(false);setView('grid');}};
+// ---- bookmark: outline ↔ fill with the SF Symbols replace + bounce
+// ---- save: stores the style you set up here (cut + weight + your text). saved styles show up in Accessibility to check
+const WN={400:'Regular',600:'Semibold',700:'Bold',800:'Extrabold',900:'Black'};
+// saving was cut: Accessibility always checks what is set on the Lapture page (nothing else read the saved list)
+let saved=[];try{localStorage.removeItem('lapStyles');}catch(e){}
+let checkKey='current';
+const keyOf=s=>s.cut+'|'+s.w+'|'+s.text;
+const live=()=>({cut:curStyle,w:curW,text:$('detText').value.trim()});
+const label=s=>`${s.cut} ${WN[s.w]}`+(s.text?` · “${s.text}”`:'');
+const persist=()=>{try{localStorage.setItem('lapStyles',JSON.stringify(saved));}catch(e){}};
+const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function paintSave(anim){const on=saved.some(s=>keyOf(s)===keyOf(live()));const was=$('detSave').getAttribute('aria-pressed')==='true';
+  $('detSave').setAttribute('aria-pressed',on);$('detSave').setAttribute('aria-label',on?'Saved to Accessibility. Tap to remove':'Save this style');
+  $('icBm').classList.toggle('out',on);$('icBmF').classList.toggle('out',!on);
+  if(anim&&on&&!was){const t=$('icBmF').firstElementChild;t.classList.remove('bounce');void t.offsetWidth;t.classList.add('bounce');}}
+let toastT=0;
+function toast(msg,act,fn){$('toastMsg').textContent=msg;const b=$('toastAct');b.hidden=!act;b.textContent=act||'';b.onclick=()=>{$('toast').classList.remove('on');fn&&fn();};
+  $('toast').classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>$('toast').classList.remove('on'),3500);}
+function paintChips(){
+  if(checkKey!=='current'&&!saved.some(s=>keyOf(s)===checkKey))checkKey='current';
+  let html=`<button type="button" class="chip" role="radio" data-k="current" aria-checked="${checkKey==='current'}" aria-pressed="${checkKey==='current'}">Current</button>`;
+  saved.forEach(s=>{const k=keyOf(s),on=k===checkKey;
+    html+=`<button type="button" class="chip" role="radio" data-k="${esc(k)}" aria-checked="${on}" aria-pressed="${on}">${esc(label(s))}</button>`;
+    if(on)html+=`<button type="button" class="chip rmv" data-rm="${esc(k)}" aria-label="Remove ${esc(label(s))}"><svg class="sf" width="11" height="11" viewBox="0 0 11 11" aria-hidden="true"><use href="#s-xmark"/></svg></button>`;});
+  $('styChips').innerHTML=html;$('styChips').hidden=!saved.length;$('styNote').hidden=saved.length>0;
+  $('styChips').querySelectorAll('[data-k]').forEach(b=>{pressable(b);b.onclick=()=>{checkKey=b.dataset.k;paintChips();applyCheck();};});
+  $('styChips').querySelectorAll('[data-rm]').forEach(b=>{pressable(b);b.onclick=()=>{saved=saved.filter(s=>keyOf(s)!==b.dataset.rm);persist();checkKey='current';paintChips();applyCheck();paintSave(false);};});}
+
+// the style line in Accessibility goes back to where you set the style up
+$('ctxBtn').onclick=()=>{$('tabLib').onclick();if(!nav.detail)setTimeout(openDetail,180);};
+window.applyCheck=()=>{const cur=checkKey==='current',s=cur?live():saved.find(x=>keyOf(x)===checkKey);if(!s)return;
+  scr.style.setProperty('--wt',s.w);
+  $('ctxStyle').textContent=`Lapture · ${s.cut} ${WN[s.w]}`;if(document.fonts.status==='loaded')renderPairs(s.w);
+  $('smallHint').textContent='WCAG AA: 4.5 : 1 below 24 pt, 3 : 1 at 24 pt and up.'+(s.cut==='Display'?'\nDisplay is drawn for large sizes, Text for small.':'');
+  const t=(cur?$('accText').value.trim():s.text)||TEST;acc.querySelectorAll('.sz p').forEach(p=>{p.textContent=t;});distOut();};
+$('detSave').onclick=()=>{const s=live(),k=keyOf(s),i=saved.findIndex(x=>keyOf(x)===k);
+  if(i<0){saved.push(s);toast('Saved to Accessibility','Check',()=>{checkKey=k;paintChips();applyCheck();if(nav.tab!=='acc')$('tabAcc').click();});}
+  else{saved.splice(i,1);toast('Removed from Accessibility');}
+  persist();paintSave(true);paintChips();applyCheck();};
+$('accText').addEventListener('input',()=>{if(checkKey!=='current'){checkKey='current';paintChips();applyCheck();}});
+
+// ---- glass lens for the menu (Aave's method): a displacement map from the menu's own shape bends what is behind it at the rim,
+// red 20% more and blue 20% less for a faint colour fringe (Aave: chroma 0.20); blur after, as Apple's regular glass does for text-heavy menus.
+// Built when the menu opens, from its laid-out size (built at load it measured the closed menu, 24px tall, so only a strip was glass).
+let lensKey='';
+function buildLens(){const m=$('styleMenu');const w=m.offsetWidth,h=m.offsetHeight,r=22,depth=14;if(!w||!h)return;const key=w+'x'+h;if(key===lensKey)return;lensKey=key;
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');const img=x.createImageData(w,h);
+  const sdf=(px,py)=>{const qx=Math.abs(px-w/2)-(w/2-r),qy=Math.abs(py-h/2)-(h/2-r);return Math.hypot(Math.max(qx,0),Math.max(qy,0))+Math.min(Math.max(qx,qy),0)-r;};
+  for(let y=0;y<h;y++)for(let X=0;X<w;X++){const d=-sdf(X+.5,y+.5);let dx=0,dy=0;
+    if(d>0&&d<depth){const gx=sdf(X+1.5,y+.5)-sdf(X-.5,y+.5),gy=sdf(X+.5,y+1.5)-sdf(X+.5,y-.5),gl=Math.hypot(gx,gy)||1;const k=Math.pow(1-d/depth,2);dx=-gx/gl*k;dy=-gy/gl*k;}
+    const i=(y*w+X)*4;img.data[i]=128+dx*127;img.data[i+1]=128+dy*127;img.data[i+2]=128;img.data[i+3]=255;}
+  x.putImageData(img,0,0);
+  const ns='http://www.w3.org/2000/svg',svg=document.querySelector('svg defs');let f=$('lensMenu');if(!f){f=document.createElementNS(ns,'filter');f.id='lensMenu';svg.appendChild(f);}
+  f.setAttribute('x','0');f.setAttribute('y','0');f.setAttribute('width',w);f.setAttribute('height',h);f.setAttribute('filterUnits','userSpaceOnUse');f.setAttribute('primitiveUnits','userSpaceOnUse');f.setAttribute('color-interpolation-filters','sRGB');
+  const dm=(sc,res)=>`<feDisplacementMap in="SourceGraphic" in2="map" scale="${sc}" xChannelSelector="R" yChannelSelector="G" result="${res}"/>`;
+  f.innerHTML=`<feImage href="${c.toDataURL()}" x="0" y="0" width="${w}" height="${h}" result="map" preserveAspectRatio="none"/>${dm(24,'dr')}${dm(20,'dg')}${dm(16,'db')}<feColorMatrix in="dr" type="matrix" values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" result="r"/><feColorMatrix in="dg" type="matrix" values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0" result="g"/><feColorMatrix in="db" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0" result="b"/><feComposite in="r" in2="g" operator="arithmetic" k2="1" k3="1" result="rg"/><feComposite in="rg" in2="b" operator="arithmetic" k2="1" k3="1"/>`;
+  // only Chromium bends a backdrop through an SVG filter; Safari (every iOS browser) keeps the plain blur
+  if(/Chrome\/\d/.test(navigator.userAgent)&&!/iPhone|iPad|iPod/.test(navigator.userAgent))m.classList.add('lens');}
+// ---- style menu (Display / Text): grows out of its button, tap outside to close
+function menu(on){if(on)buildLens();$('styleMenu').classList.toggle('on',on);$('menuSh').classList.toggle('on',on);$('styleMenu').inert=!on;$('specCard').classList.toggle('menuing',on);document.querySelectorAll('#specCard .aaV,#specCard .gridV,#specCard .vt,#specCard .pf').forEach(e=>e.inert=!!on);$('styleBtn').setAttribute('aria-expanded',on);if(on)focusIf($('styleMenu').querySelector('[aria-checked=true]'));}
+$('styleMenu').inert=true;
+$('styleBtn').onclick=e=>{e.stopPropagation();menu(!$('styleMenu').classList.contains('on'));};
+det.addEventListener('pointerdown',e=>{if(!e.target.closest('#styleMenu,#styleBtn'))menu(false);});
+$('styleMenu').addEventListener('keydown',e=>{if(e.key==='Escape'){menu(false);$('styleBtn').focus();}});
+function setStyle(s){curStyle=s;$('styleLbl').textContent=s;$('styleMenu').querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',b.dataset.s===s));layoutWeights();ctx();}
+$('styleMenu').querySelectorAll('button').forEach(b=>b.onclick=()=>{setStyle(b.dataset.s);setTimeout(()=>menu(false),120);});
+// ---- weight picker: ink thumb slides to the weight you tap, or follows your finger if you drag across
+const wb=[...$('well').querySelectorAll('button')];
+function syncHl(well){let hl=well.querySelector('.hl');if(!hl){hl=document.createElement('div');hl.className='hl';hl.setAttribute('aria-hidden','true');well.appendChild(hl);}
+  const bs=[...well.querySelectorAll('button')].filter(b=>!b.hidden);hl.innerHTML=bs.map(b=>{const i=b.querySelector('i');return `<i style="left:${b.style.left};font-weight:${i.style.fontWeight};font-family:${getComputedStyle(i).fontFamily.replace(/"/g,"'")}">${i.textContent}</i>`;}).join('');
+  const cur=bs.find(b=>b.getAttribute('aria-checked')==='true');if(cur)well.style.setProperty('--cx',(parseFloat(cur.style.left)+28)+'px');}
+function setW(w,fromDrag){if(w===curW&&!fromDrag)return;const i=wb.findIndex(b=>+b.dataset.w===w);
+  wb.forEach(b=>b.setAttribute('aria-checked',+b.dataset.w===w));$('wInd').style.transform=`translateX(${parseFloat(wb[i].style.left)}px)`;syncHl($('well'));if(nav.gly)syncGW();
+  if(w!==curW){curW=w;scr.style.setProperty('--wt',w);paintSpec(true);paintGrid();ctx();if(nav.gly)paintGly();}}
+wb.forEach(b=>b.onclick=()=>setW(+b.dataset.w));
+// ---- the same picker inside the Character card: this character in every weight the current style has, 64.25pt apart across the 313pt inset
+const gwb=[...$('gWell').querySelectorAll('button')];
+function syncGW(c){const av=AVAIL[curStyle]||AVAIL.Display;let k=0;
+  gwb.forEach(b=>{const w=+b.dataset.w,on=av.includes(w);b.hidden=!on;if(on){b.style.left=(k*64.25)+'px';k++;}
+    if(c!==undefined)b.firstElementChild.textContent=c;b.setAttribute('aria-checked',w===curW);
+    b.setAttribute('aria-label',b.lastElementChild.textContent);});
+  const cur=gwb.find(b=>+b.dataset.w===curW);if(cur)$('gInd').style.transform=`translateX(${parseFloat(cur.style.left)}px)`;syncHl($('gWell'));}
+gwb.forEach(b=>b.onclick=()=>setW(+b.dataset.w));
+$('gWell').addEventListener('keydown',e=>{const v=gwb.filter(b=>!b.hidden),i=v.findIndex(b=>+b.dataset.w===curW),d=e.key==='ArrowRight'||e.key==='ArrowDown'?1:e.key==='ArrowLeft'||e.key==='ArrowUp'?-1:0;
+  if(d){e.preventDefault();e.stopPropagation();const j=Math.max(0,Math.min(v.length-1,i+d));setW(+v[j].dataset.w);v[j].focus();}});
+{let dragging=false;$('gWell').addEventListener('pointerdown',e=>{dragging=true;e.stopPropagation();});
+ $('gWell').addEventListener('pointermove',e=>{if(!dragging||!e.buttons)return;const r=$('gWell').getBoundingClientRect(),x=(e.clientX-r.left)/scale();
+   const v=gwb.filter(b=>!b.hidden),i=Math.max(0,Math.min(v.length-1,Math.floor((x+4)/64.25)));setW(+v[i].dataset.w,true);});
+ ['pointerup','pointercancel','pointerleave'].forEach(t=>$('gWell').addEventListener(t,()=>dragging=false));}
+// Lapture's Text cut only comes in Regular and Bold (JAF: 4 Text styles, 10 Display, 5 Condensed)
+const AVAIL={Display:[400,600,700,800,900],Text:[400,700]};
+const vis=()=>wb.filter(b=>!b.hidden);
+function layoutWeights(){const av=AVAIL[curStyle]||AVAIL.Display;let k=0;
+  wb.forEach(b=>{const on=av.includes(+b.dataset.w);b.hidden=!on;if(on){b.style.left=(k*66.25)+'px';k++;}});
+  if(!av.includes(curW)){const near=av.reduce((a,b)=>Math.abs(b-curW)<Math.abs(a-curW)||(Math.abs(b-curW)===Math.abs(a-curW)&&b>a)?b:a);setW(near);}
+  else setW(curW,true);}
+$('well').addEventListener('keydown',e=>{const v=vis(),i=v.findIndex(b=>+b.dataset.w===curW),d=e.key==='ArrowRight'||e.key==='ArrowDown'?1:e.key==='ArrowLeft'||e.key==='ArrowUp'?-1:0;
+  if(d){e.preventDefault();const j=Math.max(0,Math.min(v.length-1,i+d));setW(+v[j].dataset.w);v[j].focus();}});
+{let dragging=false;$('well').addEventListener('pointerdown',e=>{dragging=true;});
+ $('well').addEventListener('pointermove',e=>{if(!dragging||!e.buttons)return;const r=$('well').getBoundingClientRect(),x=(e.clientX-r.left)/scale();
+   const v=vis(),i=Math.max(0,Math.min(v.length-1,Math.floor((x+6)/68.25)));setW(+v[i].dataset.w,true);});
+ ['pointerup','pointercancel','pointerleave'].forEach(t=>$('well').addEventListener(t,()=>dragging=false));}
+setW(400,true);
+// ---- preview text: one shared string. typing here updates the specimen, the grid highlights, every Library card and the Accessibility samples
+function ctx(){if(window.applyCheck)applyCheck();if(window.paintChips)paintSave(false);}
+window.detSync=()=>{$('pf').classList.toggle('has',!!$('detText').value);inspect=null;paintSpec(false);paintGrid();if(typeof saved!=='undefined')paintSave(false);};
+$('detText').addEventListener('input',()=>{$('accText').value=$('detText').value;accRender();});
+$('detText').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur();});
+$('detClear').onclick=()=>{$('detText').value='';$('accText').value='';accRender();$('detText').focus();};
+$('accClear').onclick=()=>{$('accText').value='';accRender();$('accText').focus();};
+// ---- Library list: the card you're about to open presses in
+sc.addEventListener('pointerdown',e=>{sc.style.pointerEvents='none';const el=document.elementFromPoint(e.clientX,e.clientY);sc.style.pointerEvents='';
+  const row=el&&el.closest('.row');if(!row)return;{const i=R.indexOf(row);if(i!==LAP&&L.indexOf(i)===Math.round(sc.scrollTop/STEP))return;}row.classList.add('down');   // a focused card that doesn't open doesn't press either
+  const x0=e.clientX,y0=e.clientY;
+  const up=()=>{row.classList.remove('down');sc.removeEventListener('pointerup',up);sc.removeEventListener('pointercancel',up);sc.removeEventListener('scroll',up);sc.removeEventListener('pointermove',mv);};
+  const mv=ev=>{if(Math.hypot(ev.clientX-x0,ev.clientY-y0)>10)up();};
+  sc.addEventListener('pointerup',up);sc.addEventListener('pointercancel',up);sc.addEventListener('scroll',up,{passive:true});sc.addEventListener('pointermove',mv);});
+window.paintChips=paintChips;paintChips();detSync();ctx();
+document.fonts&&document.fonts.ready.then(()=>paintSpec(false));
+
+
+// squircle every card: cards with a soft shadow get it as a ::before background, plain panels are clipped directly
+function sqInit(){const set=(sel,r,bg)=>document.querySelectorAll(sel).forEach(el=>{if(el.dataset.sq)return;el.dataset.sq=r;if(bg){el.classList.add('sqb');if(bg!=='paper')el.style.setProperty('--sqbg',bg);}
+  const ro=new ResizeObserver(()=>{const w=el.offsetWidth,hh=el.offsetHeight;if(!w||!hh)return;const v=`path('${sqd(w,hh,r)}')`;if(bg)el.style.setProperty('--sq',v);else el.style.clipPath=v;});ro.observe(el);});
+  set('#acc .acard',36,'paper');set('.cred .ccard',36,null);set('.gly .ginfo',36,'paper');set('.acc .well2',16,null);set('#styleMenu',22,'rgba(255,255,255,.72)');{const m=$('styleMenu'),sh=$('menuSh');new ResizeObserver(()=>{const w=m.offsetWidth,h=m.offsetHeight;if(!w||!h)return;const d=sqd(w,h,22);sh.style.height=h+'px';$('mshP').setAttribute('d',d);$('mshCut').setAttribute('d',d);m.querySelectorAll('.meS').forEach(e=>e.setAttribute('d',d));}).observe(m);}
+  {const el=$('cSheet');const ro=new ResizeObserver(()=>{const w=el.offsetWidth,h=el.offsetHeight;if(w&&h)el.style.setProperty('--sq',`path('${sqd(w,h+80,36)}')`);});ro.observe(el);}}
+sqInit();
+
+// squircle paths for the small shapes: glyph cells, colour rows, and the Lapture card's focus ring
+function sqAt(x,y,w,h,r){return sqd(w,h,r).replace(/(-?\d*\.?\d+)\s+(-?\d*\.?\d+)/g,(m,a,b)=>(+a+x).toFixed(3)+' '+(+b+y).toFixed(3));}
+{const g=document.getElementById('glyphs');const cellRO=new ResizeObserver(()=>{const b=g.querySelector('button');if(!b)return;g.style.setProperty('--cellsq',`path('${sqd(b.offsetWidth,b.offsetHeight,10)}')`);});cellRO.observe(g);new MutationObserver(()=>{const b=g.querySelector('button');if(b)cellRO.observe(b);}).observe(g,{childList:true,subtree:true});}
+document.querySelectorAll('.acc .crow').forEach(el=>new ResizeObserver(()=>{if(el.offsetWidth)el.style.setProperty('--sq',`path('${sqd(el.offsetWidth,el.offsetHeight,12)}')`);}).observe(el));
+{const row=R[LAP];const ring=()=>{const w=row.offsetWidth,h=row.offsetHeight;if(!w)return;row.style.setProperty('--ring',`path(evenodd,'${sqAt(0,0,w+10,h+10,48+5)} ${sqAt(3,3,w+4,h+4,48+2)}')`);};row.addEventListener('focusin',ring);new ResizeObserver(ring).observe(row);}
+document.documentElement.lang='en';document.getElementById('screen').setAttribute('role','main');
+document.querySelectorAll('header.top').forEach(e=>e.setAttribute('role','none'));document.querySelectorAll('#screen > .status').forEach(e=>e.setAttribute('aria-hidden','true'));
+</script>
+<script>/* keeps numbers with their units and ratios together on one line, in static and live text */
+(()=>{const RX=[[/(\d) (?=(pt|m|cm|mm|in|ft|px|%)\b)/g,'$1\u00a0'],[/(\d) : (\d)/g,'$1\u00a0:\u00a0$2'],[/(\d) (?=to \d)/g,'$1\u00a0'],[/ · /g,'\u00a0· ']];
+ const fix=n=>{if(n.nodeType!==3)return;let t=n.data,o=t;for(const [r,v] of RX)t=t.replace(r,v);if(t!==o)n.data=t;};
+ const walk=root=>{const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())fix(n);};
+ const scr=document.getElementById('screen');walk(scr);
+ new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')fix(m.target);else m.addedNodes.forEach(a=>a.nodeType===3?fix(a):walk(a));}}).observe(scr,{subtree:true,childList:true,characterData:true});})();
+</script>
+<style>
+/* Embedded in the case study, the page draws the phone around this, so the
+   device loses its own frame, the note under it goes, and the 393 by 852
+   screen is scaled to cover the iframe edge to edge, centred. */
+html.embed,html.embed body{background:transparent}
+html.embed body{padding:0;display:block;overflow:hidden}
+html.embed body>footer.note{display:none}
+html.embed .stage{position:fixed;inset:0;display:block}
+/* rounded here, to the case study's screen opening, and not by the page
+   clipping the iframe. The page's radius is elliptical (15.93% / 7.34%), and
+   under an elliptical clip Chrome drops the mask on the scroll edges' blur: it
+   starts at a hard line and runs too strong. The opening's corners are circular
+   in fact (both come to 15.93% of its width), so a circular radius here clips
+   the same shape and keeps the blur's fade. */
+html.embed .device{position:absolute;inset:0;width:auto;height:auto;max-width:none;aspect-ratio:auto;border-radius:15.93vw;box-shadow:none}
+/* the tap dot: Sessions' white ring vanishes on this app's light grey and white
+   glass, so an ink hairline sits outside it; on the black pills the white ring shows */
+.tapdot{position:absolute;z-index:300;left:0;top:0;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:rgba(28,28,28,.16);box-shadow:0 0 0 1.5px rgba(255,255,255,.9),0 0 0 2.5px rgba(28,28,28,.4);opacity:0;pointer-events:none}
+.tapdot.on{animation:tapdot .62s cubic-bezier(.22,1,.36,1) both}
+.tapdot.hold{opacity:1;animation:none}
+@keyframes tapdot{0%{opacity:0;transform:scale(.6)}25%{opacity:1;transform:scale(1)}45%{opacity:1;transform:scale(.86)}100%{opacity:0;transform:scale(1.04)}}
+.taplock{position:absolute;inset:0;z-index:310}
+html.snap #screen,html.snap #screen *,html.snap #screen *::before,html.snap #screen *::after{transition:none!important;animation:none!important}
+html.paused *,html.paused *::before,html.paused *::after{animation-play-state:paused!important}
+html.still *,html.still *::before,html.still *::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important;transition-delay:0s!important}
+html.still .tapdot{display:none}
+</style>
+<script>
+/* ===================== embedded scenes =====================
+   The case study shows this prototype one moment at a time, each in its own
+   iframe: typepass-prototype.html?embed&scene=<name>[&mode=still]
+   Same protocol as the Sessions and CVS prototypes, so the page's
+   js/cvs-demos.js drives it: {cvs:'play'|'pause'|'restart'} in,
+   {cvs:'state', scene, state:'ready'|'still'} out.
+   A scene runs by pressing the real controls, holds its last frame, fades and
+   repeats. mode=still lands on the last frame with motion off. */
+if(document.documentElement.classList.contains('embed'))(()=>{
+  const qs=new URLSearchParams(location.search),scene=qs.get('scene');let mode=qs.get('mode')||'start';
+  if(RM.matches)mode='still';
+  const H=document.documentElement;
+  if(mode==='still')H.classList.add('still');
+  const send=o=>{try{parent.postMessage(Object.assign({cvs:'state',scene},o),'*');}catch(e){}};
+  addEventListener('error',e=>{H.dataset.err=e.message;});
+  /* a recording: it never takes focus from the page around it, and says nothing to a screen reader */
+  HTMLElement.prototype.focus=function(){};
+  ['toast','cr','csOk'].forEach(id=>{const e=$(id);if(e){e.removeAttribute('aria-live');e.removeAttribute('role');}});
+
+  /* cover the iframe: the larger of the two scales, centred. 393:852 and the
+     case study's screen opening differ by well under a pixel, so nothing that
+     matters is cut and there is never a gap. */
+  const dev=$('device'),scrn=$('screen');
+  removeEventListener('resize',fit);
+  const efit=()=>{const w=innerWidth,h=innerHeight,k=Math.max(w/393,h/852);
+    scrn.style.transform=`translate(${((w-393*k)/2).toFixed(3)}px,${((h-852*k)/2).toFixed(3)}px) scale(${k})`;};
+  addEventListener('resize',efit);efit();
+
+  const dot=document.createElement('div');dot.className='tapdot';dot.setAttribute('aria-hidden','true');scrn.appendChild(dot);
+  const lock=document.createElement('div');lock.className='taplock';lock.setAttribute('aria-hidden','true');scrn.appendChild(lock);
+
+  let paused=true,started=false,gen=0;const ABORT={};
+  /* counts real time while playing, so a busy page cannot stretch a beat, and stops counting while paused */
+  const sleep=ms=>{const g=gen;let left=mode==='still'?Math.min(ms,700):ms,last=performance.now();return new Promise((res,rej)=>{(function t(){if(g!==gen)return rej(ABORT);
+    const now=performance.now();if(!paused||mode==='still')left-=now-last;last=now;if(left<=0)return res();setTimeout(t,Math.min(40,Math.max(4,left)));})();});};
+  const el=x=>typeof x==='string'?document.querySelector(x):x;
+  /* the app is mid-transition (zoom in, zoom out): wait for it, as a finger would */
+  async function idle(){let n=0;while(nav.busy&&n++<60)await sleep(40);}
+  const k=()=>scrn.getBoundingClientRect().width/393;
+  const at=e=>{const s=scrn.getBoundingClientRect(),r=e.getBoundingClientRect(),q=k();return{x:(r.left-s.left)/q,y:(r.top-s.top)/q,w:r.width/q,h:r.height/q};};
+  const place=(x,y)=>{dot.style.left=x+'px';dot.style.top=y+'px';};
+  function fire(t,type,x,y,extra){const s=scrn.getBoundingClientRect(),q=k(),cx=s.left+x*q,cy=s.top+y*q;
+    const o=Object.assign({bubbles:true,cancelable:true,composed:true,clientX:cx,clientY:cy,pointerId:1,pointerType:'mouse',isPrimary:true,button:0,buttons:1},extra||{});
+    lock.style.pointerEvents='none';
+    try{t.dispatchEvent(type==='click'?new MouseEvent('click',o):new PointerEvent(type,o));}finally{lock.style.pointerEvents='';}}
+  /* a tap: the dot lands on the control, it presses in, lets go, and the app
+     gets the same pointer and click events a finger would send. `via` is the
+     element that listens, when that is not the one under the finger (the
+     Library list listens on the scroller above its cards). */
+  async function tap(x,via){const e=el(x);if(!e)throw new Error('scene '+scene+': nothing matched '+x);await idle();
+    const p=at(e),cx=p.x+p.w/2,cy=p.y+Math.min(p.h/2,60);const t=via?el(via):e;
+    if(mode!=='still'){place(cx,cy);dot.classList.remove('on');void dot.offsetWidth;dot.classList.add('on');await sleep(150);}
+    fire(t,'pointerdown',cx,cy);await sleep(120);fire(t,'pointerup',cx,cy,{buttons:0});fire(t,'click',cx,cy,{buttons:0});}
+  async function type(x,text){const i=el(x);
+    for(const ch of text){i.value+=ch;i.dispatchEvent(new Event('input',{bubbles:true}));if(mode!=='still')await sleep(110);}}
+  /* a scroll, dragged: the dot presses on the list and travels with the content,
+     eased in and out, then lets go. The browser's own smooth scroll ran the
+     Library's four cards past in about a third of a second, too fast to follow.
+     Snapping is held off during the drag (it pulls each step to a card) and put
+     back after; the scenes end their drags on a snap point. */
+  const easeIO=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  async function scrollTo(x,y){const s=el(x),from=s.scrollTop,to=Math.max(0,Math.min(y,s.scrollHeight-s.clientHeight)),d=to-from;
+    if(mode==='still'||!d){s.scrollTop=to;await sleep(300);return;}
+    const ms=Math.max(1100,Math.min(2000,900+Math.abs(d)*3.5));
+    const p=at(s),cx=p.x+p.w*.62,travel=Math.min(Math.abs(d),p.h*.42)*Math.sign(d),y0=p.y+p.h/2+travel/2,y1=y0-travel;
+    const snap=s.style.scrollSnapType;s.style.scrollSnapType='none';
+    place(cx,y0);dot.classList.remove('on');dot.classList.add('hold');await sleep(180);
+    for(let t=0;t<ms;){await sleep(16);t=Math.min(ms,t+16);const e=easeIO(t/ms);s.scrollTop=from+d*e;place(cx,y0+(y1-y0)*e);}
+    s.scrollTop=to;s.style.scrollSnapType=snap;await sleep(140);dot.classList.remove('hold');await sleep(250);}
+  /* a drag along a control: the dot holds down and follows, the value tracks it */
+  async function drag(from,to,ms,pos,set){const n=mode==='still'?1:Math.max(1,Math.round(ms/40));
+    if(mode!=='still'){const a=pos(from);place(a.x,a.y);dot.classList.remove('on');dot.classList.add('hold');await sleep(160);}
+    for(let i=1;i<=n;i++){const t=i/n,e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,v=from+(to-from)*e;if(mode!=='still'){const b=pos(v);place(b.x,b.y);}set(v,i===n);if(i<n)await sleep(40);}
+    if(mode!=='still'){await sleep(120);dot.classList.remove('hold');}}
+  /* the lightness slider, dragged: the range input moves and sends input, as it does under a thumb */
+  async function slideLightness(to){const r=$('csL'),from=+r.value;
+    const pos=v=>{const p=at(r);return{x:p.x+14+v/100*(p.w-28),y:p.y+p.h/2};};
+    await drag(from,to,900,pos,v=>{r.value=v.toFixed(1);r.dispatchEvent(new Event('input',{bubbles:true}));});}
+  /* the viewing-distance ticks, dragged: the real pointer handlers on the ticks */
+  async function slideDistance(to,ms){const D=$('dial'),from=+$('dist').value;
+    const pos=m=>{const p=at(D);return{x:p.x+(m-1)/39*p.w,y:p.y+p.h/2};};
+    let down=false;
+    await drag(from,to,ms,pos,(m,last)=>{const b=pos(m);if(!down){fire(D,'pointerdown',b.x,b.y);down=true;}else fire(D,'pointermove',b.x,b.y);if(last)fire(D,'pointerup',b.x,b.y,{buttons:0});});}
+
+  /* ---------- back to how the app opens: Library, Lapture in focus ---------- */
+  function key(t,k){t.dispatchEvent(new KeyboardEvent('keydown',{key:k,bubbles:true,cancelable:true}));}
+  function reset(){
+    H.classList.add('snap');
+    document.getAnimations().forEach(a=>{if(a.constructor===Animation)a.cancel();});
+    document.querySelectorAll('#gly .gcard:not(#gCard)').forEach(e=>e.remove());
+    $('toast').classList.remove('on');
+    const sh=$('cSheet');sh.classList.remove('on');sh.setAttribute('aria-hidden','true');sh.inert=true;$('nav').classList.remove('undersheet');
+    $('colT').value='#1c1c1c';$('colB').value='#f4f4f4';contrast();
+    closeGly(true);closeCred(true);menu(false);
+    nav.detail=false;nav.busy=false;det.classList.remove('on');det.setAttribute('aria-hidden','true');
+    ['transition','transform','clipPath','opacity','transformOrigin'].forEach(p=>{det.style[p]='';$('sx').style[p]='';cred.style[p]='';gly.style[p]='';});
+    detParts().forEach(e=>{e.style.transition='';e.style.opacity='';});R[LAP].style.opacity='';
+    $('detText').value='';$('accText').value='';inspect=null;gi=0;
+    setView('aa',true);setStyle('Display');setW(400);
+    laOpen=false;accRender();
+    nav.tab='lib';paintNav();acc.classList.remove('on');acc.setAttribute('aria-hidden','true');
+    $('q').value='';q='';$('searchBox').classList.remove('has');cat='All';
+    $('chips').querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x.textContent==='All'));apply(LAP);
+    const D=$('dial');for(let n=0;n<45&&+$('dist').value!==10;n++)key(D,+$('dist').value<10?'ArrowRight':'ArrowLeft');
+    ['accScroll','credScroll','gridV'].forEach(id=>{$(id).scrollTop=0;});
+    document.querySelectorAll('.down').forEach(e=>e.classList.remove('down'));
+    kb=false;dot.className='tapdot';
+    scrn.getBoundingClientRect();
+  }
+  /* states a scene can open on, set straight, with no transition */
+  function onLapture(){nav.detail=true;setView('aa',true);setStyle(curStyle);det.classList.add('on');det.setAttribute('aria-hidden','false');R[LAP].style.opacity=0;}
+  function onAccess(){nav.tab='acc';paintNav();acc.classList.add('on');acc.setAttribute('aria-hidden','false');}
+  const accTo=sel=>{const s=$('accScroll'),c=document.querySelector(sel).closest('.acard');return Math.min(s.scrollHeight-s.clientHeight,c.offsetTop-66);};
+
+  const SC={
+    /* scroll the list, filter to Sans, back to All, then search */
+    library:{start(){},async run(){await sleep(900);await scrollTo(sc,(LAP-4)*STEP);await sleep(1100);
+      await tap('#chips .chip:nth-child(3)');await sleep(1400);await tap('#chips .chip:nth-child(1)');await sleep(1000);
+      await type('#q','lap');await sleep(1600);}},
+    /* open Lapture, pick Black, type a preview, switch the optical size to Text */
+    specimen:{start(){},async run(){await sleep(900);await tap(R[LAP].querySelector('.big'),sc);await sleep(1400);
+      await tap('#well [data-w="900"]');await sleep(1100);
+      await type('#detText','Leipziger Antiqua');await sleep(1200);
+      await tap('#styleBtn');await sleep(1000);await tap('#styleMenu [data-s="Text"]');await sleep(1600);}},
+    /* the character grid, one character up close, the next two, then Black */
+    characters:{start(){onLapture();},async run(){await sleep(900);await tap('#vChar');await sleep(1300);
+      await tap(cells[GL.findIndex(g=>g.c==='Q')]);await sleep(1300);await tap('#gNext');await sleep(1000);await tap('#gNext');await sleep(1100);
+      await tap('#gWell [data-w="900"]');await sleep(1300);}},
+    /* credits pushes in; scroll to the sources behind the checks */
+    credits:{start(){onLapture();},async run(){await sleep(900);await tap('#detInfo');await sleep(1500);await scrollTo('#credScroll',420);await sleep(1400);}},
+    /* text colour: lighten it until it fails, take the passing colour, done */
+    contrast:{start(){onAccess();},async run(){await sleep(900);await tap('#rowT');await sleep(1300);
+      await slideLightness(62);await sleep(1100);await tap('#csFix');await sleep(1500);await tap('#csClose');await sleep(1200);}},
+    /* all twelve look-alike pairs, then the viewing distance out to 30 m and in to 4 m: the cap height follows */
+    readability:{start(){onAccess();$('accScroll').scrollTop=accTo('.pairs');},async run(){await sleep(1100);
+      await tap('#laBtn');await sleep(1500);
+      const s=$('accScroll');await scrollTo(s,s.scrollHeight-s.clientHeight);await sleep(300);
+      await slideDistance(30,1100);await sleep(1200);
+      await slideDistance(4,900);await sleep(1300);}}
+  };
+  const S0=SC[scene];if(!S0){H.dataset.err='unknown scene '+scene;return;}
+  const fresh=()=>{reset();S0.start();requestAnimationFrame(()=>requestAnimationFrame(()=>H.classList.remove('snap')));};
+  /* between loops the screen fades to the device's own grey, not to transparent:
+     transparent let the poster under the iframe show through the fade, and where
+     it sits a few pixels off the live frame the two read as a double exposure */
+  const fade=async v=>{if(mode==='still')return;
+    /* back in view after being away (loop(again)): the device itself fades up from the poster */
+    if(v===1&&dev.style.opacity==='0'){scrn.style.transition='none';scrn.style.opacity=1;dev.style.transition='opacity .3s ease';dev.style.opacity=1;await sleep(320);return;}
+    scrn.style.transition='opacity .3s ease';scrn.style.opacity=v;await sleep(320);};
+  async function loop(again){try{
+      /* coming back after being away: let any transition the app had running finish out of sight */
+      if(again){dev.style.transition='none';dev.style.opacity=0;await sleep(700);}
+      for(;;){fresh();await fade(1);await sleep(500);await S0.run();await sleep(2000);await fade(0);}}
+    catch(e){if(e!==ABORT)H.dataset.err=e.message||String(e);}}
+  addEventListener('message',e=>{const m=e.data&&e.data.cvs;if(!m||mode==='still')return;
+    if(m==='pause'){paused=true;H.classList.add('paused');return;}
+    if(m!=='play'&&m!=='restart')return;
+    H.classList.remove('paused');paused=false;
+    if(m==='restart'||!started){const again=started;started=true;gen++;loop(again);}});
+  /* every face the list can show, loaded before the first frame, so none arrives late in a scroll */
+  const faces=F.map(f=>`${f[3]} ${f[2]} 40px ${f[1].split(',')[0]}`).concat([400,600,700,800,900].map(w=>`${w} 40px Grenze`));
+  Promise.all(faces.map(f=>document.fonts.load(f).catch(()=>{}))).then(()=>document.fonts.ready).then(()=>{
+    fresh();
+    if(mode==='still'){paused=false;(async()=>{try{await S0.run();await sleep(700);}catch(e){if(e!==ABORT)H.dataset.err=e.message||String(e);}send({state:'still'});})();}
+    else requestAnimationFrame(()=>requestAnimationFrame(()=>send({state:'ready'})));
+  });
+})();
+</script>
+</body></html>
