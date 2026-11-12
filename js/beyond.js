@@ -24,19 +24,25 @@
   var sphere = root.querySelector('.beyond__sphere');
   if (!stage || !sphere) return;
 
-  /* The pictures, at their own aspect ratios. The globe holds seventeen, as
+  /* The pictures, at their own aspect ratios. A card can be a crop of its
+     photo (the heron, boulders and lookout cards are wide crops of tall
+     photos, so the globe is not all tall cards); the full picture, opened
+     from the card, is the whole photo. The globe holds seventeen, as
      ramp's does, so with fewer it cycles through them; a card's neighbours on
-     a fibonacci sphere are about 3, 5, 8 and 13 places away, never 7 or 14, so
-     with seven pictures no two copies sit side by side. Add more to repeat less. */
+     a fibonacci sphere are about 3, 5, 8 and 13 places away, never 9, so with
+     nine pictures no two copies sit side by side. Add more to repeat less,
+     but not a count that is one of those distances. */
   var SRC = 'images/about/beyond/';
   var PICTURES = [
     { src: SRC + 'lights.jpg', full: SRC + 'lights-full.jpg', w: 640, h: 853, alt: 'People in a dark room of projected blue light and falling flowers at teamLab Borderless' },
     { src: SRC + 'tractor.jpg', full: SRC + 'tractor-full.jpg', w: 720, h: 480, alt: 'Sitting at the wheel of a red Farmall tractor in a sunny field' },
     { src: SRC + 'chalk.jpg', full: SRC + 'chalk-full.jpg', w: 640, h: 853, alt: 'Chalk drawings of flowers and leaves along a sidewalk at night' },
-    { src: SRC + 'heron.jpg', full: SRC + 'heron-full.jpg', w: 640, h: 853, alt: 'A heron wading in calm blue water at dusk' },
+    { src: SRC + 'heron.jpg', full: SRC + 'heron-full.jpg', w: 720, h: 480, alt: 'A heron wading in calm blue water at dusk' },
     { src: SRC + 'palms.jpg', full: SRC + 'palms-full.jpg', w: 640, h: 960, alt: 'Palm trees in silhouette against a low sun on a beach path' },
     { src: SRC + 'porsche.jpg', full: SRC + 'porsche-full.jpg', w: 720, h: 480, alt: 'A crowd watching a white Porsche 911 being worked on in a service bay' },
-    { src: SRC + 'dinner.jpg', full: SRC + 'dinner-full.jpg', w: 640, h: 884, alt: 'Five friends around a round restaurant table of shared dishes, making bunny ears behind each other' }
+    { src: SRC + 'dinner.jpg', full: SRC + 'dinner-full.jpg', w: 640, h: 884, alt: 'Five friends around a round restaurant table of shared dishes, making bunny ears behind each other' },
+    { src: SRC + 'boulders.jpg', full: SRC + 'boulders-full.jpg', w: 720, h: 480, alt: 'Water running over smooth granite boulders above a green inlet, with clouded mountains between tall evergreens' },
+    { src: SRC + 'lookout.jpg', full: SRC + 'lookout-full.jpg', w: 720, h: 480, alt: 'Two people sitting side by side on a granite outcrop, looking out over a turquoise inlet and forested mountains under a streaked blue sky' }
   ];
   var PHOTOS = [];
   for (var n = 0; n < 17; n++) PHOTOS.push(PICTURES[n % PICTURES.length]);
