@@ -1924,6 +1924,56 @@ h1, h2, h3, h4, h5, h6 {
   stroke-linecap: round;
 }
 
+/* On a case study a sheet opens over the page rather than filling the
+   window: a light tint keeps the page in view behind it, the sheet itself
+   sits in the middle with a margin all round, no panel around it, and a
+   click anywhere, the sheet included, closes it, as do Esc and the close
+   button, drawn on a white disc so it reads over the tint. The caption hangs
+   below the sheet on a white pill, out of the layout, so the sheet stays
+   centred whether it has one or not; the sheet's height leaves room for it
+   on both sides. */
+.cap-page .viewer {
+  padding: 7vh 6vw;
+  background: rgba(0, 0, 0, 0.32);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.cap-page .viewer-frame {
+  position: relative;
+  max-width: min(1200px, 100%);
+  gap: 0;
+}
+
+.cap-page .viewer-frame img {
+  max-height: calc(86vh - 96px);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+  cursor: zoom-out;
+}
+
+.cap-page .viewer-cap {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 12px;
+  padding: 6px 14px;
+  white-space: nowrap;
+  background: #FFFFFF;
+  border-radius: 999px;
+}
+
+.cap-page .viewer-cap:empty {
+  display: none;
+}
+
+.cap-page .viewer-close {
+  background: #FFFFFF;
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .viewer,
   .viewer-frame,
@@ -3861,6 +3911,11 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   }
 }
 
+/* A sheet that opens larger (js/viewer.js), as Gemini's do. */
+.pos-plate > a[data-viewer] {
+  display: block;
+}
+
 /* One sheet per row, for the component sheets, which are wide. */
 .pos-flow.is-single {
   grid-template-columns: minmax(0, 1fr);
@@ -3986,8 +4041,8 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
 }
 
 /* The opportunity as a line from what goes in to what comes out, on a
-   plate, after wendyyudesign.com/capsule: large words, thin arrows, the
-   step in the middle on a white pill. On a phone it runs top to bottom. */
+   plate, after wendyyudesign.com/capsule: large words and thin arrows, all
+   three steps alike. On a phone it runs top to bottom. */
 .flow-plate {
   display: grid;
   grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr) auto minmax(max-content, 1fr);
@@ -4027,15 +4082,6 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   width: auto;
   height: 0.95em;
   fill: currentColor;
-}
-
-.flow-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  padding: 0.35em 0.85em;
-  background: #FFFFFF;
-  border-radius: 999px;
 }
 
 /* The labels wrap to their column rather than widening it. */
