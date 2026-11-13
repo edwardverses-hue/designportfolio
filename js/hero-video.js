@@ -33,7 +33,13 @@
   var seen = new Map();
   function sync(v, entered) {
     if (reduce || paused() || !seen.get(v)) { if (!v.paused) v.pause(); return; }
-    if (entered && built.has(v)) { built.delete(v); return; }
+    // Carried over from the other page by js/page-transition.js: a film that
+    // had finished holds its last frame; one under way carries on from there.
+    if (entered && v.dataset.carried) {
+      var held = v.dataset.carried === 'held';
+      delete v.dataset.carried; built.delete(v);
+      if (held) return;
+    } else if (entered && built.has(v)) { built.delete(v); return; }
     if (!v.loop && v.ended) { if (!entered) return; v.currentTime = 0; }
     if (v.preload !== 'auto') v.preload = 'auto';
     var p = v.play();
