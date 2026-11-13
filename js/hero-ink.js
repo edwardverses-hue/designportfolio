@@ -114,13 +114,14 @@
   // (localAmt across at its middle), so the last fade is only the wash far
   // from the letters.
   // What the brush uncovers soaks in over REVEAL.soak seconds (a time
-  // constant) rather than all at once. Measured frame by frame (60 fps) over
-  // the writing, against no soak, the wider brush (0.24) and straight
-  // strokes: the ink arriving each frame varied 0.81 times its mean, from
-  // 2.28; the change from one frame to the next fell from 0.94 to 0.21 of
-  // its mean; and the narrower brush shows only what has been written, where
-  // the wider one uncovered strokes before the brush reached them. The name
-  // reads the same once written (0.71, 0.70 at 4.2 and 8 seconds).
+  // constant) rather than all at once, and the narrower brush (0.18, from
+  // 0.24) shows only what has been written, where the wider one uncovered
+  // strokes before the brush reached them. Measured frame by frame (60 fps)
+  // over the 2.2 seconds of writing: the change in the picture from one
+  // frame to the next varies 0.41 times its mean, with no frame standing
+  // still. (The stroke smoothing's helper once took the name of the pacing's
+  // curve() above, which stopped the brush until each stroke's end and laid
+  // the thread down as a row of dots at once; it is spline() now.)
   var REVEAL = { half: 0.18, amt: 2.5, fill: 2.0, lead: 0, film: 10, local: 1.6, localAmt: 3, reach: 0.9, soak: 0.1 };
   // During the writing the ink is pulled to the name harder than the hero's
   // usual pull, so the name it uncovers reads more clearly: READ.pull, the
@@ -683,7 +684,7 @@
       if (k) t += WRITE.gap;
       hz[1].forEach(function (med, j) {
         // the character's outline box onto the box the font draws it in
-        var pts = curve(med.map(function (q) { return [gb[0] + (q[0] - ob[0]) / (ob[2] - ob[0]) * (gb[2] - gb[0]), gb[1] + (q[1] - ob[1]) / (ob[3] - ob[1]) * (gb[3] - gb[1])]; }), A);
+        var pts = spline(med.map(function (q) { return [gb[0] + (q[0] - ob[0]) / (ob[2] - ob[0]) * (gb[2] - gb[0]), gb[1] + (q[1] - ob[1]) / (ob[3] - ob[1]) * (gb[3] - gb[1])]; }), A);
         // the lift: a moment, and longer the further the brush has to travel
         if (j) t += WRITE.lift + WRITE.air * Math.hypot((pts[0][0] - last[0]) * A, pts[0][1] - last[1]);
         last = pts[pts.length - 1];
@@ -701,7 +702,7 @@
   // A stroke's centre line through its points as a smooth curve (centripetal
   // Catmull-Rom, WRITE.curve points to each span), so the brush turns its
   // corners rather than snapping from one straight piece to the next.
-  function curve(P, A) {
+  function spline(P, A) {
     var n = WRITE.curve; if (!n || P.length < 3) return P;
     var out = [P[0]];
     function d(a, b) { return Math.pow(Math.hypot((b[0] - a[0]) * A, b[1] - a[1]), 0.5) || 1e-6; }
