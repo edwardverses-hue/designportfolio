@@ -63,6 +63,7 @@
       <a href="#problem">Problem</a>
       <a href="#research">Research</a>
       <a href="#reframe">Reframe</a>
+      <a href="#solution">Solution</a>
       <a href="#system">Components</a>
       <a href="#redesign">Design</a>
       <a href="#reflections">Reflections</a>
@@ -160,8 +161,7 @@
     </p>
   </section>
 
-  <!-- REFRAME, with the idea set aside on the way, told short the way the
-       CVS page tells its eligibility checker. -->
+  <!-- REFRAME -->
   <section id="reframe" class="cap-section">
     <div class="cap-eyebrow">Reframe</div>
     <h2 class="cap-title">From better prompts to what the app already knows</h2>
@@ -176,38 +176,33 @@
       <p class="reframe-text">"How might the home screen use what Gemini already knows about you?"</p>
     </div>
 
-    <!-- The set-aside idea as the CVS page shows its moments: the problem,
-         the fullscreen fix, then the sideways view and why it stopped there. -->
-    <div class="split-row has-title">
-      <div class="split-art is-phone">
-        <figure class="phone-fig">
-          <img loading="lazy" decoding="async" src="../images/gemini/code-1.png" alt="A code block in the chat running off the right edge of the screen, cutting off its comments mid-line" />
-          <figcaption class="proto-cap">A long script in the chat</figcaption>
-        </figure>
-      </div>
-      <div class="split-text">
-        <h3 class="cap-moment">An idea I set aside</h3>
-        <p class="cap-body">Code blocks in the chat cut off long lines, comments included. I didn't shrink the text: Google's designers would have weighed that already, so I took the current size as the smallest they would accept.</p>
-      </div>
-    </div>
+  </section>
 
-    <div class="split-row is-flipped has-title">
-      <div class="split-art is-phone">
-        <figure class="phone-fig">
-          <img loading="lazy" decoding="async" src="../images/gemini/code-2.png" alt="The same script opened fullscreen, every line complete, with the chat input still reachable" />
-          <figcaption class="proto-cap">The same script, fullscreen</figcaption>
-        </figure>
-      </div>
-      <div class="split-text">
-        <h3 class="cap-moment">A fullscreen view</h3>
-        <p class="cap-body">A button opens the code fullscreen. Whole lines fit, but only at the default text size.</p>
-      </div>
-    </div>
+  <!-- SOLUTION: the home screen today beside the redesign, both renders in
+       the same mockup (today's is from Edward's phone, unedited). -->
+  <section id="solution" class="cap-section">
+    <div class="cap-eyebrow">Solution</div>
+    <h2 class="cap-title">Two stacks of suggestions under the greeting</h2>
+    <p class="cap-body">
+      The redesign uses the empty space on the home screen for suggestions drawn from the time, the place and your recent chats. Tapping one sends its question for you.
+    </p>
 
-    <div class="full-image is-bare">
-      <img loading="lazy" decoding="async" src="../images/gemini/code-landscape.png" alt="The code view rotated to landscape, with full lines fitting across the wide edge of the screen" />
+    <div class="compare">
+      <div class="compare-row">
+        <figure class="compare-phone">
+          <img loading="lazy" decoding="async" src="../images/gemini/original-home.png" width="1200" height="2429" alt="Gemini's home screen on iOS today: the model picker, Let's jump in, Edward, and the Ask Gemini field, with the space between them empty" />
+          <figcaption class="proto-cap">Today</figcaption>
+        </figure>
+        <figure class="compare-phone">
+          <img loading="lazy" decoding="async" src="../images/gemini/2.png" width="1200" height="2429" alt="The redesigned home screen: the same greeting, then two stacks of cards above the text field, For your evening and Pick up where you left off" />
+          <figcaption class="proto-cap">Redesign</figcaption>
+        </figure>
+        <div class="compare-text">
+          <h3 class="cap-moment">The empty space, used</h3>
+          <p class="cap-body">The greeting stays. Under it, on the left, a stack for the time and place; on the right, a stack for recent work. Each card names something specific, like a café or a chat.</p>
+        </div>
+      </div>
     </div>
-    <p class="cap-body">Turned sideways, even long lines fit. But few people review code on a phone, and I hadn't checked how many people had the problem, so I set the idea aside.</p>
   </section>
 
   <!-- COMPONENTS: the recreation and the kit it became. -->
@@ -249,9 +244,6 @@
   <section id="redesign" class="cap-section">
     <div class="cap-eyebrow">Design Breakdown</div>
     <h2 class="cap-title">Suggestions from the time, the place and your last chat</h2>
-    <p class="cap-body">
-      The greeting stays. Under it are two stacks of cards: suggestions for the time and place on the left, recent work on the right. Each card names something specific, like a café or a chat.
-    </p>
     <p class="cap-body">
       They sit just above the text field, so a card is only worth showing if it is more useful than the question you were about to type.
     </p>
@@ -371,8 +363,8 @@
   <!-- REFLECTIONS: the one lesson, then what is still open. -->
   <section id="reflections" class="cap-section">
     <div class="cap-eyebrow">Reflections</div>
-    <h2 class="cap-title">Check how many people a problem affects before designing for it</h2>
-    <p class="cap-body">I designed the fullscreen code view before checking how many people review code on a phone; next time I would check first. Rebuilding the app before changing it was worth it: only at full size could I tell which empty space was deliberate. Two parts are still open.</p>
+    <h2 class="cap-title">Rebuild an app before changing it</h2>
+    <p class="cap-body">Rebuilding Gemini first was worth it: only at full size could I tell which empty space was deliberate. Two parts are still open.</p>
 
     <div class="cap-cards is-pair">
       <div class="cap-card">

@@ -169,38 +169,31 @@
 
 
 
-  <!-- THE OPPORTUNITY -->
+  <!-- THE OPPORTUNITY, and the solution it led to, in one: the line, then
+       the answer the register already has, as a diagram after the opportunity
+       on wendyyudesign.com/capsule. -->
   <section id="opportunity" class="cap-section">
     <div class="cap-eyebrow">Opportunity</div>
-    <h2 class="cap-title">The register already knows the answer</h2>
+    <h2 class="cap-title">Show the register's answer before you pay</h2>
     <p class="cap-body">
-      Chain pharmacies run IIAS, which tags each product eligible or not and charges the FSA the eligible total. It runs when the card is presented, so shoppers see the split only at payment.
-    </p>
-    <p class="cap-body">
-      I started by designing an eligibility checker, then realised the register already calculates the answer.
+      The register already knows what the FSA covers. Shoppers only see it at payment.
     </p>
 
-    <div class="reframe">
-      <p class="reframe-label">From</p>
-      <p class="reframe-text is-from">"Is this eligible?"</p>
-      <p class="reframe-label">To</p>
-      <p class="reframe-text">"$31.48 can go on your FSA"</p>
+    <div class="flow-plate" role="img" aria-label="A cart of bandages, reading glasses and chocolate goes through IIAS, the register's eligibility check, and the app shows $31.48 can go on your FSA before you pay.">
+      <span class="flow-big is-1">Your cart</span>
+      <svg class="flow-arrow is-1" viewBox="0 0 80 12" aria-hidden="true"><path d="M0 6H78M72 1l6 5-6 5" /></svg>
+      <span class="flow-big is-2 is-pill">IIAS</span>
+      <svg class="flow-arrow is-2" viewBox="0 0 80 12" aria-hidden="true"><path d="M0 6H78M72 1l6 5-6 5" /></svg>
+      <span class="flow-big is-3">$31.48 on your FSA</span>
+      <span class="flow-small is-1">Bandages, reading glasses, chocolate</span>
+      <span class="flow-small is-2">The register's eligibility check</span>
+      <span class="flow-small is-3">Shown in the app, before you pay</span>
     </div>
 
-    <div class="finding">
-      <figure class="chart" data-chart="substantiation" aria-label="Average FSA forfeiture: $407 for workers whose claims were all approved automatically, $293 for workers who submitted at least one claim by hand."></figure>
-      <div class="finding__text">
-        <h3 class="cap-moment">Paying automatically does not stop money expiring</h3>
-        <p class="cap-body">Workers whose claims were all approved at the register forfeited $114 more on average than those who submitted at least one by hand, and were 13 points more likely to forfeit. EBRI suggests inertia may play a part. Making payment easy is not enough; people need to see what is left before they pay.</p>
-        <p class="finding__cap">EBRI, December 2024. The two averages as reported by Investopedia.</p>
-      </div>
-    </div>
     <p class="case-sources">
       Sources:
       <a href="https://docs.nmi.com/docs/fsa-support" target="_blank" rel="noopener">NMI on IIAS at checkout</a>;
-      <a href="https://docs.withflex.com/compliance/iias" target="_blank" rel="noopener">Flex on IIAS item checks</a>;
-      <a href="https://www.ebri.org/content/new--fast-fact--research-report-finds-workers-who-manually-submitted-at-least-one-flexible-spending-account-expense-had-fewer-forfeitures--saved-average-of--114" target="_blank" rel="noopener">EBRI on FSA substantiation, December 2024</a>;
-      <a href="https://www.itiger.com/news/2492910186" target="_blank" rel="noopener">Investopedia's report of the averages, December 2024</a>.
+      <a href="https://docs.withflex.com/compliance/iias" target="_blank" rel="noopener">Flex on IIAS item checks</a>.
     </p>
   </section>
 
@@ -219,7 +212,54 @@
       </div>
       <div class="cap-card">
         <h3>Changed</h3>
-        <p>One tab bar. Red only for the heart and the amount that expires. One eligibility tag, from product card to register.</p>
+        <p>One tab bar: Shop's, with Benefits in place of Photo. One eligibility tag, from product card to register.</p>
+      </div>
+    </div>
+
+    <!-- The tab bars, today and redesigned, on whole screens. The first three
+         are untouched screenshots of the CVS app (July 2026), one from each
+         part of it: the Health & Pharmacy home with its menu open (IMG_8249),
+         the pharmacy account's Spending tab (IMG_8257) and a Shop product page
+         (IMG_8278). The fourth is the prototype's home. All four are set in
+         the same frame. -->
+    <div class="today-row">
+      <div class="today-group">
+        <h3 class="today-label">The CVS app today: three tab bars</h3>
+        <div class="today-phones">
+          <figure class="today-phone">
+            <div class="proto-phone">
+              <div class="proto-screen"><img class="proto-poster is-screen" loading="lazy" decoding="async" src="../images/cvs/original/health-pharmacy.webp" alt="The CVS app today, Health and Pharmacy, with its menu open: Home, Pharmacy, Health, Shop and Benefits, every icon in red" /><span class="bar-ring" style="--top:86.5%; --bottom:2.2%" aria-hidden="true"></span></div>
+              <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+            </div>
+            <figcaption class="proto-cap">Health &amp; Pharmacy</figcaption>
+          </figure>
+          <figure class="today-phone">
+            <div class="proto-phone">
+              <div class="proto-screen"><img class="proto-poster is-screen" loading="lazy" decoding="async" src="../images/cvs/original/pharmacy-account.webp" alt="The CVS app today, the pharmacy account: Smart spending for healthier living, over a tab bar of Home, Prescriptions, Orders, Spending and More" /><span class="bar-ring" style="--top:89.4%; --bottom:3%" aria-hidden="true"></span></div>
+              <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+            </div>
+            <figcaption class="proto-cap">Pharmacy account</figcaption>
+          </figure>
+          <figure class="today-phone">
+            <div class="proto-phone">
+              <div class="proto-screen"><img class="proto-poster is-screen" loading="lazy" decoding="async" src="../images/cvs/original/shop.webp" alt="The CVS app today, Shop: featured beauty products over a tab bar of Home, Savings, Shop, Photo and Orders" /><span class="bar-ring" style="--top:89.4%; --bottom:3%" aria-hidden="true"></span></div>
+              <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+            </div>
+            <figcaption class="proto-cap">Shop</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="today-group is-redesign">
+        <h3 class="today-label">Redesign: one tab bar</h3>
+        <div class="today-phones">
+          <figure class="today-phone">
+            <div class="proto-phone">
+              <div class="proto-screen"><img class="proto-poster is-screen" loading="lazy" decoding="async" src="../images/cvs/original/redesign-home.webp" alt="The redesigned home: the FSA balance over one tab bar of Home, Savings, Shop, Benefits and Orders" /><span class="bar-ring" style="--top:90.2%; --bottom:2.2%" aria-hidden="true"></span></div>
+              <img class="proto-frame" src="../images/cvs/frame.png" alt="" aria-hidden="true" />
+            </div>
+            <figcaption class="proto-cap">Home</figcaption>
+          </figure>
+        </div>
       </div>
     </div>
 
@@ -374,99 +414,25 @@
     </p>
   </section>
 
-  <!-- THE REGISTER -->
+  <!-- THE REGISTER: the usual path runs beside the phone in the breakdown
+       above (the handoff), so here are only the two ways it can change, one
+       screen each, side by side. -->
   <section id="register" class="cap-section">
     <div class="cap-eyebrow">Secondary Surface</div>
-    <h2 class="cap-title">Four ways checkout can end</h2>
+    <h2 class="cap-title">Two other ways checkout can end</h2>
     <p class="cap-body">
-      Shoppers who do not use the app still pay at the register, so its customer screen shows the same split to everyone and takes one card at a time.
+      Shoppers who do not use the app still pay at the register, so its customer screen shows the same split to everyone and takes one card at a time. The usual path is above, beside the phone.
     </p>
 
-    <!-- The register, one screen per state, read by scrolling, after the
-         design breakdown on wendyyudesign.com/capsule: each state on its own
-         tinted plate with its title and one line beside it, the two sides
-         swapping row by row. The main path runs all five steps; the other
-         three show only the screens they add. -->
-    <h3 class="cap-moment">Paid in two steps</h3>
-    <p class="cap-body">The FSA card pays for the eligible items first, then a second card pays for the rest.</p>
-    <div class="pos-row">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/1-scan-prompt.png" alt="Customer screen asking the shopper to scan their ExtraCare card while the item list is still empty" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">1</span>Scan prompt</h4>
-        <p class="cap-body">The screen asks for the ExtraCare card before anything is scanned.</p>
-      </div>
-    </div>
-    <div class="pos-row is-flipped">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/2-recognized.png" alt="Customer screen greeting Edward, with two of three items FSA/HSA eligible and $31.48 able to go on the FSA" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">2</span>Recognized</h4>
-        <p class="cap-body">Two of the three items are eligible, and $31.48 can go on the FSA.</p>
-      </div>
-    </div>
-    <div class="pos-row">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/3-pay-fsa.png" alt="Step 1 of 2: tap or insert the FSA card for $31.48 covering the two eligible items" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">3</span>Pay with the FSA card</h4>
-        <p class="cap-body">Step 1 of 2: tap or insert the FSA card for $31.48.</p>
-      </div>
-    </div>
-    <div class="pos-row is-flipped">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/4-pay-rest.png" alt="FSA paid $31.48 for 2 items. Step 2 of 2: pay the remaining $4.19 with another card" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">4</span>FSA paid, pay the rest</h4>
-        <p class="cap-body">The FSA paid $31.48 for two items. Step 2 of 2 is $4.19 on another card.</p>
-      </div>
-    </div>
-    <div class="pos-row">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/5-done.png" alt="All set: WEX FSA paid $31.48 for eligible items and Visa paid $4.19 for everything else, total $35.67" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">5</span>Done</h4>
-        <p class="cap-body">WEX FSA paid $31.48 and Visa paid $4.19, a total of $35.67.</p>
-      </div>
-    </div>
-
-    <h3 class="cap-moment">FSA balance too low</h3>
-    <p class="cap-body">The FSA covers $20.00 of $31.48, and the remaining $11.48 moves to the second card.</p>
-    <div class="pos-row is-flipped">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/6-balance-low.png" alt="Alert that the FSA covered $20.00 of $31.48, the rest of its balance, leaving $15.67 to pay: $11.48 eligible plus $4.19 other" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">1</span>Balance too low</h4>
-        <p class="cap-body">The FSA covered $20.00 of $31.48, all it had left; $15.67 remains.</p>
-      </div>
-    </div>
-    <div class="pos-row">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/7-done-low.png" alt="All set: WEX FSA paid $20.00, all of its balance, and Visa paid the remaining $15.67" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">2</span>Done, split across two cards</h4>
-        <p class="cap-body">WEX FSA paid $20.00 and Visa paid the remaining $15.67.</p>
-      </div>
-    </div>
-
-    <h3 class="cap-moment">Remove an item</h3>
-    <p class="cap-body">After the FSA has paid, the shopper can remove the item that needed a second card.</p>
-    <div class="pos-row is-flipped">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/8-cancel-rest.png" alt="Cancel the rest? The FSA already paid $31.48, with options to pay $4.19 now, remove the Hershey's bar, or cancel the whole order" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">1</span>Cancel the rest?</h4>
-        <p class="cap-body">The FSA has paid $31.48. The shopper can pay $4.19 now, remove the bar, or cancel.</p>
-      </div>
-    </div>
-    <div class="pos-row">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/9-item-removed.png" alt="The Hershey's bar is struck through as removed, and the order is complete at $31.48 paid by the FSA" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">2</span>Item removed, done</h4>
-        <p class="cap-body">The chocolate bar is removed and the order completes at $31.48 on the FSA.</p>
-      </div>
-    </div>
-
-    <h3 class="cap-moment">Cancel the order</h3>
-    <p class="cap-body">Cancelling after the FSA has paid refunds the FSA payment.</p>
-    <div class="pos-row is-flipped">
-      <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/10-order-canceled.png" alt="Order canceled, with the FSA payment of $31.48 reversed" /></div>
-      <div class="pos-row__text">
-        <h4 class="pos-row__title"><span class="pos-num">1</span>Order canceled</h4>
-        <p class="cap-body">The order is cancelled and the $31.48 FSA payment is reversed.</p>
-      </div>
+    <div class="pos-flow">
+      <figure class="pos-state">
+        <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/6-balance-low.png" alt="Alert that the FSA covered $20.00 of $31.48, the rest of its balance, leaving $15.67 to pay: $11.48 eligible plus $4.19 other" /></div>
+        <figcaption class="pos-state__cap">FSA balance too low: the FSA covers $20.00 of $31.48, and the rest moves to the second card.</figcaption>
+      </figure>
+      <figure class="pos-state">
+        <div class="pos-plate"><img loading="lazy" decoding="async" src="../images/cvs/pos/8-cancel-rest.png" alt="Cancel the rest? The FSA already paid $31.48, with options to pay $4.19 now, remove the Hershey's bar, or cancel the whole order" /></div>
+        <figcaption class="pos-state__cap">Stopping after the FSA has paid: pay the $4.19, remove the chocolate bar, or cancel the order and reverse the FSA payment.</figcaption>
+      </figure>
     </div>
   </section>
 

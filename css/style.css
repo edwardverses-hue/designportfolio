@@ -3866,6 +3866,241 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   grid-template-columns: minmax(0, 1fr);
 }
 
+/* ---------- CVS: THE APP TODAY, AND THE REDESIGN ----------
+   Whole screens, four in a row: three from the app as it is (one from each
+   part, each with its own tab bar) and the redesign's one. Two to a row on
+   a phone. */
+.today-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: 32px;
+  margin-top: var(--s-visual, 40px);
+}
+
+/* Each group lines its phones up on the row's own four columns, so all four
+   are the same size: three for today, one for the redesign. */
+.today-group {
+  display: grid;
+  grid-column: span 3;
+  grid-template-columns: subgrid;
+  row-gap: 20px;
+  min-width: 0;
+}
+
+.today-group.is-redesign {
+  grid-column: span 1;
+  position: relative;
+}
+
+/* The redesign sits apart from the three, past a hairline in the gap. */
+.today-group.is-redesign::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -16px;
+  border-left: 1px solid #E5E5E5;
+}
+
+.today-label {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+.today-phones {
+  display: contents;
+}
+
+.today-phone {
+  margin: 0;
+  min-width: 0;
+}
+
+.today-phone .proto-phone {
+  width: 100%;
+}
+
+.today-phone .proto-cap {
+  margin-top: 12px;
+}
+
+/* What to look at on each screen: its tab bar, ringed. */
+.bar-ring {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  top: var(--top);
+  bottom: var(--bottom);
+  border: 2px solid #1C1C1C;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .today-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 12px;
+    row-gap: 36px;
+  }
+
+  .today-group.is-redesign {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 12px;
+    padding-top: 28px;
+    border-top: 1px solid #E5E5E5;
+  }
+
+  .today-group.is-redesign::before {
+    display: none;
+  }
+
+  .today-phone .proto-cap {
+    font-size: 13px;
+  }
+}
+
+/* ---------- TODAY AND THE REDESIGN, SIDE BY SIDE ----------
+   The Solution sections: the app as it is (screenshots from Edward's phone,
+   unedited) beside the redesign, in the same phone frame, with a short
+   heading and a line on what changed. On a phone the words come first and
+   the two phones share the row under them. */
+.compare {
+  display: grid;
+  row-gap: 64px;
+  margin-top: var(--s-visual, 40px);
+}
+
+.compare-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 250px)) minmax(0, 1fr);
+  column-gap: 32px;
+  row-gap: 16px;
+  align-items: center;
+}
+
+.compare-phone {
+  margin: 0;
+  min-width: 0;
+}
+
+.compare-phone .proto-phone {
+  width: 100%;
+}
+
+.compare-phone > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.compare-phone .proto-cap {
+  margin-top: 12px;
+}
+
+.compare-text .cap-moment {
+  margin-top: 0;
+}
+
+/* The opportunity as a line from what goes in to what comes out, on a
+   plate, after wendyyudesign.com/capsule: large words, thin arrows, the
+   step in the middle on a white pill. On a phone it runs top to bottom. */
+.flow-plate {
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+  align-items: center;
+  column-gap: clamp(16px, 2.5vw, 40px);
+  row-gap: 12px;
+  margin-top: var(--s-visual, 40px);
+  padding: clamp(48px, 6vw, 88px) clamp(24px, 4vw, 56px);
+  background: var(--surface);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.flow-big {
+  grid-row: 1;
+  justify-self: center;
+  font-size: clamp(22px, 2.5vw, 36px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.flow-big.is-pill {
+  padding: 0.35em 0.85em;
+  background: #FFFFFF;
+  border-radius: 999px;
+}
+
+/* The labels wrap to their column rather than widening it. */
+.flow-small {
+  grid-row: 2;
+  align-self: start;
+  width: 0;
+  min-width: 100%;
+  font-size: 15px;
+  color: var(--grey);
+}
+
+.flow-big.is-1, .flow-small.is-1 { grid-column: 1; }
+.flow-arrow.is-1 { grid-column: 2; grid-row: 1; }
+.flow-big.is-2, .flow-small.is-2 { grid-column: 3; }
+.flow-arrow.is-2 { grid-column: 4; grid-row: 1; }
+.flow-big.is-3, .flow-small.is-3 { grid-column: 5; }
+
+.flow-arrow {
+  width: clamp(40px, 5vw, 80px);
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+/* On a phone, top to bottom: each step with its label under it. */
+@media (max-width: 720px) {
+  .flow-plate {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 10px;
+    padding: 40px 20px;
+  }
+
+  .flow-big, .flow-small, .flow-arrow { grid-column: 1 !important; justify-self: center; }
+  .flow-big.is-1 { grid-row: 1; }
+  .flow-small.is-1 { grid-row: 2; }
+  .flow-arrow.is-1 { grid-row: 3; }
+  .flow-big.is-2 { grid-row: 4; }
+  .flow-small.is-2 { grid-row: 5; }
+  .flow-arrow.is-2 { grid-row: 6; }
+  .flow-big.is-3 { grid-row: 7; }
+  .flow-small.is-3 { grid-row: 8; }
+
+  .flow-arrow {
+    width: 40px;
+    margin: 6px 0;
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .compare {
+    row-gap: 48px;
+  }
+
+  .compare-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .compare-text {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+}
+
 /* ---------- THE REGISTER, ALTERNATING ROWS ----------
    After the design breakdown on wendyyudesign.com/capsule: each state is a
    plated screen about two thirds of the column wide, with its title and one
