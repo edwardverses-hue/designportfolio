@@ -3866,6 +3866,219 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   grid-template-columns: minmax(0, 1fr);
 }
 
+/* ---------- CVS: KEPT / CHANGED, AS SCREENSHOTS ----------
+   A table: the part on the left, the CVS app today in the middle, the
+   redesign on the right, under Kept and Changed. On a phone each part's
+   label comes first and the two crops stack, each tagged. */
+.kc {
+  margin-top: var(--s-visual, 40px);
+}
+
+.kc-head,
+.kc-row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 28px;
+}
+
+.kc-head {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--grey);
+}
+
+.kc-group {
+  margin: 28px 0 14px;
+  padding-top: 14px;
+  border-top: 1px solid #E5E5E5;
+  font-size: 20px;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+.kc-row {
+  align-items: start;
+}
+
+.kc-row + .kc-row {
+  margin-top: 24px;
+}
+
+.kc-label {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.kc-note {
+  display: block;
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--grey);
+}
+
+.kc-cell {
+  margin: 0;
+  min-width: 0;
+}
+
+.kc-plate {
+  padding: 10px;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+
+.kc-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-inset);
+}
+
+.kc-stack .kc-sub {
+  margin: 6px 0 14px;
+  font-size: 14px;
+  color: var(--grey);
+}
+
+.kc-stack .kc-sub:last-child {
+  margin-bottom: 0;
+}
+
+/* The column heads say which side is which; on a phone each crop says it. */
+.kc-tag {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .kc-head {
+    display: none;
+  }
+
+  .kc-row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 12px;
+  }
+
+  .kc-tag {
+    display: block;
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--grey);
+  }
+}
+
+/* The register's two endings: a title, then one line. */
+.pos-state__title {
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 400;
+  color: #1C1C1C;
+}
+
+/* The opportunity as a line from what goes in to what comes out, on a
+   plate, after wendyyudesign.com/capsule: large words, thin arrows, the
+   step in the middle on a white pill. On a phone it runs top to bottom. */
+.flow-plate {
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+  align-items: center;
+  column-gap: clamp(12px, 1.8vw, 32px);
+  row-gap: 12px;
+  margin-top: var(--s-visual, 40px);
+  padding: clamp(48px, 6vw, 88px) clamp(20px, 3.5vw, 56px);
+  background: var(--surface);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.flow-big {
+  grid-row: 1;
+  justify-self: center;
+  font-size: clamp(18px, 1.9vw, 30px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+/* With icons (Gemini): the icons sit in the line of words, sized to them. */
+.flow-big {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+.flow-icons {
+  gap: 0.5em;
+}
+
+.flow-icon {
+  flex: none;
+  width: auto;
+  height: 0.95em;
+  fill: currentColor;
+}
+
+.flow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.35em 0.85em;
+  background: #FFFFFF;
+  border-radius: 999px;
+}
+
+/* The labels wrap to their column rather than widening it. */
+.flow-small {
+  grid-row: 2;
+  align-self: start;
+  width: 0;
+  min-width: 100%;
+  font-size: 15px;
+  color: var(--grey);
+}
+
+.flow-big.is-1, .flow-small.is-1 { grid-column: 1; }
+.flow-arrow.is-1 { grid-column: 2; grid-row: 1; }
+.flow-big.is-2, .flow-small.is-2 { grid-column: 3; }
+.flow-arrow.is-2 { grid-column: 4; grid-row: 1; }
+.flow-big.is-3, .flow-small.is-3 { grid-column: 5; }
+
+.flow-arrow {
+  width: clamp(28px, 3.5vw, 64px);
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+/* On a phone, top to bottom: each step with its label under it. */
+@media (max-width: 720px) {
+  .flow-plate {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 10px;
+    padding: 40px 20px;
+  }
+
+  .flow-big, .flow-small, .flow-arrow { grid-column: 1 !important; justify-self: center; }
+  .flow-big.is-1 { grid-row: 1; }
+  .flow-small.is-1 { grid-row: 2; }
+  .flow-arrow.is-1 { grid-row: 3; }
+  .flow-big.is-2 { grid-row: 4; }
+  .flow-small.is-2 { grid-row: 5; }
+  .flow-arrow.is-2 { grid-row: 6; }
+  .flow-big.is-3 { grid-row: 7; }
+  .flow-small.is-3 { grid-row: 8; }
+
+  .flow-arrow {
+    width: 40px;
+    margin: 6px 0;
+    transform: rotate(90deg);
+  }
+}
+
+
 /* ---------- THE REGISTER, ALTERNATING ROWS ----------
    After the design breakdown on wendyyudesign.com/capsule: each state is a
    plated screen about two thirds of the column wide, with its title and one
