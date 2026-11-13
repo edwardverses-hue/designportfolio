@@ -3866,10 +3866,11 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   grid-template-columns: minmax(0, 1fr);
 }
 
-/* ---------- CVS: KEPT / CHANGED, AS SCREENSHOTS ----------
-   A table: the part on the left, the CVS app today in the middle, the
-   redesign on the right, under Kept and Changed. On a phone each part's
-   label comes first and the two crops stack, each tagged. */
+/* ---------- CVS: WHAT CHANGED, ON THE APP ITSELF ----------
+   A row for each part that differs: its name and what changed on the left,
+   the CVS app today, an arrow, then the redesign. What stayed the same is a
+   line under them. On a phone each row stacks: the words, today, the arrow
+   turned down, the redesign, each crop tagged. */
 .kc {
   margin-top: var(--s-visual, 40px);
 }
@@ -3877,35 +3878,25 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
 .kc-head,
 .kc-row {
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr);
-  column-gap: 28px;
+  grid-template-columns: 180px minmax(0, 1fr) 40px minmax(0, 1fr);
+  column-gap: 20px;
 }
 
 .kc-head {
-  margin: 0 0 4px;
+  margin: 0 0 12px;
   font-size: 15px;
   color: var(--grey);
 }
 
-.kc-group {
-  margin: 28px 0 14px;
-  padding-top: 14px;
-  border-top: 1px solid #E5E5E5;
-  font-size: 20px;
-  font-weight: 300;
-  letter-spacing: -0.01em;
-}
-
 .kc-row {
-  align-items: start;
-}
-
-.kc-row + .kc-row {
-  margin-top: 24px;
+  align-items: center;
+  padding: 24px 0;
+  border-top: 1px solid #E5E5E5;
 }
 
 .kc-label {
   margin: 0;
+  align-self: start;
   font-size: 16px;
   line-height: 1.4;
 }
@@ -3935,19 +3926,30 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   border-radius: var(--radius-inset);
 }
 
-.kc-stack .kc-sub {
-  margin: 6px 0 14px;
-  font-size: 14px;
-  color: var(--grey);
-}
-
-.kc-stack .kc-sub:last-child {
-  margin-bottom: 0;
+.kc-arrow {
+  width: 40px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
 }
 
 /* The column heads say which side is which; on a phone each crop says it. */
 .kc-tag {
   display: none;
+}
+
+.kc-kept {
+  margin: 0;
+  padding-top: 24px;
+  border-top: 1px solid #E5E5E5;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.kc-kept__label {
+  margin-right: 12px;
+  color: var(--grey);
 }
 
 @media (max-width: 720px) {
@@ -3958,6 +3960,13 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
   .kc-row {
     grid-template-columns: minmax(0, 1fr);
     row-gap: 12px;
+    justify-items: stretch;
+  }
+
+  .kc-arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+    margin: 8px 0;
   }
 
   .kc-tag {
