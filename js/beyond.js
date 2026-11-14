@@ -42,7 +42,8 @@
     { src: SRC + 'porsche.jpg', full: SRC + 'porsche-full.jpg', w: 720, h: 480, alt: 'A crowd watching a white Porsche 911 being worked on in a service bay' },
     { src: SRC + 'dinner.jpg', full: SRC + 'dinner-full.jpg', w: 640, h: 884, alt: 'Five friends around a round restaurant table of shared dishes, making bunny ears behind each other' },
     { src: SRC + 'boulders.jpg', full: SRC + 'boulders-full.jpg', w: 720, h: 480, alt: 'Water running over smooth granite boulders above a green inlet, with clouded mountains between tall evergreens' },
-    { src: SRC + 'lookout.jpg', full: SRC + 'lookout-full.jpg', w: 720, h: 480, alt: 'Two people sitting side by side on a granite outcrop, looking out over a turquoise inlet and forested mountains under a streaked blue sky' }
+    { src: SRC + 'lookout.jpg', full: SRC + 'lookout-full.jpg', w: 720, h: 480, alt: 'Two people sitting side by side on a granite outcrop, looking out over a turquoise inlet and forested mountains under a streaked blue sky' },
+    { src: SRC + 'boxing.jpg', full: SRC + 'boxing-full.jpg', w: 720, h: 480, alt: 'Two boxers in headgear and gloves sparring in a ring, seen through the ropes' }
   ];
   var PHOTOS = [];
   for (var n = 0; n < 17; n++) PHOTOS.push(PICTURES[n % PICTURES.length]);
