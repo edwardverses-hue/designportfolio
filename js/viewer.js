@@ -59,7 +59,7 @@
   // Anywhere but the picture closes it, the close button included. On a
   // case study the picture is a sheet in a panel over the page, and any
   // click closes it, the picture too.
-  var anyClick = document.body.classList.contains('cap-page');
+  var anyClick = document.body.matches('.cap-page, .small-viewer');
   viewer.addEventListener('click', function (e) {
     if (anyClick || e.target !== vImg) closeViewer();
   });
