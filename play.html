@@ -148,6 +148,7 @@
       var EASE      = 0.12;
       var PER_PX    = 1.0;    // one pixel of gesture, one unit along the path
       var PAD       = 1.25;   // overlap between neighbouring facets, in pixels
+      var PHONE_BASE = 0.72;  // on phones, a work's height as a share of the screen's width, at most
 
       var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var viewerOpen = false;
@@ -181,6 +182,11 @@
       function measure() {
         var vw = stage.clientWidth, vh = stage.clientHeight;
         var base = Math.min(0.6 * vh, 560);
+        // A phone is far narrower than it is tall, so sized by height alone the
+        // back wall came out wider than the screen: the walls fell outside it
+        // and each work passed flat across the middle, over the welcome. Sized
+        // by the width there, the room keeps the depth it has on a desktop.
+        if (phone.matches) base = Math.min(base, PHONE_BASE * vw);
         var sum = 0;
         for (var i = 0; i < works.length; i++) {
           works[i].h = base;

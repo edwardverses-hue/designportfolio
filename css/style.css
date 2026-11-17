@@ -221,6 +221,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero {
   min-height: 100vh;
+  /* svh: the height a phone shows with its browser bars out. 100vh there is
+     taller than the screen, so the line sat below centre and the Pause motion
+     control opened under Safari's bar. The same as vh on a desktop. */
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -352,6 +356,12 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
+/* A tap counts as hover on a phone and the lift stuck on the card that was
+   tapped, still raised when the reader came back to the page. */
+@media (hover: none) {
+  .project-card:hover { transform: none; }
+}
+
 /* Render_2_phones.png is transparent. Its opaque phone bodies are centred at
    38.4% x / 47.9% y, not 50/50, and the soft shadow runs out to about 94% of
    the width. Translating past the 38.4% figure shifts the render left so that
@@ -382,6 +392,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ---------- ABOUT PAGE ---------- */
 .about-page {
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -831,6 +842,10 @@ h1, h2, h3, h4, h5, h6 {
   margin: 34px 0 0;
 }
 .cmp-scroll {
+  /* relative, so the table's screen-reader spans (absolute) are held inside
+     the scroller; without it they hung out past the plate and a phone could
+     drag the whole page sideways. */
+  position: relative;
   border: 1px solid #E5E5E5;
   border-radius: var(--radius);
   overflow-x: auto;
@@ -1703,6 +1718,12 @@ h1, h2, h3, h4, h5, h6 {
     padding: 80px 24px;
   }
 
+  /* 120px between projects was sized for a desktop card about 600px tall;
+     under a phone's 190px card it read as the page having ended. */
+  .project {
+    margin-bottom: 72px;
+  }
+
   .case-hero {
     padding: 100px 24px 20px;
   }
@@ -1729,6 +1750,10 @@ h1, h2, h3, h4, h5, h6 {
 .gallery-stage {
   position: relative;
   height: 100vh;
+  /* The height actually on screen. On a phone 100vh counts the space under
+     the browser's own bars, so the hint at the foot sat behind them. On a
+     desktop the two are the same. */
+  height: 100dvh;
   overflow: hidden;
   touch-action: none;
 }
@@ -1863,6 +1888,9 @@ h1, h2, h3, h4, h5, h6 {
   flex: 0 0 auto;
   max-width: 100%;
   max-height: calc(100vh - 170px);
+  /* dvh, so on a phone the picture and its caption fit above the browser's
+     bar rather than running under it */
+  max-height: calc(100dvh - 170px);
   width: auto;
   height: auto;
   border-radius: var(--radius);
@@ -5433,4 +5461,15 @@ a.beyond__photo:focus-visible {
     height: 44px;
     transform: translateY(-50%);
   }
+}
+
+/* ---------- PLAY ON A PHONE ----------
+   The words wrap to five lines on a phone, and at the desktop's 12% from the
+   foot they ran up over the works. Here the room's centre rises to 39% and
+   the works are sized to the width (play.html), so the works, their years
+   and the words each keep their own band of the screen. */
+@media (max-width: 720px) {
+  .room { top: 39%; }
+  .gallery-welcome { bottom: 10%; }
+  .gallery-hint { bottom: 20px; }
 }
