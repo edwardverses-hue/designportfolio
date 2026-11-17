@@ -10,6 +10,19 @@
    plays for a reader whose system asks for reduced motion: they get the
    poster. The CVS page's Pause motion control holds it too. */
 (function () {
+  // Safari, and every browser on iPhone and iPad (all WebKit underneath),
+  // plays the WebM but drops its alpha channel, so the see-through films came
+  // out on black. Those browsers get the same film flattened onto the colour
+  // it sits on instead: the card grey (--surface, #F5F5F5) on the home page,
+  // the page white on a case study.
+  if (navigator.vendor === 'Apple Computer, Inc.') {
+    [].slice.call(document.querySelectorAll('video[data-film]')).forEach(function (v) {
+      var src = v.getAttribute('src');
+      if (!/hero\.webm$/.test(src || '')) return;
+      v.setAttribute('src', src.replace(/hero\.webm$/, v.closest('.project-card') ? 'hero-grey.mp4' : 'hero-white.mp4'));
+    });
+  }
+
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var films = [].slice.call(document.querySelectorAll('video[data-film]'));
   if (!films.length) return;
