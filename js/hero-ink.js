@@ -31,6 +31,7 @@
   // size); none, as the font is used as it is
   var THICK = 0;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var PHONE = window.matchMedia('(max-width: 760px) and (orientation: portrait)');
   // The water holds still for a reader whose system asks for reduced motion,
   // and while the page's Pause motion control is on (it sets this class).
   function still() { return reduce || document.body.classList.contains('motion-paused'); }
@@ -244,7 +245,7 @@
 
   function Ink(section) {
     this.s = section;
-    this.layout = section.getAttribute('data-layout') || 'row';
+    this.layoutSet = this.layout = section.getAttribute('data-layout') || 'row';
     this.opacity = parseFloat(section.getAttribute('data-opacity') || '1');
     this.reveal = parseFloat(section.getAttribute('data-reveal') || '0');
     this.clear = parseFloat(section.getAttribute('data-clear') || '0.3');
@@ -439,6 +440,11 @@
     if (r.width < 10 || r.height < 10) return false;
     var gl = this.gl;
     this.W = r.width; this.H = r.height;
+    // On a phone held upright the row has a narrow screen to cross and the
+    // name comes out small, so there it is set as a column down the screen,
+    // read top to bottom. Measured each time the hero is sized, so turning
+    // the phone sets it again.
+    this.layout = this.layoutSet === 'row' && PHONE.matches ? 'column' : this.layoutSet;
     var dpr = Math.min(1.5, window.devicePixelRatio || 1);
     this.canvas.width = Math.round(r.width * dpr); this.canvas.height = Math.round(r.height * dpr);
     this.canvas.style.width = r.width + 'px'; this.canvas.style.height = r.height + 'px';

@@ -1897,6 +1897,22 @@ h1, h2, h3, h4, h5, h6 {
   cursor: default;
 }
 
+/* A film (Play's type in motion) is held to the same fitted size. */
+.viewer-frame video {
+  flex: 0 0 auto;
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 170px);
+  width: auto;
+  height: auto;
+  border-radius: var(--radius);
+  background: #FFFFFF;
+}
+
+.viewer-frame video[hidden] {
+  display: none;
+}
+
 .viewer-cap {
   font-size: 13px;
   font-weight: 300;
@@ -5472,4 +5488,26 @@ a.beyond__photo:focus-visible {
   .room { top: 39%; }
   .gallery-welcome { bottom: 10%; }
   .gallery-hint { bottom: 20px; }
+}
+
+/* ---------- PHONES: from the mobile audit ----------
+   Phone widths only, so nothing here reaches the desktop layout. (TypePass's
+   chart scroller is held relative above, at .cmp-scroll.) */
+@media (max-width: 760px) {
+  /* Gemini's card dots are 18px. Each takes a 44px tall touch area, as wide
+     as the step to the next dot, from an invisible layer, so the dots look
+     the same and neighbouring areas do not overlap. */
+  .widget-dot {
+    position: relative;
+  }
+
+  .widget-dot::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% + 2px);
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
 }
