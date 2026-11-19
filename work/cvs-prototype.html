@@ -533,7 +533,11 @@ function reflow(scr){const f=scr&&scr.querySelector('[data-flow]');if(!f)return;
   const kids=[...f.parentElement.children].filter(e=>e!==f&&getComputedStyle(e).position==='absolute'&&parseFloat(e.style.top)>160&&parseFloat(e.style.top)<700);
   kids.forEach(e=>{if(e.dataset.top===undefined)e.dataset.top=parseFloat(e.style.top);});
   const first=Math.min(...kids.map(e=>+e.dataset.top));if(!isFinite(first))return;
-  const d=(f.getBoundingClientRect().bottom-scr.getBoundingClientRect().top)+(+f.dataset.gap)-first;
+  // on a phone the device is drawn scaled down (more so inside the case study), so the measured
+  // height is in scaled pixels; dividing by the scale puts it back in the screen's own pixels
+  const sb=scr.getBoundingClientRect();let k=1;
+  try{if((window.top||window).matchMedia('(max-width: 760px)').matches)k=sb.height/scr.offsetHeight||1;}catch(e){}
+  const d=(f.getBoundingClientRect().bottom-sb.top)/k+(+f.dataset.gap)-first;
   kids.forEach(e=>e.style.top=(+e.dataset.top+d)+'px');}
 new ResizeObserver(es=>es.forEach(e=>reflow(e.target.closest('.screen')))).observe(document.body);
 function go(name,opts={}){show(name,opts);if(cur){cur.querySelectorAll('[data-flow]').forEach(f=>new ResizeObserver(()=>reflow(cur)).observe(f));}setTimeout(glassCheck,40);setTimeout(glassCheck,560);}
