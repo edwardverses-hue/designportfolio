@@ -66,6 +66,13 @@
           <figcaption class="work-cap">2026</figcaption>
         </figure>
 
+        <!-- A website: the wall shows a still of it and the viewer opens the
+             site itself, live, to drag around in. -->
+        <figure class="work" data-embed="https://zoielmao.lol/#gallery">
+          <div class="work-art"><img src="images/play/Our_Gallery.webp" alt="Our gallery, a birthday website: photos scattered on grey paper around a cut-paper headline, an endless wall to drag in any direction" /></div>
+          <figcaption class="work-cap">2026</figcaption>
+        </figure>
+
         <figure class="work">
           <div class="work-art"><img src="images/play/War.png" alt="War, poster" /></div>
           <figcaption class="work-cap">2026</figcaption>
@@ -105,6 +112,12 @@
           <div class="work-art"><img src="images/play/Dinosaur_Flowers.png" alt="Illustration of a long-necked green dinosaur, three pink and yellow flowers and a smiling orange figure on a soft, blurred background" /></div>
           <figcaption class="work-cap">2026</figcaption>
         </figure>
+        <!-- A website: the wall shows a still of it and the viewer opens the
+             site itself, live, to drag around in. -->
+        <figure class="work" data-embed="https://zoielmao.lol/#gallery">
+          <div class="work-art"><img src="images/play/Our_Gallery.webp" alt="Our gallery, a birthday website: photos scattered on grey paper around a cut-paper headline, an endless wall to drag in any direction" /></div>
+          <figcaption class="work-cap">2026</figcaption>
+        </figure>
       </div>
     </div>
     <div class="gallery-welcome">
@@ -125,6 +138,7 @@
     <figure class="viewer-frame">
       <img id="viewer-img" alt="" />
       <video id="viewer-video" controls playsinline preload="none" hidden></video>
+      <iframe id="viewer-embed" title="" loading="lazy" hidden></iframe>
       <figcaption class="viewer-cap" id="viewer-cap"></figcaption>
     </figure>
   </div>
@@ -563,6 +577,7 @@
             el: fig, cap: fig.querySelector('.work-cap'), facets: facets,
             aspect: img.naturalWidth / img.naturalHeight,
             src: src, alt: img.getAttribute('alt') || '', video: fig.getAttribute('data-video'),
+            embed: fig.getAttribute('data-embed'),
             shown: true, w: 0, h: 0, centre: 0
           };
           var loop = fig.getAttribute('data-loop');
@@ -591,6 +606,7 @@
       var viewer = document.getElementById('viewer');
       var vImg = document.getElementById('viewer-img');
       var vVid = document.getElementById('viewer-video');
+      var vEmb = document.getElementById('viewer-embed');
       var vCap = document.getElementById('viewer-cap');
       var lastFocus = null;
       var closingIn = null;
@@ -599,7 +615,15 @@
         if (!work) return;
         window.clearTimeout(closingIn);
         viewer.classList.remove('is-closing');
-        if (work.video) {
+        vEmb.hidden = true;
+        if (work.embed) {
+          // A website opens as itself, live, in place of the picture.
+          vImg.hidden = true;
+          vVid.hidden = true;
+          vEmb.hidden = false;
+          vEmb.setAttribute('title', work.alt);
+          vEmb.setAttribute('src', work.embed);
+        } else if (work.video) {
           // A film plays in place of the picture, with its sound and controls,
           // from the still the wall shows.
           vImg.hidden = true;
@@ -644,6 +668,8 @@
         vVid.pause();
         vVid.removeAttribute('src');
         vVid.load();
+        vEmb.removeAttribute('src');
+        vEmb.hidden = true;
         if (lastFocus && lastFocus.focus) lastFocus.focus();
       }
 

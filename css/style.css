@@ -1937,6 +1937,33 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
+/* A website (Play's birthday gallery) opens live. It has no size of its own,
+   so it takes the widest 16:10 the frame allows; on a phone it stands
+   upright and fills the frame instead. */
+.viewer-frame iframe {
+  flex: 0 0 auto;
+  display: block;
+  width: min(calc(100vw - 48px), calc((100vh - 170px) * 1.6));
+  width: min(calc(100vw - 48px), calc((100dvh - 170px) * 1.6));
+  aspect-ratio: 16 / 10;
+  border: 0;
+  border-radius: var(--radius);
+  background: #FFFFFF;
+}
+
+.viewer-frame iframe[hidden] {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .viewer-frame iframe {
+    width: calc(100vw - 48px);
+    height: calc(100vh - 170px);
+    height: calc(100dvh - 170px);
+    aspect-ratio: auto;
+  }
+}
+
 .viewer-cap {
   font-size: 13px;
   font-weight: 300;
