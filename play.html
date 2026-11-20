@@ -66,10 +66,12 @@
           <figcaption class="work-cap">2026</figcaption>
         </figure>
 
-        <!-- A website: the wall shows a still of it and the viewer opens the
-             site itself, live, to drag around in. -->
-        <figure class="work" data-embed="https://zoielmao.lol/#gallery">
-          <div class="work-art"><img src="images/play/Our_Gallery.webp" alt="Our gallery, a birthday website: photos scattered on grey paper around a cut-paper headline, an endless wall to drag in any direction" /></div>
+        <!-- A website: the wall plays a silent walk through it (the box being
+             opened, the photos spreading out, the wall dragged about, the
+             keychain), starting from the still (13.3s in), and the viewer
+             opens the site itself, live. -->
+        <figure class="work" data-embed="https://zoielmao.lol/#gallery" data-loop="images/play/Our_Gallery_loop.mp4" data-from="13.3">
+          <div class="work-art"><img src="images/play/Our_Gallery.webp" alt="Our gallery, a birthday website: a box is opened, photos spread out on grey paper around a cut-paper headline, the wall is dragged about, and a keychain of charms swings" /></div>
           <figcaption class="work-cap">2026</figcaption>
         </figure>
 
@@ -112,10 +114,12 @@
           <div class="work-art"><img src="images/play/Dinosaur_Flowers.png" alt="Illustration of a long-necked green dinosaur, three pink and yellow flowers and a smiling orange figure on a soft, blurred background" /></div>
           <figcaption class="work-cap">2026</figcaption>
         </figure>
-        <!-- A website: the wall shows a still of it and the viewer opens the
-             site itself, live, to drag around in. -->
-        <figure class="work" data-embed="https://zoielmao.lol/#gallery">
-          <div class="work-art"><img src="images/play/Our_Gallery.webp" alt="Our gallery, a birthday website: photos scattered on grey paper around a cut-paper headline, an endless wall to drag in any direction" /></div>
+        <!-- A website: the wall plays a silent walk through it (the box being
+             opened, the photos spreading out, the wall dragged about, the
+             keychain), starting from the still (13.3s in), and the viewer
+             opens the site itself, live. -->
+        <figure class="work" data-embed="https://zoielmao.lol/#gallery" data-loop="images/play/Our_Gallery_loop.mp4" data-from="13.3">
+          <div class="work-art"><img src="images/play/Our_Gallery.webp" alt="Our gallery, a birthday website: a box is opened, photos spread out on grey paper around a cut-paper headline, the wall is dragged about, and a keychain of charms swings" /></div>
           <figcaption class="work-cap">2026</figcaption>
         </figure>
       </div>
@@ -460,9 +464,9 @@
          onto them. Until the first frame arrives the still shows underneath,
          and the film starts from that same moment, so there is no jump. With
          reduced motion asked for, the still is all there is. */
-      var FILM_FROM = 13.9;   // seconds in: the moment the still was taken at
+      var FILM_FROM = 13.9;   // seconds in: the moment the type film's still was taken at
 
-      function makeFilm(work, loop) {
+      function makeFilm(work, loop, from) {
         var v = document.createElement('video');
         v.muted = true;
         v.setAttribute('muted', '');
@@ -474,7 +478,7 @@
         v.setAttribute('disablepictureinpicture', '');
         v.setAttribute('disableremoteplayback', '');
         v.addEventListener('loadedmetadata', function () {
-          if (v.duration > FILM_FROM) v.currentTime = FILM_FROM;
+          if (v.duration > from) v.currentTime = from;
         }, { once: true });
         v.src = loop;
         work.facets[0].classList.add('facet-film');
@@ -581,7 +585,10 @@
             shown: true, w: 0, h: 0, centre: 0
           };
           var loop = fig.getAttribute('data-loop');
-          if (loop && !still) makeFilm(work, loop);
+          // A film starts from the moment its still was taken at: its own
+          // (data-from) or, unmarked, the type film's.
+          var from = parseFloat(fig.getAttribute('data-from'));
+          if (loop && !still) makeFilm(work, loop, isNaN(from) ? FILM_FROM : from);
           works.push(work);
         }
         measure();
