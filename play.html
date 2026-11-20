@@ -52,7 +52,7 @@
         </figure>
         <!-- A film: the wall shows a still from it (13.9s, Lapture in its five
              weights) and the viewer plays the film. -->
-        <figure class="work" data-video="images/play/Type_In_Motion.mp4">
+        <figure class="work" data-video="images/play/Type_In_Motion.mp4" data-loop="images/play/Type_In_Motion_loop.mp4">
           <div class="work-art"><img src="images/play/Type_In_Motion.webp" alt="Lapture in motion, a type film: Lapture set in Regular, Semibold, Bold, Extrabold and Black, to Rhythm Mischief by Cold Storage Percussion Unit" /></div>
           <figcaption class="work-cap">2026</figcaption>
         </figure>
@@ -92,7 +92,7 @@
         </figure>
         <!-- A film: the wall shows a still from it (13.9s, Lapture in its five
              weights) and the viewer plays the film. -->
-        <figure class="work" data-video="images/play/Type_In_Motion.mp4">
+        <figure class="work" data-video="images/play/Type_In_Motion.mp4" data-loop="images/play/Type_In_Motion_loop.mp4">
           <div class="work-art"><img src="images/play/Type_In_Motion.webp" alt="Lapture in motion, a type film: Lapture set in Regular, Semibold, Bold, Extrabold and Black, to Rhythm Mischief by Cold Storage Percussion Unit" /></div>
           <figcaption class="work-cap">2026</figcaption>
         </figure>
@@ -294,6 +294,8 @@
         var curved = crossesCorner(head, head + span);
         var cuts = curved ? FACETS : 1;
         var pad  = curved ? PAD : 0;
+        work.curved = curved;
+        work.cuts = cuts;
 
         // Rounded corners, the radius every picture on the site takes. Only
         // the outer corners of the end facets are rounded, so the two end
@@ -323,6 +325,18 @@
           f.style.height = work.h.toFixed(2) + 'px';
           f.style.backgroundSize = (k * span).toFixed(2) + 'px 100%';
           f.style.backgroundPosition = (lp - k * s0).toFixed(2) + 'px 0';
+          if (work.film) {
+            if (i === 0) {
+              // The video takes the background's size and offset exactly.
+              work.film.style.width = (k * span).toFixed(2) + 'px';
+              work.film.style.left = (lp - k * s0).toFixed(2) + 'px';
+            } else {
+              // The share of the film this facet shows, from 0 to 1 across it.
+              var sl = work.slices[i - 1];
+              sl.u0 = (k * s0 - lp) / (k * span);
+              sl.u1 = (k * s0 - lp + len + lp + rp) / (k * span);
+            }
+          }
           f.style.transform =
             'translate3d(' + (cx - len / 2 - lp).toFixed(2) + 'px,' +
             (-work.h / 2).toFixed(2) + 'px,' + cz.toFixed(2) + 'px) ' +
@@ -331,6 +345,8 @@
                   (i === cuts - 1 ? rad : 0) + 'px ' + (i === 0 ? rad : 0) + 'px';
           if (f._r !== r) { f.style.borderRadius = r; f._r = r; }
         }
+        // Turning moves the slices, so they are redrawn now, not at the next frame.
+        if (work.film && curved) paintFilm(work);
 
         pointAt(head + 1, p0);
         pointAt(head + 2, p1);
@@ -352,6 +368,7 @@
           }
           layout(w, r - half);
         }
+        syncFilms();
       }
 
       // The reader's turn plus whatever of the arrival's turn is still to come.
@@ -417,6 +434,111 @@
         if (!works.length) { arriving = false; stage.classList.add('is-built', 'is-shown'); }
       }, 5000);
 
+      /* ---------- a film on the wall ----------
+
+         A film plays on the wall, silent and looping, from a light copy made
+         for the purpose (the full film, with its sound, is only fetched when
+         it is opened). A picture is drawn as a CSS background, which a video
+         cannot be, so a film's first facet holds the video itself, sized and
+         offset the way the background would be. On a straight wall that one
+         facet is the whole work. Crossing a corner, the other facets each get
+         a canvas, and every new frame of the video is copied, slice by slice,
+         onto them. Until the first frame arrives the still shows underneath,
+         and the film starts from that same moment, so there is no jump. With
+         reduced motion asked for, the still is all there is. */
+      var FILM_FROM = 13.9;   // seconds in: the moment the still was taken at
+
+      function makeFilm(work, loop) {
+        var v = document.createElement('video');
+        v.muted = true;
+        v.setAttribute('muted', '');
+        v.loop = true;
+        v.playsInline = true;
+        v.setAttribute('playsinline', '');
+        v.preload = 'auto';
+        v.setAttribute('aria-hidden', 'true');
+        v.setAttribute('disablepictureinpicture', '');
+        v.setAttribute('disableremoteplayback', '');
+        v.addEventListener('loadedmetadata', function () {
+          if (v.duration > FILM_FROM) v.currentTime = FILM_FROM;
+        }, { once: true });
+        v.src = loop;
+        work.facets[0].classList.add('facet-film');
+        work.facets[0].appendChild(v);
+        work.slices = [];
+        for (var i = 1; i < FACETS; i++) {
+          var c = document.createElement('canvas');
+          c.width = 1; c.height = 1;
+          work.facets[i].classList.add('facet-film');
+          work.facets[i].appendChild(c);
+          work.slices.push({ el: c, ctx: c.getContext('2d'), u0: 0, u1: 0 });
+        }
+        work.film = v;
+        work.filmOn = false;
+        // A browser may pause a silent film itself (Safari does, off screen).
+        // Noted, it is started again the next time the room moves, though not
+        // more than once a second.
+        v.addEventListener('pause', function () {
+          if (work.filmOn) { work.filmOn = false; work.filmRetry = Date.now() + 1000; }
+        });
+
+        function frame() {
+          if (work.curved && work.shown) paintFilm(work);
+        }
+        if (v.requestVideoFrameCallback) {
+          v.requestVideoFrameCallback(function next() { frame(); v.requestVideoFrameCallback(next); });
+        } else {
+          v.addEventListener('playing', function run() {
+            if (v.paused) return;
+            frame();
+            window.requestAnimationFrame(run);
+          });
+        }
+      }
+
+      // Copies each corner facet's share of the current frame onto its canvas.
+      function paintFilm(work) {
+        var v = work.film;
+        if (v.readyState < 2 || !v.videoWidth) return;
+        var VW = v.videoWidth, VH = v.videoHeight;
+        for (var i = 0; i < work.cuts - 1; i++) {
+          var s = work.slices[i];
+          var u0 = Math.max(0, s.u0), u1 = Math.min(1, s.u1);
+          if (u1 <= u0) continue;
+          var cw = Math.max(1, Math.round((u1 - u0) * VW));
+          if (s.el.width !== cw) s.el.width = cw;
+          if (s.el.height !== VH) s.el.height = VH;
+          s.ctx.drawImage(v, u0 * VW, 0, (u1 - u0) * VW, VH, 0, 0, cw, VH);
+        }
+      }
+
+      // A film plays only while some of it is on the wall, the page is in view
+      // and nothing is open over the room.
+      function syncFilms() {
+        for (var i = 0; i < works.length; i++) {
+          var w = works[i];
+          if (!w.film) continue;
+          var on = w.shown && !viewerOpen && !document.hidden && !w.filmBlocked;
+          if (on === w.filmOn) continue;
+          if (on && w.filmRetry && Date.now() < w.filmRetry) continue;
+          w.filmOn = on;
+          if (on) {
+            var p = w.film.play();
+            if (p && p.catch) p.catch((function (w) {
+              return function (err) {
+                // Autoplay refused (a phone in low power mode, say): the still
+                // stays, and it is not asked again on every frame.
+                if (err && err.name === 'NotAllowedError') w.filmBlocked = true;
+                if (w.film.paused) w.filmOn = false;
+              };
+            })(w));
+          } else {
+            w.film.pause();
+          }
+        }
+      }
+      document.addEventListener('visibilitychange', syncFilms);
+
       function build() {
         var figures = room.querySelectorAll('.work');
         works = [];
@@ -437,12 +559,15 @@
           }
           holder.setAttribute('role', 'img');
           holder.setAttribute('aria-label', img.getAttribute('alt') || '');
-          works.push({
+          var work = {
             el: fig, cap: fig.querySelector('.work-cap'), facets: facets,
             aspect: img.naturalWidth / img.naturalHeight,
             src: src, alt: img.getAttribute('alt') || '', video: fig.getAttribute('data-video'),
             shown: true, w: 0, h: 0, centre: 0
-          });
+          };
+          var loop = fig.getAttribute('data-loop');
+          if (loop && !still) makeFilm(work, loop);
+          works.push(work);
         }
         measure();
         arrive();
@@ -494,6 +619,7 @@
         vCap.textContent = work.cap ? work.cap.textContent.trim() : '';
         viewer.hidden = false;
         viewerOpen = true;
+        syncFilms();
         lastFocus = document.activeElement;
         viewer.focus();
       }
@@ -503,6 +629,7 @@
       function closeViewer() {
         if (!viewerOpen) return;
         viewerOpen = false;
+        syncFilms();
         if (still) { endClose(); return; }
         viewer.classList.add('is-closing');
         closingIn = window.setTimeout(endClose, 270);
