@@ -1802,6 +1802,30 @@ h1, h2, h3, h4, h5, h6 {
   will-change: transform;
 }
 
+/* A film's facets hold the moving picture in place of the background (play.html),
+   clipped to the facet and its rounded corners as the background would be. */
+.facet-film {
+  overflow: hidden;
+}
+
+.facet-film video,
+.facet-film canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.facet-film video {
+  object-fit: fill;
+}
+
+.facet-film canvas {
+  width: 100%;
+}
+
 /* A piece is clickable, so say so. */
 .work-art {
   cursor: zoom-in;
