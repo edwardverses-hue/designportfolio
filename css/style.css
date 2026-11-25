@@ -5579,3 +5579,7 @@ a.beyond__photo:focus-visible {
     transform: translate(-50%, -50%);
   }
 }
+
+/* No orphans: a paragraph's last line never holds a lone word. Class rules
+   that ask for balance still win, since a class outranks a bare element. */
+p, li, figcaption { text-wrap: pretty; }
