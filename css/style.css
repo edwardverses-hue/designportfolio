@@ -306,6 +306,18 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 40px;
 }
 
+/* What the project is, in one grey line under its name. */
+.project-label:has(+ .project-line) { margin-bottom: 2px; }
+.project-line {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 300;
+  color: #8a8a8a;
+  margin: 0 0 40px;
+  padding: 0 8px;
+  text-wrap: balance;
+}
+
 /* Each card comes in smaller and opens out to its full size as it rises up the
    screen. The scroll itself is the timeline rather than a clock, so the box
    tracks the wheel exactly and holds wherever the reader stops, and the
@@ -1625,6 +1637,10 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .project-label {
+    margin-bottom: 28px;
+  }
+
+  .project-line {
     margin-bottom: 28px;
   }
 
@@ -4441,6 +4457,7 @@ html:not(.nav-blend) .nav .nav-right.is-current.is-dark {
 
 /* 16px, labels and meta, in grey where they label something */
 .project-label,
+.project-line,
 .cap-eyebrow,
 .meta-label,
 .meta-value,
