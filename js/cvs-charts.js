@@ -117,6 +117,20 @@
     tick: pct
   };
 
+  /* Mas and Moretti, American Economic Review 2009, Table 6 column 1: the
+     effect of coworkers' permanent productivity on a cashier's, split by
+     coworkers who can see the cashier (0.17, SE 0.02) and coworkers the
+     cashier can only see (0.01, SE 0.02). */
+  var OBSERVED = {
+    bands: [['Coworkers who', 'can see you'], ['Coworkers you', 'can only see']],
+    values: [0.17, 0.01],
+    focus: [0],
+    max: 0.2,
+    ticks: [0, 0.1, 0.2],
+    fmt: function (v) { return v.toFixed(2); },
+    tick: function (v) { return v ? v.toFixed(1) : '0'; }
+  };
+
   /* ---------- helpers ---------- */
   var uid = 0;
   function el(name, attrs, parent) {
@@ -436,7 +450,7 @@
   /* ---------- wiring ---------- */
   var builders = {
     share: bars(SHARE), substantiation: bars(SUBST), forfeit: gauge(FORFEIT),
-    boundary: bars(BOUNDARY), presence: bars(PRESENCE)
+    boundary: bars(BOUNDARY), presence: bars(PRESENCE), observed: bars(OBSERVED)
   };
   var charts = [].slice.call(document.querySelectorAll('.chart[data-chart]')).map(function (fig) {
     var build = builders[fig.getAttribute('data-chart')];
